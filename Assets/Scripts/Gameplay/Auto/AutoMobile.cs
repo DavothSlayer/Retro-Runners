@@ -118,7 +118,7 @@ namespace RetroCode
 
             if (Vector3.Dot(col.GetContact(0).otherCollider.transform.forward, transform.forward) >= 0.75f)
             {
-                if (Vector3.Dot(col.GetContact(0).normal, transform.forward) >= -0.5f) return;
+                if (Vector3.Dot(col.GetContact(0).normal, transform.forward) >= -0.8f) return;
 
                 gameManager.ShakeTheCam(0.4f);
 
@@ -130,7 +130,7 @@ namespace RetroCode
             }
             else if (Vector3.Dot(col.GetContact(0).otherCollider.transform.forward, transform.forward) <= -0.75f)
             {
-                if (Vector3.Dot(col.GetContact(0).normal, transform.forward) >= -0.5f) return;
+                if (Vector3.Dot(col.GetContact(0).normal, transform.forward) >= -0.8f) return;
 
                 gameManager.ShakeTheCam(0.4f);
 
@@ -227,6 +227,7 @@ namespace RetroCode
             if (GameManager.gameState != GameState.InGame)
             {
                 rb.AddForce(Vector3.forward * menuTorque * massDragMltplr, ForceMode.Force);
+                rb.rotation = Quaternion.Euler(0f, 0f, 0f);
                 return;
             }
 
@@ -243,7 +244,7 @@ namespace RetroCode
                 rb.AddForce(-Vector3.right * rb.velocity.x * 3f * massDragMltplr, ForceMode.Force);
             }
 
-            rb.rotation = Quaternion.Euler(0f, 5f * input.xTouchLerp, 0f);
+            rb.rotation = Quaternion.Euler(0f, 3f * input.xTouchLerp, 0f);
         }
 
         public void HandleActivateAbility()
@@ -327,7 +328,7 @@ namespace RetroCode
             carModels[0].SetActive(false);
 
             rb.mass = 2.5f;
-            rb.drag = 1f;
+            rb.drag = 0.25f;
             rb.constraints = RigidbodyConstraints.None;
 
             Vector3 explosionTorqueVector =
