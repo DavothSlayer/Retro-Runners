@@ -143078,6 +143078,11 @@ PrefabInstance:
     serializedVersion: 3
     m_TransformParent: {fileID: 1798999337}
     m_Modifications:
+    - target: {fileID: 2177722950643906322, guid: 2fd3ce82236b07c46bd33b1e9402e872,
+        type: 3}
+      propertyPath: m_Constraints
+      value: 84
+      objectReference: {fileID: 0}
     - target: {fileID: 3241307781895316011, guid: 2fd3ce82236b07c46bd33b1e9402e872,
         type: 3}
       propertyPath: hud

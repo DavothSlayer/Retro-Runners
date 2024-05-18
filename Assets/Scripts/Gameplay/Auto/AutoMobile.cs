@@ -116,9 +116,9 @@ namespace RetroCode
             if (damageable == null) { col.collider.GetComponent<Damageable>(); }
             if (damageable == null) { return; }
 
-            if (Vector3.Dot(col.GetContact(0).otherCollider.transform.forward, transform.forward) == 1f)
+            if (Vector3.Dot(col.GetContact(0).otherCollider.transform.forward, transform.forward) >= 0.75f)
             {
-                if (Vector3.Dot(col.GetContact(0).normal, transform.forward) != -1f) return;
+                if (Vector3.Dot(col.GetContact(0).normal, transform.forward) >= -0.5f) return;
 
                 gameManager.ShakeTheCam(0.4f);
 
@@ -128,9 +128,9 @@ namespace RetroCode
                 evaluation -= rb.velocity.magnitude / data.autoLevelData[engineLevel].TopSpeed * 0.7f;
                 rb.AddForce(-col.relativeVelocity * 0.75f * massDragMltplr, ForceMode.Impulse);
             }
-            else if (Vector3.Dot(col.GetContact(0).otherCollider.transform.forward, transform.forward) == -1f)
+            else if (Vector3.Dot(col.GetContact(0).otherCollider.transform.forward, transform.forward) <= -0.75f)
             {
-                if (Vector3.Dot(col.GetContact(0).normal, transform.forward) != -1f) return;
+                if (Vector3.Dot(col.GetContact(0).normal, transform.forward) >= -0.5f) return;
 
                 gameManager.ShakeTheCam(0.4f);
 
@@ -242,6 +242,8 @@ namespace RetroCode
             {
                 rb.AddForce(-Vector3.right * rb.velocity.x * 3f * massDragMltplr, ForceMode.Force);
             }
+
+            rb.rotation = Quaternion.Euler(0f, 5f * input.xTouchLerp, 0f);
         }
 
         public void HandleActivateAbility()
@@ -360,7 +362,7 @@ namespace RetroCode
 
             rb.mass = 1f;
             rb.drag = 0.5f;
-            rb.constraints = RigidbodyConstraints.FreezeRotation | RigidbodyConstraints.FreezePositionY;
+            rb.constraints = RigidbodyConstraints.FreezeRotationX | RigidbodyConstraints.FreezeRotationZ | RigidbodyConstraints.FreezePositionY;
 
             engineSFX.enabled = true;
             deathFX.SetActive(false);
