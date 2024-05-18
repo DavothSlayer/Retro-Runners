@@ -1,0 +1,21 @@
+%YAML 1.1
+%TAG !u! tag:unity3d.com,2011:
+--- !u!114 &11400000
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 0}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: eceb90a23e5ece94783cd9b6be655c15, type: 3}
+  m_Name: DefaultScoreTable
+  m_EditorClassIdentifier: 
+  scorePerSecond: 10
+  scorePerNearMiss: 100
+  thrillSeekerMultiplier: 4
+  rewardRatio: 0.1
+  specterMaterial: {fileID: 2100000, guid: 6d24fae525ade0a4a95b9e966f0396fb, type: 2}
+  universalMaterial: {fileID: 2100000, guid: c4e14fc166e47ad429cd92bd22880f1d, type: 2}
+  godrayMaterial: {fileID: 2100000, guid: f1a5974d2a2deff499d0d38397624c4a, type: 2}
