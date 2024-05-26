@@ -9,7 +9,7 @@ namespace RetroCode
         [Header("Universal")]
         public TextMeshProUGUI playerMoneyText;
 
-        [Header("Garage Screen")]
+        [Header("Garage Screen")]        
         public TextMeshProUGUI currentAutoNameText;
         public TextMeshProUGUI autoNameText_CR;
         public TextMeshProUGUI currentCompNameText_Unlocked, currentCompNameText_Locked;
@@ -28,6 +28,7 @@ namespace RetroCode
         public GameObject selectButton_CR, selectedObject_CR;
         public RectTransform[] compButtons;
         public float compRectDefaultX, compRectSelectedX;
+
         public Slider
             autoTopSpeedSlider, 
             autoAccelerationSlider,

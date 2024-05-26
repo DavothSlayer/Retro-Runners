@@ -189,10 +189,10 @@ namespace RetroCode
             SettingsClass defaultSettings = new SettingsClass
             {
                 MaxFPSToggle = true,
-                RenderScale = 1f,
+                RenderScale = 0.75f,
                 DisplayFPS = false,
-                PostProcess = true,
-                BackMusicVol = 100f,
+                PostProcess = false,
+                BackMusicVol = 80f,
                 EffectsVol = 100f,
             };
 
@@ -205,12 +205,12 @@ namespace RetroCode
     [System.Serializable]
     public class SettingsClass
     {
-        public bool MaxFPSToggle;
-        public float RenderScale;
-        public bool DisplayFPS;
-        public bool PostProcess;
+        public bool MaxFPSToggle = true;
+        public float RenderScale = 0.75f;
+        public bool DisplayFPS = false;
+        public bool PostProcess = false;
 
-        public float BackMusicVol;
-        public float EffectsVol;
+        public float BackMusicVol = 80f;
+        public float EffectsVol = 100f;
     }
 }

@@ -244,7 +244,7 @@ namespace RetroCode
                 rb.AddForce(-Vector3.right * rb.velocity.x * 3f * massDragMltplr, ForceMode.Force);
             }
 
-            rb.rotation = Quaternion.Euler(0f, 3f * input.xTouchLerp, 0f);
+            rb.rotation = Quaternion.Euler(0f, 6f * input.xTouchLerp, 0f);
         }
 
         public void HandleActivateAbility()

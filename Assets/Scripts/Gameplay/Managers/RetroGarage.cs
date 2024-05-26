@@ -1,6 +1,8 @@
 using System;
 using System.Collections;
 using System.Collections.Generic;
+using System.Globalization;
+using System.Threading.Tasks;
 using UnityEngine;
 using UnityEngine.SceneManagement;
 
@@ -196,6 +198,7 @@ namespace RetroCode
         public void CheckInventory()
         {
             hud.playerMoneyText.text = $"${gamingServicesManager.cloudData.retroDollars.ToString("n0")}";
+            //UpdatePlayerMoneyText();
 
             #region Check Cars
             for (int i = 0; i < autoProps.Length; i++)
@@ -306,6 +309,25 @@ namespace RetroCode
             }
 
             CheckInventory();
+        }
+
+        // MONEY TEXT LERPING //
+        private async void UpdatePlayerMoneyText()
+        {
+            string decimalString = hud.playerMoneyText.text;
+
+            double textNumber = double.Parse(decimalString, NumberStyles.Any);
+            int intNumber = Convert.ToInt32(textNumber);
+
+            while (intNumber != gamingServicesManager.cloudData.retroDollars)
+            {
+                float lerpNumber = Mathf.Lerp(intNumber, gamingServicesManager.cloudData.retroDollars, 1f * Time.deltaTime);
+
+                intNumber = (int)(Mathf.Round(lerpNumber));
+                hud.playerMoneyText.text = intNumber.ToString("n0");
+
+                await Task.Yield();
+            }
         }
 
         public void PlayerMoneyChanged()
@@ -525,22 +547,14 @@ namespace RetroCode
                     RectTransform rT = hud.compButtons[i];
                     float rTY = rT.transform.localPosition.y;
 
-                    rT.transform.localPosition = Vector3.Lerp(
-                        rT.transform.localPosition,
-                        new Vector3(hud.compRectSelectedX, rTY, 0f),
-                        4f * Time.deltaTime
-                        );
+                    rT.sizeDelta = Vector2.Lerp(rT.sizeDelta, new(hud.compRectSelectedX, rT.sizeDelta.y), 8f * Time.deltaTime);
                 }
                 else
                 {
                     RectTransform rT = hud.compButtons[i];
-                    float rTY = rT.transform.localPosition.y;
+                    float rTY = rT.sizeDelta.x;
 
-                    rT.transform.localPosition = Vector3.Lerp(
-                        rT.transform.localPosition,
-                        new Vector3(hud.compRectDefaultX, rTY, 0f),
-                        4f * Time.deltaTime
-                        );
+                    rT.sizeDelta = Vector2.Lerp(rT.sizeDelta, new(hud.compRectDefaultX, rT.sizeDelta.y), 8f * Time.deltaTime);
                 }
             }
             #endregion
