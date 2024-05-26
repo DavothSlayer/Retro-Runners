@@ -63,8 +63,6 @@ sysinfo.txt
 *.aab
 *.unitypackage
 *.app
-*.wav
-*.ogg
 
 # Crashlytics generated file
 crashlytics-build.properties
