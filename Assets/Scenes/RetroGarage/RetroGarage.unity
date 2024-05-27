@@ -97,7 +97,8 @@ LightmapSettings:
     m_ExportTrainingData: 0
     m_TrainingDataDestination: TrainingData
     m_LightProbeSampleCountMultiplier: 4
-  m_LightingDataAsset: {fileID: 0}
+  m_LightingDataAsset: {fileID: 112000000, guid: 5787cd61bd7f2ff4b81db8d4eaac86f7,
+    type: 2}
   m_LightingSettings: {fileID: 4890085278179872738, guid: 20af53b02c0c50545bbd1216d05da47c,
     type: 2}
 --- !u!196 &4
@@ -38066,7 +38067,7 @@ MonoBehaviour:
           m_MethodName: PlayOneShot
           m_Mode: 2
           m_Arguments:
-            m_ObjectArgument: {fileID: 8300000, guid: 3a7a9342565812b438aa11b55ed6d3ef,
+            m_ObjectArgument: {fileID: 8300000, guid: a1b56cfdbc67aab418116c1ed7be5ddb,
               type: 3}
             m_ObjectArgumentAssemblyTypeName: UnityEngine.AudioClip, UnityEngine
             m_IntArgument: 0
@@ -54155,7 +54156,7 @@ MonoBehaviour:
           m_MethodName: PlayOneShot
           m_Mode: 2
           m_Arguments:
-            m_ObjectArgument: {fileID: 8300000, guid: 3a7a9342565812b438aa11b55ed6d3ef,
+            m_ObjectArgument: {fileID: 8300000, guid: a1b56cfdbc67aab418116c1ed7be5ddb,
               type: 3}
             m_ObjectArgumentAssemblyTypeName: UnityEngine.AudioClip, UnityEngine
             m_IntArgument: 0
@@ -60105,8 +60106,8 @@ Light:
   m_Type: 3
   m_Shape: 0
   m_Color: {r: 0.8301887, g: 0, b: 0.66121066, a: 1}
-  m_Intensity: 25
-  m_Range: 25
+  m_Intensity: 50
+  m_Range: 5
   m_SpotAngle: 30
   m_InnerSpotAngle: 21.80208
   m_CookieSize: 10
@@ -98422,7 +98423,7 @@ MonoBehaviour:
           m_MethodName: PlayOneShot
           m_Mode: 2
           m_Arguments:
-            m_ObjectArgument: {fileID: 8300000, guid: 253d97a2594b0874188acb8323877c7f,
+            m_ObjectArgument: {fileID: 8300000, guid: a1b56cfdbc67aab418116c1ed7be5ddb,
               type: 3}
             m_ObjectArgumentAssemblyTypeName: UnityEngine.AudioClip, UnityEngine
             m_IntArgument: 0
@@ -104467,8 +104468,8 @@ Light:
   m_Type: 3
   m_Shape: 0
   m_Color: {r: 0.8301887, g: 0, b: 0.66121066, a: 1}
-  m_Intensity: 25
-  m_Range: 25
+  m_Intensity: 50
+  m_Range: 5
   m_SpotAngle: 30
   m_InnerSpotAngle: 21.80208
   m_CookieSize: 10
@@ -110403,7 +110404,7 @@ GameObject:
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
   m_StaticEditorFlags: 2147483647
-  m_IsActive: 0
+  m_IsActive: 1
 --- !u!4 &1424364394
 Transform:
   m_ObjectHideFlags: 0
@@ -116587,7 +116588,6 @@ GameObject:
   - component: {fileID: 1560913598}
   - component: {fileID: 1560913601}
   - component: {fileID: 1560913600}
-  - component: {fileID: 1560913599}
   m_Layer: 5
   m_Name: ComponentName
   m_TagString: Untagged
@@ -116615,36 +116615,6 @@ RectTransform:
   m_AnchoredPosition: {x: 400, y: -156.25}
   m_SizeDelta: {x: 720, y: 215}
   m_Pivot: {x: 0.5, y: 0.5}
---- !u!114 &1560913599
-MonoBehaviour:
-  m_ObjectHideFlags: 0
-  m_CorrespondingSourceObject: {fileID: 0}
-  m_PrefabInstance: {fileID: 0}
-  m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 1560913597}
-  m_Enabled: 1
-  m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: d0b148fe25e99eb48b9724523833bab1, type: 3}
-  m_Name: 
-  m_EditorClassIdentifier: 
-  m_Delegates:
-  - eventID: 2
-    callback:
-      m_PersistentCalls:
-        m_Calls:
-        - m_Target: {fileID: 1178417924}
-          m_TargetAssemblyTypeName: UnityEngine.AudioSource, UnityEngine
-          m_MethodName: PlayOneShot
-          m_Mode: 2
-          m_Arguments:
-            m_ObjectArgument: {fileID: 8300000, guid: 3a7a9342565812b438aa11b55ed6d3ef,
-              type: 3}
-            m_ObjectArgumentAssemblyTypeName: UnityEngine.AudioClip, UnityEngine
-            m_IntArgument: 0
-            m_FloatArgument: 0
-            m_StringArgument: 
-            m_BoolArgument: 0
-          m_CallState: 2
 --- !u!114 &1560913600
 MonoBehaviour:
   m_ObjectHideFlags: 0
