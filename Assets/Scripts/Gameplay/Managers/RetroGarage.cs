@@ -85,6 +85,8 @@ namespace RetroCode
                     worstHealth = Mathf.Min(worstHealth, ald.MaxHealth);
                 }
 
+            print($"Worst Acceleration: {worstAcceleration} | Best Acceleration: {bestAcceleration}");
+
             // SET THE SLIDER MAX VALUES //
             hud.autoTopSpeedSlider.maxValue = Mathf.Lerp(hud.autoTopSpeedSlider.maxValue, bestTopSpeed, statLerpSpeed * Time.deltaTime);
             hud.autoAccelerationSlider.maxValue = Mathf.Lerp(hud.autoAccelerationSlider.maxValue, bestAcceleration, statLerpSpeed * Time.deltaTime);
@@ -104,32 +106,33 @@ namespace RetroCode
                 {
                     if (((int)compState) == i)
                     {
-                        hud.compStatSliders[i].mainSlider.minValue = 0f;
-                        hud.compStatSliders[i].mainSlider.maxValue = hud.autoTopSpeedSlider.maxValue;
-                        hud.compStatSliders[i].mainSlider.value = data.autoLevelData[0].TopSpeed;
-                        hud.compStatSliders[i].diffSlider.minValue = 0f;
-                        hud.compStatSliders[i].diffSlider.maxValue = hud.autoTopSpeedSlider.maxValue;
-                        hud.compStatSliders[i].diffSlider.value = data.autoLevelData[selectedCompInt].TopSpeed;
+                        /*
+                        hud.compstatsliders[i].mainslider.minvalue = 0f;
+                        hud.compstatsliders[i].mainslider.maxvalue = besttopspeed;
+                        hud.compstatsliders[i].mainslider.value = data.autoleveldata[0].topspeed;
+                        hud.compstatsliders[i].diffslider.minvalue = 0f;
+                        hud.compstatsliders[i].diffslider.maxvalue = besttopspeed;
+                        hud.compstatsliders[i].diffslider.value = data.autoleveldata[selectedcompint].topspeed;*/
 
-                        hud.compStatSliders[i].mainSlider.minValue = 0f;
-                        hud.compStatSliders[i].mainSlider.maxValue = hud.autoAccelerationSlider.maxValue;
+                        /*hud.compStatSliders[i].mainSlider.minValue = worstAcceleration;
+                        hud.compStatSliders[i].mainSlider.maxValue = bestAcceleration;
                         hud.compStatSliders[i].mainSlider.value = data.autoLevelData[0].Acceleration;
-                        hud.compStatSliders[i].diffSlider.minValue = 0f;
-                        hud.compStatSliders[i].diffSlider.maxValue = hud.autoAccelerationSlider.maxValue;
-                        hud.compStatSliders[i].diffSlider.value = data.autoLevelData[selectedCompInt].Acceleration;
+                        hud.compStatSliders[i].diffSlider.minValue = worstAcceleration;
+                        hud.compStatSliders[i].diffSlider.maxValue = bestAcceleration;
+                        hud.compStatSliders[i].diffSlider.value = data.autoLevelData[selectedCompInt].Acceleration;*/
 
                         hud.compStatSliders[i].mainSlider.minValue = 0f;
-                        hud.compStatSliders[i].mainSlider.maxValue = hud.autoHandlingSlider.maxValue;
+                        hud.compStatSliders[i].mainSlider.maxValue = bestHandling;
                         hud.compStatSliders[i].mainSlider.value = data.autoLevelData[0].TurnSpeed;
                         hud.compStatSliders[i].diffSlider.minValue = 0f;
-                        hud.compStatSliders[i].diffSlider.maxValue = hud.autoHandlingSlider.maxValue;
+                        hud.compStatSliders[i].diffSlider.maxValue = bestHandling;
                         hud.compStatSliders[i].diffSlider.value = data.autoLevelData[selectedCompInt].TurnSpeed;
 
                         hud.compStatSliders[i].mainSlider.minValue = 0f;
-                        hud.compStatSliders[i].mainSlider.maxValue = hud.autoHealthSlider.maxValue;
+                        hud.compStatSliders[i].mainSlider.maxValue = bestHealth;
                         hud.compStatSliders[i].mainSlider.value = data.autoLevelData[0].MaxHealth;
                         hud.compStatSliders[i].diffSlider.minValue = 0f;
-                        hud.compStatSliders[i].diffSlider.maxValue = hud.autoHealthSlider.maxValue;
+                        hud.compStatSliders[i].diffSlider.maxValue = bestHealth;
                         hud.compStatSliders[i].diffSlider.value = data.autoLevelData[selectedCompInt].MaxHealth;
                     }
                     else
@@ -139,7 +142,7 @@ namespace RetroCode
                 }
                 #endregion
 
-                /*switch (compState)
+                switch (compState)
                 {
                     case ComponentState.EngineReview:
                         hud.CompStatSlider.minValue = 0f;
@@ -148,6 +151,13 @@ namespace RetroCode
                         hud.CompStatSliderDiff.minValue = 0f;
                         hud.CompStatSliderDiff.maxValue = hud.autoTopSpeedSlider.maxValue;
                         hud.CompStatSliderDiff.value = data.autoLevelData[selectedCompInt].TopSpeed;
+
+                        hud.compStatSliders[0].mainSlider.minValue = 0f;
+                        hud.compStatSliders[0].mainSlider.maxValue = bestTopSpeed;
+                        hud.compStatSliders[0].mainSlider.value = data.autoLevelData[0].TopSpeed;
+                        hud.compStatSliders[0].diffSlider.minValue = 0f;
+                        hud.compStatSliders[0].diffSlider.maxValue = bestTopSpeed;
+                        hud.compStatSliders[0].diffSlider.value = data.autoLevelData[selectedCompInt].TopSpeed;
                         break;
                     case ComponentState.GearboxReview:
                         hud.CompStatSlider.minValue = -10f;
@@ -156,6 +166,13 @@ namespace RetroCode
                         hud.CompStatSliderDiff.minValue = -10f;
                         hud.CompStatSliderDiff.maxValue = hud.autoAccelerationSlider.maxValue;                       
                         hud.CompStatSliderDiff.value = -data.autoLevelData[selectedCompInt].Acceleration;
+
+                        hud.compStatSliders[1].mainSlider.minValue = -10f;
+                        hud.compStatSliders[1].mainSlider.maxValue = -bestAcceleration;
+                        hud.compStatSliders[1].mainSlider.value = -data.autoLevelData[0].Acceleration;
+                        hud.compStatSliders[1].diffSlider.minValue = -10f;
+                        hud.compStatSliders[1].diffSlider.maxValue = -bestAcceleration;
+                        hud.compStatSliders[1].diffSlider.value = -data.autoLevelData[selectedCompInt].Acceleration;
                         break;
                     case ComponentState.TiresReview:
                         hud.CompStatSlider.minValue = 0f;
@@ -173,7 +190,7 @@ namespace RetroCode
                         hud.CompStatSliderDiff.maxValue = hud.autoHealthSlider.maxValue;
                         hud.CompStatSliderDiff.value = data.autoLevelData[selectedCompInt].MaxHealth;
                         break;
-                }*/
+                }
             }
             else
             {
