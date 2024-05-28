@@ -1,6 +1,7 @@
 using UnityEngine;
 using TMPro;
 using UnityEngine.UI;
+using System.Collections.Generic;
 
 namespace RetroCode
 {
@@ -25,6 +26,9 @@ namespace RetroCode
         [Space]
         public TextMeshProUGUI newStatTitle;
         public Slider CompStatSlider, CompStatSliderDiff;
+
+        public List<CompStatSliders> compStatSliders = new List<CompStatSliders>();
+
         public GameObject selectButton_CR, selectedObject_CR;
         public RectTransform[] compButtons;
         public float compRectDefaultX, compRectSelectedX;
@@ -45,5 +49,11 @@ namespace RetroCode
         [Space]
         public TextMeshProUGUI abilityTitleText;
         public TextMeshProUGUI abilityInfoText;
+    }
+
+    [System.Serializable]
+    public struct CompStatSliders
+    {
+        public Slider mainSlider, diffSlider;
     }
 }

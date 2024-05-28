@@ -4,7 +4,6 @@ using System.Collections.Generic;
 using System.Globalization;
 using System.Threading.Tasks;
 using UnityEngine;
-using UnityEngine.SceneManagement;
 
 namespace RetroCode
 {
@@ -28,7 +27,7 @@ namespace RetroCode
         public AutoProp[] autoProps;
         [SerializeField]
         private List<CompList> compLists;
-        [Space]
+        [Space] 
         [SerializeField]
         private UGSM gamingServicesManager;
 
@@ -64,39 +63,83 @@ namespace RetroCode
 
         #region Inventory Info & Stats
         private float statLerpSpeed = 5f;
-        private float topSpeedFlt, accelerationFlt, handlingFlt, armorFlt;
-        private float maxTopSpeedFlt, maxAccelerationFlt, maxHandlingFlt, maxArmorFlt;
+        private float topSpeedVar, accelerationVar, handlingVar, healthVar;
+        private float bestTopSpeed, bestAcceleration, bestHandling, bestHealth;
+        private float worstTopSpeed, worstAcceleration, worstHandling, worstHealth;
         private void HandleAutoStats()
         {
             AutoData data = autoProps[selectedAutoInt].data;
 
-            //maxTopSpeedFlt = data.autoLevelData[data.autoLevelData.Length - 1].TopSpeed;
-            //maxAccelerationFlt = -data.autoLevelData[data.autoLevelData.Length - 1].Acceleration;
-            //maxHandlingFlt = data.autoLevelData[data.autoLevelData.Length - 1].TurnSpeed;
-            //maxArmorFlt = data.autoLevelData[data.autoLevelData.Length - 1].MaxHealth;
-
+            // FIND THE BEST & WORST VALUES AMONG THE CARS //
             for(int i = 0; i < autoProps.Length; i++)
-                foreach(AutoLevelData aLD in autoProps[i].data.autoLevelData)
+                foreach(AutoLevelData ald in autoProps[i].data.autoLevelData)
                 {
-                    maxTopSpeedFlt = Mathf.Max(maxTopSpeedFlt, aLD.TopSpeed);
-                    maxAccelerationFlt = Mathf.Max(maxAccelerationFlt, -aLD.Acceleration);
-                    maxHandlingFlt = Mathf.Max(maxHandlingFlt, aLD.TurnSpeed);
-                    maxArmorFlt = Mathf.Max(maxArmorFlt, aLD.MaxHealth);
+                    bestTopSpeed = Mathf.Max(bestTopSpeed, ald.TopSpeed);
+                    bestAcceleration = Mathf.Min(bestAcceleration, ald.Acceleration);
+                    bestHandling = Mathf.Max(bestHandling, ald.TurnSpeed);
+                    bestHealth = Mathf.Max(bestHealth, ald.MaxHealth);
+
+                    worstTopSpeed = Mathf.Min(worstTopSpeed, ald.TopSpeed);
+                    worstAcceleration = Mathf.Max(worstAcceleration, ald.Acceleration);
+                    worstHandling = Mathf.Min(worstHandling, ald.TurnSpeed);
+                    worstHealth = Mathf.Min(worstHealth, ald.MaxHealth);
                 }
 
-            hud.autoTopSpeedSlider.maxValue = Mathf.Lerp(hud.autoTopSpeedSlider.maxValue, maxTopSpeedFlt, statLerpSpeed * Time.deltaTime);
-            hud.autoAccelerationSlider.maxValue = Mathf.Lerp(hud.autoAccelerationSlider.maxValue, maxAccelerationFlt, statLerpSpeed * Time.deltaTime);
-            hud.autoHandlingSlider.maxValue = Mathf.Lerp(hud.autoHandlingSlider.maxValue, maxHandlingFlt, statLerpSpeed * Time.deltaTime);
-            hud.autoHealthSlider.maxValue = Mathf.Lerp(hud.autoHealthSlider.maxValue, maxArmorFlt, statLerpSpeed * Time.deltaTime);
+            // SET THE SLIDER MAX VALUES //
+            hud.autoTopSpeedSlider.maxValue = Mathf.Lerp(hud.autoTopSpeedSlider.maxValue, bestTopSpeed, statLerpSpeed * Time.deltaTime);
+            hud.autoAccelerationSlider.maxValue = Mathf.Lerp(hud.autoAccelerationSlider.maxValue, bestAcceleration, statLerpSpeed * Time.deltaTime);
+            hud.autoHandlingSlider.maxValue = Mathf.Lerp(hud.autoHandlingSlider.maxValue, bestHandling, statLerpSpeed * Time.deltaTime);
+            hud.autoHealthSlider.maxValue = Mathf.Lerp(hud.autoHealthSlider.maxValue, bestHealth, statLerpSpeed * Time.deltaTime);
 
+            // DOES THE PLAYER OWN THE CURRENT CAR? //
             if (gamingServicesManager.cloudData.unlockedCarsDict.ContainsKey(data.ItemCode))
             {
-                topSpeedFlt = data.autoLevelData[gamingServicesManager.cloudData.unlockedCarsDict[data.ItemCode].lastSelectedCompList[0]].TopSpeed;                
-                accelerationFlt = -data.autoLevelData[gamingServicesManager.cloudData.unlockedCarsDict[data.ItemCode].lastSelectedCompList[1]].Acceleration;             
-                handlingFlt = data.autoLevelData[gamingServicesManager.cloudData.unlockedCarsDict[data.ItemCode].lastSelectedCompList[2]].TurnSpeed;
-                armorFlt = data.autoLevelData[gamingServicesManager.cloudData.unlockedCarsDict[data.ItemCode].lastSelectedCompList[3]].MaxHealth;
+                topSpeedVar = data.autoLevelData[gamingServicesManager.cloudData.unlockedCarsDict[data.ItemCode].lastSelectedCompList[0]].TopSpeed;                
+                accelerationVar = -data.autoLevelData[gamingServicesManager.cloudData.unlockedCarsDict[data.ItemCode].lastSelectedCompList[1]].Acceleration;             
+                handlingVar = data.autoLevelData[gamingServicesManager.cloudData.unlockedCarsDict[data.ItemCode].lastSelectedCompList[2]].TurnSpeed;
+                healthVar = data.autoLevelData[gamingServicesManager.cloudData.unlockedCarsDict[data.ItemCode].lastSelectedCompList[3]].MaxHealth;
 
-                switch (compState)
+                #region Check Components
+                for (int i = 0; i < compLists.Count; i++)
+                {
+                    if (((int)compState) == i)
+                    {
+                        hud.compStatSliders[i].mainSlider.minValue = 0f;
+                        hud.compStatSliders[i].mainSlider.maxValue = hud.autoTopSpeedSlider.maxValue;
+                        hud.compStatSliders[i].mainSlider.value = data.autoLevelData[0].TopSpeed;
+                        hud.compStatSliders[i].diffSlider.minValue = 0f;
+                        hud.compStatSliders[i].diffSlider.maxValue = hud.autoTopSpeedSlider.maxValue;
+                        hud.compStatSliders[i].diffSlider.value = data.autoLevelData[selectedCompInt].TopSpeed;
+
+                        hud.compStatSliders[i].mainSlider.minValue = 0f;
+                        hud.compStatSliders[i].mainSlider.maxValue = hud.autoAccelerationSlider.maxValue;
+                        hud.compStatSliders[i].mainSlider.value = data.autoLevelData[0].Acceleration;
+                        hud.compStatSliders[i].diffSlider.minValue = 0f;
+                        hud.compStatSliders[i].diffSlider.maxValue = hud.autoAccelerationSlider.maxValue;
+                        hud.compStatSliders[i].diffSlider.value = data.autoLevelData[selectedCompInt].Acceleration;
+
+                        hud.compStatSliders[i].mainSlider.minValue = 0f;
+                        hud.compStatSliders[i].mainSlider.maxValue = hud.autoHandlingSlider.maxValue;
+                        hud.compStatSliders[i].mainSlider.value = data.autoLevelData[0].TurnSpeed;
+                        hud.compStatSliders[i].diffSlider.minValue = 0f;
+                        hud.compStatSliders[i].diffSlider.maxValue = hud.autoHandlingSlider.maxValue;
+                        hud.compStatSliders[i].diffSlider.value = data.autoLevelData[selectedCompInt].TurnSpeed;
+
+                        hud.compStatSliders[i].mainSlider.minValue = 0f;
+                        hud.compStatSliders[i].mainSlider.maxValue = hud.autoHealthSlider.maxValue;
+                        hud.compStatSliders[i].mainSlider.value = data.autoLevelData[0].MaxHealth;
+                        hud.compStatSliders[i].diffSlider.minValue = 0f;
+                        hud.compStatSliders[i].diffSlider.maxValue = hud.autoHealthSlider.maxValue;
+                        hud.compStatSliders[i].diffSlider.value = data.autoLevelData[selectedCompInt].MaxHealth;
+                    }
+                    else
+                    {
+
+                    }
+                }
+                #endregion
+
+                /*switch (compState)
                 {
                     case ComponentState.EngineReview:
                         hud.CompStatSlider.minValue = 0f;
@@ -130,21 +173,21 @@ namespace RetroCode
                         hud.CompStatSliderDiff.maxValue = hud.autoHealthSlider.maxValue;
                         hud.CompStatSliderDiff.value = data.autoLevelData[selectedCompInt].MaxHealth;
                         break;
-                }
+                }*/
             }
             else
             {
-                topSpeedFlt = data.autoLevelData[0].TopSpeed;
-                accelerationFlt = -data.autoLevelData[0].Acceleration;
-                handlingFlt = data.autoLevelData[0].TurnSpeed;
-                armorFlt = data.autoLevelData[0].MaxHealth;
+                topSpeedVar = data.autoLevelData[0].TopSpeed;
+                accelerationVar = -data.autoLevelData[0].Acceleration;
+                handlingVar = data.autoLevelData[0].TurnSpeed;
+                healthVar = data.autoLevelData[0].MaxHealth;
             }
 
             // VALUES //
-            hud.autoTopSpeedSlider.value = Mathf.Lerp(hud.autoTopSpeedSlider.value, topSpeedFlt, statLerpSpeed * Time.deltaTime);
-            hud.autoAccelerationSlider.value = Mathf.Lerp(hud.autoAccelerationSlider.value, accelerationFlt, statLerpSpeed * Time.deltaTime);
-            hud.autoHandlingSlider.value = Mathf.Lerp(hud.autoHandlingSlider.value, handlingFlt, statLerpSpeed * Time.deltaTime);
-            hud.autoHealthSlider.value = Mathf.Lerp(hud.autoHealthSlider.value, armorFlt, statLerpSpeed * Time.deltaTime);
+            hud.autoTopSpeedSlider.value = Mathf.Lerp(hud.autoTopSpeedSlider.value, topSpeedVar, statLerpSpeed * Time.deltaTime);
+            hud.autoAccelerationSlider.value = Mathf.Lerp(hud.autoAccelerationSlider.value, accelerationVar, statLerpSpeed * Time.deltaTime);
+            hud.autoHandlingSlider.value = Mathf.Lerp(hud.autoHandlingSlider.value, handlingVar, statLerpSpeed * Time.deltaTime);
+            hud.autoHealthSlider.value = Mathf.Lerp(hud.autoHealthSlider.value, healthVar, statLerpSpeed * Time.deltaTime);
 
             // COLORS //
             hud.autoTopSpeedSliderFill.color = 

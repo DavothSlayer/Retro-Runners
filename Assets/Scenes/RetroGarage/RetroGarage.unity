@@ -85917,6 +85917,15 @@ MonoBehaviour:
   newStatTitle: {fileID: 916718644}
   CompStatSlider: {fileID: 1271032899}
   CompStatSliderDiff: {fileID: 627637883}
+  compStatSliders:
+  - mainSlider: {fileID: 1384950407}
+    diffSlider: {fileID: 1362276067}
+  - mainSlider: {fileID: 1923002608}
+    diffSlider: {fileID: 1351058609}
+  - mainSlider: {fileID: 83760993}
+    diffSlider: {fileID: 1535703033}
+  - mainSlider: {fileID: 1105783745}
+    diffSlider: {fileID: 1575010862}
   selectButton_CR: {fileID: 988054157}
   selectedObject_CR: {fileID: 2023282567}
   compButtons:
