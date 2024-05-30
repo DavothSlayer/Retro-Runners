@@ -363,7 +363,7 @@ namespace RetroCode
 
             rb.mass = 1f;
             rb.drag = 0.5f;
-            rb.constraints = RigidbodyConstraints.FreezeRotationX | RigidbodyConstraints.FreezeRotationZ | RigidbodyConstraints.FreezePositionY;
+            rb.constraints = RigidbodyConstraints.FreezeRotation | RigidbodyConstraints.FreezePositionY;
 
             engineSFX.enabled = true;
             deathFX.SetActive(false);

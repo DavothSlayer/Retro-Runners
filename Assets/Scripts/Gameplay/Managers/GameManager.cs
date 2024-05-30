@@ -942,11 +942,13 @@ namespace RetroCode
         private Quaternion rearviewRot;
         private Vector3 rearviewPos;
         private float speedFOV;
+        private Vector3 proSwayPos;
+        private Vector3 proSwayRot;
         private void SwitchCaseMachine()
         {
             if(playerCar == null) { return; }
 
-            playerPos = new Vector3(playerTransform.position.x, 0f, playerTransform.position.z);
+            playerPos = new(playerTransform.position.x, 0f, playerTransform.position.z);
             playerRot = Quaternion.identity;
 
             switch (gameState)
@@ -956,8 +958,11 @@ namespace RetroCode
                     dataPos = Vector3.Slerp(dataPos, playerCar.data.CameraPositionInMenu, 3.5f * Time.deltaTime);
                     dataRot = Quaternion.Slerp(dataRot, playerCar.data.CameraRotationInMenu, 6f * Time.deltaTime);
 
+                    proSwayPos = new(5f * Mathf.Sin(Time.time * .1f), 5f * Mathf.Sin(Time.time * .1f), 0f);
+                    proSwayRot = new(.5f * Mathf.Sin(Time.time * 3f), .5f * Mathf.Cos(Time.time * 3f), 0f);
+
                     camHolder.position = playerPos + dataPos;
-                    camHolder.rotation = playerRot * dataRot;
+                    camHolder.rotation = playerRot * dataRot * Quaternion.Euler(proSwayRot);
 
                     cam.fieldOfView = Mathf.Lerp(cam.fieldOfView, playerCar.data.InMenuFOV, 5f * Time.deltaTime);
                     // CAMERA SHIT //
