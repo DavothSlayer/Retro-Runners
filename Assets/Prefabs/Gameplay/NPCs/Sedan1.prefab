@@ -24457,6 +24457,8 @@ GameObject:
   - component: {fileID: 7035693959558545630}
   - component: {fileID: 388009956094992422}
   - component: {fileID: 7361546029556311859}
+  - component: {fileID: 3220391269829962974}
+  - component: {fileID: -3280610344167232641}
   m_Layer: 0
   m_Name: Sedan1
   m_TagString: Untagged
@@ -24524,9 +24526,37 @@ MonoBehaviour:
   damageToPlayer: 1
   spawnManager: {fileID: 0}
   gameManager: {fileID: 0}
-  variants:
-  - {fileID: 7259662784622203226}
+  main: {fileID: 7259662784622203226}
   deadModel: {fileID: 5646322209947149846}
+--- !u!114 &3220391269829962974
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 7703441031612144228}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 5059a870e51ff284daddc45e67678bd2, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  colliders:
+  - {fileID: 7956462316680437446}
+--- !u!114 &-3280610344167232641
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 7703441031612144228}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: e3d97b7e42743ca4692b2aa016456ba2, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  sources:
+  - {fileID: 2614390235315101566}
+  - {fileID: 1813890513320549429}
 --- !u!1001 &4851924304543494354
 PrefabInstance:
   m_ObjectHideFlags: 0

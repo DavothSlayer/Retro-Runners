@@ -105,6 +105,11 @@ PrefabInstance:
       propertyPath: m_Layer
       value: 7
       objectReference: {fileID: 0}
+    - target: {fileID: 6106415195911450326, guid: 71791fdd606241f4485f055f2e69f8ec,
+        type: 3}
+      propertyPath: m_StaticEditorFlags
+      value: 0
+      objectReference: {fileID: 0}
     - target: {fileID: 8724720904740592255, guid: 71791fdd606241f4485f055f2e69f8ec,
         type: 3}
       propertyPath: m_CastShadows

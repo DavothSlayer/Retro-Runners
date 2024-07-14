@@ -31,6 +31,7 @@ namespace RetroCode
         public List<GameObject> COPPool = new List<GameObject>();
         public List<GameObject> PickupPool = new List<GameObject>();
         public List<GameObject> PickupList = new List<GameObject>();
+        public List<GameObject> DeadNPCPool = new List<GameObject>();
 
         // RIGHT LANE NPCS //
         [HideInInspector]
@@ -38,6 +39,8 @@ namespace RetroCode
         // LEFT LANE NPCS //
         [HideInInspector]
         public List<GameObject> activeNPCsLL = new List<GameObject>();
+        [HideInInspector]
+        public List<GameObject> activeDeadNPCs = new List<GameObject>();
         // COPS //
         [HideInInspector]
         public List<GameObject> activeCOPs = new List<GameObject>();
@@ -68,14 +71,14 @@ namespace RetroCode
 
             spawn = GameManager.gameState == GameState.InGame || GameManager.gameState == GameState.InMenu;
           
-            if (DistanceToLastNPCRL() < roadVar.NPCSpawnDistance)
+            if (PlayerDistanceToLastNPCRightLane() < roadVar.NPCSpawnDistance)
             {
-                if (activeNPCsRL.Count < roadVar.maxNPCCountRL) { SpawnNPCRL(roadVar); }
+                if (activeNPCsRL.Count < roadVar.maxNPCCountRL) { SpawnNPCRightLane(roadVar); }
             }
 
-            if (DistanceToLastNPCLL() < roadVar.NPCSpawnDistance)
+            if (PlayerDistanceToLastNPCLeftLane() < roadVar.NPCSpawnDistance)
             {
-                if (activeNPCsRL.Count < roadVar.maxNPCCountLL) { SpawnNPCLL(roadVar); }
+                if (activeNPCsRL.Count < roadVar.maxNPCCountLL) { SpawnNPCLeftLane(roadVar); }
             }
 
             DespawnUnwantedNPCs();
@@ -87,12 +90,12 @@ namespace RetroCode
             RoadVariation roadVar;
             roadVar = gameManager.roadVariations[gameManager.activeRoadVar];
 
-            SpawnNPCRL(roadVar);
-            SpawnNPCLL(roadVar);
+            SpawnNPCRightLane(roadVar);
+            SpawnNPCLeftLane(roadVar);
         }
 
         // SPAWN NPC //
-        private void SpawnNPCRL(RoadVariation road)
+        private void SpawnNPCRightLane(RoadVariation road)
         {
             // CALCULATE ZPOS //
             float zPos;
@@ -148,7 +151,7 @@ namespace RetroCode
             }
         }
 
-        private void SpawnNPCLL(RoadVariation road)
+        private void SpawnNPCLeftLane(RoadVariation road)
         {
             // CALCULATE ZPOS //
             float zPos;
@@ -189,7 +192,7 @@ namespace RetroCode
             EXMET.AddSpawnable(spawnable, activeNPCsLL, NPCPool);
         }
 
-        private float DistanceToLastNPCRL()
+        private float PlayerDistanceToLastNPCRightLane()
         {
             Vector3 playerPos = gameManager.playerTransform.position;
 
@@ -205,7 +208,7 @@ namespace RetroCode
             }
         }
          
-        private float DistanceToLastNPCLL()
+        private float PlayerDistanceToLastNPCLeftLane()
         {
             Vector3 playerPos = gameManager.playerTransform.position;
 
@@ -277,6 +280,16 @@ namespace RetroCode
 
                     if (cop.transform.position.z < playerPos.z - minDespawnDistance || cop.transform.position.z > playerPos.z + maxDespawnDistance)
                         EXMET.RemoveSpawnable(cop, activeCOPs, COPPool);
+                }
+
+            if (activeDeadNPCs.Count != 0)
+                for (int i = 0; i < activeDeadNPCs.Count; i++)
+                {
+                    GameObject deadNPC = activeDeadNPCs[i];
+                    if (deadNPC == null) continue;
+
+                    if (deadNPC.transform.position.z < playerPos.z - minDespawnDistance || deadNPC.transform.position.z > playerPos.z + maxDespawnDistance)
+                        EXMET.RemoveSpawnable(deadNPC, activeDeadNPCs, DeadNPCPool);
                 }
         }
 

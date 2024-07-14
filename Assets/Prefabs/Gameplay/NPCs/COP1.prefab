@@ -14849,6 +14849,8 @@ GameObject:
   - component: {fileID: 4012719141591861502}
   - component: {fileID: 5080894172700544526}
   - component: {fileID: 4012719141591861503}
+  - component: {fileID: 6214053544273157497}
+  - component: {fileID: 3713251660658836873}
   m_Layer: 12
   m_Name: COP1
   m_TagString: Untagged
@@ -14951,6 +14953,35 @@ MonoBehaviour:
   sirenVar2: {fileID: 2666631755216403993}
   playerT: {fileID: 0}
   playerAuto: {fileID: 0}
+--- !u!114 &6214053544273157497
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 4012719141591861501}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 5059a870e51ff284daddc45e67678bd2, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  colliders:
+  - {fileID: 5080894172700544526}
+--- !u!114 &3713251660658836873
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 4012719141591861501}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: e3d97b7e42743ca4692b2aa016456ba2, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  sources:
+  - {fileID: 5252801065418488667}
+  - {fileID: 8060847321275811103}
 --- !u!1 &7037457631522190582
 GameObject:
   m_ObjectHideFlags: 0

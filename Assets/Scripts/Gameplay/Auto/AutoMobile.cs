@@ -512,7 +512,7 @@ namespace RetroCode
             fixFX.PlaySystem();
         }
 
-        public void HandleToken()
+        public void HandlePickupBonus()
         {
             tokenFX.PlaySystem();
         }

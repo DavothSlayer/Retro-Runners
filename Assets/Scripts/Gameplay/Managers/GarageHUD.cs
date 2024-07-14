@@ -12,8 +12,8 @@ namespace RetroCode
 
         [Header("Garage Screen")]        
         public TextMeshProUGUI currentAutoNameText;
-        public TextMeshProUGUI autoNameText_CR;
-        public TextMeshProUGUI currentCompNameText_Unlocked, currentCompNameText_Locked;
+        public TextMeshProUGUI currentCompNameText;
+        public TextMeshProUGUI currentAutoNameTextInComp;
         public TextMeshProUGUI autoPriceText, compPriceText;
         [Space]
         public GameObject unlockedActionParent_AR;
@@ -23,26 +23,28 @@ namespace RetroCode
         public GameObject unlockedActionParent_CR;
         public GameObject lockedActionParent_CR;
         public GameObject lockedObjectParent_CR;
-        [Space]
-        public TextMeshProUGUI newStatTitle;
-        public Slider CompStatSlider, CompStatSliderDiff;
 
         public List<CompStatSliders> compStatSliders = new List<CompStatSliders>();
 
-        public GameObject selectButton_CR, selectedObject_CR;
+        public GameObject selectButton_CR, selectedObject_CR, nextAutoButton, previousAutoButton, nextCompButton, previousCompButton;
         public RectTransform[] compButtons;
         public float compRectDefaultX, compRectSelectedX;
 
         public Slider
             autoTopSpeedSlider, 
             autoAccelerationSlider,
-            autoHandlingSlider,
+            autoTurningSlider,
             autoHealthSlider;
         public Image
             autoTopSpeedSliderFill,
             autoAccelerationSliderFill,
-            autoHandlingSliderFill,
+            autoTurningSliderFill,
             autoHealthSliderFill;
+        public TextMeshProUGUI
+            autoTopSpeedInfo,
+            autoAccelerationInfo,
+            autoTurningInfo,
+            autoHealthInfo;
         public Gradient sliderGradient;
         public TextMeshProUGUI autoNameText_C;
         public TextMeshProUGUI purchaseConfirmText;

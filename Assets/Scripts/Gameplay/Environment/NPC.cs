@@ -16,9 +16,9 @@ namespace RetroCode
 
         [Header("Variants")]
         [SerializeField]
-        private GameObject[] variants;
+        private GameObject main;
         [SerializeField]
-        private GameObject deadModel;
+        private DeadNPC deadModel;
 
         private float topSpeed;
 
@@ -30,10 +30,8 @@ namespace RetroCode
             // RESET HEALTH METHOD NEEDED //
             health = 1;
 
-            deadModel.SetActive(false);
-
-            rigidBody.constraints = RigidbodyConstraints.FreezePositionY | RigidbodyConstraints.FreezePositionX | RigidbodyConstraints.FreezeRotation;
-            rigidBody.velocity = Vector3.zero;
+            deadModel.gameObject.SetActive(false);
+            rigidBody.isKinematic = false;
 
             if (transform.position.x > 0f)
                 topSpeed = data.autoLevelData[auto.engineLevel].TopSpeed * 0.5f;
@@ -42,7 +40,7 @@ namespace RetroCode
 
             rigidBody.AddForce(transform.forward * topSpeed, ForceMode.VelocityChange);
 
-            AssignRandomColor();
+            main.SetActive(true);
         }
 
         public virtual void Update()
@@ -62,17 +60,9 @@ namespace RetroCode
 
         public virtual void NPCMovement()
         {
-            if(GameManager.gameState == GameState.GameOver) { return; }
+            if(GameManager.gameState == GameState.GameOver || rigidBody.isKinematic) { return; }
 
             rigidBody.AddForce(transform.forward * topSpeed * rigidBody.mass * rigidBody.drag, ForceMode.Force);
-        }
-
-        private void AssignRandomColor()
-        {
-            foreach (GameObject vrnt in variants)
-                vrnt.SetActive(false);
-
-            variants[Random.Range(0, variants.Length)].SetActive(true);
         }
 
         public void Damage(int dmg)
@@ -86,17 +76,12 @@ namespace RetroCode
 
         public virtual void HandleDeath()
         {
-            foreach (GameObject var in variants) var.SetActive(false);
-            deadModel.SetActive(true);
-
-            rigidBody.constraints = RigidbodyConstraints.None;
-            Vector3 explosionTorqueVector =
-                transform.right * Random.Range(-5f, 5f) +
-                transform.up * Random.Range(-5f, 5f) +
-                transform.forward * Random.Range(-10f, 10f);
-
-            rigidBody.AddForce(Vector3.up, ForceMode.VelocityChange);
-            rigidBody.AddTorque(explosionTorqueVector, ForceMode.VelocityChange);
+            main.SetActive(false);
+            rigidBody.isKinematic = true;
+            
+            deadModel.gameObject.transform.SetPositionAndRotation(transform.position, transform.rotation);
+            deadModel.gameObject.SetActive(true);
+            deadModel.OnDead(rigidBody.velocity);
         }
 
         public int Health()

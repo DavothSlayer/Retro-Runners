@@ -21,14 +21,7 @@ namespace RetroCode
         public Quaternion CameraRotationInMenu;
         public float InMenuFOV;
         [Space]
-        public Vector3 CameraPositionInGame;
-        public Quaternion CameraRotationInGame;
-        public float InGameFOV;
         public Vector3 rearviewOffset;
-        [Space]
-        public Vector3 CameraPositionGameOver;
-        public Quaternion CameraRotationGameOver;
-        public float GameOverFOV;
         [Space]
         public float scrapeRayRange;
         [Space]

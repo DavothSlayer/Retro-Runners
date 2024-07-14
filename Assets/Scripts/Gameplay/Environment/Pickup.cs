@@ -80,7 +80,7 @@ namespace RetroCode
 
     public enum PickupType
     {
-        Token,
+        PickupBonus,
         Boost,
         Fixer,
     }

@@ -8,6 +8,7 @@ using V3CTOR;
 using UnityEngine.Events;
 using Pinwheel.Jupiter;
 using System.Threading.Tasks;
+using Unity.VisualScripting;
 
 namespace RetroCode
 {
@@ -18,6 +19,8 @@ namespace RetroCode
         private MainGameHUD hud;
         [SerializeField]
         private SpawnManager spawnManager;
+        [SerializeField]
+        private InputManager input;
 
         [Header("UGS")]
         [SerializeField]
@@ -39,9 +42,25 @@ namespace RetroCode
         [Space]
         public Transform playerTransform;
         public AutoMobile playerCar;
-        [Space]
+
+        [Header("Cinematics")]
         [SerializeField]
         private Camera cam;
+        [Space]
+        [SerializeField]
+        private Vector3 gameCamPos;
+        [SerializeField]
+        private Quaternion gameCamRot;
+        [SerializeField]
+        private float gameCamFOV;
+        [Space]
+        [SerializeField]
+        private Vector3 gameoverCamPos;
+        [SerializeField]
+        private Quaternion gameoverCamRot;
+        [SerializeField]
+        private float gameoverCamFOV;
+        [Space]
         [SerializeField]
         private Transform camHolder;
         [SerializeField]
@@ -50,8 +69,6 @@ namespace RetroCode
         private Animator canvasAnimator;
         [SerializeField]
         private Animator effectBarAnimator;
-        [SerializeField]
-        private InputManager input;
 
         [Header("SFX")]
         [SerializeField]
@@ -145,6 +162,8 @@ namespace RetroCode
         }
         #endregion
 
+        public static AutoMobile playerAutoStatic;
+
         private void OnEnable()
         {
             heatLevelChanged += HeatLevelChangeListener;
@@ -155,6 +174,8 @@ namespace RetroCode
 
         private void OnDestroy()
         {
+            playerAutoStatic = playerCar;
+
             heatLevelChanged -= HeatLevelChangeListener;
             InputManager.UpperDoubleTapped -= AutoAbility;
             InputManager.LowerDoubleTapped -= RearviewMethod;
@@ -182,7 +203,7 @@ namespace RetroCode
         private void GameHUD()
         {
             #region HUD Text and Animator Booleans
-            hud.speedoMeterText.text = $"{playerCar.rb.velocity.magnitude.ToString("N0")}MPH";
+            hud.speedoMeterText.text = $"{Mathf.RoundToInt(playerCar.rb.velocity.magnitude * 2.2f)} MPH";
             hud.speedoMeterFill.fillAmount = playerCar.rb.velocity.magnitude / playerCar.data.autoLevelData[playerCar.engineLevel].TopSpeed;
 
             hud.nearMissComboTimer.fillAmount = 1f - nearMissTimer / nearMissMaxTime;
@@ -383,6 +404,7 @@ namespace RetroCode
         {
             // RESET AUTO //
             ReplaceAuto();
+            playerAutoStatic = playerCar;
 
             // RESET GAME VALUES //
             AddMultiplier("ThrillSeeker", 1f);
@@ -596,8 +618,8 @@ namespace RetroCode
 
             switch (pickupType)
             {
-                case PickupType.Token:
-                    TokenMethod();
+                case PickupType.PickupBonus:
+                    PickupBonusMethod();
                     PlayAudioOneShot(tokenPickupSFX);
                     break;
                 case PickupType.Boost:
@@ -639,11 +661,11 @@ namespace RetroCode
         }
 
         // TOKEN METHOD //
-        private void TokenMethod()
+        private void PickupBonusMethod()
         {
-            AddExternalScore(10000f);
+            AddExternalScore(scoreTable.pickUpBonus);
 
-            playerCar.HandleToken();
+            playerCar.HandlePickupBonus();
         }
 
         // HEAT LEVEL LOGIC //
@@ -937,13 +959,13 @@ namespace RetroCode
         #region Cinematics
         private Vector3 playerPos;
         private Quaternion playerRot;
-        private Vector3 dataPos;
-        private Quaternion dataRot;
         private Quaternion rearviewRot;
         private Vector3 rearviewPos;
         private float speedFOV;
         private Vector3 proSwayPos;
         private Vector3 proSwayRot;
+        private Vector3 camPosTarget;
+        private Quaternion camRotTarget;
         private void SwitchCaseMachine()
         {
             if(playerCar == null) { return; }
@@ -954,28 +976,25 @@ namespace RetroCode
             switch (gameState)
             {
                 case GameState.InMenu:
-                    // CAMERA SHIT //
-                    dataPos = Vector3.Slerp(dataPos, playerCar.data.CameraPositionInMenu, 3.5f * Time.deltaTime);
-                    dataRot = Quaternion.Slerp(dataRot, playerCar.data.CameraRotationInMenu, 6f * Time.deltaTime);
+                    camPosTarget = Vector3.Slerp(camPosTarget, playerCar.data.CameraPositionInMenu, 3.5f * Time.deltaTime);
+                    camRotTarget = Quaternion.Slerp(camRotTarget, playerCar.data.CameraRotationInMenu, 6f * Time.deltaTime);
 
                     proSwayPos = new(5f * Mathf.Sin(Time.time * .1f), 5f * Mathf.Sin(Time.time * .1f), 0f);
                     proSwayRot = new(.5f * Mathf.Sin(Time.time * 3f), .5f * Mathf.Cos(Time.time * 3f), 0f);
 
-                    camHolder.position = playerPos + dataPos;
-                    camHolder.rotation = playerRot * dataRot * Quaternion.Euler(proSwayRot);
+                    camHolder.position = playerPos + camPosTarget;
+                    camHolder.rotation = playerRot * camRotTarget * Quaternion.Euler(proSwayRot);
 
                     cam.fieldOfView = Mathf.Lerp(cam.fieldOfView, playerCar.data.InMenuFOV, 5f * Time.deltaTime);
-                    // CAMERA SHIT //
                     break;
 
                 case GameState.InGame:
-                    // CAMERA SHIT //
-                    dataPos = Vector3.Slerp(dataPos, playerCar.data.CameraPositionInGame, 3.5f * Time.deltaTime);
-                    dataRot = Quaternion.Slerp(dataRot, playerCar.data.CameraRotationInGame, 6f * Time.deltaTime);
+                    camPosTarget = Vector3.Slerp(camPosTarget, gameCamPos, 3.5f * Time.deltaTime);
+                    camRotTarget = Quaternion.Slerp(camRotTarget, gameCamRot, 6f * Time.deltaTime);
+                    
                     Quaternion carRot = Quaternion.Euler(0f, 5f * input.xTouchLerp, 6f * input.xTouchLerp);
                     Vector3 cameraOffset = new(1.5f * input.xTouchLerp, 0f, 0f);
                     
-                    // REARVIEW ROTATION & POSITION //
                     rearviewRot = rearview && gameState == GameState.InGame ?
                         Quaternion.Slerp(rearviewRot, Quaternion.Euler(0f, 180f, 0f), 6f * Time.deltaTime) :
                         Quaternion.Slerp(rearviewRot, Quaternion.Euler(0f, 0f, 0f), 8f * Time.deltaTime);
@@ -984,30 +1003,25 @@ namespace RetroCode
                         Vector3.Slerp(rearviewPos, playerCar.data.rearviewOffset, 6f * Time.deltaTime) :
                         Vector3.Slerp(rearviewPos, Vector3.zero, 8f * Time.deltaTime);
 
-                    camHolder.position = playerPos + dataPos + cameraOffset + rearviewPos;
-                    camHolder.rotation = playerRot * dataRot * carRot * rearviewRot;
+                    camHolder.position = playerPos + camPosTarget + cameraOffset + rearviewPos;
+                    camHolder.rotation = playerRot * camRotTarget * carRot * rearviewRot;
 
-                    // HOLY FUCK THE FOV CHANGES ACCORDING TO AUTO SPEED //
                     speedFOV = (playerCar.rb.velocity.magnitude / playerCar.data.autoLevelData[playerCar.engineLevel].TopSpeed) * 30f;
 
-                    cam.fieldOfView = Mathf.Lerp(cam.fieldOfView, playerCar.data.InGameFOV + speedFOV, 5f * Time.deltaTime);
+                    cam.fieldOfView = Mathf.Lerp(cam.fieldOfView, gameCamFOV + speedFOV, 5f * Time.deltaTime);
 
-                    // ROTATE THE GAME SCREEN WITH THE INPUT //
                     hud.mainGameParent.localRotation = Quaternion.Euler(0f, 2.5f * input.xTouchLerp, -3f * input.xTouchLerp);
 
-                    // CAMERA SHIT //
                     break;
 
                 case GameState.GameOver:
-                    // CAMERA SHIT //
-                    dataPos = Vector3.Lerp(dataPos, playerCar.data.CameraPositionGameOver, 0.85f * Time.deltaTime);
-                    dataRot = Quaternion.identity;
+                    camPosTarget = Vector3.Slerp(camPosTarget, gameoverCamPos, 0.85f * Time.deltaTime);
+                    camRotTarget = Quaternion.Slerp(camRotTarget, gameoverCamRot, 8f * Time.deltaTime);
 
-                    camHolder.position = playerPos + dataPos;
-                    camHolder.LookAt(playerTransform.position, Vector3.up);
+                    camHolder.position = playerPos + camPosTarget;
+                    camHolder.rotation = camRotTarget;
 
-                    cam.fieldOfView = Mathf.Lerp(cam.fieldOfView, playerCar.data.GameOverFOV, Time.deltaTime);
-                    // CAMERA SHIT //
+                    cam.fieldOfView = Mathf.Lerp(cam.fieldOfView, gameoverCamFOV, Time.deltaTime);
                     break;
             }
         }

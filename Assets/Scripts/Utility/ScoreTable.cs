@@ -12,6 +12,9 @@ namespace RetroCode
         [Range(0, 1f)]
         public float rewardRatio;
 
+        [Header("Pick Up Scores")]
+        public float pickUpBonus;
+
         [Header("Material Library")]
         public Material specterMaterial;
         public Material universalMaterial;

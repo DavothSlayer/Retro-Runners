@@ -60,7 +60,7 @@ MonoBehaviour:
   m_SoftShadowQuality: 1
   m_AdditionalLightsCookieResolution: 256
   m_AdditionalLightsCookieFormat: 0
-  m_UseSRPBatcher: 0
+  m_UseSRPBatcher: 1
   m_SupportsDynamicBatching: 1
   m_MixedLightingSupported: 0
   m_SupportsLightCookies: 0

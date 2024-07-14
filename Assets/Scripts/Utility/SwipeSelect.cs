@@ -10,44 +10,42 @@ namespace RetroCode
         private RetroGarage retroGarage;
         [SerializeField]
         private float touchSensitivity;
-        [SerializeField]
-        private AudioClip swipeSound;
 
         private Vector2 touchStartPos;
-        private Vector2 touchEndPos;
+        private Vector2 touchInput;
 
         private bool active = true;
 
+        [HideInInspector]
+        public float inputX;
+
         private void Update()
         {
-            if(Input.touchCount == 0) return;
+            if (Input.touchCount == 0)
+            {
+                inputX = Mathf.Lerp(inputX, 0f, Time.deltaTime);
+                return;
+            }
+
             if (!active) return;
 
             switch (Input.GetTouch(0).phase)
             {
                 case TouchPhase.Began:
+                    touchInput = Vector2.zero;
                     touchStartPos = Input.GetTouch(0).position;
                     break;
-
+                case TouchPhase.Moved:
+                    touchInput = Input.GetTouch(0).position - touchStartPos;
+                    break;
                 case TouchPhase.Ended:
                 case TouchPhase.Canceled:
-                    touchEndPos = Input.GetTouch(0).position;
-
-                    if (touchEndPos.x > touchStartPos.x + touchSensitivity)
-                    {
-                        retroGarage.SwipeNext();
-
-                        retroGarage.audioSource.PlayOneShot(swipeSound);
-                    }
-
-                    if (touchEndPos.x < touchStartPos.x - touchSensitivity)
-                    {
-                        retroGarage.SwipePrevious();
-
-                        retroGarage.audioSource.PlayOneShot(swipeSound);
-                    }
+                    touchInput = Vector2.zero;
+                    touchStartPos = Vector2.zero;
                     break;
             }
+
+            inputX = Mathf.Lerp(inputX, touchInput.x, 6f * Time.deltaTime);
         }
 
         public void SetSwipeState(bool state)

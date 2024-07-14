@@ -16,6 +16,7 @@ MonoBehaviour:
   scorePerNearMiss: 100
   thrillSeekerMultiplier: 4
   rewardRatio: 0.1
+  tokenReward: 100000
   specterMaterial: {fileID: 2100000, guid: 6d24fae525ade0a4a95b9e966f0396fb, type: 2}
   universalMaterial: {fileID: 2100000, guid: c4e14fc166e47ad429cd92bd22880f1d, type: 2}
   godrayMaterial: {fileID: 2100000, guid: f1a5974d2a2deff499d0d38397624c4a, type: 2}

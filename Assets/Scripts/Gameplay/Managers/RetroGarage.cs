@@ -19,6 +19,8 @@ namespace RetroCode
 
         [Header("Garage")]
         [SerializeField]
+        private Transform camOffset;
+        [SerializeField]
         private GameObject autoPropParent;
         [SerializeField]
         private GameObject compPropParent;
@@ -57,6 +59,9 @@ namespace RetroCode
         {
             HandleAutoStats();
             HandleUICodedAnim();
+
+            camOffset.Rotate(Vector3.up * 25f * Time.deltaTime);
+            camOffset.rotation *= Quaternion.Euler(Vector3.up * swipeSelect.inputX * Time.deltaTime);
         }
 
         #region Core Garage Functionality
@@ -90,7 +95,7 @@ namespace RetroCode
             // SET THE SLIDER MAX & MIN VALUES //
             hud.autoTopSpeedSlider.maxValue = Mathf.Lerp(hud.autoTopSpeedSlider.maxValue, bestTopSpeed, statSliderLerpSpeed * Time.deltaTime);
             hud.autoAccelerationSlider.maxValue = Mathf.Lerp(hud.autoAccelerationSlider.maxValue, bestAcceleration, statSliderLerpSpeed * Time.deltaTime);
-            hud.autoHandlingSlider.maxValue = Mathf.Lerp(hud.autoHandlingSlider.maxValue, bestHandling, statSliderLerpSpeed * Time.deltaTime);
+            hud.autoTurningSlider.maxValue = Mathf.Lerp(hud.autoTurningSlider.maxValue, bestHandling, statSliderLerpSpeed * Time.deltaTime);
             hud.autoHealthSlider.maxValue = Mathf.Lerp(hud.autoHealthSlider.maxValue, bestHealth, statSliderLerpSpeed * Time.deltaTime);
 
             hud.compStatSliders[0].mainSlider.minValue = 0f;
@@ -134,6 +139,11 @@ namespace RetroCode
 
                 hud.compStatSliders[3].mainSlider.value = data.autoLevelData[0].MaxHealth;
                 hud.compStatSliders[3].diffSlider.value = (int)compState == 3 ? data.autoLevelData[selectedCompInt].MaxHealth : data.autoLevelData[gamingServicesManager.cloudData.unlockedCarsDict[data.ItemCode].lastSelectedCompList[3]].MaxHealth;
+
+                hud.autoTopSpeedInfo.text = $"{Mathf.RoundToInt(data.autoLevelData[gamingServicesManager.cloudData.unlockedCarsDict[data.ItemCode].lastSelectedCompList[0]].TopSpeed * 2.2f)} MPH";
+                hud.autoAccelerationInfo.text = $"0-60 MPH in {data.autoLevelData[gamingServicesManager.cloudData.unlockedCarsDict[data.ItemCode].lastSelectedCompList[1]].Acceleration} Seconds";
+                hud.autoTurningInfo.text = $"{data.autoLevelData[gamingServicesManager.cloudData.unlockedCarsDict[data.ItemCode].lastSelectedCompList[2]].TurnSpeed} M/S";
+                hud.autoHealthInfo.text = $"{data.autoLevelData[gamingServicesManager.cloudData.unlockedCarsDict[data.ItemCode].lastSelectedCompList[3]].MaxHealth} Healthpoints";
             }
             else
             {
@@ -153,12 +163,17 @@ namespace RetroCode
 
                 hud.compStatSliders[3].mainSlider.value = data.autoLevelData[0].MaxHealth;
                 hud.compStatSliders[3].diffSlider.value = data.autoLevelData[0].MaxHealth;
+
+                hud.autoTopSpeedInfo.text = $"{Mathf.RoundToInt(data.autoLevelData[0].TopSpeed * 2.2f)} MPH";
+                hud.autoAccelerationInfo.text = $"0-60 MPH in {data.autoLevelData[0].Acceleration} Seconds";
+                hud.autoTurningInfo.text = $"{data.autoLevelData[0].TurnSpeed} M/S";
+                hud.autoHealthInfo.text = $"{data.autoLevelData[0].MaxHealth} Healthpoints";
             }
 
             // VALUES //
             hud.autoTopSpeedSlider.value = Mathf.Lerp(hud.autoTopSpeedSlider.value, autoTopSpeedVar, statSliderLerpSpeed * Time.deltaTime);
             hud.autoAccelerationSlider.value = Mathf.Lerp(hud.autoAccelerationSlider.value, autoAccelerationVar, statSliderLerpSpeed * Time.deltaTime);
-            hud.autoHandlingSlider.value = Mathf.Lerp(hud.autoHandlingSlider.value, autoHandlingVar, statSliderLerpSpeed * Time.deltaTime);
+            hud.autoTurningSlider.value = Mathf.Lerp(hud.autoTurningSlider.value, autoHandlingVar, statSliderLerpSpeed * Time.deltaTime);
             hud.autoHealthSlider.value = Mathf.Lerp(hud.autoHealthSlider.value, autoHealthVar, statSliderLerpSpeed * Time.deltaTime);
             // VALUES //
 
@@ -167,36 +182,28 @@ namespace RetroCode
                 hud.sliderGradient.Evaluate(hud.autoTopSpeedSlider.value / hud.autoTopSpeedSlider.maxValue);
             hud.autoAccelerationSliderFill.color =
                 hud.sliderGradient.Evaluate(1f - (-hud.autoAccelerationSlider.value / -hud.autoAccelerationSlider.minValue));
-            hud.autoHandlingSliderFill.color =
-                hud.sliderGradient.Evaluate(hud.autoHandlingSlider.value / hud.autoHandlingSlider.maxValue);
+            hud.autoTurningSliderFill.color =
+                hud.sliderGradient.Evaluate(hud.autoTurningSlider.value / hud.autoTurningSlider.maxValue);
             hud.autoHealthSliderFill.color =
                 hud.sliderGradient.Evaluate(hud.autoHealthSlider.value / hud.autoHealthSlider.maxValue);
         }
 
-        public void SwipeNext()
+        public void NextOption()
         {
             if(garageState == GarageState.AutoReview)
             {
-                if (selectedAutoInt != autoProps.Length - 1) 
-                { 
-                    selectedAutoInt++;
-                    CheckInventory();
-                    return;
-                }
+                if (selectedAutoInt != autoProps.Length - 1) { selectedAutoInt++; }
             }
 
             if(garageState == GarageState.ComponentReview)
             {
-                if (selectedCompInt != compLists[((int)compState)].Comps.Count - 1) 
-                { 
-                    selectedCompInt++;
-                    CheckInventory();
-                    return;
-                }
+                if (selectedCompInt != compLists[((int)compState)].Comps.Count - 1) { selectedCompInt++; }
             }
+
+            CheckInventory();
         }
 
-        public void SwipePrevious()
+        public void PreviousOption()
         {
             if(garageState == GarageState.AutoReview)
             {
@@ -213,6 +220,12 @@ namespace RetroCode
 
         public void CheckInventory()
         {
+            hud.previousAutoButton.SetActive(selectedAutoInt != 0);
+            hud.nextAutoButton.SetActive(selectedAutoInt != autoProps.Length - 1);
+
+            hud.previousCompButton.SetActive(selectedCompInt != 0);
+            hud.nextCompButton.SetActive(selectedCompInt != compLists[((int)compState)].Comps.Count - 1);
+
             hud.playerMoneyText.text = $"${gamingServicesManager.cloudData.retroDollars.ToString("n0")}";
             //UpdatePlayerMoneyText();
 
@@ -230,8 +243,8 @@ namespace RetroCode
             if (gamingServicesManager.cloudData.unlockedCarsDict.ContainsKey(c_autoD.ItemCode))
             {
                 hud.currentAutoNameText.text = c_autoD.AutoName;
+                hud.currentAutoNameTextInComp.text = c_autoD.AutoName;
 
-                hud.autoNameText_CR.text = c_autoD.AutoName;
                 autoProps[selectedAutoInt].lockedModel.SetActive(false);
                 autoProps[selectedAutoInt].unlockedModels[0].SetActive(true);
 
@@ -250,8 +263,7 @@ namespace RetroCode
                             prop.gameObject.SetActive(j == selectedCompInt);
 
                             ComponentProp selectedProp = compLists[i].Comps[selectedCompInt];
-                            hud.currentCompNameText_Unlocked.text = selectedProp.itemData.ItemName;
-                            hud.currentCompNameText_Locked.text = selectedProp.itemData.ItemName;
+                            hud.currentCompNameText.text = selectedProp.itemData.ItemName;
 
                             hud.selectButton_CR.SetActive(selectedCompInt != gamingServicesManager.cloudData.unlockedCarsDict[c_autoD.ItemCode].lastSelectedCompList[(int)compState]);
                             hud.selectedObject_CR.SetActive(selectedCompInt == gamingServicesManager.cloudData.unlockedCarsDict[c_autoD.ItemCode].lastSelectedCompList[(int)compState]);
@@ -273,22 +285,6 @@ namespace RetroCode
                                 hud.compPriceText.text = $"${CompPrice.ToString("n0")}";
                             }
                         }
-
-                        switch (i)
-                        {
-                            case 0:
-                                hud.newStatTitle.text = "Top Speed";
-                                break;
-                            case 1:
-                                hud.newStatTitle.text = "Acceleration";
-                                break;
-                            case 2:
-                                hud.newStatTitle.text = "Handling";
-                                break;
-                            case 3:
-                                hud.newStatTitle.text = "Health";
-                                break;
-                        }
                     }
                     else
                     {
@@ -303,6 +299,7 @@ namespace RetroCode
             else
             {
                 hud.currentAutoNameText.text = c_autoD.AutoName;
+                hud.currentAutoNameTextInComp.text = c_autoD.AutoName;
                 autoProps[selectedAutoInt].lockedModel.SetActive(true);
                 autoProps[selectedAutoInt].unlockedModels[0].SetActive(false);
 

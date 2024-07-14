@@ -24391,6 +24391,8 @@ GameObject:
   - component: {fileID: 8900910840329684323}
   - component: {fileID: 6028844943596031870}
   - component: {fileID: 8900910840329684327}
+  - component: {fileID: 2101808177393007475}
+  - component: {fileID: 8808505436066129281}
   m_Layer: 0
   m_Name: Truck3
   m_TagString: Untagged
@@ -24458,9 +24460,37 @@ MonoBehaviour:
   damageToPlayer: 10
   spawnManager: {fileID: 0}
   gameManager: {fileID: 0}
-  variants:
-  - {fileID: 662729031820162447}
+  main: {fileID: 526493252591718869}
   deadModel: {fileID: 4969258403330629862}
+--- !u!114 &2101808177393007475
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 8900910840329684348}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 5059a870e51ff284daddc45e67678bd2, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  colliders:
+  - {fileID: 7677987252191774342}
+--- !u!114 &8808505436066129281
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 8900910840329684348}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: e3d97b7e42743ca4692b2aa016456ba2, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  sources:
+  - {fileID: 3509389884916523987}
+  - {fileID: 3576889374575246130}
 --- !u!1 &8966200023946915236
 GameObject:
   m_ObjectHideFlags: 0
@@ -29562,6 +29592,12 @@ PrefabInstance:
       insertIndex: -1
       addedObject: {fileID: 3576889374575246130}
   m_SourcePrefab: {fileID: 100100000, guid: 165f3bc029afda74fae636e7bba5d32e, type: 3}
+--- !u!1 &526493252591718869 stripped
+GameObject:
+  m_CorrespondingSourceObject: {fileID: 919132149155446097, guid: 165f3bc029afda74fae636e7bba5d32e,
+    type: 3}
+  m_PrefabInstance: {fileID: 832905359782030468}
+  m_PrefabAsset: {fileID: 0}
 --- !u!1 &662729031820162447 stripped
 GameObject:
   m_CorrespondingSourceObject: {fileID: 197436588826368267, guid: 165f3bc029afda74fae636e7bba5d32e,
