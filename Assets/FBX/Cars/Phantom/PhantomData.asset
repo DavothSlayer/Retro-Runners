@@ -138,13 +138,7 @@ MonoBehaviour:
   CameraPositionInMenu: {x: 2.61, y: 1.1, z: 6.78}
   CameraRotationInMenu: {x: 0.08641025, y: -0.9876721, z: -0.011376121, w: 0.13002951}
   InMenuFOV: 55
-  CameraPositionInGame: {x: 0, y: 5.54, z: -12.73}
-  CameraRotationInGame: {x: 0.022338355, y: 0, z: 0, w: 0.9997505}
-  InGameFOV: 50
-  rearviewOffset: {x: 0, y: -3.07, z: 10.2}
-  CameraPositionGameOver: {x: -4.7, y: 16.28, z: 17}
-  CameraRotationGameOver: {x: -0.000353308, y: 0.9995824, z: -0.025302127, w: -0.013957746}
-  GameOverFOV: 42.1
+  rearviewOffset: {x: 0, y: -1.8, z: 6.6}
   scrapeRayRange: 0.5
   LivePrefab: {fileID: 7359580600180630956, guid: 2fd3ce82236b07c46bd33b1e9402e872,
     type: 3}

@@ -31,7 +31,6 @@ namespace RetroCode
         public List<GameObject> COPPool = new List<GameObject>();
         public List<GameObject> PickupPool = new List<GameObject>();
         public List<GameObject> PickupList = new List<GameObject>();
-        public List<GameObject> DeadNPCPool = new List<GameObject>();
 
         // RIGHT LANE NPCS //
         [HideInInspector]
@@ -39,8 +38,6 @@ namespace RetroCode
         // LEFT LANE NPCS //
         [HideInInspector]
         public List<GameObject> activeNPCsLL = new List<GameObject>();
-        [HideInInspector]
-        public List<GameObject> activeDeadNPCs = new List<GameObject>();
         // COPS //
         [HideInInspector]
         public List<GameObject> activeCOPs = new List<GameObject>();
@@ -70,17 +67,8 @@ namespace RetroCode
             roadVar = gameManager.roadVariations[gameManager.activeRoadVar];
 
             spawn = GameManager.gameState == GameState.InGame || GameManager.gameState == GameState.InMenu;
-          
-            if (PlayerDistanceToLastNPCRightLane() < roadVar.NPCSpawnDistance)
-            {
-                if (activeNPCsRL.Count < roadVar.maxNPCCountRL) { SpawnNPCRightLane(roadVar); }
-            }
 
-            if (PlayerDistanceToLastNPCLeftLane() < roadVar.NPCSpawnDistance)
-            {
-                if (activeNPCsRL.Count < roadVar.maxNPCCountLL) { SpawnNPCLeftLane(roadVar); }
-            }
-
+            SpawnNPCs(roadVar);
             DespawnUnwantedNPCs();
         }
 
@@ -90,138 +78,160 @@ namespace RetroCode
             RoadVariation roadVar;
             roadVar = gameManager.roadVariations[gameManager.activeRoadVar];
 
-            SpawnNPCRightLane(roadVar);
-            SpawnNPCLeftLane(roadVar);
+            SpawnNPCs(roadVar);
         }
 
         // SPAWN NPC //
-        private void SpawnNPCRightLane(RoadVariation road)
+        private void SpawnNPCs(RoadVariation roadVar)
         {
-            // CALCULATE ZPOS //
-            float zPos;
-            if (activeNPCsRL.Count == 0 || activeNPCsRL[activeNPCsRL.Count - 1].transform.position.z < gameManager.playerTransform.position.z + 100f)
+            if(activeNPCsRL.Count < roadVar.maxNPCCountRL)
             {
-                zPos = gameManager.playerTransform.position.z + road.NPCSpawnDistance;
-            }
-            else
-            {
-                GameObject lastNPC = activeNPCsRL[activeNPCsRL.Count - 1];
-                zPos = lastNPC.transform.position.z + road.distanceBetweenNPC;
-            }
-
-            // CALCULATE XPOS //
-            float xPos = 0f;
-            for (int i = 0; i < gameManager.activeTiles.Count; i++)
-            {
-                GameObject tile = gameManager.activeTiles[i];
-
-                if (zPos > tile.transform.position.z && zPos < tile.transform.position.z + 400f)
+                if (ProxyToLastNPCGoingLane() < roadVar.NPCSpawnDistance)
                 {
-                    if (tile.name.Contains("Start")) { return; }
+                    print("Spawning NPC in going lane.");
 
-                    if (tile.name.Contains("Level1"))
-                        xPos = SpawnXPositionRL1();
+                    // CALCULATE ZPOS //
+                    float potentialZ;
+                    if (activeNPCsRL.Count == 0)
+                    {
+                        potentialZ = gameManager.playerTransform.position.z + roadVar.NPCSpawnDistance;
+                    }
                     else
-                        xPos = SpawnXPositionRL2();
+                    {
+                        if (activeNPCsRL[activeNPCsRL.Count - 1].transform.position.z < gameManager.playerTransform.position.z + roadVar.distanceBetweenNPC)
+                        {
+                            potentialZ = gameManager.playerTransform.position.z + roadVar.NPCSpawnDistance;
+                        }
+                        else
+                        {
+                            GameObject lastNPC = activeNPCsRL[activeNPCsRL.Count - 1];
+                            potentialZ = lastNPC.transform.position.z + roadVar.distanceBetweenNPC;
+                        }
+                    }
+
+                    // CALCULATE XPOS //
+                    float potentialX = 0f;
+                    for (int i = 0; i < gameManager.activeTiles.Count; i++)
+                    {
+                        GameObject tile = gameManager.activeTiles[i];
+
+                        if (!tile.name.Contains("Start"))
+                            potentialX = PotentialXSpawnPos(Lanes.Right, tile.name.Contains("Level1"));
+
+                        /*if (potentialZ > tile.transform.position.z && potentialZ < tile.transform.position.z + 400f)
+                        {
+                            if (!tile.name.Contains("Start"))
+                                potentialX = PotentialXSpawnPos(Lanes.Right, tile.name.Contains("Level1"));
+                        }*/
+                    }
+
+                    if (potentialX != 0f)
+                    {
+                        Vector3 spawnPos = new Vector3(potentialX, 0.1f, potentialZ);
+                        Quaternion spawnRot = Quaternion.identity;
+
+                        GameObject spawnable = NPCPool[Random.Range(0, NPCPool.Count)];
+                        spawnable.transform.SetPositionAndRotation(spawnPos, spawnRot);
+                        EXMET.AddSpawnable(spawnable, activeNPCsRL, NPCPool);
+
+                        /*
+                        if (gameManager.heat &&
+                            Random.Range(0f, 100f) <= heatVar.copSpawnChance &&
+                            activeCOPs.Count != heatVar.maxCOPCount &&
+                            GameManager.gameState == GameState.InGame &&
+                            COPPool.Count > 0)
+                        {
+                            Vector3 posOffset = new Vector3(0f, 0f, 45f);
+
+                            GameObject spawnable = COPPool[Random.Range(0, COPPool.Count)];
+                            spawnable.transform.SetPositionAndRotation(spawnPos + posOffset, spawnRot);
+                            EXMET.AddSpawnable(spawnable, activeCOPs, COPPool);
+                        }
+                        else
+                        {
+                            GameObject spawnable = NPCPool[Random.Range(0, NPCPool.Count)];
+                            spawnable.transform.SetPositionAndRotation(spawnPos, spawnRot);
+                            EXMET.AddSpawnable(spawnable, activeNPCsRL, NPCPool);
+                        }
+                        */
+                    }
                 }
             }
 
-            if(xPos == 0f) { return; }
-
-            Vector3 spawnPos = new Vector3(xPos, 0.1f, zPos);
-            Quaternion spawnRot = Quaternion.identity;
-
-            if (gameManager.heat && 
-                Random.Range(0f, 100f) <= heatVar.copSpawnChance &&
-                activeCOPs.Count != heatVar.maxCOPCount &&
-                GameManager.gameState == GameState.InGame &&
-                COPPool.Count > 0)
+            if(activeNPCsLL.Count < roadVar.maxNPCCountLL)
             {
-                Vector3 posOffset = new Vector3(0f, 0f, 45f);
-
-                GameObject spawnable = COPPool[Random.Range(0, COPPool.Count)];
-                spawnable.transform.SetPositionAndRotation(spawnPos + posOffset, spawnRot);
-                EXMET.AddSpawnable(spawnable, activeCOPs, COPPool);
-            }
-            else
-            {
-                GameObject spawnable = NPCPool[Random.Range(0, NPCPool.Count)];
-                spawnable.transform.SetPositionAndRotation(spawnPos, spawnRot);
-                EXMET.AddSpawnable(spawnable, activeNPCsRL, NPCPool);
-            }
-        }
-
-        private void SpawnNPCLeftLane(RoadVariation road)
-        {
-            // CALCULATE ZPOS //
-            float zPos;
-            if (activeNPCsLL.Count == 0 || activeNPCsLL[activeNPCsLL.Count - 1].transform.position.z < gameManager.playerTransform.position.z + 100f)
-            {
-                zPos = gameManager.playerTransform.position.z + road.NPCSpawnDistance;
-            }
-            else
-            {
-                GameObject lastNPC = activeNPCsLL[activeNPCsLL.Count - 1];
-                zPos = lastNPC.transform.position.z + road.distanceBetweenNPC;
-            }
-
-            // CALCULATE XPOS //
-            float xPos = 0f;
-            for (int i = 0; i < gameManager.activeTiles.Count; i++)
-            {
-                GameObject tile = gameManager.activeTiles[i];
-
-                if (zPos > tile.transform.position.z && zPos < tile.transform.position.z + 400f)
+                if (ProxyToLastNPCWrongLane() < roadVar.NPCSpawnDistance)
                 {
-                    if (tile.name.Contains("Start")) { return; }
+                    print("Spawning NPC in wrong lane.");
 
-                    if (tile.name.Contains("Level1"))
-                        xPos = SpawnXPositionLL1();
+                    // CALCULATE ZPOS //
+                    float potentialZ;
+                    if (activeNPCsLL.Count == 0)
+                    {
+                        potentialZ = gameManager.playerTransform.position.z + roadVar.NPCSpawnDistance;
+                    }
                     else
-                        xPos = SpawnXPositionLL2();
+                    {
+                        if (activeNPCsLL[activeNPCsLL.Count - 1].transform.position.z < gameManager.playerTransform.position.z + roadVar.distanceBetweenNPC)
+                        {
+                            potentialZ = gameManager.playerTransform.position.z + roadVar.NPCSpawnDistance;
+                        }
+                        else
+                        {
+                            GameObject lastNPC = activeNPCsLL[activeNPCsLL.Count - 1];
+                            potentialZ = lastNPC.transform.position.z + roadVar.distanceBetweenNPC;
+                        }
+                    }
+
+                    // CALCULATE XPOS //
+                    float potentialX = 0f;
+                    for (int i = 0; i < gameManager.activeTiles.Count; i++)
+                    {
+                        GameObject tile = gameManager.activeTiles[i];
+
+                        if (!tile.name.Contains("Start"))
+                            potentialX = PotentialXSpawnPos(Lanes.Left, tile.name.Contains("Level1"));
+
+                        /*if (potentialZ > tile.transform.position.z && potentialZ < tile.transform.position.z + 400f)
+                        {
+                            if (!tile.name.Contains("Start"))
+                                potentialX = PotentialXSpawnPos(Lanes.Left, tile.name.Contains("Level1"));
+                        }*/
+                    }
+
+                    if (potentialX != 0f)
+                    {
+                        Vector3 spawnPos = new Vector3(potentialX, 0.1f, potentialZ);
+                        Quaternion spawnRot = Quaternion.Euler(0f, 180f, 0f);
+
+                        GameObject spawnable = NPCPool[Random.Range(0, NPCPool.Count)];
+                        spawnable.transform.SetPositionAndRotation(spawnPos, spawnRot);
+                        EXMET.AddSpawnable(spawnable, activeNPCsLL, NPCPool);
+                    }
                 }
             }
-
-            if (xPos == 0f) { return; }
-
-            Vector3 spawnPos = new Vector3(xPos, 0.1f, zPos);
-            Quaternion spawnRot = Quaternion.Euler(0f, 180f, 0f);
-
-            GameObject spawnable = NPCPool[Random.Range(0, NPCPool.Count)];
-            spawnable.transform.SetPositionAndRotation(spawnPos, spawnRot);
-            EXMET.AddSpawnable(spawnable, activeNPCsLL, NPCPool);
         }
 
-        private float PlayerDistanceToLastNPCRightLane()
+        private float ProxyToLastNPCGoingLane()
         {
             Vector3 playerPos = gameManager.playerTransform.position;
 
-            if(activeNPCsRL.Count == 0)
-            {
-                return 0f;
-            }
-            else
-            {
-                GameObject lastNPC = activeNPCsRL[activeNPCsRL.Count - 1];
+            if(activeNPCsRL.Count == 0) return 0f;
 
-                return lastNPC.transform.position.z - playerPos.z;
-            }
+            GameObject lastNPC = activeNPCsRL[activeNPCsRL.Count - 1];
+
+            return lastNPC.transform.position.z - playerPos.z;
         }
          
-        private float PlayerDistanceToLastNPCLeftLane()
+        private float ProxyToLastNPCWrongLane()
         {
             Vector3 playerPos = gameManager.playerTransform.position;
 
-            if (activeNPCsLL.Count == 0)
-            {
-                return 0f;
-            }
-            else
-            {
-                GameObject lastNPC = activeNPCsLL[activeNPCsLL.Count - 1];
+            if (activeNPCsLL.Count == 0) return 0f;
 
-                return lastNPC.transform.position.z - playerPos.z;
-            }
+            GameObject lastNPC = activeNPCsLL[activeNPCsLL.Count - 1];
+
+            return lastNPC.transform.position.z - playerPos.z;
         }
 
         public void HeatLevelCheck()
@@ -252,26 +262,6 @@ namespace RetroCode
         {
             Vector3 playerPos = gameManager.playerTransform.position;
 
-            if (activeNPCsRL.Count != 0)
-                for (int i = 0; i < activeNPCsRL.Count; i++)
-                {
-                    GameObject npc = activeNPCsRL[i];
-                    if (npc == null) continue;
-
-                    if (npc.transform.position.z < playerPos.z - minDespawnDistance || npc.transform.position.z > playerPos.z + maxDespawnDistance)
-                        EXMET.RemoveSpawnable(npc, activeNPCsRL, NPCPool);
-                }
-
-            if (activeNPCsLL.Count != 0)
-                for (int i = 0; i < activeNPCsLL.Count; i++)
-                {
-                    GameObject npc = activeNPCsLL[i];
-                    if (npc == null) continue;
-
-                    if (npc.transform.position.z < playerPos.z - minDespawnDistance || npc.transform.position.z > playerPos.z + maxDespawnDistance)
-                        EXMET.RemoveSpawnable(npc, activeNPCsLL, NPCPool);
-                }
-
             if(activeCOPs.Count != 0)
                 for (int i = 0; i < activeCOPs.Count; i++)
                 {
@@ -280,16 +270,6 @@ namespace RetroCode
 
                     if (cop.transform.position.z < playerPos.z - minDespawnDistance || cop.transform.position.z > playerPos.z + maxDespawnDistance)
                         EXMET.RemoveSpawnable(cop, activeCOPs, COPPool);
-                }
-
-            if (activeDeadNPCs.Count != 0)
-                for (int i = 0; i < activeDeadNPCs.Count; i++)
-                {
-                    GameObject deadNPC = activeDeadNPCs[i];
-                    if (deadNPC == null) continue;
-
-                    if (deadNPC.transform.position.z < playerPos.z - minDespawnDistance || deadNPC.transform.position.z > playerPos.z + maxDespawnDistance)
-                        EXMET.RemoveSpawnable(deadNPC, activeDeadNPCs, DeadNPCPool);
                 }
         }
 
@@ -317,7 +297,9 @@ namespace RetroCode
             }
 
             for (int i = 0; i < activeHelis.Count; i++)
+            {
                 EXMET.RemoveSpawnable(activeHelis[i], activeHelis, HeliPool);
+            }
 
             StopAllCoroutines();
         }
@@ -326,19 +308,16 @@ namespace RetroCode
         #region Pickups
         public void SpawnPickUp(float zPos)
         {
-            float xPos;
+            float potentialX;
             GameObject tile = gameManager.activeTiles[0];
 
             if (tile.name.Contains("Start")) { return; }
 
-            if (tile.name.Contains("Level1"))
-                xPos = SpawnXPositionAll1();
-            else
-                xPos = SpawnXPositionAll2();
+            potentialX = PotentialXSpawnPos(Lanes.Both, tile.name.Contains("Level1"));
 
-            if (xPos == 0f) { return; }
+            if (potentialX == 0f) { return; }
 
-            Vector3 spawnPos = new Vector3(xPos, 0f, zPos);
+            Vector3 spawnPos = new Vector3(potentialX, 0f, zPos);
 
             if (Random.Range(0f, 100f) <= roadVar.pickupSpawnChance && activePickups.Count <= roadVar.maxPickupCount)
             {
@@ -374,111 +353,85 @@ namespace RetroCode
         #endregion
 
         #region Spawn Positions
-        private float SpawnXPositionRL1()
+        private enum Lanes
         {
-            List<float> potentialX = new List<float>();
-            int activelaneCount = 0;
-
-            for (int i = 1; i < roadLanes.Length - 1; i++)
-            {
-                if (roadLanes[i].xPos < 0f) { continue; }
-                if (!roadLanes[i].active) { continue; }
-                else { activelaneCount++; }
-
-                potentialX.Add(roadLanes[i].xPos);
-            }
-
-            if (potentialX.Count == 0) { return 0f; }
-
-            return potentialX[Random.Range(0, potentialX.Count)];
+            Both,
+            Left,
+            Right,
         }
 
-        private float SpawnXPositionRL2()
+        private float PotentialXSpawnPos(Lanes lanes, bool fourlanes)
         {
             List<float> potentialX = new List<float>();
-            int activelaneCount = 0;
 
-            for (int i = 0; i < roadLanes.Length; i++)
+            switch (lanes)
             {
-                if (roadLanes[i].xPos < 0f) { continue; }
-                if (!roadLanes[i].active) { continue; }
-                else { activelaneCount++; }
+                case Lanes.Both:
+                    if (fourlanes)
+                    {
+                        for (int i = 1; i < roadLanes.Length - 1; i++)
+                        {
+                            if (!roadLanes[i].active) { continue; }
 
-                potentialX.Add(roadLanes[i].xPos);
-            }
+                            potentialX.Add(roadLanes[i].xPos);
+                        }
+                    }
+                    else
+                    {
+                        for (int i = 0; i < roadLanes.Length; i++)
+                        {
+                            if (!roadLanes[i].active) { continue; }
 
-            if (potentialX.Count == 0) { return 0f; }
+                            potentialX.Add(roadLanes[i].xPos);
+                        }
+                    }
+                    break;
+                case Lanes.Left:
+                    if (fourlanes)
+                    {
+                        for (int i = 1; i < roadLanes.Length - 1; i++)
+                        {
+                            if (roadLanes[i].xPos > 0f) { continue; }
+                            if (!roadLanes[i].active) { continue; }
 
-            return potentialX[Random.Range(0, potentialX.Count)];
-        }
+                            potentialX.Add(roadLanes[i].xPos);
+                        }
+                    }
+                    else
+                    {
+                        for (int i = 0; i < roadLanes.Length; i++)
+                        {
+                            if (roadLanes[i].xPos > 0f) { continue; }
+                            if (!roadLanes[i].active) { continue; }
 
-        private float SpawnXPositionLL1()
-        {
-            List<float> potentialX = new List<float>();
-            int activelaneCount = 0;
+                            potentialX.Add(roadLanes[i].xPos);
+                        }
+                    }
+                    break;
+                case Lanes.Right:
+                    if (fourlanes)
+                    {
+                        for (int i = 1; i < roadLanes.Length - 1; i++)
+                        {
+                            if (roadLanes[i].xPos < 0f) { continue; }
+                            if (!roadLanes[i].active) { continue; }
 
-            for (int i = 1; i < roadLanes.Length - 1; i++)
-            {
-                if (roadLanes[i].xPos > 0f) { continue; }
-                if (!roadLanes[i].active) { continue; }
-                else { activelaneCount++; }
+                            potentialX.Add(roadLanes[i].xPos);
+                        }
+                    }
+                    else
+                    {
+                        for (int i = 0; i < roadLanes.Length; i++)
+                        {
+                            if (roadLanes[i].xPos < 0f) { continue; }
+                            if (!roadLanes[i].active) { continue; }
 
-                potentialX.Add(roadLanes[i].xPos);
-            }
-
-            if (potentialX.Count == 0) { return 0f; }
-
-            return potentialX[Random.Range(0, potentialX.Count)];
-        }
-
-        private float SpawnXPositionLL2()
-        {
-            List<float> potentialX = new List<float>();
-            int activelaneCount = 0;
-
-            for (int i = 0; i < roadLanes.Length; i++)
-            {
-                if (roadLanes[i].xPos > 0f) { continue; }
-                if (!roadLanes[i].active) { continue; }
-                else { activelaneCount++; }
-
-                potentialX.Add(roadLanes[i].xPos);
-            }
-
-            if (potentialX.Count == 0) { return 0f; }
-
-            return potentialX[Random.Range(0, potentialX.Count)];
-        }
-
-        private float SpawnXPositionAll1()
-        {
-            List<float> potentialX = new List<float>();
-            int activelaneCount = 0;
-
-            for (int i = 1; i < roadLanes.Length - 1; i++)
-            {
-                if (!roadLanes[i].active) { continue; }
-                else { activelaneCount++; }
-
-                potentialX.Add(roadLanes[i].xPos);
-            }
-
-            if (potentialX.Count == 0) { return 0f; }
-
-            return potentialX[Random.Range(0, potentialX.Count)];
-        }
-
-        private float SpawnXPositionAll2()
-        {
-            List<float> potentialX = new List<float>();
-            int activelaneCount = 0;
-
-            for (int i = 0; i < roadLanes.Length; i++)
-            {
-                if (!roadLanes[i].active) { continue; }
-                else { activelaneCount++; }
-
-                potentialX.Add(roadLanes[i].xPos);
+                            potentialX.Add(roadLanes[i].xPos);
+                        }
+                    }
+                    break;
+                default:
+                    return 0f;
             }
 
             if (potentialX.Count == 0) { return 0f; }

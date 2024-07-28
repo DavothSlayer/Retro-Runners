@@ -17,8 +17,28 @@ public class InputManager : MonoBehaviour
 
     private void Update()
     {
+#if UNITY_ANDROID
         MobileInput();
+#endif
+
+#if UNITY_EDITOR
+        PCInput();
+#endif
     }
+
+    #region PC Input
+    private void PCInput()
+    {
+        xTouch = Input.GetAxis("Horizontal");
+        xTouchLerp = Mathf.Lerp(xTouchLerp, xTouch, 1.5f * Time.deltaTime);
+
+        if (Input.GetKeyDown(KeyCode.W))
+            UpperDoubleTapped?.Invoke();
+
+        if (Input.GetKeyDown(KeyCode.S))
+            LowerDoubleTapped?.Invoke();
+    }
+    #endregion
 
     #region Mobile Input
     private Vector2 touchStartPosition;

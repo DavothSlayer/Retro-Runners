@@ -184,6 +184,8 @@ namespace RetroCode
 
         private void Awake()
         {
+            Application.targetFrameRate = 60;
+
             UpdateGameScreen();
         }
         
@@ -437,7 +439,7 @@ namespace RetroCode
 
             spawnManager.roadLanes[0].active = false;
             spawnManager.roadLanes[5].active = false;
-            
+
             spawnManager.KillEmAll();
             spawnManager.InitializeNPCs();
 

@@ -8,6 +8,10 @@ namespace RetroCode
         [Header("Core")]
         public Rigidbody rigidBody;
         [SerializeField]
+        private Rigidbody[] deadRigidbodies;
+        [SerializeField]
+        private Rigidbody deadReference;
+        [SerializeField]
         private int health;
         [SerializeField]
         private int damageToPlayer;
@@ -16,9 +20,9 @@ namespace RetroCode
 
         [Header("Variants")]
         [SerializeField]
-        private GameObject main;
+        private GameObject liveModel;
         [SerializeField]
-        private DeadNPC deadModel;
+        private GameObject deadModel;
 
         private float topSpeed;
 
@@ -30,7 +34,6 @@ namespace RetroCode
             // RESET HEALTH METHOD NEEDED //
             health = 1;
 
-            deadModel.gameObject.SetActive(false);
             rigidBody.isKinematic = false;
 
             if (transform.position.x > 0f)
@@ -40,7 +43,20 @@ namespace RetroCode
 
             rigidBody.AddForce(transform.forward * topSpeed, ForceMode.VelocityChange);
 
-            main.SetActive(true);
+            liveModel.SetActive(true);
+        }
+
+        public virtual void OnDisable()
+        {
+            rigidBody.isKinematic = true;
+
+            foreach (Rigidbody rb in deadRigidbodies)
+            {
+                rb.gameObject.transform.SetPositionAndRotation(transform.position, transform.rotation);
+                rb.isKinematic = true;
+            }
+
+            deadModel.SetActive(false);
         }
 
         public virtual void Update()
@@ -55,6 +71,20 @@ namespace RetroCode
 
         public virtual void NPCMath()
         {
+            if(transform.position.x > 0f)
+            {
+                if (deadReference.transform.position.z + 200f <= gameManager.playerTransform.position.z)
+                    EXMET.RemoveSpawnable(gameObject, spawnManager.activeNPCsRL, spawnManager.NPCPool);
+            }
+            
+            if(transform.position.x < 0f)
+            {
+                if (deadReference.transform.position.z + 200f <= gameManager.playerTransform.position.z)
+                    EXMET.RemoveSpawnable(gameObject, spawnManager.activeNPCsLL, spawnManager.NPCPool);
+            }
+
+            if (rigidBody.isKinematic) return;
+
             rigidBody.velocity = Vector3.ClampMagnitude(rigidBody.velocity, topSpeed);
         }
 
@@ -76,12 +106,25 @@ namespace RetroCode
 
         public virtual void HandleDeath()
         {
-            main.SetActive(false);
+            Vector3 explosionTorqueVector =
+                transform.right * Random.Range(-15f, 15f) +
+                transform.up * Random.Range(-5f, 5f) +
+                transform.forward * Random.Range(-25f, 25f);
+
+            foreach (Rigidbody rb in deadRigidbodies)
+            {
+                rb.gameObject.transform.SetPositionAndRotation(transform.position, transform.rotation);
+                rb.isKinematic = false;
+                rb.velocity = rigidBody.velocity;
+
+                rb.AddForce(Vector3.up, ForceMode.VelocityChange);
+                rb.AddTorque(explosionTorqueVector, ForceMode.VelocityChange);
+            }
+
+            liveModel.SetActive(false);
             rigidBody.isKinematic = true;
-            
-            deadModel.gameObject.transform.SetPositionAndRotation(transform.position, transform.rotation);
-            deadModel.gameObject.SetActive(true);
-            deadModel.OnDead(rigidBody.velocity);
+
+            deadModel.SetActive(true);
         }
 
         public int Health()
