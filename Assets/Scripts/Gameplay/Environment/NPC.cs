@@ -1,3 +1,4 @@
+using Unity.Burst;
 using UnityEngine;
 using V3CTOR;
 
@@ -69,6 +70,7 @@ namespace RetroCode
             NPCMovement();
         }
 
+        [BurstCompile]
         public virtual void NPCMath()
         {
             if(transform.position.x > 0f)
@@ -88,6 +90,7 @@ namespace RetroCode
             rigidBody.velocity = Vector3.ClampMagnitude(rigidBody.velocity, topSpeed);
         }
 
+        [BurstCompile]
         public virtual void NPCMovement()
         {
             if(GameManager.gameState == GameState.GameOver || rigidBody.isKinematic) { return; }
@@ -104,6 +107,7 @@ namespace RetroCode
             if(health <= 0) HandleDeath();
         }
 
+        [BurstCompile]
         public virtual void HandleDeath()
         {
             Vector3 explosionTorqueVector =

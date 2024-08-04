@@ -664,14 +664,14 @@ ParticleSystem:
   ShapeModule:
     serializedVersion: 6
     enabled: 1
-    type: 0
+    type: 2
     angle: 25
     length: 5
     boxThickness: {x: 0, y: 0, z: 0}
     radiusThickness: 1
     donutRadius: 0.2
     m_Position: {x: 0, y: 0, z: 0}
-    m_Rotation: {x: 0, y: 0, z: 0}
+    m_Rotation: {x: 0, y: -90, z: 0}
     m_Scale: {x: 1, y: 1, z: 1}
     placementMode: 0
     m_MeshMaterialIndex: 0
@@ -69159,14 +69159,14 @@ ParticleSystem:
   ShapeModule:
     serializedVersion: 6
     enabled: 1
-    type: 0
+    type: 2
     angle: 25
     length: 5
     boxThickness: {x: 0, y: 0, z: 0}
     radiusThickness: 1
     donutRadius: 0.2
     m_Position: {x: 0, y: 0, z: 0}
-    m_Rotation: {x: 0, y: 0, z: 0}
+    m_Rotation: {x: 0, y: 90, z: 0}
     m_Scale: {x: 1, y: 1, z: 1}
     placementMode: 0
     m_MeshMaterialIndex: 0
@@ -78398,7 +78398,14 @@ PrefabInstance:
       value: 0
       objectReference: {fileID: 0}
     m_RemovedComponents: []
-    m_RemovedGameObjects: []
+    m_RemovedGameObjects:
+    - {fileID: -5708557939708633414, guid: 41cf59681909da9499559da41a8150aa, type: 3}
+    - {fileID: -5929025255661972905, guid: 41cf59681909da9499559da41a8150aa, type: 3}
+    - {fileID: 356137120456546846, guid: 41cf59681909da9499559da41a8150aa, type: 3}
+    - {fileID: -4433156364778553299, guid: 41cf59681909da9499559da41a8150aa, type: 3}
+    - {fileID: 6420909900255927901, guid: 41cf59681909da9499559da41a8150aa, type: 3}
+    - {fileID: 2217712123681021104, guid: 41cf59681909da9499559da41a8150aa, type: 3}
+    - {fileID: -7076342864591832690, guid: 41cf59681909da9499559da41a8150aa, type: 3}
     m_AddedGameObjects:
     - targetCorrespondingSourceObject: {fileID: -8679921383154817045, guid: 41cf59681909da9499559da41a8150aa,
         type: 3}

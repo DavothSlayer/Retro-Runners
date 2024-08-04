@@ -299,20 +299,16 @@ namespace RetroCode
         #endregion
     }
 
-    [Serializable]
     public class CloudData
     {
         public int retroDollars = 500;
-        [Space]
         public int highScore = 0;
         public int highestNearMissCombo = 0;
         public int mostCOPsDestroyed = 0;
-        [Space]
         public Dictionary<string, CloudAutoData> unlockedCarsDict = new Dictionary<string, CloudAutoData>();
         public int lastSelectedCarInt = 0;
     }
 
-    [Serializable]
     public class CloudAutoData
     {
         public List<string> compCodes = new List<string>();

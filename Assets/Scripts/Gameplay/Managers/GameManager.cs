@@ -9,6 +9,7 @@ using UnityEngine.Events;
 using Pinwheel.Jupiter;
 using System.Threading.Tasks;
 using Unity.VisualScripting;
+using Unity.Burst;
 
 namespace RetroCode
 {
@@ -83,25 +84,12 @@ namespace RetroCode
         private AudioClip heatLevelSFX;
         [SerializeField]
         private AudioClip abilityReadyClip;
-
-        [Header("Tiles")]
-        public RoadVariation[] roadVariations;
-        [SerializeField]
-        private float tileSafeZone;
-        public UnityEvent<float> RoadTileSpawned;
-        [SerializeField]
-        private Transform background;
         #endregion
 
         #region Hidden Variables
         public static GameState gameState;
         [HideInInspector]
         public bool gamePaused = false;
-
-        private float tileZSpawn = 0f;
-        private float railZSpawn;
-        private float tileLength = 400f;
-        private float tileLineForPlayer = 1200f;
 
         [HideInInspector]
         public float currentRunScore;
@@ -111,15 +99,7 @@ namespace RetroCode
 
         private int cloudHighScore;
         private int cloudNMH;
-        private int cloudCDR;
-        
-        [HideInInspector]
-        public int nextRoadVar = 0;
-        [HideInInspector]
-        public int activeRoadVar = 0;
-        [HideInInspector]
-        public List<GameObject> activeTiles = new List<GameObject>();
-        private List<GameObject> activeRails = new List<GameObject>();
+        private int cloudCDR;        
 
         [HideInInspector]
         public int activeHeatLevel;
@@ -190,10 +170,7 @@ namespace RetroCode
         }
         
         private void Update()
-        {
-            TileHandler();
-            GuardRailHandler();
-            
+        {        
             CountScore();
             HeatLevelLogic();
             GameHUD();
@@ -204,6 +181,8 @@ namespace RetroCode
 
         private void GameHUD()
         {
+            if (playerCar == null) return;
+
             #region HUD Text and Animator Booleans
             hud.speedoMeterText.text = $"{Mathf.RoundToInt(playerCar.rb.velocity.magnitude * 2.2f)} MPH";
             hud.speedoMeterFill.fillAmount = playerCar.rb.velocity.magnitude / playerCar.data.autoLevelData[playerCar.engineLevel].TopSpeed;
@@ -215,6 +194,11 @@ namespace RetroCode
             canvasAnimator.SetBool("ScoreXd", gameScoreMultiplier != 1f && gameState == GameState.InGame);
             canvasAnimator.SetBool("ShowHeatLevel", ActiveHeatLevel > 0 && gameState == GameState.InGame);
             canvasAnimator.SetBool("Near Miss", midCombo && gameState == GameState.InGame);
+
+            hud.healthBarFill.fillAmount = Mathf.Lerp(
+                hud.healthBarFill.fillAmount, 1f - (float)playerCar.health / (float)playerCar.data.autoLevelData[playerCar.armorLevel].MaxHealth,
+                Time.deltaTime * 10f
+                );
             #endregion
 
             #region Heat Level Stars
@@ -292,13 +276,6 @@ namespace RetroCode
                 }
             }
             #endregion
-
-            #region Health Bar
-            hud.healthBarFill.fillAmount = Mathf.Lerp(
-                hud.healthBarFill.fillAmount, 1f - (float)playerCar.health / (float)playerCar.data.autoLevelData[playerCar.armorLevel].MaxHealth,
-                Time.deltaTime * 10f
-                );
-            #endregion
         }
 
         #region Buttons
@@ -362,33 +339,6 @@ namespace RetroCode
 
             playerCar.FixAuto();
 
-            tileZSpawn = 0f;
-            tileLineForPlayer = 1000f;
-            railZSpawn = 0f;
-            activeRoadVar = 0;
-            nextRoadVar = 0;
-
-            // DESPAWN ACTIVE TILES //
-            while (activeTiles.Count > 0)
-                RemoveRoadTile(0);
-
-            // SPAWN IN NEW ROAD TILES //
-            for (int i = 0; i < 5; i++)
-                SpawnRoadTile();
-
-            // DESPAWN ACTIVE RAILS //
-            while (activeRails.Count > 0)
-                RemoveRail(0);
-
-            // SPAWN IN NEW RAILS //
-            for (int i = 0; i < 6; i++)
-                SpawnGuardRail();        
-
-            spawnManager.roadLanes[0].active = false;
-            spawnManager.roadLanes[5].active = false;
-            spawnManager.KillEmAll();
-            spawnManager.InitializeNPCs();
-
             gameState = GameState.InGame;
             UpdateGameScreen();
 
@@ -398,10 +348,11 @@ namespace RetroCode
         public void NoThanksButton()
         {
             canvasAnimator.SetBool("Game Over Reward Ads", false);
-        }        
+        }
         #endregion
 
         #region Gameplay
+        [BurstCompile]
         private void ResetGame()
         {
             // RESET AUTO //
@@ -411,42 +362,16 @@ namespace RetroCode
             // RESET GAME VALUES //
             AddMultiplier("ThrillSeeker", 1f);
             Time.timeScale = 1f;
-            tileZSpawn = 0f;
-            tileLineForPlayer = 1000f;
-            railZSpawn = 0f;
-            activeRoadVar = 0;
-            nextRoadVar = 0;
             currentRunScore = 0;
             currentRunNMH = 0;
             currentRunCOPsDestroyed = 0;
             heatLevelScoreOffset = 0f;
 
-            // DESPAWN ACTIVE TILES //
-            while (activeTiles.Count > 0)
-                RemoveRoadTile(0);
-
-            // SPAWN IN NEW ROAD TILES //
-            for (int i = 0; i < 5; i++)
-                SpawnRoadTile();
-
-            // DESPAWN ACTIVE RAILS //
-            while (activeRails.Count > 0)
-                RemoveRail(0);
-
-            // SPAWN IN NEW RAILS //
-            for (int i = 0; i < 6; i++)
-                SpawnGuardRail();
-
-            spawnManager.roadLanes[0].active = false;
-            spawnManager.roadLanes[5].active = false;
-
-            spawnManager.KillEmAll();
-            spawnManager.InitializeNPCs();
-
             // APPLY CLOUD DATA //
             ApplyLoadedData();
         }
 
+        [BurstCompile]
         private void ReplaceAuto()
         {
             if (playerCar != null)
@@ -479,6 +404,7 @@ namespace RetroCode
 
         private float barTime = 3f;
         private float barTimer;
+        [BurstCompile]
         private async void HealthBarRoutine()
         {
             barTimer = 0f;
@@ -505,6 +431,7 @@ namespace RetroCode
         // PRIVATE VARIABLES //
 
         // NEAR MISS //
+        [BurstCompile]
         public void NearMiss()
         {
             canvasAnimator.SetTrigger("Near Miss Combo");
@@ -528,6 +455,7 @@ namespace RetroCode
             nearMissFX.Play();
         }
 
+        [BurstCompile]
         public async void NearMissTimer()
         {
             midCombo = true;
@@ -748,31 +676,6 @@ namespace RetroCode
         {
             playerCar.FixAuto();
 
-            tileZSpawn = 0f;
-            tileLineForPlayer = 1000f;
-            railZSpawn = 0f;
-            activeRoadVar = 0;
-            nextRoadVar = 0;
-            currentRunScore *= 2f;
-
-            // DESPAWN ACTIVE TILES //
-            while (activeTiles.Count > 0)
-                RemoveRoadTile(0);
-
-            // SPAWN IN NEW ROAD TILES //
-            for (int i = 0; i < 5; i++)
-                SpawnRoadTile();
-
-            // DESPAWN ACTIVE RAILS //
-            while (activeRails.Count > 0)
-                RemoveRail(0);
-
-            // SPAWN IN NEW RAILS //
-            for (int i = 0; i < 6; i++)
-                SpawnGuardRail();
-
-            spawnManager.roadLanes[0].active = false;
-            spawnManager.roadLanes[5].active = false;
             spawnManager.KillEmAll();
             spawnManager.InitializeNPCs();
         }
@@ -797,165 +700,6 @@ namespace RetroCode
             UpdateGameScreen();
             gamingServicesManager.SaveCloudData(false);
         }
-        #endregion
-
-        #region Road Generation
-        // ROAD TILE METHODS //
-        private void TileHandler()
-        {
-            if (playerCar == null) { return; }
-
-            background.position = new Vector3(0f, 0f, playerTransform.position.z + 1300f);
-
-            if(playerTransform.position.z >= tileLineForPlayer)
-            {
-                nextRoadVar = NextRoadVar();
-
-                SpawnRoadTile();
-
-                tileLineForPlayer += tileLength;
-            }
-            
-            if(activeTiles.Count <= 5) { return; }
-            
-            if(playerTransform.position.z >= activeTiles[0].transform.position.z + tileSafeZone)
-            {
-                RemoveRoadTile(0);
-            }
-        }
-
-        private void SpawnRoadTile()
-        {
-            // SPAWN NEXT TILE //
-            var tileArray = roadVariations[activeRoadVar].roadTiles;
-            GameObject nextTile = NextTile();
-
-            if (activeRoadVar != nextRoadVar)
-            {
-                nextTile.transform.SetPositionAndRotation(transform.forward * tileZSpawn, transform.rotation);
-                EXMET.AddSpawnable(nextTile, activeTiles, tileArray);
-
-                activeRoadVar = nextRoadVar;
-            }
-            else
-            {
-                nextTile.transform.SetPositionAndRotation(transform.forward * tileZSpawn, transform.rotation);
-                if (activeTiles.Contains(nextTile)) 
-                {
-                    int duplicateInt = activeTiles.IndexOf(nextTile);
-                    RemoveRoadTile(duplicateInt);
-                }
-                EXMET.AddSpawnable(nextTile, activeTiles, tileArray);
-            }
-
-            spawnManager.roadLanes[0].active = nextTile.name.Contains("Level2");
-            spawnManager.roadLanes[5].active = nextTile.name.Contains("Level2");
-
-            tileZSpawn += tileLength;
-           
-            if(gameState == GameState.InGame)
-                RoadTileSpawned?.Invoke(tileZSpawn);
-        }
-
-        private GameObject NextTile()
-        {
-            // GET NEXT TILE //
-            var tileArray = roadVariations[activeRoadVar].roadTiles;
-            GameObject tile;
-
-            if (activeRoadVar != nextRoadVar)
-            {
-                tile = roadVariations[nextRoadVar].transitionTile;
-            }
-            else
-            {
-                if (tileArray.Count == 0)
-                    tile = activeTiles[0];
-                else
-                    tile = tileArray[0];
-            }
-
-            return tile;
-        }
-
-        private int NextRoadVar()
-        {
-            for (int i = 0; i < activeTiles.Count; i++)
-                if (activeTiles[i].name.Contains("Start"))
-                    return activeRoadVar;
-
-            int nextVar = Random.Range(0f, 1f) > 0.5f ? 1 : 0;
-            return nextVar;
-        }
-
-        private void RemoveRoadTile(int integer)
-        {
-            if (activeTiles.Count == 0) { return; }
-
-            if (!activeTiles[integer].name.Contains("Start"))
-            {
-                GameObject obj = activeTiles[integer];
-                int index = obj.name.Contains("Level1") ? 0 : 1;
-
-                EXMET.RemoveSpawnable(obj, activeTiles, roadVariations[index].roadTiles);
-            }            
-            else if(activeTiles[integer].name.Contains("Start"))
-            {
-                GameObject obj = activeTiles[integer];
-
-                obj.SetActive(false);
-                activeTiles.Remove(obj);
-            }
-        }
-        // ROAD TILE METHODS //
-
-        // GUARD RAIL METHODS //
-        private void GuardRailHandler()
-        {
-            if (playerCar == null) { return; }
-
-            if (playerTransform.position.z > railZSpawn - 800f)
-                SpawnGuardRail();
-
-            if (activeRails.Count == 0) return;
-            if (playerTransform.position.z > activeRails[0].transform.position.z + 800f)
-                RemoveRail(0);
-        }
-
-        private void SpawnGuardRail()
-        {
-            // SPAWN NEXT RAIL //
-            var railArray = roadVariations[activeRoadVar].rails;
-            GameObject nextRail = NextRail();
-
-            nextRail.transform.SetPositionAndRotation(transform.forward * railZSpawn, transform.rotation);
-            EXMET.AddSpawnable(nextRail, activeRails, railArray);
-
-            railZSpawn += 200f;
-        }
-
-        private GameObject NextRail()
-        {
-            if (roadVariations[activeRoadVar].rails.Count == 0)
-                return activeRails[0];
-            else
-                return roadVariations[activeRoadVar].rails[0];
-        }
-
-        private void RemoveRail(int index)
-        {
-            GameObject obj = activeRails[index];
-
-            int railIndex = obj.name.Contains("Rail1") ? 0 : 1;
-            EXMET.RemoveSpawnable(obj, activeRails, roadVariations[railIndex].rails);
-        }
-
-        public void RemoveDeadRail(GameObject obj)
-        {
-            int railIndex = obj.name.Contains("Rail1") ? 0 : 1;
-            EXMET.RemoveSpawnable(obj, activeRails, roadVariations[railIndex].rails);
-        }
-        // GUARD RAIL METHODS //
         #endregion
 
         #region Cinematics
@@ -1060,6 +804,24 @@ namespace RetroCode
             print("Cloud Data Received.");
 
             ResetGame();
+
+            // THIS IS ONLY FOR LOOKING AT THE CLOUD DATA //
+            /*for (int i = 0; i < allAutos.Length; i++)
+            {
+                print($"Contains {allAutos[i].GetComponent<AutoMobile>().data.AutoName}? {gamingServicesManager.cloudData.unlockedCarsDict.ContainsKey(allAutos[i].GetComponent<AutoMobile>().data.ItemCode)}");
+                if (gamingServicesManager.cloudData.unlockedCarsDict.ContainsKey(allAutos[i].GetComponent<AutoMobile>().data.ItemCode))
+                {
+                    for (int j = 0; j < gamingServicesManager.cloudData.unlockedCarsDict[allAutos[i].GetComponent<AutoMobile>().data.ItemCode].compCodes.Count; j++)
+                    {
+                        print($"{allAutos[i].GetComponent<AutoMobile>().data.AutoName} CompCodes: {gamingServicesManager.cloudData.unlockedCarsDict[allAutos[i].GetComponent<AutoMobile>().data.ItemCode].compCodes[j]}");
+                    }
+
+                    for (int k = 0; k < gamingServicesManager.cloudData.unlockedCarsDict[allAutos[i].GetComponent<AutoMobile>().data.ItemCode].compCodes.Count; k++)
+                    {
+                        print($"{allAutos[i].GetComponent<AutoMobile>().data.AutoName} SelectedComp: {gamingServicesManager.cloudData.unlockedCarsDict[allAutos[i].GetComponent<AutoMobile>().data.ItemCode].lastSelectedCompList[k]}");
+                    }
+                }
+            }*/
         }
 
         public void ApplyLoadedData()

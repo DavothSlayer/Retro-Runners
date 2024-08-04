@@ -128,6 +128,10 @@ PrefabInstance:
     m_RemovedGameObjects: []
     m_AddedGameObjects: []
     m_AddedComponents:
+    - targetCorrespondingSourceObject: {fileID: 919132149155446097, guid: 71791fdd606241f4485f055f2e69f8ec,
+        type: 3}
+      insertIndex: -1
+      addedObject: {fileID: 5743206159286623302}
     - targetCorrespondingSourceObject: {fileID: -771807176346261, guid: 71791fdd606241f4485f055f2e69f8ec,
         type: 3}
       insertIndex: -1
@@ -137,6 +141,45 @@ PrefabInstance:
       insertIndex: -1
       addedObject: {fileID: 3867255932296726703}
   m_SourcePrefab: {fileID: 100100000, guid: 71791fdd606241f4485f055f2e69f8ec, type: 3}
+--- !u!1 &43839333398448179 stripped
+GameObject:
+  m_CorrespondingSourceObject: {fileID: 919132149155446097, guid: 71791fdd606241f4485f055f2e69f8ec,
+    type: 3}
+  m_PrefabInstance: {fileID: 890259677888820578}
+  m_PrefabAsset: {fileID: 0}
+--- !u!215 &5743206159286623302
+ReflectionProbe:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 43839333398448179}
+  m_Enabled: 0
+  serializedVersion: 2
+  m_Type: 0
+  m_Mode: 0
+  m_RefreshMode: 0
+  m_TimeSlicingMode: 0
+  m_Resolution: 1024
+  m_UpdateFrequency: 0
+  m_BoxSize: {x: 400, y: 54, z: 400}
+  m_BoxOffset: {x: 0, y: 23.5, z: 200}
+  m_NearClip: 0.3
+  m_FarClip: 1000
+  m_ShadowDistance: 0
+  m_ClearFlags: 1
+  m_BackGroundColor: {r: 0.51200616, g: 0.19166073, b: 0.5566038, a: 0}
+  m_CullingMask:
+    serializedVersion: 2
+    m_Bits: 4294967295
+  m_IntensityMultiplier: 1
+  m_BlendDistance: 1
+  m_HDR: 0
+  m_BoxProjection: 1
+  m_RenderDynamicObjects: 0
+  m_UseOcclusionCulling: 1
+  m_Importance: 1
+  m_CustomBakedTexture: {fileID: 0}
 --- !u!1 &6405400913970977716 stripped
 GameObject:
   m_CorrespondingSourceObject: {fileID: 6106415195911450326, guid: 71791fdd606241f4485f055f2e69f8ec,
