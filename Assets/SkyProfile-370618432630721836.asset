@@ -135,7 +135,7 @@ MonoBehaviour:
   horizonThickness: 0.22
   horizonExponent: 2.25
   horizonStep: 1000
-  fogSyncOption: 1
+  fogSyncOption: 0
   fogColor: {r: 0.745283, g: 0.2610457, b: 0, a: 0}
   enableStars: 1
   starsStartPosition: 0

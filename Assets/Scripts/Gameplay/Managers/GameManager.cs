@@ -310,6 +310,7 @@ namespace RetroCode
         public void ReturnToMainMenu()
         {
             ResetGame();
+            spawnManager.ResetGame();
 
             gameState = GameState.InMenu;
             UpdateGameScreen();

@@ -377,7 +377,7 @@ namespace RetroCode
         [BurstCompile]
         private void TileHandler()
         {
-            if (gameManager.playerCar == null) { return; }
+            if (gameManager.playerCar == null) return;
 
             background.position = new Vector3(0f, 0f, gameManager.playerTransform.position.z + 1300f);
 
@@ -390,7 +390,7 @@ namespace RetroCode
                 tileLineForPlayer += tileLength;
             }
 
-            if (activeTiles.Count <= 5) { return; }
+            if (activeTiles.Count < 5) return;
 
             if (gameManager.playerTransform.position.z >= activeTiles[0].transform.position.z + tileSafeZone)
             {
@@ -411,11 +411,11 @@ namespace RetroCode
             }
             else
             {
-                if (activeTiles.Contains(nextTile))
+                /*if (activeTiles.Contains(nextTile))
                 {
                     int duplicateInt = activeTiles.IndexOf(nextTile);
                     RemoveRoadTile(duplicateInt);
-                }
+                }*/
             }
 
             nextTile.transform.SetPositionAndRotation(transform.forward * tileZSpawn, transform.rotation);
@@ -438,7 +438,7 @@ namespace RetroCode
 
             if (activeRoadVar != nextRoadVar)
             {
-                tile = roadVariations[nextRoadVar].transitionTile;
+                tile = roadVariations[activeRoadVar].transitionTile;
             }
             else
             {
@@ -455,7 +455,7 @@ namespace RetroCode
         private int NextRoadVar()
         {
             for (int i = 0; i < activeTiles.Count; i++)
-                if (activeTiles[i].name.Contains("Start")) return activeRoadVar;
+                if (activeTiles[i].name.Contains("Last")) return activeRoadVar;
 
             int nextVar = Random.Range(0f, 1f) > 0.5f ? 1 : 0;
 
@@ -467,14 +467,14 @@ namespace RetroCode
         {
             if (activeTiles.Count == 0) { return; }
 
-            if (!activeTiles[integer].name.Contains("Start"))
+            if (!activeTiles[integer].name.Contains("Last"))
             {
                 GameObject obj = activeTiles[integer];
                 int index = obj.name.Contains("Level1") ? 0 : 1;
 
                 EXMET.RemoveSpawnable(obj, activeTiles, roadVariations[index].roadTiles);
             }
-            else if (activeTiles[integer].name.Contains("Start"))
+            else if (activeTiles[integer].name.Contains("Last"))
             {
                 GameObject obj = activeTiles[integer];
 

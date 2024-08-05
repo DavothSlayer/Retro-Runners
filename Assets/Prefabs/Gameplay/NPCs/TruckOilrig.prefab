@@ -76,11 +76,13 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   rigidBody: {fileID: 0}
+  deadRigidbodies: []
+  deadReference: {fileID: 0}
   health: 1
   damageToPlayer: 10
   spawnManager: {fileID: 0}
   gameManager: {fileID: 0}
-  main: {fileID: 0}
+  liveModel: {fileID: 0}
   deadModel: {fileID: 0}
 --- !u!114 &635139196340750576
 MonoBehaviour:
@@ -166,6 +168,11 @@ PrefabInstance:
     - target: {fileID: -8679921383154817045, guid: ce7ee42250b6fe0418e25e5905b285cd,
         type: 3}
       propertyPath: m_LocalEulerAnglesHint.z
+      value: 0
+      objectReference: {fileID: 0}
+    - target: {fileID: -5442803895262734411, guid: ce7ee42250b6fe0418e25e5905b285cd,
+        type: 3}
+      propertyPath: m_CastShadows
       value: 0
       objectReference: {fileID: 0}
     - target: {fileID: 919132149155446097, guid: ce7ee42250b6fe0418e25e5905b285cd,
