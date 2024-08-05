@@ -3,7 +3,17 @@ guid: 974b0404362b4d24c856aad6cbe386b4
 ModelImporter:
   serializedVersion: 22200
   internalIDToNameTable: []
-  externalObjects: {}
+  externalObjects:
+  - first:
+      type: UnityEngine:Material
+      assembly: UnityEngine.CoreModule
+      name: RetroAtlasGodRay
+    second: {fileID: 2100000, guid: f1a5974d2a2deff499d0d38397624c4a, type: 2}
+  - first:
+      type: UnityEngine:Material
+      assembly: UnityEngine.CoreModule
+      name: RetroAtlasUniversal
+    second: {fileID: 2100000, guid: c4e14fc166e47ad429cd92bd22880f1d, type: 2}
   materials:
     materialImportMode: 2
     materialName: 0
