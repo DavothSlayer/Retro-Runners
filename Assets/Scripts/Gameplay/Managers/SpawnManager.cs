@@ -262,8 +262,9 @@ namespace RetroCode
         [BurstCompile]
         private void DriveNPCs()
         {
-            foreach(GameObject npc in activeNPCsLL)
+            for(int i = 0; i < activeNPCsLL.Count; i++)
             {
+                GameObject npc = activeNPCsLL[i];
                 npc.transform.position += npc.transform.forward * 15f * Time.deltaTime;
 
                 if(npc.TryGetComponent(out Damageable comp))
@@ -271,8 +272,9 @@ namespace RetroCode
                         EXMET.RemoveSpawnable(npc, activeNPCsLL, NPCPool);
             }
             
-            foreach(GameObject npc in activeNPCsRL)
+            for(int i = 0; i < activeNPCsRL.Count; i++)
             {
+                GameObject npc = activeNPCsRL[i];
                 npc.transform.position += npc.transform.forward * 15f * Time.deltaTime;
 
                 if (npc.TryGetComponent(out Damageable comp))
@@ -701,12 +703,12 @@ namespace RetroCode
                 SpawnRoadTile();
 
             // DESPAWN ACTIVE RAILS //
-            while (activeRails.Count > 0)
+            /*while (activeRails.Count > 0)
                 RemoveRail(0);
 
             // SPAWN IN NEW RAILS //
             for (int i = 0; i < 6; i++)
-                SpawnGuardRail();
+                SpawnGuardRail();*/
 
             roadLanes[0].active = false;
             roadLanes[5].active = false;
@@ -718,7 +720,7 @@ namespace RetroCode
             }
 
             KillEmAll();
-            //InitializeNPCs();
+            InitializeNPCs();
         }
     }
 
