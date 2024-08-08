@@ -7,17 +7,14 @@ namespace V3CTOR
 {
     public class PhysicsDemo : MonoBehaviour
     {
-        [SerializeField]
-        private Rigidbody rb;
-        [SerializeField]
-        private float topSpeed;
-
-        private void FixedUpdate()
+        public void OnCollisionEnter(Collision collision)
         {
-            if (Input.GetKey(KeyCode.K))
-            {
-                rb.AddForce(transform.forward * topSpeed * rb.mass * rb.drag, ForceMode.Force);
-            }
+            print("Collided.");
+        }
+
+        public void OnCollisionExit(Collision collision)
+        {
+            print("Exit.");
         }
     }
 }

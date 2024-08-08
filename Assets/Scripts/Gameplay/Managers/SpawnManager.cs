@@ -73,12 +73,12 @@ namespace RetroCode
         {
             ResetGame();
             //HeatLevelCheck();
-            //InitializeNPCs();
+            InitializeNPCs();
         }
 
         private void Update()
         {
-            //HandleNPCs();
+            HandleNPCs();
 
             TileHandler();
             //GuardRailHandler();
@@ -94,6 +94,8 @@ namespace RetroCode
 
             SpawnNPCs(roadVar);
             DespawnUnwantedNPCs();
+
+            DriveNPCs();
         }
 
         public void InitializeNPCs()
@@ -104,6 +106,7 @@ namespace RetroCode
         }
 
         // SPAWN NPC //
+        [BurstCompile]
         private void SpawnNPCs(RoadVariation roadVar)
         {
             if(activeNPCsRL.Count < roadVar.maxNPCCountRL)
@@ -256,6 +259,28 @@ namespace RetroCode
             return lastNPC.transform.position.z - playerPos.z;
         }
 
+        [BurstCompile]
+        private void DriveNPCs()
+        {
+            foreach(GameObject npc in activeNPCsLL)
+            {
+                npc.transform.position += npc.transform.forward * 15f * Time.deltaTime;
+
+                if(npc.TryGetComponent(out Damageable comp))
+                    if (comp.Health() <= 0)
+                        EXMET.RemoveSpawnable(npc, activeNPCsLL, NPCPool);
+            }
+            
+            foreach(GameObject npc in activeNPCsRL)
+            {
+                npc.transform.position += npc.transform.forward * 15f * Time.deltaTime;
+
+                if (npc.TryGetComponent(out Damageable comp))
+                    if (comp.Health() <= 0)
+                        EXMET.RemoveSpawnable(npc, activeNPCsRL, NPCPool);
+            }
+        }
+
         public void HeatLevelCheck()
         {
             if (gameManager.heat)
@@ -292,6 +317,26 @@ namespace RetroCode
 
                     if (cop.transform.position.z < playerPos.z - minDespawnDistance || cop.transform.position.z > playerPos.z + maxDespawnDistance)
                         EXMET.RemoveSpawnable(cop, activeCOPs, COPPool);
+                }
+
+            if (activeNPCsLL.Count != 0)
+                for (int i = 0; i < activeNPCsLL.Count; i++)
+                {
+                    GameObject npc = activeNPCsLL[i];
+                    if (npc == null) continue;
+
+                    if (npc.transform.position.z < playerPos.z - minDespawnDistance || npc.transform.position.z > playerPos.z + maxDespawnDistance)
+                        EXMET.RemoveSpawnable(npc, activeNPCsLL, NPCPool);
+                }
+
+            if (activeNPCsRL.Count != 0)
+                for (int i = 0; i < activeNPCsRL.Count; i++)
+                {
+                    GameObject npc = activeNPCsRL[i];
+                    if (npc == null) continue;
+
+                    if (npc.transform.position.z < playerPos.z - minDespawnDistance || npc.transform.position.z > playerPos.z + maxDespawnDistance)
+                        EXMET.RemoveSpawnable(npc, activeNPCsRL, NPCPool);
                 }
         }
 

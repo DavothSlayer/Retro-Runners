@@ -24455,12 +24455,10 @@ GameObject:
   serializedVersion: 6
   m_Component:
   - component: {fileID: 7035693959558545630}
-  - component: {fileID: 388009956094992422}
   - component: {fileID: 7361546029556311859}
-  - component: {fileID: 3220391269829962974}
   - component: {fileID: -3280610344167232641}
   m_Layer: 0
-  m_Name: Sedan1
+  m_Name: Sedan1_Live
   m_TagString: Untagged
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
@@ -24482,33 +24480,6 @@ Transform:
   - {fileID: 4962903085196990265}
   m_Father: {fileID: 0}
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
---- !u!54 &388009956094992422
-Rigidbody:
-  m_ObjectHideFlags: 0
-  m_CorrespondingSourceObject: {fileID: 0}
-  m_PrefabInstance: {fileID: 0}
-  m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 7703441031612144228}
-  serializedVersion: 4
-  m_Mass: 1
-  m_Drag: 0.2
-  m_AngularDrag: 0.2
-  m_CenterOfMass: {x: 0, y: 0, z: 0}
-  m_InertiaTensor: {x: 1, y: 1, z: 1}
-  m_InertiaRotation: {x: 0, y: 0, z: 0, w: 1}
-  m_IncludeLayers:
-    serializedVersion: 2
-    m_Bits: 0
-  m_ExcludeLayers:
-    serializedVersion: 2
-    m_Bits: 0
-  m_ImplicitCom: 1
-  m_ImplicitTensor: 1
-  m_UseGravity: 1
-  m_IsKinematic: 0
-  m_Interpolate: 1
-  m_Constraints: 116
-  m_CollisionDetection: 0
 --- !u!114 &7361546029556311859
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -24521,27 +24492,15 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: a5a3e315394ff614babca5e148f4c212, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  rigidBody: {fileID: 388009956094992422}
+  rigidBody: {fileID: 0}
+  deadRigidbodies: []
+  deadReference: {fileID: 0}
   health: 1
   damageToPlayer: 1
   spawnManager: {fileID: 0}
   gameManager: {fileID: 0}
-  main: {fileID: 7259662784622203226}
+  liveModel: {fileID: 0}
   deadModel: {fileID: 5646322209947149846}
---- !u!114 &3220391269829962974
-MonoBehaviour:
-  m_ObjectHideFlags: 0
-  m_CorrespondingSourceObject: {fileID: 0}
-  m_PrefabInstance: {fileID: 0}
-  m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 7703441031612144228}
-  m_Enabled: 1
-  m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: 5059a870e51ff284daddc45e67678bd2, type: 3}
-  m_Name: 
-  m_EditorClassIdentifier: 
-  colliders:
-  - {fileID: 7956462316680437446}
 --- !u!114 &-3280610344167232641
 MonoBehaviour:
   m_ObjectHideFlags: 0
