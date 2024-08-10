@@ -2,6 +2,7 @@ using System;
 using System.Collections;
 using System.Collections.Generic;
 using System.Threading.Tasks;
+using Unity.Burst;
 using UnityEngine;
 using V3CTOR;
 using Random = UnityEngine.Random;
@@ -96,6 +97,7 @@ namespace RetroCode
                 gameManager.DestroyedCOPEvent -= HarvesterMethod;
         }
 
+        [BurstCompile]
         private void Update()
         {
             AutoMath();
@@ -106,8 +108,10 @@ namespace RetroCode
             AbilityHandler();
         }
 
+        [BurstCompile]
         private void FixedUpdate() => AutoMovement();
 
+        [BurstCompile]
         public void OnCollisionEnter(Collision col)
         {
             if (health == 0) { return; }
@@ -122,11 +126,11 @@ namespace RetroCode
 
                 gameManager.ShakeTheCam(0.4f);
 
-                damageable.Damage(1);
                 HandleDamage(damageable.DamageToPlayer());
+                damageable.Damage(1);
 
-                evaluation -= rb.velocity.magnitude / data.autoLevelData[engineLevel].TopSpeed * 0.7f;
-                rb.AddForce(-col.relativeVelocity * 0.75f * massDragMltplr, ForceMode.Impulse);
+                evaluation -= rb.velocity.magnitude / data.autoLevelData[engineLevel].TopSpeed * 0.3f;
+                rb.AddForce(-col.relativeVelocity * 0.3f * massDragMltplr, ForceMode.Impulse);
             }
             else if (Vector3.Dot(col.GetContact(0).otherCollider.transform.forward, transform.forward) <= -0.75f)
             {
@@ -134,11 +138,11 @@ namespace RetroCode
 
                 gameManager.ShakeTheCam(0.4f);
 
-                damageable.Damage(damageable.Health());
                 HandleDamage(damageable.DamageToPlayer() * 2);
+                damageable.Damage(damageable.Health());
 
-                evaluation -= rb.velocity.magnitude / data.autoLevelData[engineLevel].TopSpeed * 0.7f;
-                rb.AddForce(-col.relativeVelocity * 0.75f * massDragMltplr, ForceMode.Impulse);
+                evaluation -= rb.velocity.magnitude / data.autoLevelData[engineLevel].TopSpeed * 0.3f;
+                rb.AddForce(-col.relativeVelocity * 0.3f * massDragMltplr, ForceMode.Impulse);
             }
         }
 
@@ -151,7 +155,7 @@ namespace RetroCode
             {
                 gameManager.NearMiss();
 
-                // ADD 10% SPEED BOOST FOR SUCCESSFUL NEAR MISS //
+                // ADD 25% SPEED BOOST FOR SUCCESSFUL NEAR MISS //
                 gameManager.ShakeTheCam(0.4f);
                 rb.AddForce(Vector3.forward * rb.velocity.magnitude * 0.25f * massDragMltplr, ForceMode.Impulse);
             }

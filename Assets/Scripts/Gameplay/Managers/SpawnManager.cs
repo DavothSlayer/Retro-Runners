@@ -31,6 +31,7 @@ namespace RetroCode
         public List<GameObject> NPCPool = new List<GameObject>();
         public List<GameObject> HeliPool = new List<GameObject>();
         public List<GameObject> COPPool = new List<GameObject>();
+        public List<GameObject> RailsPool = new List<GameObject>();
         public List<GameObject> PickupPool = new List<GameObject>();
         public List<GameObject> PickupList = new List<GameObject>();
 
@@ -42,7 +43,6 @@ namespace RetroCode
         [SerializeField]
         private Transform background;
         private float tileZSpawn = 0f;
-        private float railZSpawn;
         private float tileLength = 400f;
         private float tileLineForPlayer = 1200f;
         
@@ -76,18 +76,20 @@ namespace RetroCode
             InitializeNPCs();
         }
 
+        [BurstCompile]
         private void Update()
         {
             HandleNPCs();
 
             TileHandler();
-            //GuardRailHandler();
         }
 
         #region NPCs
         [BurstCompile]
         private void HandleNPCs()
         {
+            if (!spawn) return;
+            
             roadVar = roadVariations[nextRoadVar];
 
             //spawn = GameManager.gameState == GameState.InGame || GameManager.gameState == GameState.InMenu;
@@ -100,6 +102,8 @@ namespace RetroCode
 
         public void InitializeNPCs()
         {
+            if (!spawn) return;
+
             RoadVariation roadVar = roadVariations[nextRoadVar];
 
             SpawnNPCs(roadVar);
@@ -140,14 +144,11 @@ namespace RetroCode
                     {
                         GameObject tile = activeTiles[i];
 
-                        if (!tile.name.Contains("Start"))
-                            potentialX = PotentialXSpawnPos(Lanes.Right, tile.name.Contains("Level1"));
-
-                        /*if (potentialZ > tile.transform.position.z && potentialZ < tile.transform.position.z + 400f)
+                        if (potentialZ > tile.transform.position.z && potentialZ < tile.transform.position.z + 400f)
                         {
-                            if (!tile.name.Contains("Start"))
+                            if (!tile.name.Contains("Last"))
                                 potentialX = PotentialXSpawnPos(Lanes.Right, tile.name.Contains("Level1"));
-                        }*/
+                        }
                     }
 
                     if (potentialX != 0f)
@@ -214,14 +215,11 @@ namespace RetroCode
                     {
                         GameObject tile = activeTiles[i];
 
-                        if (!tile.name.Contains("Start"))
-                            potentialX = PotentialXSpawnPos(Lanes.Left, tile.name.Contains("Level1"));
-
-                        /*if (potentialZ > tile.transform.position.z && potentialZ < tile.transform.position.z + 400f)
+                        if (potentialZ > tile.transform.position.z && potentialZ < tile.transform.position.z + 400f)
                         {
-                            if (!tile.name.Contains("Start"))
+                            if (!tile.name.Contains("Last"))
                                 potentialX = PotentialXSpawnPos(Lanes.Left, tile.name.Contains("Level1"));
-                        }*/
+                        }
                     }
 
                     if (potentialX != 0f)
@@ -456,20 +454,14 @@ namespace RetroCode
             {
                 activeRoadVar = nextRoadVar;
             }
-            else
-            {
-                /*if (activeTiles.Contains(nextTile))
-                {
-                    int duplicateInt = activeTiles.IndexOf(nextTile);
-                    RemoveRoadTile(duplicateInt);
-                }*/
-            }
 
             nextTile.transform.SetPositionAndRotation(transform.forward * tileZSpawn, transform.rotation);
             EXMET.AddSpawnable(nextTile, activeTiles, tileArray);
 
             roadLanes[0].active = nextTile.name.Contains("Level2");
             roadLanes[5].active = nextTile.name.Contains("Level2");
+
+            for (int i = 0; i < 2; i++) SpawnGuardRail(tileZSpawn + i * 200);
 
             tileZSpawn += tileLength;
 
@@ -528,55 +520,38 @@ namespace RetroCode
                 obj.SetActive(false);
                 activeTiles.Remove(obj);
             }
+
+            for (int i = 0; i < 2; i++) RemoveRail(i);
         }
         // ROAD TILE METHODS //
 
         // GUARD RAIL METHODS //
-        [BurstCompile]
-        private void GuardRailHandler()
-        {
-            if (gameManager.playerCar == null) { return; }
-
-            if (gameManager.playerTransform.position.z > railZSpawn - 800f)
-                SpawnGuardRail();
-
-            if (activeRails.Count <= 1) return;
-            if (gameManager.playerTransform.position.z > activeRails[0].transform.position.z + 800f)
-                RemoveRail(0);
-        }
-
-        private void SpawnGuardRail()
+        private void SpawnGuardRail(float zPos)
         {
             // SPAWN NEXT RAIL //
-            var railArray = roadVariations[activeRoadVar].rails;
             GameObject nextRail = NextRail();
 
-            nextRail.transform.SetPositionAndRotation(transform.forward * railZSpawn, transform.rotation);
-            EXMET.AddSpawnable(nextRail, activeRails, railArray);
-
-            railZSpawn += 200f;
+            nextRail.GetComponent<GuardRail>().ResetRail();
+            nextRail.transform.SetPositionAndRotation(transform.forward * zPos, transform.rotation);
+            EXMET.AddSpawnable(nextRail, activeRails, RailsPool);
         }
 
         private GameObject NextRail()
         {
-            if (roadVariations[activeRoadVar].rails.Count == 0)
+            if (RailsPool.Count == 0)
                 return activeRails[0];
             else
-                return roadVariations[activeRoadVar].rails[0];
+                return RailsPool[0];
         }
 
         private void RemoveRail(int index)
         {
+            if (activeRails.Count == 0) return;
+            if (activeRails[index] == null) return;
+
             GameObject obj = activeRails[index];
 
-            int railIndex = obj.name.Contains("Rail1") ? 0 : 1;
-            EXMET.RemoveSpawnable(obj, activeRails, roadVariations[railIndex].rails);
-        }
-
-        public void RemoveDeadRail(GameObject obj)
-        {
-            int railIndex = obj.name.Contains("Rail1") ? 0 : 1;
-            EXMET.RemoveSpawnable(obj, activeRails, roadVariations[railIndex].rails);
+            EXMET.RemoveSpawnable(obj, activeRails, RailsPool);
         }
         // GUARD RAIL METHODS //
         #endregion
@@ -688,27 +663,18 @@ namespace RetroCode
         [BurstCompile]
         public void ResetGame()
         {
+            // DESPAWN ACTIVE TILES //
+            for (int i = activeTiles.Count - 1; i > 0; i--)
+                RemoveRoadTile(i);
+
             tileZSpawn = 0f;
             tileLineForPlayer = 1000f;
-            railZSpawn = 0f;
             activeRoadVar = 0;
             nextRoadVar = 0;
-
-            // DESPAWN ACTIVE TILES //
-            while (activeTiles.Count > 0)
-                RemoveRoadTile(0);
 
             // SPAWN IN NEW ROAD TILES //
             for (int i = 0; i < 5; i++)
                 SpawnRoadTile();
-
-            // DESPAWN ACTIVE RAILS //
-            /*while (activeRails.Count > 0)
-                RemoveRail(0);
-
-            // SPAWN IN NEW RAILS //
-            for (int i = 0; i < 6; i++)
-                SpawnGuardRail();*/
 
             roadLanes[0].active = false;
             roadLanes[5].active = false;
@@ -729,5 +695,22 @@ namespace RetroCode
     {
         public float xPos;
         public bool active;
+    }
+
+    [Serializable]
+    public class RoadVariation
+    {
+        public List<GameObject> roadTiles = new List<GameObject>();
+        public GameObject transitionTile;
+        [Space]
+        public int maxNPCCountRL;
+        public int maxNPCCountLL;
+        [Space]
+        public float NPCSpawnDistance;
+        public float distanceBetweenNPC;
+        [Space]
+        public int maxPickupCount;
+        [Range(0, 100f)]
+        public float pickupSpawnChance;
     }
 }

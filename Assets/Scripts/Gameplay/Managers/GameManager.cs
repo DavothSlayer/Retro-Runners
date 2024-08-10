@@ -149,7 +149,6 @@ namespace RetroCode
             heatLevelChanged += HeatLevelChangeListener;
             InputManager.UpperDoubleTapped += AutoAbility;
             InputManager.LowerDoubleTapped += RearviewMethod;
-            playerCar.Damaged += HandleAutoDamage;
         }
 
         private void OnDestroy()
@@ -168,7 +167,8 @@ namespace RetroCode
 
             UpdateGameScreen();
         }
-        
+
+        [BurstCompile]
         private void Update()
         {        
             CountScore();
@@ -179,6 +179,7 @@ namespace RetroCode
             CameraShaker();
         }
 
+        [BurstCompile]
         private void GameHUD()
         {
             if (playerCar == null) return;
@@ -196,9 +197,10 @@ namespace RetroCode
             canvasAnimator.SetBool("Near Miss", midCombo && gameState == GameState.InGame);
 
             hud.healthBarFill.fillAmount = Mathf.Lerp(
-                hud.healthBarFill.fillAmount, 1f - (float)playerCar.health / (float)playerCar.data.autoLevelData[playerCar.armorLevel].MaxHealth,
-                Time.deltaTime * 10f
+                hud.healthBarFill.fillAmount, 1f - ((float)playerCar.health / (float)playerCar.data.autoLevelData[playerCar.armorLevel].MaxHealth),
+                Time.deltaTime * 5f
                 );
+
             #endregion
 
             #region Heat Level Stars
@@ -395,6 +397,8 @@ namespace RetroCode
             playerCar.tiresLevel = gamingServicesManager.cloudData.unlockedCarsDict[playerCar.data.ItemCode].lastSelectedCompList[2];
             playerCar.armorLevel = gamingServicesManager.cloudData.unlockedCarsDict[playerCar.data.ItemCode].lastSelectedCompList[3];
             playerCar.FixAuto();
+
+            playerCar.Damaged += HandleAutoDamage;
         }
 
         private void HandleAutoDamage()
@@ -889,24 +893,6 @@ namespace RetroCode
         InMenu,
         InGame,
         GameOver,
-    }
-
-    [Serializable]
-    public class RoadVariation
-    {
-        public List<GameObject> roadTiles = new List<GameObject>();
-        public GameObject transitionTile;
-        public List<GameObject> rails = new List<GameObject>();
-        [Space]
-        public int maxNPCCountRL;
-        public int maxNPCCountLL;
-        [Space]
-        public float NPCSpawnDistance;
-        public float distanceBetweenNPC;
-        [Space]
-        public int maxPickupCount;
-        [Range(0, 100f)]
-        public float pickupSpawnChance;
     }
 
     [Serializable]

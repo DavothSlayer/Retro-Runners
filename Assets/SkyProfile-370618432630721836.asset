@@ -68,9 +68,9 @@ Material:
     - _HorizonExponent: 2.25
     - _HorizonStep: 1000
     - _HorizonThickness: 0.22
-    - _MoonGlow: 0.18
+    - _MoonGlow: 0.25
     - _MoonLightIntensity: 1
-    - _MoonSize: 0.444
+    - _MoonSize: 0.45
     - _MoonSoftEdge: 0
     - _OverheadCloudAltitude: 1000
     - _OverheadCloudAnimationSpeed: 50
@@ -173,9 +173,9 @@ MonoBehaviour:
   enableMoon: 1
   moonTexture: {fileID: 2800000, guid: 50156051d274d094884deaafa01a811a, type: 3}
   moonColor: {r: 1.811321, g: 0.66721976, b: 0, a: 1}
-  moonSize: 0.444
+  moonSize: 0.45
   moonSoftEdge: 0
-  moonGlow: 0.18
+  moonGlow: 0.25
   useBakedMoon: 0
   moonCubemap: {fileID: 8900000, guid: ef0c7a1c7205a274c8ae147b1fc68287, type: 2}
   moonLightColor: {r: 1, g: 1, b: 1, a: 1}

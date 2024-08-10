@@ -1,27 +1,42 @@
+using System.Runtime.CompilerServices;
 using UnityEngine;
+using V3CTOR;
 
 namespace RetroCode
 {
-    public class GuardRail : StaticObstacle
+    public class GuardRail : MonoBehaviour, Damageable
     {
-        public GameManager gameManager;
-        [SerializeField]
-        private GameObject mainObject;
-        [SerializeField]
-        private GameObject deadObject;
+        public SpawnManager spawnManager;
+        public GameObject mainObject;
+        public GameObject deadObject;
 
-        private void OnEnable()
+        [SerializeField]
+        private int health;
+        [SerializeField]
+        private int damageToPlayer;
+
+        public void ResetRail()
         {
             mainObject.SetActive(true);
             deadObject.SetActive(false);
         }
 
-        public override void Damage(int dmg)
+        public int DamageToPlayer()
         {
-            base.Damage(dmg);
+            return damageToPlayer;
+        }
+
+        public int Health()
+        {
+            return health;
+        }
+
+        public void Damage(int dmg)
+        {
+            health -= dmg;
 
             mainObject.SetActive(false);
             deadObject.SetActive(true);
-        } 
+        }
     }
 }

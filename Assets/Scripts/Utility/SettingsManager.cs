@@ -128,15 +128,20 @@ namespace RetroCode
         public void LoadSettings()
         {
             string loadedJson = EXMET.LoadJSON("settings.json");
+            SettingsClass loadedSettings = JsonUtility.FromJson<SettingsClass>(loadedJson);
 
-            if (loadedJson != null)
+            if (loadedSettings != null)
             {
-                SettingsClass loadedSettings = JsonUtility.FromJson<SettingsClass>(loadedJson);
                 settings = loadedSettings;
-            }
-            else { SetDefaultSettings(); }
+                print("Settings found. Applying...");
 
-            ApplySettings();
+                ApplySettings();
+            }
+            else 
+            { 
+                SetDefaultSettings();
+                print("Settings not found, applying default settings...");
+            }
         }
 
         public void ApplySettings()
@@ -189,7 +194,7 @@ namespace RetroCode
             SettingsClass defaultSettings = new SettingsClass
             {
                 MaxFPSToggle = true,
-                RenderScale = 0.75f,
+                RenderScale = 1.00f,
                 DisplayFPS = false,
                 PostProcess = false,
                 BackMusicVol = 80f,
@@ -198,6 +203,8 @@ namespace RetroCode
 
             string json = JsonUtility.ToJson(defaultSettings);
             EXMET.SaveJSON(json, "settings.json");
+
+            ApplySettings();
         }
         #endregion
     }

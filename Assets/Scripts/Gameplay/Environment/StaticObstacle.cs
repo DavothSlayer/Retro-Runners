@@ -10,8 +10,6 @@ namespace RetroCode
         private int health;
         [SerializeField]
         private int damageToPlayer;
-        public float lane;
-        public float deadZone;
 
         public int DamageToPlayer()
         {
