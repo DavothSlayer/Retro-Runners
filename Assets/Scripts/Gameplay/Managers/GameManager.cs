@@ -185,8 +185,8 @@ namespace RetroCode
             if (playerCar == null) return;
 
             #region HUD Text and Animator Booleans
-            hud.speedoMeterText.text = $"{Mathf.RoundToInt(playerCar.rb.velocity.magnitude * 2.2f)} MPH";
-            hud.speedoMeterFill.fillAmount = playerCar.rb.velocity.magnitude / playerCar.data.autoLevelData[playerCar.engineLevel].TopSpeed;
+            hud.speedoMeterText.text = $"{Mathf.RoundToInt(playerCar.rb.linearVelocity.magnitude * 2.2f)} MPH";
+            hud.speedoMeterFill.fillAmount = playerCar.rb.linearVelocity.magnitude / playerCar.data.autoLevelData[playerCar.engineLevel].TopSpeed;
 
             hud.nearMissComboTimer.fillAmount = 1f - nearMissTimer / nearMissMaxTime;
             int score = Mathf.RoundToInt(currentRunScore);
@@ -337,7 +337,7 @@ namespace RetroCode
         {
             canvasAnimator.SetBool("Game Over Reward Ads", false);
 
-            playerCar.rb.velocity = Vector3.zero;
+            playerCar.rb.linearVelocity = Vector3.zero;
             playerTransform.SetPositionAndRotation(new Vector3(3f, 0.02f, 600f), Quaternion.identity);
 
             playerCar.FixAuto();
@@ -757,7 +757,7 @@ namespace RetroCode
                     camHolder.position = playerPos + camPosTarget + cameraOffset + rearviewPos;
                     camHolder.rotation = playerRot * camRotTarget * carRot * rearviewRot;
 
-                    speedFOV = (playerCar.rb.velocity.magnitude / playerCar.data.autoLevelData[playerCar.engineLevel].TopSpeed) * 30f;
+                    speedFOV = (playerCar.rb.linearVelocity.magnitude / playerCar.data.autoLevelData[playerCar.engineLevel].TopSpeed) * 30f;
 
                     cam.fieldOfView = Mathf.Lerp(cam.fieldOfView, gameCamFOV + speedFOV, 5f * Time.deltaTime);
 

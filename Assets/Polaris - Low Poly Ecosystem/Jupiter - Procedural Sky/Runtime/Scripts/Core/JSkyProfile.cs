@@ -1383,6 +1383,8 @@ namespace Pinwheel.Jupiter
             OverheadCloudAnimationSpeed = p.OverheadCloudAnimationSpeed;
             OverheadCloudFlowDirectionX = p.OverheadCloudFlowDirectionX;
             OverheadCloudFlowDirectionZ = p.OverheadCloudFlowDirectionZ;
+            OverheadCloudRemapMin = p.OverheadCloudRemapMin;
+            OverheadCloudRemapMax = p.OverheadCloudRemapMax;
 
             EnableDetailOverlay = p.EnableDetailOverlay;
             DetailOverlayTintColor = p.DetailOverlayTintColor;

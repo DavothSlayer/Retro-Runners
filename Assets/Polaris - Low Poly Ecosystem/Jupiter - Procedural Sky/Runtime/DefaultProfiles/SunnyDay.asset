@@ -88,25 +88,33 @@ MonoBehaviour:
   detailOverlayCubeMap: {fileID: 0}
   detailOverlayLayer: 0
   detailOverlayRotationSpeed: 0
-  allowStepEffect: 1
+  allowStepEffect: 0
   material: {fileID: 683795580653540547}
   shadowMaterial: {fileID: 0}
 --- !u!21 &683795580653540547
 Material:
-  serializedVersion: 6
+  serializedVersion: 8
   m_ObjectHideFlags: 0
   m_CorrespondingSourceObject: {fileID: 0}
   m_PrefabInstance: {fileID: 0}
   m_PrefabAsset: {fileID: 0}
   m_Name: Jupiter/Sky
   m_Shader: {fileID: 4800000, guid: 3129e3b90193a0547900ecf4cf4e9864, type: 3}
-  m_ShaderKeywords: ALLOW_STEP_EFFECT DETAIL_OVERLAY OVERHEAD_CLOUD SUN
+  m_Parent: {fileID: 0}
+  m_ModifiedSerializedProperties: 0
+  m_ValidKeywords:
+  - ALLOW_STEP_EFFECT
+  - DETAIL_OVERLAY
+  - OVERHEAD_CLOUD
+  - SUN
+  m_InvalidKeywords: []
   m_LightmapFlags: 4
   m_EnableInstancingVariants: 0
   m_DoubleSidedGI: 0
   m_CustomRenderQueue: -1
   stringTagMap: {}
   disabledShaderPasses: []
+  m_LockedProperties: 
   m_SavedProperties:
     serializedVersion: 3
     m_TexEnvs:
@@ -138,6 +146,7 @@ Material:
         m_Texture: {fileID: 0}
         m_Scale: {x: 1, y: 1}
         m_Offset: {x: 0, y: 0}
+    m_Ints: []
     m_Floats:
     - _DetailOverlayLayer: 0
     - _DetailOverlayRotationSpeed: 0
@@ -190,3 +199,4 @@ Material:
     - _StarsColor2: {r: 0, g: 0, b: 0, a: 0}
     - _SunColor: {r: 1, g: 0.9700814, b: 0.9009434, a: 1}
     - _SunDirection: {r: -0.3213938, g: -0.76604444, b: 0.5566705, a: 0}
+  m_BuildTextureStacks: []

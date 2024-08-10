@@ -54,7 +54,7 @@ namespace RetroCode
 
             mainCollider.enabled = true;
             rigidBody.constraints = RigidbodyConstraints.FreezeRotation | RigidbodyConstraints.FreezePositionY;
-            rigidBody.velocity = Vector3.zero;
+            rigidBody.linearVelocity = Vector3.zero;
             rigidBody.AddForce(transform.forward * cruiseSpeed, ForceMode.VelocityChange);
 
             mainModel.SetActive(true);
@@ -90,7 +90,7 @@ namespace RetroCode
 
             if (GameManager.gameState == GameState.GameOver)
             {
-                targetSpeed = -rigidBody.velocity.z * 2f;
+                targetSpeed = -rigidBody.linearVelocity.z * 2f;
                 return;
             }
 
@@ -109,7 +109,7 @@ namespace RetroCode
         {
             if(GameManager.gameState == GameState.GameOver || health <= 0) { return; }
 
-            rigidBody.AddForce(transform.forward * targetSpeed * rigidBody.drag, ForceMode.Acceleration);
+            rigidBody.AddForce(transform.forward * targetSpeed * rigidBody.linearDamping, ForceMode.Acceleration);
         }
 
         private void ChasePlayer()
@@ -129,18 +129,18 @@ namespace RetroCode
                     if (!Physics.Raycast(rayPos, transform.right, sideRayDistance, playerMask))
                     {
                         // RIGHT CLEAR, GO RIGHT //
-                        rigidBody.AddForce(transform.right * laneChangeForce * rigidBody.mass * rigidBody.drag, ForceMode.Force);
+                        rigidBody.AddForce(transform.right * laneChangeForce * rigidBody.mass * rigidBody.linearDamping, ForceMode.Force);
                     }
                     else if (!Physics.Raycast(rayPos, -transform.right, sideRayDistance, playerMask))
                     {
                         // LEFT CLEAR, GO LEFT //
-                        rigidBody.AddForce(-transform.right * laneChangeForce * rigidBody.mass * rigidBody.drag, ForceMode.Force);
+                        rigidBody.AddForce(-transform.right * laneChangeForce * rigidBody.mass * rigidBody.linearDamping, ForceMode.Force);
                     }
                 }
                 else
                 {
                     if (playerT.position.z > transform.position.z)
-                        rigidBody.AddForce(transform.right * 2f * xDifference * rigidBody.mass * rigidBody.drag, ForceMode.Force);
+                        rigidBody.AddForce(transform.right * 2f * xDifference * rigidBody.mass * rigidBody.linearDamping, ForceMode.Force);
                 }
             }
         }
@@ -165,7 +165,7 @@ namespace RetroCode
                 HandleDeath();
             }
 
-            rigidBody.AddForce(col.relativeVelocity * rigidBody.mass * rigidBody.drag, ForceMode.Impulse);
+            rigidBody.AddForce(col.relativeVelocity * rigidBody.mass * rigidBody.linearDamping, ForceMode.Impulse);
         }
 
         public void HandleDeath()

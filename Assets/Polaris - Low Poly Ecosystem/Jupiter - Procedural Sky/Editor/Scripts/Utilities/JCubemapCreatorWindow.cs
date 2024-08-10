@@ -47,8 +47,8 @@ namespace Pinwheel.Jupiter
             float y = EditorPrefs.GetFloat(JEditorCommon.GetProjectRelatedEditorPrefsKey(PREF_PREFIX, CAM_POS_Y), 0);
             float z = EditorPrefs.GetFloat(JEditorCommon.GetProjectRelatedEditorPrefsKey(PREF_PREFIX, CAM_POS_Z), 0);
             CameraPosition = new Vector3(x, y, z);
-            CameraNearPlane = EditorPrefs.GetFloat(JEditorCommon.GetProjectRelatedEditorPrefsKey(PREF_PREFIX, CAM_NEAR_PLANE), 0);
-            CameraFarPlane = EditorPrefs.GetFloat(JEditorCommon.GetProjectRelatedEditorPrefsKey(PREF_PREFIX, CAM_FAR_PLANE), 1000);
+            CameraNearPlane = EditorPrefs.GetFloat(JEditorCommon.GetProjectRelatedEditorPrefsKey(PREF_PREFIX, CAM_NEAR_PLANE), 0.1f);
+            CameraFarPlane = EditorPrefs.GetFloat(JEditorCommon.GetProjectRelatedEditorPrefsKey(PREF_PREFIX, CAM_FAR_PLANE), 100);
             CameraClearFlag = (CameraClearFlags)EditorPrefs.GetInt(JEditorCommon.GetProjectRelatedEditorPrefsKey(PREF_PREFIX, CAM_CLEAR_FLAG), 0);
             string htmlColor = EditorPrefs.GetString(JEditorCommon.GetProjectRelatedEditorPrefsKey(PREF_PREFIX, CAM_BG_COLOR), "FFFFFF");
             Color c = Color.white;

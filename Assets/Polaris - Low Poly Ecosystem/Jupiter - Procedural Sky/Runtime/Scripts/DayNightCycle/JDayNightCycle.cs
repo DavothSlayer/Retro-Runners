@@ -376,7 +376,7 @@ namespace Pinwheel.Jupiter
                 else if (EnvironmentProbe.texture != null || EnvironmentProbe.IsFinishedRendering(probeRenderId))
                 {
                     Graphics.CopyTexture(EnvironmentProbe.texture, EnvironmentReflection as Texture);
-                    RenderSettings.customReflectionTexture = EnvironmentReflection;
+                    RenderSettings.customReflection = EnvironmentReflection;
                     RenderSettings.defaultReflectionMode = DefaultReflectionMode.Custom;
                     probeRenderId = EnvironmentProbe.RenderProbe();
                 }

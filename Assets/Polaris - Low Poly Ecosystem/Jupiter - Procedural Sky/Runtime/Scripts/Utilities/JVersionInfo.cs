@@ -13,7 +13,7 @@ namespace Pinwheel.Jupiter
         {
             get
             {
-                return "1.2.12";
+                return "1.2.13";
             }
         }
 

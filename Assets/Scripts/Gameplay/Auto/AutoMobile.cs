@@ -129,7 +129,7 @@ namespace RetroCode
                 HandleDamage(damageable.DamageToPlayer());
                 damageable.Damage(1);
 
-                evaluation -= rb.velocity.magnitude / data.autoLevelData[engineLevel].TopSpeed * 0.3f;
+                evaluation -= rb.linearVelocity.magnitude / data.autoLevelData[engineLevel].TopSpeed * 0.3f;
                 rb.AddForce(-col.relativeVelocity * 0.3f * massDragMltplr, ForceMode.Impulse);
             }
             else if (Vector3.Dot(col.GetContact(0).otherCollider.transform.forward, transform.forward) <= -0.75f)
@@ -141,7 +141,7 @@ namespace RetroCode
                 HandleDamage(damageable.DamageToPlayer() * 2);
                 damageable.Damage(damageable.Health());
 
-                evaluation -= rb.velocity.magnitude / data.autoLevelData[engineLevel].TopSpeed * 0.3f;
+                evaluation -= rb.linearVelocity.magnitude / data.autoLevelData[engineLevel].TopSpeed * 0.3f;
                 rb.AddForce(-col.relativeVelocity * 0.3f * massDragMltplr, ForceMode.Impulse);
             }
         }
@@ -157,7 +157,7 @@ namespace RetroCode
 
                 // ADD 25% SPEED BOOST FOR SUCCESSFUL NEAR MISS //
                 gameManager.ShakeTheCam(0.4f);
-                rb.AddForce(Vector3.forward * rb.velocity.magnitude * 0.25f * massDragMltplr, ForceMode.Impulse);
+                rb.AddForce(Vector3.forward * rb.linearVelocity.magnitude * 0.25f * massDragMltplr, ForceMode.Impulse);
             }
 
             // PICKUPS //
@@ -212,7 +212,7 @@ namespace RetroCode
                 evaluation = 0f;
             }
 
-            massDragMltplr = rb.drag * rb.mass;
+            massDragMltplr = rb.linearDamping * rb.mass;
 
             if (boost) { boostMltplr = Mathf.Lerp(boostMltplr, 2f, 6f * Time.deltaTime); }
             else { boostMltplr = Mathf.Lerp(boostMltplr, 1f, 12f * Time.deltaTime); }
@@ -224,7 +224,7 @@ namespace RetroCode
 
         private void AutoMovement()
         {
-            rb.velocity = Vector3.ClampMagnitude(rb.velocity, data.autoLevelData[engineLevel].TopSpeed * 2f);
+            rb.linearVelocity = Vector3.ClampMagnitude(rb.linearVelocity, data.autoLevelData[engineLevel].TopSpeed * 2f);
 
             if (GameManager.gameState == GameState.GameOver) { return; }
 
@@ -245,7 +245,7 @@ namespace RetroCode
             }
             if (input.xTouch == 0f)
             {
-                rb.AddForce(-Vector3.right * rb.velocity.x * 3f * massDragMltplr, ForceMode.Force);
+                rb.AddForce(-Vector3.right * rb.linearVelocity.x * 3f * massDragMltplr, ForceMode.Force);
             }
 
             rb.rotation = Quaternion.Euler(0f, 6f * input.xTouchLerp, 0f);
@@ -332,7 +332,7 @@ namespace RetroCode
             carModels[0].SetActive(false);
 
             rb.mass = 2.5f;
-            rb.drag = 0.25f;
+            rb.linearDamping = 0.25f;
             rb.constraints = RigidbodyConstraints.None;
 
             Vector3 explosionTorqueVector =
@@ -353,7 +353,7 @@ namespace RetroCode
             health = data.autoLevelData[armorLevel].MaxHealth;
             menuTorque = data.autoLevelData[engineLevel].TopSpeed / 2f;
 
-            rb.velocity = Vector3.zero;
+            rb.linearVelocity = Vector3.zero;
             rb.AddForce(transform.forward * menuTorque, ForceMode.VelocityChange);
 
             exhaustFX.StopSystem();
@@ -366,7 +366,7 @@ namespace RetroCode
             carModels[0].SetActive(true);
 
             rb.mass = 1f;
-            rb.drag = 0.5f;
+            rb.linearDamping = 0.5f;
             rb.constraints = RigidbodyConstraints.FreezeRotation | RigidbodyConstraints.FreezePositionY;
 
             engineSFX.enabled = true;
@@ -401,8 +401,8 @@ namespace RetroCode
                         ParticleSystem.VelocityOverLifetimeModule velModule = tireSmoke.velocityOverLifetime;
 
                         tireSmoke.PlaySystem();
-                        velModule.z = rb.velocity.z * 0.85f / tireSmoke.main.simulationSpeed;
-                        velModule.x = rb.velocity.x * 0.85f / tireSmoke.main.simulationSpeed;
+                        velModule.z = rb.linearVelocity.z * 0.85f / tireSmoke.main.simulationSpeed;
+                        velModule.x = rb.linearVelocity.x * 0.85f / tireSmoke.main.simulationSpeed;
                     }
 
                     if (boost)
@@ -462,8 +462,8 @@ namespace RetroCode
                 foreach (ParticleSystem fx in dFX.dmgFX)
                 {
                     ParticleSystem.VelocityOverLifetimeModule velModule = fx.velocityOverLifetime;
-                    velModule.z = rb.velocity.z * 0.85f / fx.main.simulationSpeed;
-                    velModule.x = rb.velocity.x * 0.65f / fx.main.simulationSpeed;
+                    velModule.z = rb.linearVelocity.z * 0.85f / fx.main.simulationSpeed;
+                    velModule.x = rb.linearVelocity.x * 0.65f / fx.main.simulationSpeed;
                 }
             }
         }
@@ -489,7 +489,7 @@ namespace RetroCode
                 }
 
                 engineSFX.pitch = Mathf.Lerp(engineSFX.pitch,
-                    data.IdlePitch + data.enginePitchCurve.Evaluate(rb.velocity.z / data.autoLevelData[engineLevel].TopSpeed) / 2f + BoostPitch, 8f * Time.deltaTime);
+                    data.IdlePitch + data.enginePitchCurve.Evaluate(rb.linearVelocity.z / data.autoLevelData[engineLevel].TopSpeed) / 2f + BoostPitch, 8f * Time.deltaTime);
             }
         }
 
@@ -559,11 +559,11 @@ namespace RetroCode
         public void TimelessMethod()
         {
             float oldX = transform.position.x;
-            Vector3 oldVel = rb.velocity;
+            Vector3 oldVel = rb.linearVelocity;
 
-            rb.velocity = Vector3.zero;
+            rb.linearVelocity = Vector3.zero;
             transform.SetPositionAndRotation(new Vector3(oldX, 0.02f, 600f), Quaternion.identity);
-            rb.velocity = oldVel;
+            rb.linearVelocity = oldVel;
 
             gameManager.HandleTimeless();
         }

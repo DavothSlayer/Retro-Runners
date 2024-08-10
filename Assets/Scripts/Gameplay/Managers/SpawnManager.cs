@@ -14,7 +14,8 @@ namespace RetroCode
         [Header("Core Functionality")]
         [SerializeField]
         private GameManager gameManager;
-        public bool spawn;
+        public bool spawnNPC;
+        public bool spawnRoad;
 
         [Header("Data")]
         public RoadLane[] roadLanes;        
@@ -88,7 +89,7 @@ namespace RetroCode
         [BurstCompile]
         private void HandleNPCs()
         {
-            if (!spawn) return;
+            if (!spawnNPC) return;
             
             roadVar = roadVariations[nextRoadVar];
 
@@ -102,7 +103,7 @@ namespace RetroCode
 
         public void InitializeNPCs()
         {
-            if (!spawn) return;
+            if (!spawnNPC) return;
 
             RoadVariation roadVar = roadVariations[nextRoadVar];
 
@@ -423,6 +424,7 @@ namespace RetroCode
         private void TileHandler()
         {
             if (gameManager.playerCar == null) return;
+            if (!spawnRoad) return;
 
             background.position = new Vector3(0f, 0f, gameManager.playerTransform.position.z + 1300f);
 
@@ -435,11 +437,12 @@ namespace RetroCode
                 tileLineForPlayer += tileLength;
             }
 
-            if (activeTiles.Count < 5) return;
-
-            if (gameManager.playerTransform.position.z >= activeTiles[0].transform.position.z + tileSafeZone)
+            if (activeTiles.Count > 5)
             {
-                RemoveRoadTile(0);
+                if (gameManager.playerTransform.position.z >= activeTiles[0].transform.position.z + tileSafeZone)
+                {
+                    RemoveRoadTile(0);
+                }
             }
         }
 
@@ -664,6 +667,9 @@ namespace RetroCode
         public void ResetGame()
         {
             // DESPAWN ACTIVE TILES //
+            spawnNPC = false;
+            spawnRoad = false;
+
             for (int i = activeTiles.Count - 1; i > 0; i--)
                 RemoveRoadTile(i);
 
@@ -673,6 +679,9 @@ namespace RetroCode
             nextRoadVar = 0;
 
             // SPAWN IN NEW ROAD TILES //
+
+            spawnRoad = true;
+
             for (int i = 0; i < 5; i++)
                 SpawnRoadTile();
 
@@ -686,6 +695,9 @@ namespace RetroCode
             }
 
             KillEmAll();
+
+            spawnNPC = true;
+
             InitializeNPCs();
         }
     }
