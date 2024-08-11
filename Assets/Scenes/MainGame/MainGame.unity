@@ -93483,7 +93483,7 @@ MonoBehaviour:
     - {fileID: 971510986}
     - {fileID: 347213636}
     - {fileID: 883513591}
-    transitionTile: {fileID: 182790398}
+    - {fileID: 182790398}
     maxNPCCountRL: 7
     maxNPCCountLL: 5
     NPCSpawnDistance: 225
@@ -93499,7 +93499,7 @@ MonoBehaviour:
     - {fileID: 1422097543}
     - {fileID: 439151217}
     - {fileID: 423540153}
-    transitionTile: {fileID: 1063300531}
+    - {fileID: 1063300531}
     maxNPCCountRL: 9
     maxNPCCountLL: 11
     NPCSpawnDistance: 200
@@ -101496,7 +101496,7 @@ RectTransform:
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
   m_AnchorMin: {x: 0.5, y: 0}
   m_AnchorMax: {x: 0.5, y: 0}
-  m_AnchoredPosition: {x: 0, y: -150}
+  m_AnchoredPosition: {x: 0, y: -149.99998}
   m_SizeDelta: {x: 1250, y: 50}
   m_Pivot: {x: 0.5, y: 0}
 --- !u!114 &1391866774
