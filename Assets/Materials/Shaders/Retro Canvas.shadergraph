@@ -143,9 +143,9 @@
         "m_Expanded": true,
         "m_Position": {
             "serializedVersion": "2",
-            "x": -458.9999694824219,
-            "y": 235.99996948242188,
-            "width": 138.0,
+            "x": -460.0,
+            "y": 236.0,
+            "width": 113.0,
             "height": 34.0
         }
     },
@@ -189,10 +189,10 @@
     "m_Guid": {
         "m_GuidSerialized": "d1620f70-5aad-4a21-ac7b-9e7f95cca396"
     },
-    "m_Name": "MainTexture",
+    "m_Name": "RetroAtlas",
     "m_DefaultRefNameVersion": 1,
-    "m_RefNameGeneratedByDisplayName": "MainTexture",
-    "m_DefaultReferenceName": "_MainTexture",
+    "m_RefNameGeneratedByDisplayName": "RetroAtlas",
+    "m_DefaultReferenceName": "_RetroAtlas",
     "m_OverrideReferenceName": "_MainTex",
     "m_GeneratePropertyBlock": false,
     "m_UseCustomSlotLabel": false,
@@ -321,7 +321,7 @@
     "m_Type": "UnityEditor.ShaderGraph.Texture2DMaterialSlot",
     "m_ObjectId": "60d98da3a1a84d4393fcb9d38785541a",
     "m_Id": 0,
-    "m_DisplayName": "MainTexture",
+    "m_DisplayName": "RetroAtlas",
     "m_SlotType": 1,
     "m_Hidden": false,
     "m_ShaderOutputName": "Out",

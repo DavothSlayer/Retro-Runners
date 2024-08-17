@@ -158,6 +158,7 @@ namespace RetroCode
                 // ADD 25% SPEED BOOST FOR SUCCESSFUL NEAR MISS //
                 gameManager.ShakeTheCam(0.4f);
                 rb.AddForce(Vector3.forward * rb.linearVelocity.magnitude * 0.25f * massDragMltplr, ForceMode.Impulse);
+                NearMissPitch += 0.15f;
             }
 
             // PICKUPS //
@@ -340,7 +341,7 @@ namespace RetroCode
                 transform.up * Random.Range(-5f, 5f) +
                 transform.forward * Random.Range(-25f, 25f);
 
-            rb.AddForce(Vector3.up, ForceMode.VelocityChange);
+            rb.AddForce(Vector3.up * .2f, ForceMode.VelocityChange);
             rb.AddTorque(explosionTorqueVector, ForceMode.VelocityChange);
 
             deadCarModel.SetActive(true);
@@ -468,10 +469,12 @@ namespace RetroCode
             }
         }
 
-        private float BoostPitch;
+        private float BoostPitch, NearMissPitch;
         private void HandleSFX()
         {
             if (GameManager.gameState == GameState.GameOver) { return; }
+
+            NearMissPitch = Mathf.Lerp(NearMissPitch, 0f, Time.deltaTime * 1.25f);
 
             if (GameManager.gameState == GameState.InMenu)
             {
@@ -489,7 +492,7 @@ namespace RetroCode
                 }
 
                 engineSFX.pitch = Mathf.Lerp(engineSFX.pitch,
-                    data.IdlePitch + data.enginePitchCurve.Evaluate(rb.linearVelocity.z / data.autoLevelData[engineLevel].TopSpeed) / 2f + BoostPitch, 8f * Time.deltaTime);
+                    data.IdlePitch + data.enginePitchCurve.Evaluate(rb.linearVelocity.z / data.autoLevelData[engineLevel].TopSpeed) / 2f + BoostPitch + NearMissPitch, 8f * Time.deltaTime);
             }
         }
 

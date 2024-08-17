@@ -45,7 +45,6 @@ namespace RetroCode
         private Transform background;
         private float tileZSpawn = 0f;
         private float tileLength = 400f;
-        private float tileLineForPlayer = 1200f;
         
         private int nextRoadVar = 0;
         private int activeRoadVar = 0;
@@ -93,8 +92,6 @@ namespace RetroCode
             
             roadVar = roadVariations[nextRoadVar];
 
-            //spawn = GameManager.gameState == GameState.InGame || GameManager.gameState == GameState.InMenu;
-
             SpawnNPCs(roadVar);
             DespawnUnwantedNPCs();
 
@@ -118,8 +115,6 @@ namespace RetroCode
             {
                 if (ProxyToLastNPCGoingLane() < roadVar.NPCSpawnDistance)
                 {
-                    print("Spawning NPC in going lane.");
-
                     // CALCULATE ZPOS //
                     float potentialZ;
                     if (activeNPCsRL.Count == 0)
@@ -189,8 +184,6 @@ namespace RetroCode
             {
                 if (ProxyToLastNPCWrongLane() < roadVar.NPCSpawnDistance)
                 {
-                    print("Spawning NPC in wrong lane.");
-
                     // CALCULATE ZPOS //
                     float potentialZ;
                     if (activeNPCsLL.Count == 0)
@@ -428,21 +421,12 @@ namespace RetroCode
 
             background.position = new Vector3(0f, 0f, gameManager.playerTransform.position.z + 1300f);
 
-            if (gameManager.playerTransform.position.z >= tileLineForPlayer)
+            if (gameManager.playerTransform.position.z + 800f >= tileZSpawn)
             {
                 nextRoadVar = NextRoadVar();
 
                 SpawnRoadTile();
-
-                tileLineForPlayer += tileLength;
-            }
-
-            if (activeTiles.Count > 5)
-            {
-                if (gameManager.playerTransform.position.z >= activeTiles[0].transform.position.z + tileSafeZone)
-                {
-                    RemoveRoadTile(0);
-                }
+                RemoveRoadTile(0);
             }
         }
 
@@ -450,7 +434,7 @@ namespace RetroCode
         private void SpawnRoadTile()
         {
             // SPAWN NEXT TILE //
-            var tileArray = roadVariations[activeRoadVar].roadTiles;
+            var tileArray = roadVariations[activeRoadVar].roadTilePool;
             GameObject nextTile = NextTile();
 
             if (activeRoadVar != nextRoadVar)
@@ -466,6 +450,8 @@ namespace RetroCode
 
             for (int i = 0; i < 2; i++) SpawnGuardRail(tileZSpawn + i * 200);
 
+            print($"Spawning {nextTile.name}...");
+
             tileZSpawn += tileLength;
 
             if (GameManager.gameState == GameState.InGame)
@@ -475,7 +461,7 @@ namespace RetroCode
         private GameObject NextTile()
         {
             // GET NEXT TILE //
-            var tileArray = roadVariations[activeRoadVar].roadTiles;
+            var tileArray = roadVariations[activeRoadVar].roadTilePool;
             GameObject tile = null;
 
             if (activeRoadVar != nextRoadVar)
@@ -508,29 +494,19 @@ namespace RetroCode
         [BurstCompile]
         private void RemoveRoadTile(int integer)
         {
-            if (activeTiles.Count == 0) return;
             if (activeTiles[integer] == null) return;
 
-            if (activeTiles[integer].name.Contains("Last"))
-            {
-                GameObject obj = activeTiles[integer];
+            GameObject obj = activeTiles[integer];
+            int index = obj.name.Contains("Level1") ? 0 : 1;
 
-                obj.SetActive(false);
-                activeTiles.Remove(obj);
-            }
-            else
-            {
-                GameObject obj = activeTiles[integer];
-                int index = obj.name.Contains("Level1") ? 0 : 1;
+            EXMET.RemoveSpawnable(obj, activeTiles, roadVariations[index].roadTilePool);
 
-                EXMET.RemoveSpawnable(obj, activeTiles, roadVariations[index].roadTiles);
-            }
-
-            for (int i = 0; i < 2; i++) RemoveRail(i);
+            for (int i = 0; i < 2; i++) RemoveRail(0);
         }
         // ROAD TILE METHODS //
 
         // GUARD RAIL METHODS //
+        [BurstCompile]
         private void SpawnGuardRail(float zPos)
         {
             // SPAWN NEXT RAIL //
@@ -549,6 +525,7 @@ namespace RetroCode
                 return RailsPool[0];
         }
 
+        [BurstCompile]
         private void RemoveRail(int index)
         {
             if (activeRails.Count == 0) return;
@@ -671,18 +648,15 @@ namespace RetroCode
             spawnNPC = false;
             spawnRoad = false;
 
-            int j = activeTiles.Count - 1;
-            while (j > 0)
-            {
-                RemoveRoadTile(j);
-
-                j--;
-            }
-
             tileZSpawn = 0f;
-            tileLineForPlayer = -1000f;
             activeRoadVar = 0;
             nextRoadVar = 0;
+
+            for (int i = activeTiles.Count; i > 0; i--)
+                RemoveRoadTile(0);
+
+            for (int i = 0; i < 5; i++)
+                SpawnRoadTile();
 
             spawnRoad = true;
 
@@ -713,7 +687,7 @@ namespace RetroCode
     [Serializable]
     public class RoadVariation
     {
-        public List<GameObject> roadTiles = new List<GameObject>();
+        public List<GameObject> roadTilePool = new List<GameObject>();
         [Space]
         public int maxNPCCountRL;
         public int maxNPCCountLL;

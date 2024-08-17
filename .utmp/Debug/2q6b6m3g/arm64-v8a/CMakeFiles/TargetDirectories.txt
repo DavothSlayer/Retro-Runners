@@ -1,0 +1,5 @@
+C:/Users/anwar/V3CTOR/Unity Games/Projects/Retro-Runners/.utmp/Debug/2q6b6m3g/arm64-v8a/CMakeFiles/edit_cache.dir
+C:/Users/anwar/V3CTOR/Unity Games/Projects/Retro-Runners/.utmp/Debug/2q6b6m3g/arm64-v8a/CMakeFiles/rebuild_cache.dir
+C:/Users/anwar/V3CTOR/Unity Games/Projects/Retro-Runners/.utmp/Debug/2q6b6m3g/arm64-v8a/FramePacing/CMakeFiles/swappywrapper.dir
+C:/Users/anwar/V3CTOR/Unity Games/Projects/Retro-Runners/.utmp/Debug/2q6b6m3g/arm64-v8a/FramePacing/CMakeFiles/edit_cache.dir
+C:/Users/anwar/V3CTOR/Unity Games/Projects/Retro-Runners/.utmp/Debug/2q6b6m3g/arm64-v8a/FramePacing/CMakeFiles/rebuild_cache.dir

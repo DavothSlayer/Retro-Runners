@@ -26,8 +26,7 @@ namespace RetroCode
         public TextMeshProUGUI speedoMeterText;
         public Image speedoMeterFill;
         public Image healthBarFill;
-        [Space]
-        public Image[] heatLevelStars;
+        public Image powerBarFill;
         [Space]
         public List<MarkerPoint> markerPoints = new List<MarkerPoint>();
         [Space]

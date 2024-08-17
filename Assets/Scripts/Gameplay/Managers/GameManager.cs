@@ -197,23 +197,10 @@ namespace RetroCode
             canvasAnimator.SetBool("Near Miss", midCombo && gameState == GameState.InGame);
 
             hud.healthBarFill.fillAmount = Mathf.Lerp(
-                hud.healthBarFill.fillAmount, 1f - ((float)playerCar.health / (float)playerCar.data.autoLevelData[playerCar.armorLevel].MaxHealth),
+                hud.healthBarFill.fillAmount, ((float)playerCar.health / (float)playerCar.data.autoLevelData[playerCar.armorLevel].MaxHealth),
                 Time.deltaTime * 5f
                 );
 
-            #endregion
-
-            #region Heat Level Stars
-            if (heat)
-            {
-                for (int i = 0; i < hud.heatLevelStars.Length; i++)
-                    hud.heatLevelStars[i].gameObject.SetActive(i <= activeHeatLevel - 1);
-            }
-            else
-            {
-                for (int i = 0; i < hud.heatLevelStars.Length; i++)
-                    hud.heatLevelStars[i].gameObject.SetActive(false);
-            }
             #endregion
 
             #region Pickup Markers
@@ -403,27 +390,7 @@ namespace RetroCode
 
         private void HandleAutoDamage()
         {
-            HealthBarRoutine();
-            canvasAnimator.SetTrigger("HealthBar Event");
-        }
-
-        private float barTime = 3f;
-        private float barTimer;
-        [BurstCompile]
-        private async void HealthBarRoutine()
-        {
-            barTimer = 0f;
-
-            canvasAnimator.SetBool("ShowHealthBar", true);
-
-            while (barTimer < barTime && GameManager.gameState == GameState.InGame)
-            {
-                barTimer += Time.deltaTime;
-
-                await Task.Yield();
-            }
-
-            canvasAnimator.SetBool("ShowHealthBar", false);
+            // DO SMTH?? //
         }
 
         // PRIVATE VARIABLES //
@@ -591,8 +558,6 @@ namespace RetroCode
             AddExternalScore(50f);
 
             playerCar.HandleFixer();
-
-            HealthBarRoutine();
         }
 
         // TOKEN METHOD //
