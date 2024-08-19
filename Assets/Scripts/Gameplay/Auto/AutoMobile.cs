@@ -120,6 +120,7 @@ namespace RetroCode
             if (damageable == null) { col.collider.GetComponent<Damageable>(); }
             if (damageable == null) { return; }
 
+            // .75f FOR SAME DIRECTION CRASH, -.75f FOR HEAD-ON COLLISION //
             if (Vector3.Dot(col.GetContact(0).otherCollider.transform.forward, transform.forward) >= 0.75f)
             {
                 if (Vector3.Dot(col.GetContact(0).normal, transform.forward) >= -0.8f) return;
@@ -299,6 +300,7 @@ namespace RetroCode
         #endregion
 
         #region Damage & Game Over
+        [BurstCompile]
         public void HandleDamage(int dmg)
         {
             if (health <= 0) return;
@@ -324,6 +326,7 @@ namespace RetroCode
             if (health <= 0 && GameManager.gameState != GameState.GameOver) { HandleGameOver(); }
         }
 
+        [BurstCompile]
         private void HandleGameOver()
         {
             gameManager.GameOver();
@@ -348,6 +351,7 @@ namespace RetroCode
             deathFX.SetActive(true);
         }
 
+        [BurstCompile]
         public void FixAuto()
         {
             boost = false;

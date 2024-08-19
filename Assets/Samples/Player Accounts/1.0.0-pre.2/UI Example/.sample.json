@@ -1,5 +1,0 @@
-{
-  "displayName": "Player Accounts Sample",
-  "description": "Example scripts and UI elements demonstrating the Unity Player Accounts package. This sample requires the com.unity.ugui package.",
-  "createSeparatePackage": false
-} 

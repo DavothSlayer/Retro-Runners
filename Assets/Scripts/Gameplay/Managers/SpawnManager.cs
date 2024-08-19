@@ -2,6 +2,7 @@ using System;
 using System.Collections.Generic;
 using System.Linq;
 using Unity.Burst;
+using Unity.VisualScripting;
 using UnityEngine;
 using UnityEngine.Events;
 using V3CTOR;
@@ -149,33 +150,25 @@ namespace RetroCode
 
                     if (potentialX != 0f)
                     {
-                        Vector3 spawnPos = new Vector3(potentialX, 0.1f, potentialZ);
+                        Vector3 spawnPos = new Vector3(potentialX, 0f, potentialZ);
                         Quaternion spawnRot = Quaternion.identity;
 
                         GameObject spawnable = NPCPool[Random.Range(0, NPCPool.Count)];
                         spawnable.transform.SetPositionAndRotation(spawnPos, spawnRot);
                         EXMET.AddSpawnable(spawnable, activeNPCsRL, NPCPool);
 
-                        /*
                         if (gameManager.heat &&
                             Random.Range(0f, 100f) <= heatVar.copSpawnChance &&
-                            activeCOPs.Count != heatVar.maxCOPCount &&
+                            activeCOPs.Count <= heatVar.maxCOPCount &&
                             GameManager.gameState == GameState.InGame &&
                             COPPool.Count > 0)
                         {
                             Vector3 posOffset = new Vector3(0f, 0f, 45f);
 
-                            GameObject spawnable = COPPool[Random.Range(0, COPPool.Count)];
-                            spawnable.transform.SetPositionAndRotation(spawnPos + posOffset, spawnRot);
-                            EXMET.AddSpawnable(spawnable, activeCOPs, COPPool);
+                            GameObject cop = COPPool[Random.Range(0, COPPool.Count)];
+                            cop.transform.SetPositionAndRotation(spawnPos + posOffset, spawnRot);
+                            EXMET.AddSpawnable(cop, activeCOPs, COPPool);
                         }
-                        else
-                        {
-                            GameObject spawnable = NPCPool[Random.Range(0, NPCPool.Count)];
-                            spawnable.transform.SetPositionAndRotation(spawnPos, spawnRot);
-                            EXMET.AddSpawnable(spawnable, activeNPCsRL, NPCPool);
-                        }
-                        */
                     }
                 }
             }
@@ -218,7 +211,7 @@ namespace RetroCode
 
                     if (potentialX != 0f)
                     {
-                        Vector3 spawnPos = new Vector3(potentialX, 0.1f, potentialZ);
+                        Vector3 spawnPos = new Vector3(potentialX, 0f, potentialZ);
                         Quaternion spawnRot = Quaternion.Euler(0f, 180f, 0f);
 
                         GameObject spawnable = NPCPool[Random.Range(0, NPCPool.Count)];
@@ -417,14 +410,11 @@ namespace RetroCode
         private void TileHandler()
         {
             if (gameManager.playerCar == null) return;
-            if (!spawnRoad) return;
 
             background.position = new Vector3(0f, 0f, gameManager.playerTransform.position.z + 1300f);
 
-            if (gameManager.playerTransform.position.z + 800f >= tileZSpawn)
+            if (gameManager.playerTransform.position.z + 800f >= tileZSpawn && spawnRoad)
             {
-                nextRoadVar = NextRoadVar();
-
                 SpawnRoadTile();
                 RemoveRoadTile(0);
             }
@@ -434,13 +424,9 @@ namespace RetroCode
         private void SpawnRoadTile()
         {
             // SPAWN NEXT TILE //
-            var tileArray = roadVariations[activeRoadVar].roadTilePool;
             GameObject nextTile = NextTile();
-
-            if (activeRoadVar != nextRoadVar)
-            {
-                activeRoadVar = nextRoadVar;
-            }
+            activeRoadVar = nextRoadVar;
+            var tileArray = roadVariations[activeRoadVar].roadTilePool;
 
             nextTile.transform.SetPositionAndRotation(transform.forward * tileZSpawn, transform.rotation);
             EXMET.AddSpawnable(nextTile, activeTiles, tileArray);
@@ -450,14 +436,14 @@ namespace RetroCode
 
             for (int i = 0; i < 2; i++) SpawnGuardRail(tileZSpawn + i * 200);
 
-            print($"Spawning {nextTile.name}...");
-
             tileZSpawn += tileLength;
+            nextRoadVar = NextRoadVar();
 
             if (GameManager.gameState == GameState.InGame)
                 RoadTileSpawned?.Invoke(tileZSpawn);
         }
 
+        [BurstCompile]
         private GameObject NextTile()
         {
             // GET NEXT TILE //
@@ -467,14 +453,18 @@ namespace RetroCode
             if (activeRoadVar != nextRoadVar)
             {
                 for (int i = 0; i < tileArray.Count; i++)
-                    if (tileArray[i].name.Contains($"{activeRoadVar + 1}Last"))
+                    if (tileArray[i].name.Contains("Last"))
                     {
                         tile = tileArray[i];
                     }
             }
             else
             {
-                tile = tileArray[0];
+                for (int i = 0; i < tileArray.Count; i++)
+                    if (!tileArray[i].name.Contains("Last"))
+                    {
+                        tile = tileArray[i];
+                    }
             }
 
             return tile;
@@ -484,10 +474,10 @@ namespace RetroCode
         private int NextRoadVar()
         {
             for (int i = 0; i < activeTiles.Count; i++)
-                if (activeTiles[i].name.Contains("Last")) return activeRoadVar;
+                if (activeTiles[i].name.Contains("Last"))
+                    return activeTiles[i].name.Contains("Level1Last") ? 1 : 0;
 
             int nextVar = Random.Range(0f, 1f) > 0.5f ? 1 : 0;
-
             return nextVar;
         }
 
@@ -648,12 +638,12 @@ namespace RetroCode
             spawnNPC = false;
             spawnRoad = false;
 
+            for (int i = activeTiles.Count; i > 0; i--)
+                RemoveRoadTile(activeTiles.Count - 1);
+
             tileZSpawn = 0f;
             activeRoadVar = 0;
             nextRoadVar = 0;
-
-            for (int i = activeTiles.Count; i > 0; i--)
-                RemoveRoadTile(0);
 
             for (int i = 0; i < 5; i++)
                 SpawnRoadTile();

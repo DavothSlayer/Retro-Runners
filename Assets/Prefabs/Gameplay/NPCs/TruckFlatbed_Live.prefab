@@ -48,7 +48,7 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   health: 1
-  damageToPlayer: 0
+  damageToPlayer: 3
   topSpeed: 0
   targetSpeed: 0
 --- !u!64 &8925670095620764580

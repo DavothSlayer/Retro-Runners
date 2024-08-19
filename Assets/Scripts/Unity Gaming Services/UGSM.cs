@@ -1,6 +1,5 @@
 using Unity.Services.Authentication;
 using Unity.Services.Core;
-using Unity.Services.PlayerAccounts;
 using UnityEngine;
 using Unity.Services.CloudSave;
 using System.Collections.Generic;
@@ -36,11 +35,6 @@ namespace RetroCode
             await UnityServices.InitializeAsync();
             print($"Unity Services: {UnityServices.State}");
 
-            // REGISTER PLAYER ACCOUNT HANDLERS //
-            PlayerAccountService.Instance.SignedIn += OnPlayerAccountSignedIn;
-            PlayerAccountService.Instance.SignedOut += OnPlayerAccountSignedOut;
-            PlayerAccountService.Instance.SignInFailed += OnPlayerAccountSignInFailed;
-
             // REGISTER AUTHENTICATION SERVICE HANDLERS //
             AuthenticationService.Instance.SignedIn += OnAuthSignedIn;
             AuthenticationService.Instance.SignedOut += OnAuthSignedOut;
@@ -60,11 +54,6 @@ namespace RetroCode
 
         private void OnDestory()
         {
-            // UN-REGISTER PLAYER ACCOUNT SIGN IN HANDLERS //
-            PlayerAccountService.Instance.SignedIn -= OnPlayerAccountSignedIn;
-            PlayerAccountService.Instance.SignedOut -= OnPlayerAccountSignedOut;
-            PlayerAccountService.Instance.SignInFailed -= OnPlayerAccountSignInFailed;
-
             // UN-REGISTER AUTHENTICATION  HANDLERS //
             AuthenticationService.Instance.SignedIn -= OnAuthSignedIn;
             AuthenticationService.Instance.SignedOut -= OnAuthSignedOut;
@@ -98,65 +87,6 @@ namespace RetroCode
             linkButton.SetActive(!isLinkedToPlayerAccounts && isPlayerAccountSignedIn);
             unlinkButton.SetActive(isLinkedToPlayerAccounts);
         }*/
-        #endregion
-
-        #region UI Event Handlers
-        public async void PlayerAccountStartSignIn()
-        {
-            // START PLAYER ACCOUNTS SIGN IN PROCESS
-            Debug.Log("Player Accounts - Sign In Button Clicked");
-            await PlayerAccountService.Instance.StartSignInAsync();
-        }
-
-        public void PlayerAccountSignOut()
-        {
-            // START PLAYER ACCOUNTS SIGN OUT
-            Debug.Log("Player Accounts - Sign Out Button Clicked");
-            PlayerAccountService.Instance.SignOut();
-        }
-
-        public async void PlayerAccountLink()
-        {
-            // LINK TO UNITY PLAYER ACCOUNT
-            Debug.Log("Link Button Clicked");
-            await AuthenticationService.Instance.LinkWithUnityAsync(PlayerAccountService.Instance.AccessToken);
-            //UpdateUI();
-        }
-
-        public async void PlayerAccountUnlink()
-        {
-            // UNLINK FROM UNITY PLAYER ACCOUNT
-            Debug.Log("UnLink Button Clicked");
-            await AuthenticationService.Instance.UnlinkUnityAsync();
-            //UpdateUI();
-        }
-        #endregion
-
-        #region Player Accounts Event Handlers
-        private void OnPlayerAccountSignedIn()
-        {
-            // UNITY PLAYER ACCOUNTS SIGN IN SUCCESSFULL
-            string accessToken = PlayerAccountService.Instance.AccessToken;
-            if (!string.IsNullOrEmpty(accessToken))
-            {
-                Debug.Log($"Attempting SignIn with PlayerAccounts Access Token - {accessToken}");
-                AuthenticationService.Instance.SignInWithUnityAsync(accessToken);
-            }
-
-            //UpdateUI();
-        }
-
-        private void OnPlayerAccountSignedOut()
-        {
-            //UpdateUI();
-        }
-
-        private void OnPlayerAccountSignInFailed(RequestFailedException requestFailedException)
-        {
-            // UNITY PLAYER ACCOUNT SIGN IN FAILED
-            Debug.Log($"Player Account Sign In Error : {requestFailedException.ErrorCode} : {requestFailedException.Message}");
-            //UpdateUI();
-        }
         #endregion
 
         #region Authentication Service Action Handlers

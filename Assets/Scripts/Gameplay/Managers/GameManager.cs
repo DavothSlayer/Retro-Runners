@@ -68,8 +68,6 @@ namespace RetroCode
         private Canvas canvas;
         [SerializeField]
         private Animator canvasAnimator;
-        [SerializeField]
-        private Animator effectBarAnimator;
 
         [Header("SFX")]
         [SerializeField]
@@ -241,30 +239,6 @@ namespace RetroCode
                 canvasG.alpha = hud.markerUIAlphaCurve.Evaluate(1f - distance / 400f) - (-Vector3.Dot(cam.transform.forward, pickup.transform.forward));
             }
             #endregion
-
-            #region Effect Bar Items
-            effectBarAnimator.SetBool("Boost", playerCar.boost && GameManager.gameState == GameState.InGame);
-            effectBarAnimator.SetBool("Ability", playerCar.abilityState != AbilityState.Ready && GameManager.gameState == GameState.InGame);
-
-            for (int i = 0; i < hud.effectBarItems.Count; i++)
-            {
-                EffectBarItem barItem = hud.effectBarItems[i];
-
-                switch (barItem.itemType)
-                {
-                    case EffectBarItemType.Boost:
-                        barItem.timerFill.fillAmount = 1f - boostTimer / boostDuration;
-                        break;
-
-                    case EffectBarItemType.Ability:
-                        if (playerCar.abilityState == AbilityState.Active)
-                            barItem.timerFill.fillAmount = Mathf.Lerp(barItem.timerFill.fillAmount, 1f - playerCar.abilityTimer / playerCar.ability.duration, 10f * Time.deltaTime);
-                        if (playerCar.abilityState == AbilityState.Cooldown)
-                            barItem.timerFill.fillAmount = Mathf.Lerp(barItem.timerFill.fillAmount, playerCar.abilityCooldownTimer / playerCar.ability.cooldownTime, 10f * Time.deltaTime);
-                        break;
-                }
-            }
-            #endregion
         }
 
         #region Buttons
@@ -292,8 +266,6 @@ namespace RetroCode
 
             gamePaused = !gamePaused;
             hud.pauseGraphic.sprite = gamePaused ? hud.continueIcon : hud.pauseIcon;
-
-            print(gamePaused);
         }
 
         public void ReturnToMainMenu()

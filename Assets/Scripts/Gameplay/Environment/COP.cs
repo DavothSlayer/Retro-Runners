@@ -1,3 +1,4 @@
+using Unity.Burst;
 using UnityEngine;
 using V3CTOR;
 
@@ -67,6 +68,7 @@ namespace RetroCode
             SirenMethod();
         }
 
+        [BurstCompile]
         public void FixedUpdate()
         {
             COPMovement();
@@ -76,6 +78,7 @@ namespace RetroCode
         #region COP
         private float xDifference;
         private float interceptDistance;
+        [BurstCompile]
         private void COPMath()
         {
             if (playerT == null) { return; }
@@ -105,6 +108,7 @@ namespace RetroCode
             }
         }
 
+        [BurstCompile]
         private void COPMovement()
         {
             if(GameManager.gameState == GameState.GameOver || health <= 0) { return; }
@@ -145,29 +149,36 @@ namespace RetroCode
             }
         }
 
+        [BurstCompile]
         public void OnCollisionEnter(Collision col)
         {
-            Damageable dmgble = col.collider.GetComponentInParent<Damageable>();
-            if (dmgble == null) { col.collider.GetComponent<Damageable>(); }
+            Damageable damageable = col.collider.GetComponentInParent<Damageable>();
+            if (damageable == null) { col.collider.GetComponent<Damageable>(); }
+            if (damageable == null) { return; }
 
-            if (Vector3.Dot(col.GetContact(0).otherCollider.transform.forward, transform.forward) == 1f)
+            // 1f FOR SAME DIRECTION CRASH, -1f FOR HEAD-ON COLLISION //
+            if (Vector3.Dot(col.GetContact(0).otherCollider.transform.forward, transform.forward) >= 0.75f)
             {
-                if (Vector3.Dot(col.GetContact(0).normal, transform.forward) != -1f) return;
+                if (Vector3.Dot(col.GetContact(0).normal, transform.forward) >= -0.8f) return;
 
-                if(dmgble != null){ dmgble.Damage(dmgble.Health()); }
+                damageable.Damage(damageable.Health());
+
+                rigidBody.AddForce(-col.relativeVelocity * 3f * rigidBody.mass * rigidBody.linearDamping, ForceMode.Impulse);
             }
-            else if (Vector3.Dot(col.GetContact(0).otherCollider.transform.forward, transform.forward) == -1f)
+            else if (Vector3.Dot(col.GetContact(0).otherCollider.transform.forward, transform.forward) <= -0.75f)
             {
-                if (Vector3.Dot(col.GetContact(0).normal, transform.forward) != -1f) return;
+                if (Vector3.Dot(col.GetContact(0).normal, transform.forward) >= -0.8f) return;
 
-                if (dmgble != null) { dmgble.Damage(dmgble.Health()); }
+                rigidBody.AddForce(-col.relativeVelocity * 3f * rigidBody.mass * rigidBody.linearDamping, ForceMode.Impulse);
+
+                damageable.Damage(damageable.Health());
+
                 health--;
                 HandleDeath();
             }
-
-            rigidBody.AddForce(col.relativeVelocity * rigidBody.mass * rigidBody.linearDamping, ForceMode.Impulse);
         }
 
+        [BurstCompile]
         public void HandleDeath()
         {
             for (int i = 0; i < spawnManager.activeCOPs.Count; i++)
@@ -192,6 +203,7 @@ namespace RetroCode
             rigidBody.AddTorque(explosionTorqueVector, ForceMode.VelocityChange);
         }
 
+        [BurstCompile]
         private void WaitForDespawn()
         {
             if (gameManager.playerTransform.position.z >= transform.position.z + 125f)
