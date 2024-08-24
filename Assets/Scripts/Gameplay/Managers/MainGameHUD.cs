@@ -25,8 +25,8 @@ namespace RetroCode
         public Image nearMissComboTimer;
         public TextMeshProUGUI speedoMeterText;
         public Image speedoMeterFill;
-        public Image healthBarFill;
-        public Image powerBarFill;
+        public Slider healthBarSlider;
+        public Slider powerBarSlider;
         [Space]
         public List<MarkerPoint> markerPoints = new List<MarkerPoint>();
         [Space]

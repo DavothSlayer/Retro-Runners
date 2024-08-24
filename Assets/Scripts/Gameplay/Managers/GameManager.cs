@@ -40,9 +40,15 @@ namespace RetroCode
         private ParticleSystem speedLinesFX;
         [SerializeField]
         private ParticleSystem nearMissFX;
+        [SerializeField]
+        private ParticleSystem healthLossFX;
+        [SerializeField]
+        private ParticleSystem powerBarFX;
         [Space]
         public Transform playerTransform;
         public AutoMobile playerCar;
+        [SerializeField]
+        private float playerMaxPower;
 
         [Header("Cinematics")]
         [SerializeField]
@@ -104,7 +110,9 @@ namespace RetroCode
         [HideInInspector]
         public bool heat;
         [HideInInspector]
-        public float heatLevelScoreOffset;        
+        public float heatLevelScoreOffset;
+
+        private float playerCurrentPower;
         #endregion
 
         #region Events
@@ -171,6 +179,7 @@ namespace RetroCode
         {        
             CountScore();
             HeatLevelLogic();
+            HandlePlayerPower();
             GameHUD();
 
             SwitchCaseMachine();
@@ -193,12 +202,18 @@ namespace RetroCode
             canvasAnimator.SetBool("ScoreXd", gameScoreMultiplier != 1f && gameState == GameState.InGame);
             canvasAnimator.SetBool("ShowHeatLevel", ActiveHeatLevel > 0 && gameState == GameState.InGame);
             canvasAnimator.SetBool("Near Miss", midCombo && gameState == GameState.InGame);
+            #endregion
 
-            hud.healthBarFill.fillAmount = Mathf.Lerp(
-                hud.healthBarFill.fillAmount, ((float)playerCar.health / (float)playerCar.data.autoLevelData[playerCar.armorLevel].MaxHealth),
+            #region Health & Power Bars
+            hud.healthBarSlider.value = Mathf.Lerp(
+                hud.healthBarSlider.value, ((float)playerCar.health / (float)playerCar.data.autoLevelData[playerCar.armorLevel].MaxHealth),
                 Time.deltaTime * 5f
                 );
 
+            hud.powerBarSlider.value = Mathf.Lerp(
+                hud.powerBarSlider.value, playerCurrentPower / playerMaxPower,
+                Time.deltaTime * 5f
+                );
             #endregion
 
             #region Pickup Markers
@@ -314,6 +329,11 @@ namespace RetroCode
         #endregion
 
         #region Gameplay
+        private void HandlePlayerPower()
+        {
+            playerCurrentPower = 100f;
+        }
+
         [BurstCompile]
         private void ResetGame()
         {
@@ -363,6 +383,7 @@ namespace RetroCode
         private void HandleAutoDamage()
         {
             // DO SMTH?? //
+            healthLossFX.PlaySystem();
         }
 
         // PRIVATE VARIABLES //
