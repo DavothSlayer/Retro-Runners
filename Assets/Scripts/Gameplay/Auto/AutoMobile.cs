@@ -18,7 +18,7 @@ namespace RetroCode
         public MainGameHUD hud;
 
         [Header("Physics")]
-        public UnityEngine.Rigidbody rb;
+        public Rigidbody rb;
 
         [Header("Car Data")]
         public AutoData data;

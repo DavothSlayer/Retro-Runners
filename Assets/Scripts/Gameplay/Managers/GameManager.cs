@@ -164,7 +164,7 @@ namespace RetroCode
             heatLevelChanged -= HeatLevelChangeListener;
             InputManager.UpperDoubleTapped -= AutoAbility;
             InputManager.LowerDoubleTapped -= RearviewMethod;
-            playerCar.Damaged -= HandleAutoDamage;
+            playerCar.Damaged -= HandleAutoDamage;            
         }
 
         private void Awake()
@@ -331,7 +331,17 @@ namespace RetroCode
         #region Gameplay
         private void HandlePlayerPower()
         {
-            playerCurrentPower = 100f;
+            if (GameManager.gameState != GameState.InGame) return;
+
+            if (playerCurrentPower > 0f)
+            {
+                playerCurrentPower -= 5f * Time.deltaTime;
+                powerBarFX.PlaySystem();
+            }
+            else
+            {
+                powerBarFX.StopSystem();
+            }
         }
 
         [BurstCompile]
@@ -375,6 +385,7 @@ namespace RetroCode
             playerCar.gearboxLevel = gamingServicesManager.cloudData.unlockedCarsDict[playerCar.data.ItemCode].lastSelectedCompList[1];
             playerCar.tiresLevel = gamingServicesManager.cloudData.unlockedCarsDict[playerCar.data.ItemCode].lastSelectedCompList[2];
             playerCar.armorLevel = gamingServicesManager.cloudData.unlockedCarsDict[playerCar.data.ItemCode].lastSelectedCompList[3];
+            playerCurrentPower = playerMaxPower;
             playerCar.FixAuto();
 
             playerCar.Damaged += HandleAutoDamage;
@@ -418,6 +429,8 @@ namespace RetroCode
 
             nearMissSource.PlayOneShot(nearMissSFX);
             nearMissFX.Play();
+
+            playerCurrentPower += 7.5f;
         }
 
         [BurstCompile]
