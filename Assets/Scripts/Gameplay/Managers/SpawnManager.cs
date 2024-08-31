@@ -250,9 +250,9 @@ namespace RetroCode
             for(int i = 0; i < activeNPCsLL.Count; i++)
             {
                 GameObject npc = activeNPCsLL[i];
-                npc.transform.position += npc.transform.forward * 15f * Time.deltaTime;
+                if(npc.activeInHierarchy) npc.transform.position += npc.transform.forward * 15f * Time.deltaTime;
 
-                if(npc.TryGetComponent(out Damageable comp))
+                if (npc.TryGetComponent(out Damageable comp))
                     if (comp.Health() <= 0)
                         EXMET.RemoveSpawnable(npc, activeNPCsLL, NPCPool);
             }
@@ -260,7 +260,7 @@ namespace RetroCode
             for(int i = 0; i < activeNPCsRL.Count; i++)
             {
                 GameObject npc = activeNPCsRL[i];
-                npc.transform.position += npc.transform.forward * 15f * Time.deltaTime;
+                if (npc.activeInHierarchy) npc.transform.position += npc.transform.forward * 15f * Time.deltaTime;
 
                 if (npc.TryGetComponent(out Damageable comp))
                     if (comp.Health() <= 0)
