@@ -6,6 +6,10 @@ namespace RetroCode
 {
     public class NPC : MonoBehaviour, Damageable, NearMissable
     {
+        [Header("Managers")]
+        [SerializeField]
+        private SpawnManager spawnManager;
+
         [Header("Core")]
         [SerializeField]
         private int health;
@@ -13,6 +17,7 @@ namespace RetroCode
         private int damageToPlayer;        
         public float topSpeed;
         public float targetSpeed;
+        public NPCType NPCType;
 
         public void Damage(int dmg)
         {
@@ -26,7 +31,7 @@ namespace RetroCode
         [BurstCompile]
         public virtual void HandleDeath()
         {
-
+            spawnManager.HandleDeadNPC(this);
         }
 
         public int Health()

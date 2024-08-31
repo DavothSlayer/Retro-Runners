@@ -130,8 +130,8 @@ namespace RetroCode
                 HandleDamage(damageable.DamageToPlayer());
                 damageable.Damage(1);
 
-                evaluation -= rb.linearVelocity.magnitude / data.autoLevelData[engineLevel].TopSpeed * 0.3f;
-                rb.AddForce(-col.relativeVelocity * 0.3f * massDragMltplr, ForceMode.Impulse);
+                //evaluation -= rb.linearVelocity.magnitude / data.autoLevelData[engineLevel].TopSpeed * 0.3f;
+                rb.AddForce(-col.relativeVelocity * 1f * massDragMltplr, ForceMode.Impulse);
             }
             else if (Vector3.Dot(col.GetContact(0).otherCollider.transform.forward, transform.forward) <= -0.75f)
             {
@@ -142,11 +142,12 @@ namespace RetroCode
                 HandleDamage(damageable.DamageToPlayer() * 2);
                 damageable.Damage(damageable.Health());
 
-                evaluation -= rb.linearVelocity.magnitude / data.autoLevelData[engineLevel].TopSpeed * 0.3f;
-                rb.AddForce(-col.relativeVelocity * 0.3f * massDragMltplr, ForceMode.Impulse);
+                //evaluation -= rb.linearVelocity.magnitude / data.autoLevelData[engineLevel].TopSpeed * 0.3f;
+                rb.AddForce(-col.relativeVelocity * 1f * massDragMltplr, ForceMode.Impulse);
             }
         }
 
+        [BurstCompile]
         public void OnTriggerEnter(Collider col)
         {
             if (GameManager.gameState != GameState.InGame) return;
@@ -196,6 +197,7 @@ namespace RetroCode
         private float boostMltplr;
         private float massDragMltplr;
 
+        [BurstCompile]
         private void AutoMath()
         {
             if (GameManager.gameState == GameState.InGame)
@@ -224,6 +226,7 @@ namespace RetroCode
             targetTorque = engineTorque * data.autoLevelData[engineLevel].TopSpeed * massDragMltplr;
         }
 
+        [BurstCompile]
         private void AutoMovement()
         {
             rb.linearVelocity = Vector3.ClampMagnitude(rb.linearVelocity, data.autoLevelData[engineLevel].TopSpeed * 2f);
@@ -253,6 +256,7 @@ namespace RetroCode
             rb.rotation = Quaternion.Euler(0f, 6f * input.xTouchLerp, 0f);
         }
 
+        [BurstCompile]
         public void HandleActivateAbility()
         {
             if (abilityState != AbilityState.Ready || GameManager.gameState != GameState.InGame) return;
@@ -268,6 +272,7 @@ namespace RetroCode
             gameManager.ShakeTheCam(1f);
         }
 
+        [BurstCompile]
         private void AbilityHandler()
         {
             switch (abilityState)

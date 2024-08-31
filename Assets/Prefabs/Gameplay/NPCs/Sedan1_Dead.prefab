@@ -24518,6 +24518,7 @@ GameObject:
   serializedVersion: 6
   m_Component:
   - component: {fileID: 7035693959558545630}
+  - component: {fileID: -842186873480184082}
   m_Layer: 11
   m_Name: Sedan1_Dead
   m_TagString: Untagged
@@ -24541,6 +24542,22 @@ Transform:
   - {fileID: 4962903085196990265}
   m_Father: {fileID: 0}
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
+--- !u!114 &-842186873480184082
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 7703441031612144228}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 08a99d15a5fe314438beeed0ed8f30f7, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  NPCType: 0
+  rigidBodies:
+  - {fileID: 4382990677330685029}
+  referenceRigidBody: {fileID: 4382990677330685029}
 --- !u!1 &8637699341230685155
 GameObject:
   m_ObjectHideFlags: 0

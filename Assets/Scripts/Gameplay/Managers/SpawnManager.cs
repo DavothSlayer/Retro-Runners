@@ -31,6 +31,7 @@ namespace RetroCode
         public Transform PickupPoolParent;
         [Space]
         public List<GameObject> NPCPool = new List<GameObject>();
+        public List<GameObject> DeadNPCPool = new List<GameObject>();
         public List<GameObject> HeliPool = new List<GameObject>();
         public List<GameObject> COPPool = new List<GameObject>();
         public List<GameObject> RailsPool = new List<GameObject>();
@@ -63,6 +64,8 @@ namespace RetroCode
         public List<GameObject> activeCOPs = new List<GameObject>();
         [HideInInspector]
         public List<GameObject> activeHelis = new List<GameObject>();
+        [HideInInspector]
+        public List<GameObject> activeDeadNPCs = new List<GameObject>();
         // OBSTACLES //
         [HideInInspector]
         public List<GameObject> activePickups = new List<GameObject>();
@@ -251,21 +254,37 @@ namespace RetroCode
             {
                 GameObject npc = activeNPCsLL[i];
                 if(npc.activeInHierarchy) npc.transform.position += npc.transform.forward * 15f * Time.deltaTime;
-
-                if (npc.TryGetComponent(out Damageable comp))
-                    if (comp.Health() <= 0)
-                        EXMET.RemoveSpawnable(npc, activeNPCsLL, NPCPool);
             }
             
             for(int i = 0; i < activeNPCsRL.Count; i++)
             {
                 GameObject npc = activeNPCsRL[i];
                 if (npc.activeInHierarchy) npc.transform.position += npc.transform.forward * 15f * Time.deltaTime;
-
-                if (npc.TryGetComponent(out Damageable comp))
-                    if (comp.Health() <= 0)
-                        EXMET.RemoveSpawnable(npc, activeNPCsRL, NPCPool);
             }
+        }
+
+        [BurstCompile]
+        public void HandleDeadNPC(NPC npc)
+        {
+            EXMET.RemoveSpawnable(npc.gameObject, npc.transform.position.x < 0f ? activeNPCsLL : activeNPCsRL, NPCPool);
+
+            DeadNPC deadnpc = null;
+            for(int i = 0; i < DeadNPCPool.Count; i++)
+            {
+                DeadNPC dNPC = DeadNPCPool[i].GetComponent<DeadNPC>();
+
+                if (dNPC.NPCType == npc.NPCType)
+                {
+                    deadnpc = dNPC;
+                    break;
+                }
+            }
+
+            if (deadnpc == null) return;
+
+            deadnpc.transform.SetPositionAndRotation(npc.transform.position, npc.transform.rotation);
+            EXMET.AddSpawnable(deadnpc.gameObject, activeDeadNPCs, DeadNPCPool);
+            deadnpc.ActivateDead(npc.transform.forward * Random.Range(15f, 25f) + npc.transform.up * Random.Range(3f, 7f));
         }
 
         public void HeatLevelCheck()
@@ -324,6 +343,19 @@ namespace RetroCode
 
                     if (npc.transform.position.z < playerPos.z - minDespawnDistance || npc.transform.position.z > playerPos.z + maxDespawnDistance)
                         EXMET.RemoveSpawnable(npc, activeNPCsRL, NPCPool);
+                }
+
+            if(activeDeadNPCs.Count != 0)
+                for (int i = 0; i < activeDeadNPCs.Count; i++)
+                {
+                    DeadNPC deadNPC = activeDeadNPCs[i].GetComponent<DeadNPC>();
+                    if (deadNPC == null) continue;
+
+                    if (deadNPC.referenceRigidBody.position.z < playerPos.z - minDespawnDistance || deadNPC.referenceRigidBody.position.z > playerPos.z + maxDespawnDistance)
+                    {
+                        EXMET.RemoveSpawnable(deadNPC.gameObject, activeDeadNPCs, DeadNPCPool);
+                        deadNPC.ResetDead();
+                    }
                 }
         }
 
@@ -665,6 +697,13 @@ namespace RetroCode
 
             InitializeNPCs();
         }
+    }
+
+    public enum NPCType
+    {
+        Sedan,
+        Flatbed,
+        Oilrig,
     }
 
     [Serializable]

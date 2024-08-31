@@ -47,10 +47,12 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: a5a3e315394ff614babca5e148f4c212, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
+  spawnManager: {fileID: 0}
   health: 1
   damageToPlayer: 10
   topSpeed: 0
   targetSpeed: 0
+  NPCType: 2
 --- !u!64 &1901433584589967246
 MeshCollider:
   m_ObjectHideFlags: 0
