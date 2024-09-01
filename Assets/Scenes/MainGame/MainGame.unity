@@ -100182,12 +100182,12 @@ MonoBehaviour:
   camHolder: {fileID: 1045322928}
   canvas: {fileID: 1329447040}
   canvasAnimator: {fileID: 1329447042}
-  nearMissSFX: {fileID: 8300000, guid: 77e8b9a6ca0417642af49081c94730b2, type: 3}
-  boostPickupSFX: {fileID: 8300000, guid: a5328305664bb9f4e9daae523e24fd97, type: 3}
-  fixerPickupSFX: {fileID: 8300000, guid: 0373fc121f5f74e49b1a1c30d3bf879a, type: 3}
-  tokenPickupSFX: {fileID: 8300000, guid: 1b36f828c1fab6f45a11eb4bf19ce43e, type: 3}
-  heatLevelSFX: {fileID: 8300000, guid: fae4fd2891c04fe4cbb3c821b11b263b, type: 3}
-  abilityReadyClip: {fileID: 8300000, guid: 348a4f876cb97754c9a2b487bc2eb15b, type: 3}
+  nearMissSFX: {fileID: 8300000, guid: d9007431896644a4d9db35a04c39a8e5, type: 3}
+  boostPickupSFX: {fileID: 8300000, guid: 7aa85dfd7a6dfc34aadf8a26576af382, type: 3}
+  fixerPickupSFX: {fileID: 8300000, guid: c55f649825719294888459579de10ee1, type: 3}
+  tokenPickupSFX: {fileID: 8300000, guid: c0a744855ad28bc4cabcec81eb93ea67, type: 3}
+  heatLevelSFX: {fileID: 8300000, guid: 9009cbdc47427da419a6160a47f97b54, type: 3}
+  abilityReadyClip: {fileID: 8300000, guid: 0fc123c69adbe9a4c9575fd6f101b609, type: 3}
   gamePaused: 0
   currentRunScore: 1415.599
   activeHeatLevel: 0
