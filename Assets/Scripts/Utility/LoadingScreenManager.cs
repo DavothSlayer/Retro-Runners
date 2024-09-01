@@ -1,5 +1,6 @@
 using System.Collections;
 using System.Collections.Generic;
+using System.Threading.Tasks;
 using TMPro;
 using UnityEngine;
 using UnityEngine.SceneManagement;
@@ -40,10 +41,10 @@ namespace RetroCode
 
         public void EnterSceneMethod(int i )
         {
-            StartCoroutine(EnterSceneRoutine(i));
+            EnterSceneRoutine(i);
         }
 
-        private IEnumerator EnterSceneRoutine(int i)
+        private async void EnterSceneRoutine(int i)
         {
             loadingStatusText.text = "LOADING";
             readyToLoad = false;
@@ -51,7 +52,7 @@ namespace RetroCode
             SetLoadingScreenState(1);
             SetScreenContent();
 
-            yield return new WaitForSeconds(0.45f);
+            await Task.Delay(500);
 
             asyncOP = SceneManager.LoadSceneAsync(i);
             asyncOP.allowSceneActivation = false;
@@ -66,7 +67,7 @@ namespace RetroCode
                         asyncOP.allowSceneActivation = true;
                 }
 
-                yield return null;
+                await Task.Yield();
             }
         }
 
@@ -79,13 +80,14 @@ namespace RetroCode
         {
             if (asyncOP.progress < 0.9f) return;
 
-            StartCoroutine(LoadReadySceneRoutine());
+            LoadReadySceneRoutine();
         }
-        private IEnumerator LoadReadySceneRoutine()
+
+        private async void LoadReadySceneRoutine()
         {
             SetLoadingScreenState(0);
 
-            yield return new WaitForSeconds(0.5f);
+            await Task.Delay(500);
 
             readyToLoad = true;
         }
