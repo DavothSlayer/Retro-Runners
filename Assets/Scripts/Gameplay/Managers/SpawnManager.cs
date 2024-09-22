@@ -1,8 +1,6 @@
 using System;
 using System.Collections.Generic;
-using System.Linq;
 using Unity.Burst;
-using Unity.VisualScripting;
 using UnityEngine;
 using UnityEngine.Events;
 using V3CTOR;
@@ -83,6 +81,8 @@ namespace RetroCode
         [BurstCompile]
         private void Update()
         {
+            if (gameManager.playerTransform == null) return;
+
             HandleNPCs();
 
             TileHandler();

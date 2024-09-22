@@ -6,7 +6,6 @@ using System.Collections.Generic;
 using Newtonsoft.Json;
 using UnityEngine.Events;
 using System.Threading.Tasks;
-using System;
 
 namespace RetroCode
 {
@@ -142,7 +141,16 @@ namespace RetroCode
             }
             catch (AuthenticationException ex)
             {
-                print(ex);
+                print(ex.ErrorCode);
+
+                // SESSIONTOKEN INVALID, ACCOUNT DELETED AND TRYING TO SIGN IN FOR THE 1ST TIME //
+
+                if(ex.ErrorCode == 10007)
+                {
+                    print("account fucked.");
+                    AuthenticationService.Instance.ClearSessionToken();
+                    await Authenticate();
+                }
 
                 AuthFailed?.Invoke();
             }
@@ -197,15 +205,19 @@ namespace RetroCode
             {
                 print("No CloudData found. Creating new Save...");
 
-                cloudData.unlockedCarsDict.Add("Bane", new CloudAutoData());
+                CloudData cd = new CloudData();
 
-                cloudData.unlockedCarsDict["Bane"].compCodes.Add("Engine_LVL1");
-                cloudData.unlockedCarsDict["Bane"].compCodes.Add("Gearbox_LVL1");
-                cloudData.unlockedCarsDict["Bane"].compCodes.Add("Tires_LVL1");
-                cloudData.unlockedCarsDict["Bane"].compCodes.Add("Armor_LVL1");
+                cd.unlockedCarsDict.Add("Bane", new CloudAutoData());
+
+                cd.unlockedCarsDict["Bane"].compCodes.Add("Engine_LVL1");
+                cd.unlockedCarsDict["Bane"].compCodes.Add("Gearbox_LVL1");
+                cd.unlockedCarsDict["Bane"].compCodes.Add("Tires_LVL1");
+                cd.unlockedCarsDict["Bane"].compCodes.Add("Armor_LVL1");
 
                 for (int i = 0; i < 4; i++)
-                    cloudData.unlockedCarsDict["Bane"].lastSelectedCompList.Add(0);
+                    cd.unlockedCarsDict["Bane"].lastSelectedCompList.Add(0);
+
+                cloudData = cd;
 
                 SaveCloudData(true);
             }
