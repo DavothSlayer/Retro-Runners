@@ -663,10 +663,10 @@ namespace RetroCode
             gamingServicesManager.cloudData.retroDollars = cloudDollars;
 
             // DISPLAY EARNINGS AND THE SCORE //
-            hud.earnings.text = $"${currentRunReward.ToString("n0")}  EARNED";
-            hud.finalScore.text = $"SCORE \n {currentRunScore.ToString("n0")}";
-            hud.finalNMH.text = $"HIGHEST  NEAR  MISS  COMBO \n {currentRunNMH}X";
-            hud.COPKillCount.text = $"{currentRunCOPsDestroyed}  COPs  Destroyed!";
+            hud.earnings.text = $"R$ {currentRunReward.ToString("n0")} EARNED";
+            hud.finalScore.text = $"SCORE {currentRunScore.ToString("n0")}";
+            hud.finalNMH.text = $"HIGHEST NEAR MISS COMBO {currentRunNMH}X";
+            hud.COPKillCount.text = $"{currentRunCOPsDestroyed} COPs Destroyed!";
 
             UpdateGameScreen();
             gamingServicesManager.SaveCloudData(false);

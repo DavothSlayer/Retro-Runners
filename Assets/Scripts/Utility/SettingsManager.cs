@@ -80,7 +80,7 @@ namespace RetroCode
 
         public void RenderScaleSliderChange()
         {
-            renderScaleText.text = $"{renderScaleSlider.value}%";
+            renderScaleText.text = $"Resolution {renderScaleSlider.value}%";
             renderAsset.renderScale = renderScaleSlider.value / 100f;
 
             settings.RenderScale = renderScaleSlider.value / 100f;
@@ -102,7 +102,7 @@ namespace RetroCode
         public void BackMusicSliderChange()
         {
             backMusicSource.volume = backMusicSlider.value / 100f;
-            backMusicText.text = $"{backMusicSlider.value}%";
+            backMusicText.text = $"Music {backMusicSlider.value}%";
 
             settings.BackMusicVol = backMusicSlider.value;
         }
@@ -112,7 +112,7 @@ namespace RetroCode
             for(int i = 0; i < gameSoundSource.Length; i++)
                 gameSoundSource[i].volume = gameSoundVolumes[i] * (gameSoundSlider.value / 100f);
 
-            gameSoundText.text = $"{gameSoundSlider.value}%";
+            gameSoundText.text = $"Sounds {gameSoundSlider.value}%";
 
             settings.EffectsVol = gameSoundSlider.value;
         }
@@ -162,7 +162,7 @@ namespace RetroCode
             if(renderScaleSlider != null)
             {
                 renderScaleSlider.value = settings.RenderScale * 100f;
-                renderScaleText.text = $"{renderScaleSlider.value}%";
+                renderScaleText.text = $"Resolution {renderScaleSlider.value}%";
             }
             // RENDER SCALE //
 
