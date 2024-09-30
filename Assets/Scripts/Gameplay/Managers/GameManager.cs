@@ -33,12 +33,6 @@ namespace RetroCode
         private GameObject[] allAutos;
         [SerializeField]
         private ParticleSystem speedLinesFX;
-        [SerializeField]
-        private ParticleSystem nearMissFX;
-        [SerializeField]
-        private ParticleSystem healthLossFX;
-        [SerializeField]
-        private ParticleSystem powerBarFX;
         [Space]
         public Transform playerTransform;
         public AutoMobile playerCar;
@@ -329,14 +323,7 @@ namespace RetroCode
             if (GameManager.gameState != GameState.InGame) return;
 
             if (playerCurrentPower > 0f)
-            {
                 playerCurrentPower -= 5f * Time.deltaTime;
-                powerBarFX.PlaySystem();
-            }
-            else
-            {
-                powerBarFX.StopSystem();
-            }
         }
 
         [BurstCompile]
@@ -388,8 +375,7 @@ namespace RetroCode
 
         private void HandleAutoDamage()
         {
-            // DO SMTH?? //
-            healthLossFX.PlaySystem();
+            // DO SMTH?? //            
         }
 
         // PRIVATE VARIABLES //
@@ -423,7 +409,6 @@ namespace RetroCode
             nearMissSource.pitch = Mathf.Clamp(nearMissSource.pitch, 0.8f, 1.4f);
 
             nearMissSource.PlayOneShot(nearMissSFX);
-            nearMissFX.Play();
 
             playerCurrentPower += 7.5f;
         }

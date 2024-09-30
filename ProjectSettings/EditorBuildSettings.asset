@@ -6,9 +6,13 @@ EditorBuildSettings:
   serializedVersion: 2
   m_Scenes:
   - enabled: 1
+    path: Assets/Scenes/IntroScene.unity
+    guid: 4ada28e6fbc444d45820a7b51d0c2041
+  - enabled: 1
     path: Assets/Scenes/MainGame/MainGame.unity
     guid: 444191f7d0d8f644688ba9ba0086b46b
   - enabled: 1
     path: Assets/Scenes/RetroGarage/RetroGarage.unity
     guid: 4f17a00847581d4468324878df2152f3
   m_configObjects: {}
+  m_UseUCBPForAssetBundles: 0
