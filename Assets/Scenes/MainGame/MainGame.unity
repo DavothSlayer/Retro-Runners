@@ -5962,9 +5962,9 @@ RectTransform:
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
   m_AnchorMin: {x: 0, y: 1}
   m_AnchorMax: {x: 0, y: 1}
-  m_AnchoredPosition: {x: -380, y: -120}
+  m_AnchoredPosition: {x: -317.5, y: -182.5}
   m_SizeDelta: {x: 125, y: 125}
-  m_Pivot: {x: 0, y: 1}
+  m_Pivot: {x: 0.5, y: 0.5}
 --- !u!114 &78831291
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -6043,6 +6043,18 @@ MonoBehaviour:
             m_ObjectArgument: {fileID: 8300000, guid: aec7300638add4d4984937e0b003e0cb,
               type: 3}
             m_ObjectArgumentAssemblyTypeName: UnityEngine.AudioClip, UnityEngine
+            m_IntArgument: 0
+            m_FloatArgument: 0
+            m_StringArgument: 
+            m_BoolArgument: 0
+          m_CallState: 2
+        - m_Target: {fileID: 1178417935}
+          m_TargetAssemblyTypeName: Tweener, Assembly-CSharp
+          m_MethodName: ButtonPressBounce
+          m_Mode: 2
+          m_Arguments:
+            m_ObjectArgument: {fileID: 78831289}
+            m_ObjectArgumentAssemblyTypeName: UnityEngine.GameObject, UnityEngine
             m_IntArgument: 0
             m_FloatArgument: 0
             m_StringArgument: 
@@ -6137,7 +6149,7 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   m_EffectColor: {r: 0, g: 0, b: 0, a: 1}
-  m_EffectDistance: {x: 5, y: -5}
+  m_EffectDistance: {x: 0, y: -5}
   m_UseGraphicAlpha: 1
 --- !u!1001 &94011280
 PrefabInstance:
@@ -6554,7 +6566,7 @@ RectTransform:
   m_AnchorMin: {x: 0, y: 0.5}
   m_AnchorMax: {x: 0, y: 0.5}
   m_AnchoredPosition: {x: 90, y: 65}
-  m_SizeDelta: {x: 439.26, y: 65.63}
+  m_SizeDelta: {x: 0, y: 0}
   m_Pivot: {x: 0, y: 0.5}
 --- !u!114 &98142304
 MonoBehaviour:
@@ -12246,7 +12258,7 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   m_EffectColor: {r: 0, g: 0, b: 0, a: 1}
-  m_EffectDistance: {x: 5, y: -5}
+  m_EffectDistance: {x: 0, y: -5}
   m_UseGraphicAlpha: 1
 --- !u!114 &157518452
 MonoBehaviour:
@@ -12408,9 +12420,9 @@ RectTransform:
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
   m_AnchorMin: {x: 0, y: 0.5}
   m_AnchorMax: {x: 0, y: 0.5}
-  m_AnchoredPosition: {x: 0, y: 0}
+  m_AnchoredPosition: {x: 50, y: 0}
   m_SizeDelta: {x: 100, y: 100}
-  m_Pivot: {x: 0, y: 0.5}
+  m_Pivot: {x: 0.5, y: 0.5}
 --- !u!114 &171580850
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -12427,7 +12439,7 @@ MonoBehaviour:
   m_Color: {r: 0.96862745, g: 0, b: 1, a: 1}
   m_RaycastTarget: 1
   m_RaycastPadding: {x: 0, y: 0, z: 0, w: 0}
-  m_Maskable: 1
+  m_Maskable: 0
   m_OnCullStateChanged:
     m_PersistentCalls:
       m_Calls: []
@@ -12486,9 +12498,21 @@ MonoBehaviour:
           m_MethodName: PlayOneShot
           m_Mode: 2
           m_Arguments:
-            m_ObjectArgument: {fileID: 8300000, guid: 3a7a9342565812b438aa11b55ed6d3ef,
+            m_ObjectArgument: {fileID: 8300000, guid: aec7300638add4d4984937e0b003e0cb,
               type: 3}
             m_ObjectArgumentAssemblyTypeName: UnityEngine.AudioClip, UnityEngine
+            m_IntArgument: 0
+            m_FloatArgument: 0
+            m_StringArgument: 
+            m_BoolArgument: 0
+          m_CallState: 2
+        - m_Target: {fileID: 1178417935}
+          m_TargetAssemblyTypeName: Tweener, Assembly-CSharp
+          m_MethodName: ButtonPressBounce
+          m_Mode: 2
+          m_Arguments:
+            m_ObjectArgument: {fileID: 171580848}
+            m_ObjectArgumentAssemblyTypeName: UnityEngine.GameObject, UnityEngine
             m_IntArgument: 0
             m_FloatArgument: 0
             m_StringArgument: 
@@ -18904,7 +18928,7 @@ RectTransform:
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
   m_AnchorMin: {x: 0, y: 0}
   m_AnchorMax: {x: 1, y: 0}
-  m_AnchoredPosition: {x: 0, y: -250.00002}
+  m_AnchoredPosition: {x: 0, y: -250}
   m_SizeDelta: {x: 300, y: 125}
   m_Pivot: {x: 0.5, y: 0}
 --- !u!114 &273027807
@@ -19776,7 +19800,7 @@ RectTransform:
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
   m_AnchorMin: {x: 0.5, y: 1}
   m_AnchorMax: {x: 0.5, y: 1}
-  m_AnchoredPosition: {x: 0, y: 145.00002}
+  m_AnchoredPosition: {x: 0, y: 145}
   m_SizeDelta: {x: 0, y: 0}
   m_Pivot: {x: 0.5, y: 0.5}
 --- !u!114 &333852423
@@ -25653,6 +25677,7 @@ GameObject:
   - component: {fileID: 373953813}
   - component: {fileID: 373953815}
   - component: {fileID: 373953814}
+  - component: {fileID: 373953816}
   m_Layer: 5
   m_Name: ShopIcon
   m_TagString: Untagged
@@ -25717,6 +25742,21 @@ CanvasRenderer:
   m_PrefabAsset: {fileID: 0}
   m_GameObject: {fileID: 373953812}
   m_CullTransparentMesh: 1
+--- !u!114 &373953816
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 373953812}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: cfabb0440166ab443bba8876756fdfa9, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  m_EffectColor: {r: 0, g: 0, b: 0, a: 1}
+  m_EffectDistance: {x: 0, y: -5}
+  m_UseGraphicAlpha: 1
 --- !u!1001 &374847173
 PrefabInstance:
   m_ObjectHideFlags: 0
@@ -26886,7 +26926,7 @@ RectTransform:
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
   m_AnchorMin: {x: 0, y: 0}
   m_AnchorMax: {x: 1, y: 1}
-  m_AnchoredPosition: {x: -45.000008, y: 0}
+  m_AnchoredPosition: {x: -45, y: 0}
   m_SizeDelta: {x: -90, y: 0}
   m_Pivot: {x: 0.5, y: 0.5}
 --- !u!114 &440760527
@@ -27495,7 +27535,7 @@ RectTransform:
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
   m_AnchorMin: {x: 1, y: 1}
   m_AnchorMax: {x: 1, y: 1}
-  m_AnchoredPosition: {x: 955.0001, y: -175}
+  m_AnchoredPosition: {x: 955, y: -175}
   m_SizeDelta: {x: 605, y: 115}
   m_Pivot: {x: 1, y: 0.5}
 --- !u!114 &468075757
@@ -32947,12 +32987,6 @@ GameObject:
     type: 3}
   m_PrefabInstance: {fileID: 497748582}
   m_PrefabAsset: {fileID: 0}
---- !u!82 &504340685 stripped
-AudioSource:
-  m_CorrespondingSourceObject: {fileID: 1620637327300323923, guid: 4cb412852a380eb41b8eea3eae897b83,
-    type: 3}
-  m_PrefabInstance: {fileID: 167370860818482918}
-  m_PrefabAsset: {fileID: 0}
 --- !u!1 &505088451
 GameObject:
   m_ObjectHideFlags: 0
@@ -34439,7 +34473,7 @@ RectTransform:
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
   m_AnchorMin: {x: 0, y: 0}
   m_AnchorMax: {x: 0, y: 0}
-  m_AnchoredPosition: {x: -1000.0001, y: 75}
+  m_AnchoredPosition: {x: -1000, y: 75}
   m_SizeDelta: {x: 575, y: 120}
   m_Pivot: {x: 0, y: 0}
 --- !u!114 &592087205
@@ -34592,9 +34626,9 @@ RectTransform:
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
   m_AnchorMin: {x: 0, y: 1}
   m_AnchorMax: {x: 0, y: 1}
-  m_AnchoredPosition: {x: -690, y: -120}
+  m_AnchoredPosition: {x: -627.5, y: -181.5}
   m_SizeDelta: {x: 125, y: 125}
-  m_Pivot: {x: 0, y: 1}
+  m_Pivot: {x: 0.5, y: 0.5}
 --- !u!114 &605381017
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -35226,7 +35260,7 @@ RectTransform:
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
   m_AnchorMin: {x: 0, y: 0}
   m_AnchorMax: {x: 1, y: 1}
-  m_AnchoredPosition: {x: -67.50001, y: 0}
+  m_AnchoredPosition: {x: -67.5, y: 0}
   m_SizeDelta: {x: -135, y: 0}
   m_Pivot: {x: 0.5, y: 0.5}
 --- !u!114 &631248592
@@ -46707,7 +46741,7 @@ RectTransform:
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
   m_AnchorMin: {x: 0, y: 0}
   m_AnchorMax: {x: 1, y: 1}
-  m_AnchoredPosition: {x: -45, y: 0}
+  m_AnchoredPosition: {x: -45.00006, y: 0}
   m_SizeDelta: {x: -360, y: 0}
   m_Pivot: {x: 1, y: 0.5}
 --- !u!114 &726543664
@@ -52214,7 +52248,7 @@ RectTransform:
   m_AnchorMin: {x: 0, y: 0.5}
   m_AnchorMax: {x: 0, y: 0.5}
   m_AnchoredPosition: {x: 90, y: 0}
-  m_SizeDelta: {x: 718.3, y: 65.63}
+  m_SizeDelta: {x: 0, y: 0}
   m_Pivot: {x: 0, y: 0.5}
 --- !u!114 &768842917
 MonoBehaviour:
@@ -58462,7 +58496,7 @@ GameObject:
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
   m_StaticEditorFlags: 2147483647
-  m_IsActive: 0
+  m_IsActive: 1
 --- !u!224 &852702156
 RectTransform:
   m_ObjectHideFlags: 0
@@ -59817,7 +59851,7 @@ RectTransform:
   m_AnchorMin: {x: 0, y: 0.5}
   m_AnchorMax: {x: 0, y: 0.5}
   m_AnchoredPosition: {x: 90, y: -65}
-  m_SizeDelta: {x: 748.89, y: 65.63}
+  m_SizeDelta: {x: 0, y: 0}
   m_Pivot: {x: 0, y: 0.5}
 --- !u!114 &921400075
 MonoBehaviour:
@@ -81605,9 +81639,9 @@ RectTransform:
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
   m_AnchorMin: {x: 1, y: 0}
   m_AnchorMax: {x: 1, y: 0}
-  m_AnchoredPosition: {x: 930.0001, y: 75}
+  m_AnchoredPosition: {x: 642.5, y: 135}
   m_SizeDelta: {x: 575, y: 120}
-  m_Pivot: {x: 1, y: 0}
+  m_Pivot: {x: 0.5, y: 0.5}
 --- !u!114 &1030251803
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -81699,6 +81733,18 @@ MonoBehaviour:
             m_ObjectArgument: {fileID: 0}
             m_ObjectArgumentAssemblyTypeName: UnityEngine.Object, UnityEngine
             m_IntArgument: 1
+            m_FloatArgument: 0
+            m_StringArgument: 
+            m_BoolArgument: 0
+          m_CallState: 2
+        - m_Target: {fileID: 1178417935}
+          m_TargetAssemblyTypeName: Tweener, Assembly-CSharp
+          m_MethodName: ButtonPressBounce
+          m_Mode: 2
+          m_Arguments:
+            m_ObjectArgument: {fileID: 1030251801}
+            m_ObjectArgumentAssemblyTypeName: UnityEngine.GameObject, UnityEngine
+            m_IntArgument: 0
             m_FloatArgument: 0
             m_StringArgument: 
             m_BoolArgument: 0
@@ -81891,7 +81937,7 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   m_EffectColor: {r: 0, g: 0, b: 0, a: 1}
-  m_EffectDistance: {x: 5, y: -5}
+  m_EffectDistance: {x: 0, y: -5}
   m_UseGraphicAlpha: 1
 --- !u!82 &1039610354 stripped
 AudioSource:
@@ -87975,9 +88021,9 @@ RectTransform:
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
   m_AnchorMin: {x: 1, y: 0}
   m_AnchorMax: {x: 1, y: 0}
-  m_AnchoredPosition: {x: 1050.0001, y: 225}
+  m_AnchoredPosition: {x: 762.5, y: 285.00003}
   m_SizeDelta: {x: 575, y: 120}
-  m_Pivot: {x: 1, y: 0}
+  m_Pivot: {x: 0.5, y: 0.5}
 --- !u!114 &1090863948
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -88092,6 +88138,18 @@ MonoBehaviour:
           m_Arguments:
             m_ObjectArgument: {fileID: 0}
             m_ObjectArgumentAssemblyTypeName: UnityEngine.Object, UnityEngine
+            m_IntArgument: 0
+            m_FloatArgument: 0
+            m_StringArgument: 
+            m_BoolArgument: 0
+          m_CallState: 2
+        - m_Target: {fileID: 1178417935}
+          m_TargetAssemblyTypeName: Tweener, Assembly-CSharp
+          m_MethodName: ButtonPressBounce
+          m_Mode: 2
+          m_Arguments:
+            m_ObjectArgument: {fileID: 1090863946}
+            m_ObjectArgumentAssemblyTypeName: UnityEngine.GameObject, UnityEngine
             m_IntArgument: 0
             m_FloatArgument: 0
             m_StringArgument: 
@@ -99857,6 +99915,7 @@ GameObject:
   - component: {fileID: 1178417932}
   - component: {fileID: 1178417933}
   - component: {fileID: 1178417934}
+  - component: {fileID: 1178417935}
   - component: {fileID: 1178417924}
   m_Layer: 0
   m_Name: GameManager
@@ -99945,8 +100004,8 @@ MonoBehaviour:
   gameCamPos: {x: 0, y: 4.1, z: -9.5}
   gameCamRot: {x: 0.02617695, y: 0, z: 0, w: 0.99965733}
   gameCamFOV: 50
-  gameoverCamPos: {x: 0, y: 8, z: -28}
-  gameoverCamRot: {x: 0, y: 0, z: 0, w: 0}
+  gameoverCamPos: {x: 0, y: 2.5, z: -8}
+  gameoverCamRot: {x: 0.043619387, y: 0, z: 0, w: 0.99904823}
   gameoverCamFOV: 75
   camHolder: {fileID: 1045322928}
   canvas: {fileID: 1329447040}
@@ -100549,7 +100608,7 @@ MonoBehaviour:
   backMusicSource: {fileID: 535426005}
   gameSoundSource:
   - {fileID: 1396529286}
-  - {fileID: 504340685}
+  - {fileID: 0}
   - {fileID: 782258934}
   - {fileID: 997906826}
   - {fileID: 736075698}
@@ -100683,6 +100742,18 @@ MonoBehaviour:
     Title: 
     Paragraph: 
     showContent: 0
+--- !u!114 &1178417935
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 1178417920}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: ac139ca39cde7964cbece15ff3db412e, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
 --- !u!1 &1183217697
 GameObject:
   m_ObjectHideFlags: 0
@@ -100722,18 +100793,18 @@ Camera:
   m_ClearFlags: 1
   m_BackGroundColor: {r: 0.10764508, g: 0.18554671, b: 0.38679248, a: 0}
   m_projectionMatrixMode: 1
-  m_GateFitMode: 2
+  m_GateFitMode: 3
   m_FOVAxisMode: 0
   m_Iso: 200
   m_ShutterSpeed: 0.005
   m_Aperture: 16
   m_FocusDistance: 10
-  m_FocalLength: 50
+  m_FocalLength: 11.999999
   m_BladeCount: 5
   m_Curvature: {x: 2, y: 11}
   m_BarrelClipping: 0.25
   m_Anamorphism: 0
-  m_SensorSize: {x: 36, y: 24}
+  m_SensorSize: {x: 20.726, y: 15.545}
   m_LensShift: {x: 0, y: 0}
   m_NormalizedViewPortRect:
     serializedVersion: 2
@@ -100743,9 +100814,9 @@ Camera:
     height: 1
   near clip plane: 0.3
   far clip plane: 5000
-  field of view: 90
+  field of view: 65.86294
   orthographic: 0
-  orthographic size: 0.9
+  orthographic size: 1.1725
   m_Depth: 0
   m_CullingMask:
     serializedVersion: 2
@@ -101417,7 +101488,7 @@ RectTransform:
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
   m_AnchorMin: {x: 0, y: 0}
   m_AnchorMax: {x: 0, y: 0}
-  m_AnchoredPosition: {x: -1000.0001, y: 75}
+  m_AnchoredPosition: {x: -1000, y: 75}
   m_SizeDelta: {x: 575, y: 120}
   m_Pivot: {x: 0, y: 0}
 --- !u!114 &1246614038
@@ -107421,7 +107492,7 @@ Canvas:
   m_RenderMode: 1
   m_Camera: {fileID: 1183217700}
   m_PlaneDistance: 1
-  m_PixelPerfect: 1
+  m_PixelPerfect: 0
   m_ReceivesEvents: 1
   m_OverrideSorting: 0
   m_OverridePixelPerfect: 0
@@ -115804,7 +115875,7 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   m_EffectColor: {r: 0, g: 0, b: 0, a: 1}
-  m_EffectDistance: {x: 5, y: -5}
+  m_EffectDistance: {x: 0, y: -5}
   m_UseGraphicAlpha: 1
 --- !u!114 &1513361037
 MonoBehaviour:
@@ -118793,7 +118864,7 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   m_EffectColor: {r: 0, g: 0, b: 0, a: 1}
-  m_EffectDistance: {x: 5, y: -5}
+  m_EffectDistance: {x: 0, y: -5}
   m_UseGraphicAlpha: 1
 --- !u!1001 &1704634427
 PrefabInstance:
@@ -131599,7 +131670,7 @@ RectTransform:
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
   m_AnchorMin: {x: 0, y: 0.5}
   m_AnchorMax: {x: 1, y: 1}
-  m_AnchoredPosition: {x: 0, y: -25.499998}
+  m_AnchoredPosition: {x: 0, y: -25.499996}
   m_SizeDelta: {x: 0, y: 51}
   m_Pivot: {x: 0.5, y: 0.5}
 --- !u!114 &1977819031
@@ -131837,7 +131908,7 @@ RectTransform:
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
   m_AnchorMin: {x: 0, y: 1}
   m_AnchorMax: {x: 1, y: 1}
-  m_AnchoredPosition: {x: 0, y: 250.00002}
+  m_AnchoredPosition: {x: 0, y: 250}
   m_SizeDelta: {x: 300, y: 125}
   m_Pivot: {x: 0.5, y: 1}
 --- !u!114 &1998642720
