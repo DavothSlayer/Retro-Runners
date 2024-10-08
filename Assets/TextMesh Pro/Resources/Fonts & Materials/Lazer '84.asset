@@ -27,8 +27,8 @@ Material:
     m_Ints: []
     m_Floats:
     - _GradientScale: 11
-    - _ScaleRatioA: 0.9
-    - _ScaleRatioC: 0.585
+    - _ScaleRatioA: 0.90909094
+    - _ScaleRatioC: 0.59090906
     - _TextureHeight: 1024
     - _TextureWidth: 1024
     m_Colors: []

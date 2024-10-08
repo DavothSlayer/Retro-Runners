@@ -29,6 +29,22 @@ ModelImporter:
       assembly: UnityEngine.CoreModule
       name: RetroAtlasUniversal
     second: {fileID: 2100000, guid: c4e14fc166e47ad429cd92bd22880f1d, type: 2}
+  - first:
+      type: UnityEngine:Material
+      assembly: UnityEngine.CoreModule
+      name: RetroGodRay
+    second: {fileID: -876546973899608171, guid: 36b6cf6a65d45504eaf78e3e81523a0e,
+      type: 3}
+  - first:
+      type: UnityEngine:Material
+      assembly: UnityEngine.CoreModule
+      name: RetroGrid
+    second: {fileID: 2100000, guid: 9acff56264ef3174c84cbcc546b4d0b2, type: 2}
+  - first:
+      type: UnityEngine:Material
+      assembly: UnityEngine.CoreModule
+      name: RetroUniversal
+    second: {fileID: 2100000, guid: c4e14fc166e47ad429cd92bd22880f1d, type: 2}
   materials:
     materialImportMode: 2
     materialName: 0
@@ -41,8 +57,6 @@ ModelImporter:
     optimizeGameObjects: 0
     removeConstantScaleCurves: 0
     motionNodeName: 
-    rigImportErrors: 
-    rigImportWarnings: 
     animationImportErrors: 
     animationImportWarnings: 
     animationRetargetingWarnings: 
@@ -61,7 +75,7 @@ ModelImporter:
   meshes:
     lODScreenPercentages: []
     globalScale: 1
-    meshCompression: 3
+    meshCompression: 2
     addColliders: 0
     useSRGBMaterialColor: 1
     sortHierarchyByName: 1
