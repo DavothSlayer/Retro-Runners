@@ -3,6 +3,7 @@ using RetroCode;
 using System.Runtime.Serialization.Formatters.Binary;
 using System.IO;
 using System.Collections.Generic;
+using System.Globalization;
 
 namespace V3CTOR
 {
@@ -85,6 +86,12 @@ namespace V3CTOR
                 return null;
             }
         }
+
+        public static readonly NumberFormatInfo NumForThou = new NumberFormatInfo()
+        {
+            NumberGroupSeparator = " ",
+            NumberDecimalDigits = 0
+        };
     }
 
     public interface Damageable

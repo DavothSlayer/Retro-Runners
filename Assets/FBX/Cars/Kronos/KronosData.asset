@@ -13,29 +13,29 @@ MonoBehaviour:
   m_Name: KronosData
   m_EditorClassIdentifier: 
   AutoName: Kronos
-  ItemCode: Kronos
+  ItemCode: kronos
   Price: 0
   CompPriceMultiplier: 0
   autoLevelData:
   - TopSpeed: 100
-    Acceleration: 9
-    TurnSpeed: 60
+    Power: 0
+    Handling: 0
     MaxHealth: 4
   - TopSpeed: 106
-    Acceleration: 8.1
-    TurnSpeed: 33
+    Power: 0
+    Handling: 0
     MaxHealth: 4
   - TopSpeed: 113
-    Acceleration: 6.9
-    TurnSpeed: 40
+    Power: 0
+    Handling: 0
     MaxHealth: 4
   - TopSpeed: 120
-    Acceleration: 5.5
-    TurnSpeed: 45
+    Power: 0
+    Handling: 0
     MaxHealth: 4
   - TopSpeed: 127
-    Acceleration: 4.6
-    TurnSpeed: 50
+    Power: 0
+    Handling: 0
     MaxHealth: 4
   Class: 1
   IdlePitch: 1.15
@@ -138,13 +138,7 @@ MonoBehaviour:
   CameraPositionInMenu: {x: 3.41, y: 1.11, z: -6.4}
   CameraRotationInMenu: {x: -0.034763176, y: -0.08823212, z: -0.003081128, w: 0.9954884}
   InMenuFOV: 60
-  CameraPositionInGame: {x: 0, y: 3.5, z: -11}
-  CameraRotationInGame: {x: 0.008726535, y: 0, z: 0, w: 0.9999619}
-  InGameFOV: 50
   rearviewOffset: {x: 0, y: -1.25, z: 9.25}
-  CameraPositionGameOver: {x: 0, y: 1.9, z: 12.43}
-  CameraRotationGameOver: {x: 0.70710677, y: 0, z: 0, w: 0.70710677}
-  GameOverFOV: 45
   scrapeRayRange: 2.1
   LivePrefab: {fileID: 1204017230368171608, guid: df242cb63ae2264488a16abf898cbf53,
     type: 3}

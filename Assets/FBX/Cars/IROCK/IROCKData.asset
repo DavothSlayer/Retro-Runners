@@ -13,29 +13,29 @@ MonoBehaviour:
   m_Name: IROCKData
   m_EditorClassIdentifier: 
   AutoName: IROCK
-  ItemCode: IROCK
+  ItemCode: irock
   Price: 7500
   CompPriceMultiplier: 1.5
   autoLevelData:
   - TopSpeed: 77
-    Acceleration: 8.3
-    TurnSpeed: 72
+    Power: 0
+    Handling: 0
     MaxHealth: 4
   - TopSpeed: 83
-    Acceleration: 7.5
-    TurnSpeed: 79
+    Power: 0
+    Handling: 0
     MaxHealth: 5
   - TopSpeed: 90
-    Acceleration: 6.1
-    TurnSpeed: 86
+    Power: 0
+    Handling: 0
     MaxHealth: 6
   - TopSpeed: 96
-    Acceleration: 5.5
-    TurnSpeed: 90
+    Power: 0
+    Handling: 0
     MaxHealth: 7
   - TopSpeed: 104
-    Acceleration: 4.2
-    TurnSpeed: 98
+    Power: 0
+    Handling: 0
     MaxHealth: 9
   Class: 0
   IdlePitch: 0.8
@@ -138,13 +138,7 @@ MonoBehaviour:
   CameraPositionInMenu: {x: 5.5, y: 1.5, z: 0}
   CameraRotationInMenu: {x: 0, y: -0.70710677, z: 0, w: 0.70710677}
   InMenuFOV: 60
-  CameraPositionInGame: {x: 0, y: 3.5, z: -11}
-  CameraRotationInGame: {x: 0.039259817, y: 0, z: 0, w: 0.999229}
-  InGameFOV: 50
   rearviewOffset: {x: 0, y: -1.25, z: 9.15}
-  CameraPositionGameOver: {x: 0, y: 12, z: 5}
-  CameraRotationGameOver: {x: 0.70710677, y: 0, z: 0, w: 0.70710677}
-  GameOverFOV: 55
   scrapeRayRange: 2
   LivePrefab: {fileID: 6088372522586061811, guid: 27a7e3d040bf8bc45972b31a3cf56469,
     type: 3}

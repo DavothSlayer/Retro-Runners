@@ -363,10 +363,10 @@ namespace RetroCode
             playerTransform.SetPositionAndRotation(new Vector3(3f, 0.02f, 600f), Quaternion.identity);
             newAuto.SetActive(true);
 
-            playerCar.engineLevel = gamingServicesManager.cloudData.unlockedCarsDict[playerCar.data.ItemCode].lastSelectedCompList[0];
-            playerCar.gearboxLevel = gamingServicesManager.cloudData.unlockedCarsDict[playerCar.data.ItemCode].lastSelectedCompList[1];
-            playerCar.tiresLevel = gamingServicesManager.cloudData.unlockedCarsDict[playerCar.data.ItemCode].lastSelectedCompList[2];
-            playerCar.armorLevel = gamingServicesManager.cloudData.unlockedCarsDict[playerCar.data.ItemCode].lastSelectedCompList[3];
+            playerCar.engineLevel = gamingServicesManager.cloudData.inventoryDict[playerCar.data.ItemCode]["engine"].currentLevel;
+            playerCar.powerLevel = gamingServicesManager.cloudData.inventoryDict[playerCar.data.ItemCode]["power"].currentLevel;
+            playerCar.tiresLevel = gamingServicesManager.cloudData.inventoryDict[playerCar.data.ItemCode]["handling"].currentLevel;
+            playerCar.armorLevel = gamingServicesManager.cloudData.inventoryDict[playerCar.data.ItemCode]["health"].currentLevel;
             playerCurrentPower = playerMaxPower;
             playerCar.FixAuto();
 

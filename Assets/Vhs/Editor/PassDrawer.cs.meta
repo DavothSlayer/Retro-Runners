@@ -1,0 +1,10 @@
+fileFormatVersion: 2
+guid: d1c45c701e23907469c01536b0d2309d
+timeCreated: 1697620992
+AssetOrigin:
+  serializedVersion: 1
+  productId: 270015
+  packageName: Vhs
+  packageVersion: 1.4.1
+  assetPath: Assets/Vhs/Editor/PassDrawer.cs
+  uploadId: 685111

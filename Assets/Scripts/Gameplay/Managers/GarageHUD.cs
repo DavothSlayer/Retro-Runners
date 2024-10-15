@@ -13,49 +13,37 @@ namespace RetroCode
         [Header("Garage Screen")]        
         public TextMeshProUGUI currentAutoNameText;
         public TextMeshProUGUI currentCompNameText;
-        public TextMeshProUGUI currentAutoNameTextInComp;
         public TextMeshProUGUI autoPriceText, compPriceText;
         [Space]
         public GameObject unlockedActionParent_AR;
-        public GameObject lockedActionParent_AR;
         public GameObject lockedObjectParent_AR;
-        public GameObject selectButton_AR, selectedObject_AR;
-        public GameObject unlockedActionParent_CR;
+        public GameObject nextAutoButton, previousAutoButton;
         public GameObject lockedActionParent_CR;
         public GameObject lockedObjectParent_CR;
 
+        [Space]
         public List<CompStatSliders> compStatSliders = new List<CompStatSliders>();
-
-        public GameObject selectButton_CR, selectedObject_CR, nextAutoButton, previousAutoButton, nextCompButton, previousCompButton;
-        public RectTransform[] compButtons;
-        public float compRectDefaultX, compRectSelectedX;
 
         public Slider
             autoTopSpeedSlider, 
-            autoAccelerationSlider,
-            autoTurningSlider,
+            autoPowerSlider,
+            autoHandlingSlider,
             autoHealthSlider;
-        public Image
-            autoTopSpeedSliderFill,
-            autoAccelerationSliderFill,
-            autoTurningSliderFill,
-            autoHealthSliderFill;
         public TextMeshProUGUI
             autoTopSpeedInfo,
-            autoAccelerationInfo,
-            autoTurningInfo,
+            autoPowerInfo,
+            autoHandlingInfo,
             autoHealthInfo;
-        public Gradient sliderGradient;
         public TextMeshProUGUI autoNameText_C;
         public TextMeshProUGUI purchaseConfirmText;
-        [Space]
-        public TextMeshProUGUI abilityTitleText;
-        public TextMeshProUGUI abilityInfoText;
     }
 
     [System.Serializable]
     public struct CompStatSliders
     {
         public Slider mainSlider, diffSlider;
+        public TextMeshProUGUI levelText, statCurrentText, statTunedText;
+        public Image icon;
+        public Outline outline;
     }
 }

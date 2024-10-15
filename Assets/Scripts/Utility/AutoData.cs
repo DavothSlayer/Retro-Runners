@@ -37,8 +37,8 @@ namespace RetroCode
     public class AutoLevelData
     {
         public float TopSpeed;
-        public float Acceleration;
-        public float TurnSpeed;
+        public float Power;
+        public float Handling;
         public int MaxHealth;
     }
 

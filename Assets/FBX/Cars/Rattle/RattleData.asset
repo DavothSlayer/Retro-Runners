@@ -13,29 +13,29 @@ MonoBehaviour:
   m_Name: RattleData
   m_EditorClassIdentifier: 
   AutoName: Rattle
-  ItemCode: Rattle
+  ItemCode: rattle
   Price: 0
   CompPriceMultiplier: 0
   autoLevelData:
   - TopSpeed: 114
-    Acceleration: 6
-    TurnSpeed: 125
+    Power: 0
+    Handling: 0
     MaxHealth: 2
   - TopSpeed: 122
-    Acceleration: 5.4
-    TurnSpeed: 57
+    Power: 0
+    Handling: 0
     MaxHealth: 2
   - TopSpeed: 130
-    Acceleration: 4.6
-    TurnSpeed: 62
+    Power: 0
+    Handling: 0
     MaxHealth: 2
   - TopSpeed: 137
-    Acceleration: 4
-    TurnSpeed: 67
+    Power: 0
+    Handling: 0
     MaxHealth: 2
   - TopSpeed: 142
-    Acceleration: 3.3
-    TurnSpeed: 73
+    Power: 0
+    Handling: 0
     MaxHealth: 2
   Class: 0
   IdlePitch: 0.8
@@ -138,13 +138,7 @@ MonoBehaviour:
   CameraPositionInMenu: {x: 2.35, y: 1, z: 9.58}
   CameraRotationInMenu: {x: 0.000000015910459, y: -0.99939084, z: -0.03489945, w: 0.000000043075886}
   InMenuFOV: 45
-  CameraPositionInGame: {x: 0, y: 3.5, z: -9.17}
-  CameraRotationInGame: {x: 0.008726535, y: 0, z: 0, w: 0.9999619}
-  InGameFOV: 45
   rearviewOffset: {x: 0, y: -1, z: 8}
-  CameraPositionGameOver: {x: 9.15, y: 3.2, z: -5}
-  CameraRotationGameOver: {x: 0.70710677, y: 0, z: 0, w: 0.70710677}
-  GameOverFOV: 60
   scrapeRayRange: 2
   LivePrefab: {fileID: 7663833061488149662, guid: e73c923b08981694f95ba6098ea08037,
     type: 3}

@@ -4,6 +4,8 @@ using System.Collections.Generic;
 using System.Globalization;
 using System.Threading.Tasks;
 using UnityEngine;
+using UnityEngine.UI;
+using V3CTOR;
 
 namespace RetroCode
 {
@@ -11,7 +13,7 @@ namespace RetroCode
     {
         [Header("UI")]
         [SerializeField]
-        private SwipeSelect swipeSelect;
+        private ScreenInteract swipeSelect;
         [SerializeField]
         private GarageHUD hud;
         [SerializeField]
@@ -23,7 +25,7 @@ namespace RetroCode
         [SerializeField]
         private GameObject autoPropParent;
         [SerializeField]
-        private GameObject compPropParent;
+        private Transform compRotationParent;
         [SerializeField]
         private Animator cameraAnimator;
         public AutoProp[] autoProps;
@@ -44,8 +46,6 @@ namespace RetroCode
         [HideInInspector]
         public int selectedAutoInt = 0;
         [HideInInspector]
-        public int selectedCompInt = 0;
-        [HideInInspector]
         public GarageState garageState = GarageState.AutoReview;
         [HideInInspector]
         public ComponentState compState = ComponentState.EngineReview;
@@ -62,40 +62,41 @@ namespace RetroCode
 
             camOffset.Rotate(Vector3.up * 25f * Time.deltaTime);
             camOffset.rotation *= Quaternion.Euler(Vector3.up * swipeSelect.inputX * Time.deltaTime);
+
+            compRotationParent.Rotate(Vector3.up * 25f * Time.deltaTime);
         }
 
         #region Core Garage Functionality
 
         #region Inventory Info & Stats
         private float statSliderLerpSpeed = 5f;
-        private float autoTopSpeedVar, autoAccelerationVar, autoHandlingVar, autoHealthVar;
-        //private float compTopSpeedVar, compAccelerationVar, compHandlingVar, compHealthVar;
-        private float bestTopSpeed, bestAcceleration, bestHandling, bestHealth;
-        private float worstTopSpeed, worstAcceleration, worstHandling, worstHealth;
+        private float autoTopSpeedVar, autoPowerVar, autoHandlingVar, autoHealthVar;
+        private float bestTopSpeed, bestPower, bestHandling, bestHealth;
+        private float worstTopSpeed, worstPower, worstHandling, worstHealth;
         private void HandleAutoStats()
         {
-            AutoData data = autoProps[selectedAutoInt].data;
-
+            AutoData currentAutodata = autoProps[selectedAutoInt].data;
+            
             // FIND THE BEST & WORST VALUES AMONG THE CARS //
             for(int i = 0; i < autoProps.Length; i++)
                 foreach(AutoLevelData ald in autoProps[i].data.autoLevelData)
                 {
                     bestTopSpeed = Mathf.Max(bestTopSpeed, ald.TopSpeed);
-                    bestAcceleration = Mathf.Min(bestAcceleration, ald.Acceleration);
-                    bestHandling = Mathf.Max(bestHandling, ald.TurnSpeed);
+                    bestPower = Mathf.Max(bestPower, ald.Power);
+                    bestHandling = Mathf.Max(bestHandling, ald.Handling);
                     bestHealth = Mathf.Max(bestHealth, ald.MaxHealth);
 
                     worstTopSpeed = Mathf.Min(worstTopSpeed, ald.TopSpeed);
-                    worstAcceleration = Mathf.Max(worstAcceleration, ald.Acceleration);
-                    worstHandling = Mathf.Min(worstHandling, ald.TurnSpeed);
+                    worstPower = Mathf.Min(worstPower, ald.Power);
+                    worstHandling = Mathf.Min(worstHandling, ald.Handling);
                     worstHealth = Mathf.Min(worstHealth, ald.MaxHealth);
                 }
             // FIND THE BEST & WORST VALUES AMONG THE CARS //
 
             // SET THE SLIDER MAX & MIN VALUES //
             hud.autoTopSpeedSlider.maxValue = Mathf.Lerp(hud.autoTopSpeedSlider.maxValue, bestTopSpeed, statSliderLerpSpeed * Time.deltaTime);
-            hud.autoAccelerationSlider.maxValue = Mathf.Lerp(hud.autoAccelerationSlider.maxValue, bestAcceleration, statSliderLerpSpeed * Time.deltaTime);
-            hud.autoTurningSlider.maxValue = Mathf.Lerp(hud.autoTurningSlider.maxValue, bestHandling, statSliderLerpSpeed * Time.deltaTime);
+            hud.autoPowerSlider.maxValue = Mathf.Lerp(hud.autoPowerSlider.maxValue, bestPower, statSliderLerpSpeed * Time.deltaTime);
+            hud.autoHandlingSlider.maxValue = Mathf.Lerp(hud.autoHandlingSlider.maxValue, bestHandling, statSliderLerpSpeed * Time.deltaTime);
             hud.autoHealthSlider.maxValue = Mathf.Lerp(hud.autoHealthSlider.maxValue, bestHealth, statSliderLerpSpeed * Time.deltaTime);
 
             hud.compStatSliders[0].mainSlider.minValue = 0f;
@@ -103,10 +104,10 @@ namespace RetroCode
             hud.compStatSliders[0].diffSlider.minValue = 0f;
             hud.compStatSliders[0].diffSlider.maxValue = bestTopSpeed;
 
-            hud.compStatSliders[1].mainSlider.minValue = -10f;
-            hud.compStatSliders[1].mainSlider.maxValue = -bestAcceleration;
-            hud.compStatSliders[1].diffSlider.minValue = -10f;
-            hud.compStatSliders[1].diffSlider.maxValue = -bestAcceleration;
+            hud.compStatSliders[1].mainSlider.minValue = 0f;
+            hud.compStatSliders[1].mainSlider.maxValue = bestPower;
+            hud.compStatSliders[1].diffSlider.minValue = 0f;
+            hud.compStatSliders[1].diffSlider.maxValue = bestPower;
 
             hud.compStatSliders[2].mainSlider.minValue = 0f;
             hud.compStatSliders[2].mainSlider.maxValue = bestHandling;
@@ -120,100 +121,64 @@ namespace RetroCode
             // SET THE SLIDER MAX & MIN VALUES //
 
             // DOES THE PLAYER OWN THE CURRENT CAR? //
-            if (gamingServicesManager.cloudData.unlockedCarsDict.ContainsKey(data.ItemCode))
+            if (gamingServicesManager.cloudData.inventoryDict.ContainsKey(currentAutodata.ItemCode))
             {
-                autoTopSpeedVar = data.autoLevelData[gamingServicesManager.cloudData.unlockedCarsDict[data.ItemCode].lastSelectedCompList[0]].TopSpeed;                
-                autoAccelerationVar = -data.autoLevelData[gamingServicesManager.cloudData.unlockedCarsDict[data.ItemCode].lastSelectedCompList[1]].Acceleration;             
-                autoHandlingVar = data.autoLevelData[gamingServicesManager.cloudData.unlockedCarsDict[data.ItemCode].lastSelectedCompList[2]].TurnSpeed;
-                autoHealthVar = data.autoLevelData[gamingServicesManager.cloudData.unlockedCarsDict[data.ItemCode].lastSelectedCompList[3]].MaxHealth;
+                autoTopSpeedVar = currentAutodata.autoLevelData[gamingServicesManager.cloudData.inventoryDict[currentAutodata.ItemCode]["engine"].currentLevel].TopSpeed;                
+                autoPowerVar = currentAutodata.autoLevelData[gamingServicesManager.cloudData.inventoryDict[currentAutodata.ItemCode]["power"].currentLevel].Power;             
+                autoHandlingVar = currentAutodata.autoLevelData[gamingServicesManager.cloudData.inventoryDict[currentAutodata.ItemCode]["handling"].currentLevel].Handling;
+                autoHealthVar = currentAutodata.autoLevelData[gamingServicesManager.cloudData.inventoryDict[currentAutodata.ItemCode]["health"].currentLevel].MaxHealth;
 
+                hud.compStatSliders[0].mainSlider.value = autoTopSpeedVar;
+                hud.compStatSliders[0].diffSlider.value = compState == 0 ? 
+                    currentAutodata.autoLevelData[gamingServicesManager.cloudData.inventoryDict[currentAutodata.ItemCode]["engine"].currentLevel + 1].TopSpeed :
+                    autoTopSpeedVar;
 
-                hud.compStatSliders[0].mainSlider.value = data.autoLevelData[0].TopSpeed;
-                hud.compStatSliders[0].diffSlider.value = compState == 0 ? data.autoLevelData[selectedCompInt].TopSpeed : data.autoLevelData[gamingServicesManager.cloudData.unlockedCarsDict[data.ItemCode].lastSelectedCompList[0]].TopSpeed;
+                hud.compStatSliders[1].mainSlider.value = autoPowerVar;
+                hud.compStatSliders[1].diffSlider.value = (int)compState == 1 ?
+                    currentAutodata.autoLevelData[gamingServicesManager.cloudData.inventoryDict[currentAutodata.ItemCode]["power"].currentLevel + 1].Power :
+                    autoPowerVar;
 
-                hud.compStatSliders[1].mainSlider.value = -data.autoLevelData[0].Acceleration;
-                hud.compStatSliders[1].diffSlider.value = (int)compState == 1 ? -data.autoLevelData[selectedCompInt].Acceleration : -data.autoLevelData[gamingServicesManager.cloudData.unlockedCarsDict[data.ItemCode].lastSelectedCompList[1]].Acceleration;
+                hud.compStatSliders[2].mainSlider.value = autoHandlingVar;
+                hud.compStatSliders[2].diffSlider.value = (int)compState == 2 ?
+                    currentAutodata.autoLevelData[gamingServicesManager.cloudData.inventoryDict[currentAutodata.ItemCode]["handling"].currentLevel + 1].Handling :
+                    autoHandlingVar;
 
-                hud.compStatSliders[2].mainSlider.value = data.autoLevelData[0].TurnSpeed;
-                hud.compStatSliders[2].diffSlider.value = (int)compState == 2 ? data.autoLevelData[selectedCompInt].TurnSpeed : data.autoLevelData[gamingServicesManager.cloudData.unlockedCarsDict[data.ItemCode].lastSelectedCompList[2]].TurnSpeed;
+                hud.compStatSliders[3].mainSlider.value = currentAutodata.autoLevelData[0].MaxHealth;
+                hud.compStatSliders[3].diffSlider.value = (int)compState == 3 ?
+                    currentAutodata.autoLevelData[gamingServicesManager.cloudData.inventoryDict[currentAutodata.ItemCode]["health"].currentLevel + 1].MaxHealth :
+                    autoHealthVar;
 
-                hud.compStatSliders[3].mainSlider.value = data.autoLevelData[0].MaxHealth;
-                hud.compStatSliders[3].diffSlider.value = (int)compState == 3 ? data.autoLevelData[selectedCompInt].MaxHealth : data.autoLevelData[gamingServicesManager.cloudData.unlockedCarsDict[data.ItemCode].lastSelectedCompList[3]].MaxHealth;
-
-                hud.autoTopSpeedInfo.text = $"{Mathf.RoundToInt(data.autoLevelData[gamingServicesManager.cloudData.unlockedCarsDict[data.ItemCode].lastSelectedCompList[0]].TopSpeed * 2.2f)} MPH";
-                hud.autoAccelerationInfo.text = $"0-60 MPH in {data.autoLevelData[gamingServicesManager.cloudData.unlockedCarsDict[data.ItemCode].lastSelectedCompList[1]].Acceleration} Seconds";
-                hud.autoTurningInfo.text = $"{data.autoLevelData[gamingServicesManager.cloudData.unlockedCarsDict[data.ItemCode].lastSelectedCompList[2]].TurnSpeed} M/S";
-                hud.autoHealthInfo.text = $"{data.autoLevelData[gamingServicesManager.cloudData.unlockedCarsDict[data.ItemCode].lastSelectedCompList[3]].MaxHealth} Healthpoints";
+                hud.autoTopSpeedInfo.text = $"{Mathf.RoundToInt(autoTopSpeedVar * 2.2f)} MPH";
+                hud.autoPowerInfo.text = $"{autoPowerVar} UNITS";
+                hud.autoHandlingInfo.text = $"{autoHandlingVar} M/S";
+                hud.autoHealthInfo.text = $"{autoHealthVar} HP";
             }
             else
             {
-                autoTopSpeedVar = data.autoLevelData[0].TopSpeed;
-                autoAccelerationVar = -data.autoLevelData[0].Acceleration;
-                autoHandlingVar = data.autoLevelData[0].TurnSpeed;
-                autoHealthVar = data.autoLevelData[0].MaxHealth;
-
-                hud.compStatSliders[0].mainSlider.value = data.autoLevelData[0].TopSpeed;
-                hud.compStatSliders[0].diffSlider.value = data.autoLevelData[0].TopSpeed;
-
-                hud.compStatSliders[1].mainSlider.value = -data.autoLevelData[0].Acceleration;
-                hud.compStatSliders[1].diffSlider.value = -data.autoLevelData[0].Acceleration;
-
-                hud.compStatSliders[2].mainSlider.value = data.autoLevelData[0].TurnSpeed;
-                hud.compStatSliders[2].diffSlider.value = data.autoLevelData[0].TurnSpeed;
-
-                hud.compStatSliders[3].mainSlider.value = data.autoLevelData[0].MaxHealth;
-                hud.compStatSliders[3].diffSlider.value = data.autoLevelData[0].MaxHealth;
-
-                hud.autoTopSpeedInfo.text = $"{Mathf.RoundToInt(data.autoLevelData[0].TopSpeed * 2.2f)} MPH";
-                hud.autoAccelerationInfo.text = $"0-60 MPH in {data.autoLevelData[0].Acceleration} Seconds";
-                hud.autoTurningInfo.text = $"{data.autoLevelData[0].TurnSpeed} M/S";
-                hud.autoHealthInfo.text = $"{data.autoLevelData[0].MaxHealth} Healthpoints";
+                hud.autoTopSpeedInfo.text = $"{Mathf.RoundToInt(currentAutodata.autoLevelData[0].TopSpeed * 2.2f)} MPH";
+                hud.autoPowerInfo.text = $"{currentAutodata.autoLevelData[0].Power} UNITS";
+                hud.autoHandlingInfo.text = $"{currentAutodata.autoLevelData[0].Handling} M/S";
+                hud.autoHealthInfo.text = $"{currentAutodata.autoLevelData[0].MaxHealth} HP";
             }
 
             // VALUES //
             hud.autoTopSpeedSlider.value = Mathf.Lerp(hud.autoTopSpeedSlider.value, autoTopSpeedVar, statSliderLerpSpeed * Time.deltaTime);
-            hud.autoAccelerationSlider.value = Mathf.Lerp(hud.autoAccelerationSlider.value, autoAccelerationVar, statSliderLerpSpeed * Time.deltaTime);
-            hud.autoTurningSlider.value = Mathf.Lerp(hud.autoTurningSlider.value, autoHandlingVar, statSliderLerpSpeed * Time.deltaTime);
+            hud.autoPowerSlider.value = Mathf.Lerp(hud.autoPowerSlider.value, autoPowerVar, statSliderLerpSpeed * Time.deltaTime);
+            hud.autoHandlingSlider.value = Mathf.Lerp(hud.autoHandlingSlider.value, autoHandlingVar, statSliderLerpSpeed * Time.deltaTime);
             hud.autoHealthSlider.value = Mathf.Lerp(hud.autoHealthSlider.value, autoHealthVar, statSliderLerpSpeed * Time.deltaTime);
             // VALUES //
-
-            // COLORS //
-            hud.autoTopSpeedSliderFill.color = 
-                hud.sliderGradient.Evaluate(hud.autoTopSpeedSlider.value / hud.autoTopSpeedSlider.maxValue);
-            hud.autoAccelerationSliderFill.color =
-                hud.sliderGradient.Evaluate(1f - (-hud.autoAccelerationSlider.value / -hud.autoAccelerationSlider.minValue));
-            hud.autoTurningSliderFill.color =
-                hud.sliderGradient.Evaluate(hud.autoTurningSlider.value / hud.autoTurningSlider.maxValue);
-            hud.autoHealthSliderFill.color =
-                hud.sliderGradient.Evaluate(hud.autoHealthSlider.value / hud.autoHealthSlider.maxValue);
         }
 
         public void NextOption()
         {
-            if(garageState == GarageState.AutoReview)
-            {
-                if (selectedAutoInt != autoProps.Length - 1) { selectedAutoInt++; }
-            }
-
-            if(garageState == GarageState.ComponentReview)
-            {
-                if (selectedCompInt != compLists[((int)compState)].Comps.Count - 1) { selectedCompInt++; }
-            }
+            if (selectedAutoInt != autoProps.Length - 1) { selectedAutoInt++; }
 
             CheckInventory();
         }
 
         public void PreviousOption()
         {
-            if(garageState == GarageState.AutoReview)
-            {
-                if (selectedAutoInt != 0) { selectedAutoInt--; }
-            }
-
-            if (garageState == GarageState.ComponentReview)
-            {
-                if (selectedCompInt != 0) { selectedCompInt--; }
-            }
+            if (selectedAutoInt != 0) { selectedAutoInt--; }
 
             CheckInventory();
         }
@@ -223,33 +188,24 @@ namespace RetroCode
             hud.previousAutoButton.SetActive(selectedAutoInt != 0);
             hud.nextAutoButton.SetActive(selectedAutoInt != autoProps.Length - 1);
 
-            hud.previousCompButton.SetActive(selectedCompInt != 0);
-            hud.nextCompButton.SetActive(selectedCompInt != compLists[((int)compState)].Comps.Count - 1);
-
-            hud.playerMoneyText.text = $"${gamingServicesManager.cloudData.retroDollars.ToString("n0")}";
+            hud.playerMoneyText.text = $"R$ {gamingServicesManager.cloudData.retroDollars.ToString("N", EXMET.NumForThou)}";
             //UpdatePlayerMoneyText();
 
             #region Check Cars
+            // SET ACTIVE ONLY SELECTED CAR, HIDE REST //
             for (int i = 0; i < autoProps.Length; i++)
-            {
                 autoProps[i].gameObject.SetActive(autoProps[i] == autoProps[selectedAutoInt]);
-            }
 
-            AutoData c_autoD = autoProps[selectedAutoInt].data;
+            AutoData currentAutoData = autoProps[selectedAutoInt].data;
 
-            hud.selectButton_AR.SetActive(selectedAutoInt != gamingServicesManager.cloudData.lastSelectedCarInt);
-            hud.selectedObject_AR.SetActive(selectedAutoInt == gamingServicesManager.cloudData.lastSelectedCarInt);
-
-            if (gamingServicesManager.cloudData.unlockedCarsDict.ContainsKey(c_autoD.ItemCode))
+            if (gamingServicesManager.cloudData.inventoryDict.ContainsKey(currentAutoData.ItemCode))
             {
-                hud.currentAutoNameText.text = c_autoD.AutoName;
-                hud.currentAutoNameTextInComp.text = c_autoD.AutoName;
+                hud.currentAutoNameText.text = currentAutoData.AutoName;
 
                 autoProps[selectedAutoInt].lockedModel.SetActive(false);
                 autoProps[selectedAutoInt].unlockedModels[0].SetActive(true);
 
                 hud.unlockedActionParent_AR.SetActive(true);
-                hud.lockedActionParent_AR.SetActive(false);
                 hud.lockedObjectParent_AR.SetActive(false);
 
                 #region Check Components
@@ -260,29 +216,25 @@ namespace RetroCode
                         for (int j = 0; j < compLists[i].Comps.Count; j++)
                         {
                             ComponentProp prop = compLists[i].Comps[j];
-                            prop.gameObject.SetActive(j == selectedCompInt);
+                            AutoPartData partData = gamingServicesManager.cloudData.inventoryDict[currentAutoData.ItemCode][CompStateToPartsKey((int)compState)];
+                            prop.gameObject.SetActive(j == partData.NextLevel());
 
-                            ComponentProp selectedProp = compLists[i].Comps[selectedCompInt];
-                            hud.currentCompNameText.text = selectedProp.itemData.ItemName;
+                            ComponentProp currentProp = compLists[i].Comps[partData.currentLevel];
+                            hud.currentCompNameText.text = currentProp.itemData.ItemName;
 
-                            hud.selectButton_CR.SetActive(selectedCompInt != gamingServicesManager.cloudData.unlockedCarsDict[c_autoD.ItemCode].lastSelectedCompList[(int)compState]);
-                            hud.selectedObject_CR.SetActive(selectedCompInt == gamingServicesManager.cloudData.unlockedCarsDict[c_autoD.ItemCode].lastSelectedCompList[(int)compState]);
-
-                            // CHECK OWNERSHIP //
-                            if (gamingServicesManager.cloudData.unlockedCarsDict[c_autoD.ItemCode].compCodes[((int)compState)].Contains($"{selectedProp.itemData.ItemCode}"))
+                            // CHECK ORDER STATUS //
+                            if (gamingServicesManager.cloudData.inventoryDict[currentAutoData.ItemCode][CompStateToPartsKey((int)compState)].isDelivered)
                             {
-                                hud.unlockedActionParent_CR.SetActive(true);
                                 hud.lockedActionParent_CR.SetActive(false);
                                 hud.lockedObjectParent_CR.SetActive(false);
                             }
                             else
                             {
-                                hud.unlockedActionParent_CR.SetActive(false);
                                 hud.lockedActionParent_CR.SetActive(true);
                                 hud.lockedObjectParent_CR.SetActive(true);
 
-                                int CompPrice = Mathf.RoundToInt(selectedProp.itemData.DefaultPrice * autoProps[selectedAutoInt].data.CompPriceMultiplier);
-                                hud.compPriceText.text = $"${CompPrice.ToString("n0")}";
+                                int CompPrice = Mathf.RoundToInt(currentProp.itemData.DefaultPrice * autoProps[selectedAutoInt].data.CompPriceMultiplier);
+                                hud.compPriceText.text = $"${CompPrice.ToString("N", EXMET.NumForThou)}";
                             }
                         }
                     }
@@ -298,18 +250,36 @@ namespace RetroCode
             }
             else
             {
-                hud.currentAutoNameText.text = c_autoD.AutoName;
-                hud.currentAutoNameTextInComp.text = c_autoD.AutoName;
+                hud.currentAutoNameText.text = currentAutoData.AutoName;
                 autoProps[selectedAutoInt].lockedModel.SetActive(true);
                 autoProps[selectedAutoInt].unlockedModels[0].SetActive(false);
 
                 hud.unlockedActionParent_AR.SetActive(false);
-                hud.lockedActionParent_AR.SetActive(true);
                 hud.lockedObjectParent_AR.SetActive(true);
 
-                hud.autoPriceText.text = $"${autoProps[selectedAutoInt].data.Price.ToString("n0")}";
+                hud.autoPriceText.text = $"R$ {autoProps[selectedAutoInt].data.Price.ToString("N", EXMET.NumForThou)}";
             }
             #endregion
+        }
+
+        public string CompStateToPartsKey(int compState)
+        {
+            switch (compState)
+            {
+                case 0:
+                    return "engine";
+
+                case 1:
+                    return "power";
+
+                case 2:
+                    return "handling";
+
+                case 3:
+                    return "health";
+            }
+
+            return "";
         }
 
         public void OnCloudDataReceived()
@@ -324,50 +294,12 @@ namespace RetroCode
             CheckInventory();
         }
 
-        // MONEY TEXT LERPING //
-        private async void UpdatePlayerMoneyText()
-        {
-            string decimalString = hud.playerMoneyText.text;
-
-            double textNumber = double.Parse(decimalString, NumberStyles.Any);
-            int intNumber = Convert.ToInt32(textNumber);
-
-            while (intNumber != gamingServicesManager.cloudData.retroDollars)
-            {
-                float lerpNumber = Mathf.Lerp(intNumber, gamingServicesManager.cloudData.retroDollars, 1f * Time.deltaTime);
-
-                intNumber = (int)(Mathf.Round(lerpNumber));
-                hud.playerMoneyText.text = intNumber.ToString("n0");
-
-                await Task.Yield();
-            }
-        }
-
-        public void PlayerMoneyChanged()
-        {
-            StartCoroutine(PlayerMoneyChangedRoutine());
-        }
-
-        private IEnumerator PlayerMoneyChangedRoutine()
-        {
-            while (true)
-            {
-                // CBT //
-            }
-        }
-
-        public void UpdateAbilityInfo()
-        {
-            AutoData c_autoD = autoProps[selectedAutoInt].data;
-            hud.abilityTitleText.text = c_autoD.Ability.abilityName;
-            hud.abilityInfoText.text = c_autoD.AbilityInfo;
-        }
         #endregion
 
         #region Purchasing & Upgrading & Selecting
         public void PrepTransaction()
         {
-            bool component = garageState == GarageState.ComponentReview;
+            /*bool component = garageState == GarageState.ComponentReview;
 
             ItemData iData = compLists[((int)compState)].Comps[selectedCompInt].itemData;
             AutoData aData = autoProps[selectedAutoInt].data;
@@ -375,11 +307,12 @@ namespace RetroCode
             if (!component)
                 hud.purchaseConfirmText.text = $"Purchase {aData.AutoName} for ${aData.Price.ToString("n0")}?";
             else
-                hud.purchaseConfirmText.text = $"Purchase {iData.ItemName} for ${Mathf.RoundToInt(iData.DefaultPrice * aData.CompPriceMultiplier).ToString("n0")}?";
+                hud.purchaseConfirmText.text = $"Purchase {iData.ItemName} for ${Mathf.RoundToInt(iData.DefaultPrice * aData.CompPriceMultiplier).ToString("n0")}?";*/
         }
 
         public void ProcessTransaction()
         {
+            /*
             bool component = garageState == GarageState.ComponentReview;
 
             ItemData iData = compLists[((int)compState)].Comps[selectedCompInt].itemData;
@@ -411,13 +344,15 @@ namespace RetroCode
                     TransactionFailed();
                 }
             }
+            */
         }
 
         private void CompleteTransaction(bool component, string AutoCode, string CompCode)
         {
+            /*
             if (!component)
             {
-                gamingServicesManager.cloudData.unlockedCarsDict.Add(AutoCode, new CloudAutoData());
+                gamingServicesManager.cloudData.unlockedCarsDict.Add(AutoCode, new AutoPartsData());
 
                 gamingServicesManager.cloudData.unlockedCarsDict[AutoCode].compCodes.Add("Engine_LVL1");
                 gamingServicesManager.cloudData.unlockedCarsDict[AutoCode].compCodes.Add("Gearbox_LVL1");
@@ -453,6 +388,7 @@ namespace RetroCode
             gamingServicesManager.SaveCloudData(false);
 
             CheckInventory();
+            */
         }
 
         private void TransactionFailed()
@@ -465,6 +401,7 @@ namespace RetroCode
         
         public void SelectComp()
         {
+            /*
             AutoData aData = autoProps[selectedAutoInt].data;
 
             gamingServicesManager.cloudData.unlockedCarsDict[aData.ItemCode].lastSelectedCompList[((int)compState)] = selectedCompInt;
@@ -474,10 +411,12 @@ namespace RetroCode
             garageScreenAnimator.SetTrigger("Selected");
 
             CheckInventory();
+            */
         }
 
         public void SelectAuto()
         {
+            /*
             gamingServicesManager.cloudData.lastSelectedCarInt = selectedAutoInt;
 
             gamingServicesManager.SaveCloudData(false);
@@ -485,6 +424,7 @@ namespace RetroCode
             garageScreenAnimator.SetTrigger("Selected");
 
             CheckInventory();
+            */
         }
         #endregion
 
@@ -523,8 +463,6 @@ namespace RetroCode
                     SetUIState(0);
                     SetCameraState(0);
 
-                    autoPropParent.SetActive(true);
-                    compPropParent.SetActive(false);
                     break;
                 case GarageState.ComponentReview:
                     compState = 0;
@@ -532,8 +470,6 @@ namespace RetroCode
                     SetUIState(1);
                     SetCameraState(1);
 
-                    autoPropParent.SetActive(false);
-                    compPropParent.SetActive(true);
                     break;
                 case GarageState.CinematicView:
                     SetUIState(2);
@@ -545,7 +481,6 @@ namespace RetroCode
         public void SetComponentState(int stateInt)
         {
             compState = (ComponentState)stateInt;
-            selectedCompInt = gamingServicesManager.cloudData.unlockedCarsDict[autoProps[selectedAutoInt].data.ItemCode].lastSelectedCompList[((int)compState)];
 
             CheckInventory();
         }
@@ -553,21 +488,17 @@ namespace RetroCode
         private void HandleUICodedAnim()
         {
             #region Component Buttons
-            for (int i = 0; i < hud.compButtons.Length; i++)
+            for (int i = 0; i < hud.compStatSliders.Count; i++)
             {
                 if (i == ((int)compState))
                 {
-                    RectTransform rT = hud.compButtons[i];
-                    float rTY = rT.transform.localPosition.y;
-
-                    rT.sizeDelta = Vector2.Lerp(rT.sizeDelta, new(hud.compRectSelectedX, rT.sizeDelta.y), 8f * Time.deltaTime);
+                    Outline outline = hud.compStatSliders[i].outline;
+                    outline.enabled = true;
                 }
                 else
                 {
-                    RectTransform rT = hud.compButtons[i];
-                    float rTY = rT.sizeDelta.x;
-
-                    rT.sizeDelta = Vector2.Lerp(rT.sizeDelta, new(hud.compRectDefaultX, rT.sizeDelta.y), 8f * Time.deltaTime);
+                    Outline outline = hud.compStatSliders[i].outline;
+                    outline.enabled = false;
                 }
             }
             #endregion

@@ -72,7 +72,7 @@ namespace RetroCode
         [HideInInspector]
         public int engineLevel;
         [HideInInspector]
-        public int gearboxLevel;
+        public int powerLevel;
         [HideInInspector]
         public int tiresLevel;
         [HideInInspector]
@@ -202,7 +202,7 @@ namespace RetroCode
         {
             if (GameManager.gameState == GameState.InGame)
             {
-                evaluation += Time.deltaTime / data.autoLevelData[gearboxLevel].Acceleration;
+                evaluation += Time.deltaTime / data.autoLevelData[powerLevel].Power;
                 evaluation = Mathf.Clamp01(evaluation);
             }
 
@@ -246,7 +246,7 @@ namespace RetroCode
 
             if (input.xTouch != 0f)
             {
-                rb.AddForce(Vector3.right * input.xTouch * data.autoLevelData[tiresLevel].TurnSpeed * massDragMltplr, ForceMode.Force);
+                rb.AddForce(Vector3.right * input.xTouch * data.autoLevelData[tiresLevel].Handling * massDragMltplr, ForceMode.Force);
             }
             if (input.xTouch == 0f)
             {

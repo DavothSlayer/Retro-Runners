@@ -13,29 +13,29 @@ MonoBehaviour:
   m_Name: EleganzaData
   m_EditorClassIdentifier: 
   AutoName: Eleganza
-  ItemCode: Eleganza
+  ItemCode: eleganza
   Price: 0
   CompPriceMultiplier: 0
   autoLevelData:
   - TopSpeed: 87
-    Acceleration: 6
-    TurnSpeed: 118
+    Power: 0
+    Handling: 0
     MaxHealth: 2
   - TopSpeed: 95
-    Acceleration: 5.6
-    TurnSpeed: 127
+    Power: 0
+    Handling: 0
     MaxHealth: 3
   - TopSpeed: 100
-    Acceleration: 5.1
-    TurnSpeed: 136
+    Power: 0
+    Handling: 0
     MaxHealth: 4
   - TopSpeed: 108
-    Acceleration: 4.4
-    TurnSpeed: 143
+    Power: 0
+    Handling: 0
     MaxHealth: 5
   - TopSpeed: 115
-    Acceleration: 3.9
-    TurnSpeed: 150
+    Power: 0
+    Handling: 0
     MaxHealth: 6
   Class: 2
   IdlePitch: 1
@@ -138,13 +138,7 @@ MonoBehaviour:
   CameraPositionInMenu: {x: 0, y: 1.35, z: 5.5}
   CameraRotationInMenu: {x: 0, y: 1, z: 0, w: -0.00000004371139}
   InMenuFOV: 90
-  CameraPositionInGame: {x: 0, y: 3.27, z: -11.86}
-  CameraRotationInGame: {x: -0.013089596, y: 0, z: 0, w: 0.99991435}
-  InGameFOV: 45
   rearviewOffset: {x: 0, y: -1.3, z: 9.5}
-  CameraPositionGameOver: {x: -13, y: 1.63, z: 15}
-  CameraRotationGameOver: {x: 0, y: 0, z: 0, w: 1}
-  GameOverFOV: 55
   scrapeRayRange: 2
   LivePrefab: {fileID: 7469151242279944616, guid: 4ae0c3cb4d138df4a821bd333249552a,
     type: 3}

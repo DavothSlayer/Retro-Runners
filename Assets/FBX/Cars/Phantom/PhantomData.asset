@@ -13,29 +13,29 @@ MonoBehaviour:
   m_Name: PhantomData
   m_EditorClassIdentifier: 
   AutoName: Phantom
-  ItemCode: Phantom
+  ItemCode: phantom
   Price: 0
   CompPriceMultiplier: 1
   autoLevelData:
   - TopSpeed: 73
-    Acceleration: 8.6
-    TurnSpeed: 80
+    Power: 0
+    Handling: 0
     MaxHealth: 7
   - TopSpeed: 79
-    Acceleration: 7.2
-    TurnSpeed: 98
+    Power: 0
+    Handling: 0
     MaxHealth: 9
   - TopSpeed: 86
-    Acceleration: 6.7
-    TurnSpeed: 112
+    Power: 0
+    Handling: 0
     MaxHealth: 12
   - TopSpeed: 91
-    Acceleration: 6.1
-    TurnSpeed: 120
+    Power: 0
+    Handling: 0
     MaxHealth: 15
   - TopSpeed: 97
-    Acceleration: 5.4
-    TurnSpeed: 129
+    Power: 0
+    Handling: 0
     MaxHealth: 19
   Class: 0
   IdlePitch: 0.8

@@ -6,6 +6,7 @@ using System.Collections.Generic;
 using Newtonsoft.Json;
 using UnityEngine.Events;
 using System.Threading.Tasks;
+using System;
 
 namespace RetroCode
 {
@@ -207,15 +208,10 @@ namespace RetroCode
 
                 CloudData cd = new CloudData();
 
-                cd.unlockedCarsDict.Add("Bane", new CloudAutoData());
-
-                cd.unlockedCarsDict["Bane"].compCodes.Add("Engine_LVL1");
-                cd.unlockedCarsDict["Bane"].compCodes.Add("Gearbox_LVL1");
-                cd.unlockedCarsDict["Bane"].compCodes.Add("Tires_LVL1");
-                cd.unlockedCarsDict["Bane"].compCodes.Add("Armor_LVL1");
-
-                for (int i = 0; i < 4; i++)
-                    cd.unlockedCarsDict["Bane"].lastSelectedCompList.Add(0);
+                cd.inventoryDict["bane"]["engine"].isLooted = true;
+                cd.inventoryDict["bane"]["power"].isLooted = true;
+                cd.inventoryDict["bane"]["handling"].isLooted = true;
+                cd.inventoryDict["bane"]["health"].isLooted = true;
 
                 cloudData = cd;
 
@@ -247,13 +243,64 @@ namespace RetroCode
         public int highScore = 0;
         public int highestNearMissCombo = 0;
         public int mostCOPsDestroyed = 0;
-        public Dictionary<string, CloudAutoData> unlockedCarsDict = new Dictionary<string, CloudAutoData>();
         public int lastSelectedCarInt = 0;
+
+        public Dictionary<string, Dictionary<string, AutoPartData>> inventoryDict = new()
+        {
+            {"bane", new Dictionary<string, AutoPartData>{
+                {"engine", new AutoPartData(0, DateTime.UtcNow) },
+                {"power", new AutoPartData(0, DateTime.UtcNow) },
+                {"handling", new AutoPartData(0, DateTime.UtcNow) },
+                {"health", new AutoPartData(0, DateTime.UtcNow) },
+            } },
+            /*{"Next Car...", new Dictionary<string, AutoPartData>{
+                {"engine", new AutoPartData(0, DateTime.UtcNow) },
+                {"power", new AutoPartData(0, DateTime.UtcNow) },
+                {"handling", new AutoPartData(0, DateTime.UtcNow) },
+                {"health", new AutoPartData(0, DateTime.UtcNow) },
+            } }*/
+        };
     }
 
-    public class CloudAutoData
+    public class AutoPartData
     {
-        public List<string> compCodes = new List<string>();
-        public List<int> lastSelectedCompList = new List<int>();
+        public int currentLevel { get; set; }
+        public int orderedLevel { get; set; }
+        public DateTime purchaseDate { get; set; }
+        public bool isDelivered { get; set; }
+        public bool isLooted { get; set; }           
+
+        public AutoPartData(int currentLevel, DateTime purchaseDate)
+        {
+            this.currentLevel = currentLevel;
+            this.orderedLevel = currentLevel;
+            this.purchaseDate = purchaseDate;
+            this.isDelivered = true;
+            this.isLooted = false;                   
+        }
+
+        public void OrderPart(int newLevel, DateTime orderDate)
+        {
+            this.orderedLevel = newLevel;
+            this.purchaseDate = orderDate;
+            this.isDelivered = false;
+        }
+
+        public int NextLevel()
+        {
+            if(orderedLevel == 4)
+                return 4;
+            else
+                return this.currentLevel + 1;
+        }
+
+        public void FinalizeDelivery()
+        {
+            if (!isDelivered)
+            {
+                this.currentLevel = this.orderedLevel;
+                this.isDelivered = true;
+            }
+        }
     }
 }
