@@ -15,7 +15,7 @@ MonoBehaviour:
   AutoName: Phantom
   ItemCode: phantom
   Price: 0
-  CompPriceMultiplier: 1
+  CompPriceMultiplier: 6
   autoLevelData:
   - TopSpeed: 73
     Power: 0

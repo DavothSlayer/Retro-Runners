@@ -46,6 +46,8 @@ namespace RetroCode
         [HideInInspector]
         public int selectedAutoInt = 0;
         [HideInInspector]
+        public int selectedCompInt = 0;
+        [HideInInspector]
         public GarageState garageState = GarageState.AutoReview;
         [HideInInspector]
         public ComponentState compState = ComponentState.EngineReview;
@@ -121,6 +123,8 @@ namespace RetroCode
             // SET THE SLIDER MAX & MIN VALUES //
 
             // DOES THE PLAYER OWN THE CURRENT CAR? //
+            if (!gamingServicesManager.cloudData.inventoryDict.ContainsKey(currentAutodata.ItemCode)) return;
+
             if (gamingServicesManager.cloudData.inventoryDict.ContainsKey(currentAutodata.ItemCode))
             {
                 autoTopSpeedVar = currentAutodata.autoLevelData[gamingServicesManager.cloudData.inventoryDict[currentAutodata.ItemCode]["engine"].currentLevel].TopSpeed;                
@@ -155,6 +159,11 @@ namespace RetroCode
             }
             else
             {
+                autoTopSpeedVar = currentAutodata.autoLevelData[0].TopSpeed;
+                autoPowerVar = currentAutodata.autoLevelData[0].Power;
+                autoHandlingVar = currentAutodata.autoLevelData[0].Handling;
+                autoHealthVar = currentAutodata.autoLevelData[0].MaxHealth;
+
                 hud.autoTopSpeedInfo.text = $"{Mathf.RoundToInt(currentAutodata.autoLevelData[0].TopSpeed * 2.2f)} MPH";
                 hud.autoPowerInfo.text = $"{currentAutodata.autoLevelData[0].Power} UNITS";
                 hud.autoHandlingInfo.text = $"{currentAutodata.autoLevelData[0].Handling} M/S";
@@ -201,12 +210,25 @@ namespace RetroCode
             if (gamingServicesManager.cloudData.inventoryDict.ContainsKey(currentAutoData.ItemCode))
             {
                 hud.currentAutoNameText.text = currentAutoData.AutoName;
+                AutoPartData partData = gamingServicesManager.cloudData.inventoryDict[currentAutoData.ItemCode][IndexToPartsKey((int)compState)];
 
                 autoProps[selectedAutoInt].lockedModel.SetActive(false);
                 autoProps[selectedAutoInt].unlockedModels[0].SetActive(true);
 
                 hud.unlockedActionParent_AR.SetActive(true);
                 hud.lockedObjectParent_AR.SetActive(false);
+
+                hud.compStatSliders[0].statCurrentText.text = $"{currentAutoData.autoLevelData[partData.currentLevel].TopSpeed} MPH";
+                hud.compStatSliders[0].statTunedText.text = $"{currentAutoData.autoLevelData[partData.NextLevel()].TopSpeed} MPH";
+
+                hud.compStatSliders[1].statCurrentText.text = $"{currentAutoData.autoLevelData[partData.currentLevel].Power} UNITS";
+                hud.compStatSliders[1].statTunedText.text = $"{currentAutoData.autoLevelData[partData.NextLevel()].Power} UNITS";
+
+                hud.compStatSliders[2].statCurrentText.text = $"{currentAutoData.autoLevelData[partData.currentLevel].Handling} M/S";
+                hud.compStatSliders[2].statTunedText.text = $"{currentAutoData.autoLevelData[partData.NextLevel()].Handling} M/S";
+
+                hud.compStatSliders[3].statCurrentText.text = $"{currentAutoData.autoLevelData[partData.currentLevel].MaxHealth} HP";
+                hud.compStatSliders[3].statTunedText.text = $"{currentAutoData.autoLevelData[partData.NextLevel()].MaxHealth} HP";
 
                 #region Check Components
                 for (int i = 0; i < compLists.Count; i++)
@@ -216,26 +238,25 @@ namespace RetroCode
                         for (int j = 0; j < compLists[i].Comps.Count; j++)
                         {
                             ComponentProp prop = compLists[i].Comps[j];
-                            AutoPartData partData = gamingServicesManager.cloudData.inventoryDict[currentAutoData.ItemCode][CompStateToPartsKey((int)compState)];
                             prop.gameObject.SetActive(j == partData.NextLevel());
 
-                            ComponentProp currentProp = compLists[i].Comps[partData.currentLevel];
+                            ComponentProp currentProp = compLists[i].Comps[partData.NextLevel()];
                             hud.currentCompNameText.text = currentProp.itemData.ItemName;
 
                             // CHECK ORDER STATUS //
-                            if (gamingServicesManager.cloudData.inventoryDict[currentAutoData.ItemCode][CompStateToPartsKey((int)compState)].isDelivered)
+                            if (gamingServicesManager.cloudData.inventoryDict[currentAutoData.ItemCode][IndexToPartsKey((int)compState)].isDelivered)
                             {
-                                hud.lockedActionParent_CR.SetActive(false);
-                                hud.lockedObjectParent_CR.SetActive(false);
+                                hud.orderActionParent_CR.SetActive(true);
+                                hud.deliveryObjectParent_CR.SetActive(false);
                             }
                             else
                             {
-                                hud.lockedActionParent_CR.SetActive(true);
-                                hud.lockedObjectParent_CR.SetActive(true);
-
-                                int CompPrice = Mathf.RoundToInt(currentProp.itemData.DefaultPrice * autoProps[selectedAutoInt].data.CompPriceMultiplier);
-                                hud.compPriceText.text = $"${CompPrice.ToString("N", EXMET.NumForThou)}";
+                                hud.orderActionParent_CR.SetActive(true);
+                                hud.deliveryObjectParent_CR.SetActive(false);
                             }
+
+                            int CompPrice = Mathf.RoundToInt(currentProp.itemData.DefaultPrice * autoProps[selectedAutoInt].data.CompPriceMultiplier);
+                            hud.compPriceText.text = $"R$ {CompPrice.ToString("N", EXMET.NumForThou)}";
                         }
                     }
                     else
@@ -262,9 +283,9 @@ namespace RetroCode
             #endregion
         }
 
-        public string CompStateToPartsKey(int compState)
+        public string IndexToPartsKey(int index)
         {
-            switch (compState)
+            switch (index)
             {
                 case 0:
                     return "engine";
@@ -458,7 +479,6 @@ namespace RetroCode
             switch (garageState)
             {
                 case GarageState.AutoReview:
-                    hud.lockedObjectParent_CR.SetActive(false);
 
                     SetUIState(0);
                     SetCameraState(0);

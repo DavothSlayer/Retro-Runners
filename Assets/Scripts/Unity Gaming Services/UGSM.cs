@@ -266,6 +266,7 @@ namespace RetroCode
     {
         public int currentLevel { get; set; }
         public int orderedLevel { get; set; }
+        public int equippedLevel { get; set; }
         public DateTime purchaseDate { get; set; }
         public bool isDelivered { get; set; }
         public bool isLooted { get; set; }           
@@ -274,6 +275,7 @@ namespace RetroCode
         {
             this.currentLevel = currentLevel;
             this.orderedLevel = currentLevel;
+            this.equippedLevel = currentLevel;
             this.purchaseDate = purchaseDate;
             this.isDelivered = true;
             this.isLooted = false;                   

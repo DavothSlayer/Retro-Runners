@@ -18,8 +18,9 @@ namespace RetroCode
         public GameObject unlockedActionParent_AR;
         public GameObject lockedObjectParent_AR;
         public GameObject nextAutoButton, previousAutoButton;
-        public GameObject lockedActionParent_CR;
-        public GameObject lockedObjectParent_CR;
+        public GameObject orderActionParent_CR;
+        public GameObject deliveryObjectParent_CR;
+        public List<ParticleSystem> maxLvlFX;
 
         [Space]
         public List<CompStatSliders> compStatSliders = new List<CompStatSliders>();

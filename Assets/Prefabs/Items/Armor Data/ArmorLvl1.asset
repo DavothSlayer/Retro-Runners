@@ -15,4 +15,4 @@ MonoBehaviour:
   ItemName: Brass Armor
   Description: 
   ItemCode: Armor_LVL1
-  DefaultPrice: 4999
+  DefaultPrice: 0

@@ -15,7 +15,7 @@ MonoBehaviour:
   AutoName: Rattle
   ItemCode: rattle
   Price: 0
-  CompPriceMultiplier: 0
+  CompPriceMultiplier: 5
   autoLevelData:
   - TopSpeed: 114
     Power: 0

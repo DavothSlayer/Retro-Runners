@@ -15,7 +15,7 @@ MonoBehaviour:
   AutoName: Forza
   ItemCode: forza
   Price: 0
-  CompPriceMultiplier: 0
+  CompPriceMultiplier: 4
   autoLevelData:
   - TopSpeed: 109
     Power: 0
