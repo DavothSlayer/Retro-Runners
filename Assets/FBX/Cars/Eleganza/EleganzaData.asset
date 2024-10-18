@@ -34,8 +34,8 @@ MonoBehaviour:
     Handling: 0
     MaxHealth: 5
   - TopSpeed: 115
-    Power: 400
-    Handling: 0
+    Power: 600
+    Handling: 150
     MaxHealth: 6
   Class: 2
   IdlePitch: 1

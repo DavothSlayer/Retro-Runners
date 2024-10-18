@@ -13,6 +13,5 @@ MonoBehaviour:
   m_Name: GearboxLvl2
   m_EditorClassIdentifier: 
   ItemName: Highway Racer
-  Description: 
-  ItemCode: Gearbox_LVL2
   DefaultPrice: 2599
+  TimeToDeliver: 1

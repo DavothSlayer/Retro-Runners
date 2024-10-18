@@ -12,7 +12,5 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: fdfd5e50b5b16cc419e40a3e005c5940, type: 3}
   m_Name: EngineLvl4
   m_EditorClassIdentifier: 
-  ItemName: Enzo
-  Description: 
-  ItemCode: Engine_LVL4
+  ItemName: Slayer
   DefaultPrice: 59999

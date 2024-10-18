@@ -12,7 +12,6 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: fdfd5e50b5b16cc419e40a3e005c5940, type: 3}
   m_Name: ArmorLvl4
   m_EditorClassIdentifier: 
-  ItemName: Pure Gold Armor
-  Description: 
-  ItemCode: Armor_LVL4
-  DefaultPrice: 119999
+  ItemName: Energy Shielded Armor
+  DefaultPrice: 120000
+  TimeToDeliver: 0

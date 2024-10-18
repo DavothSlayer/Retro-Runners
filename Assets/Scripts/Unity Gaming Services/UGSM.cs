@@ -7,12 +7,16 @@ using Newtonsoft.Json;
 using UnityEngine.Events;
 using System.Threading.Tasks;
 using System;
+using V3CTOR;
 
 namespace RetroCode
 {
     public class UGSM : MonoBehaviour
     {
         public CloudData cloudData;
+
+        [SerializeField]
+        private List<ItemDatalist> compDataLists;
 
         #region CloudData UI
         [SerializeField]
@@ -29,11 +33,13 @@ namespace RetroCode
         #endregion
 
         #region Unity Methods
+        private bool DeliveriesInProgress = false;
+        [HideInInspector]
+        public Dictionary<string, Dictionary<string, DateTime>> deliveryDictionary = new Dictionary<string, Dictionary<string, DateTime>>(0);
         private async void Start()
         {
             // INITIALIZE UNITY GAMING SERVICES //
             await UnityServices.InitializeAsync();
-            print($"Unity Services: {UnityServices.State}");
 
             // REGISTER AUTHENTICATION SERVICE HANDLERS //
             AuthenticationService.Instance.SignedIn += OnAuthSignedIn;
@@ -42,14 +48,15 @@ namespace RetroCode
             AuthenticationService.Instance.Expired += OnAuthSignInExpired;
 
             // SIGN IN, IF NECESSARY //
-            print("Signing in...");
             if (!AuthenticationService.Instance.IsSignedIn)
                 await Authenticate();
             else
                 LoadCloudData();
+        }
 
-            print($"Authentication Is Signed In : {AuthenticationService.Instance.IsSignedIn}");
-            //UpdateUI();
+        private void Update()
+        {
+            if (DeliveriesInProgress) HandleDeliveryTimers();            
         }
 
         private void OnDestory()
@@ -60,33 +67,6 @@ namespace RetroCode
             AuthenticationService.Instance.SignInFailed -= OnAuthSignInFailed;
             AuthenticationService.Instance.Expired -= OnAuthSignInExpired;
         }
-        #endregion
-
-        #region Update UI Method
-        /*private async void UpdateUI()
-        {
-            // UPDATE AUTHENTICATION STATUS & PLAYER ID TEXT //
-            authenticated.text = AuthenticationService.Instance.IsSignedIn ? "Authenticated" : "Not Authenticatied";
-            playerID.text = AuthenticationService.Instance.PlayerId != null ? AuthenticationService.Instance.PlayerId : "";
-            usernameInput.gameObject.SetActive(AuthenticationService.Instance.IsSignedIn);
-            username.text = AuthenticationService.Instance.PlayerName;
-            username.gameObject.SetActive(AuthenticationService.Instance.IsSignedIn);
-            loadCloudButton.SetActive(AuthenticationService.Instance.IsSignedIn);
-            saveCloudButton.SetActive(AuthenticationService.Instance.IsSignedIn);
-
-            // UPDATE UNITY PLAYER ACCOUNT BUTTONS //
-            bool isPlayerAccountSignedIn = PlayerAccountService.Instance.IsSignedIn;
-            Debug.Log($"Player Account Signed In : {isPlayerAccountSignedIn}");
-            signInButton.SetActive(!isPlayerAccountSignedIn);
-            signOutButton.SetActive(isPlayerAccountSignedIn);          
-
-            // UPDATE UNITY PLAYER ACCOUNT LINK BUTTONS //
-            PlayerInfo playerInfo = await AuthenticationService.Instance.GetPlayerInfoAsync();
-            bool isLinkedToPlayerAccounts = playerInfo.Identities.Find((Identity i) => i.TypeId.ToLowerInvariant().Equals("unity")) != null;
-            Debug.Log($"Player Account Linked : {isLinkedToPlayerAccounts}");
-            linkButton.SetActive(!isLinkedToPlayerAccounts && isPlayerAccountSignedIn);
-            unlinkButton.SetActive(isLinkedToPlayerAccounts);
-        }*/
         #endregion
 
         #region Authentication Service Action Handlers
@@ -144,11 +124,10 @@ namespace RetroCode
             {
                 print(ex.ErrorCode);
 
-                // SESSIONTOKEN INVALID, ACCOUNT DELETED AND TRYING TO SIGN IN FOR THE 1ST TIME //
-
+                // SESSIONTOKEN INVALID OR ACCOUNT DELETED AND TRYING TO SIGN IN AGAIN //
                 if(ex.ErrorCode == 10007)
                 {
-                    print("account fucked.");
+                    print("Account not found. Creating new one...");
                     AuthenticationService.Instance.ClearSessionToken();
                     await Authenticate();
                 }
@@ -235,6 +214,74 @@ namespace RetroCode
 
         }
         #endregion
+
+        #region Keeping Track of Player Data
+        public void CheckDeliveryTimers()
+        {
+            List<string> carNames = new List<string>(cloudData.inventoryDict.Keys);
+
+            // GO THROUGH ALL UNLOCKED CARS //
+            for (int i = 0; i < cloudData.inventoryDict.Keys.Count; i++)
+            {
+                // GO THROUGH THE PARTS CLASSES //
+                for (int j = 0; j < cloudData.inventoryDict[carNames[i]].Keys.Count; j++)
+                {
+                    AutoPartData partDataIndex = cloudData.inventoryDict[carNames[i]][EXMET.IntToCompClass(j)];
+
+                    // PART IS ORDERED? //
+                    if (partDataIndex.currentLevel == partDataIndex.orderedLevel)
+                    {
+                        DeliveriesInProgress = false;
+                    }
+                    else if(!partDataIndex.isDelivered)
+                    {
+                        DeliveriesInProgress = true;
+
+                        deliveryDictionary.Add(carNames[i], new Dictionary<string, DateTime>
+                        {
+                            { EXMET.IntToCompClass(j), partDataIndex.purchaseDate.AddHours(compDataLists[j].Comps[partDataIndex.orderedLevel].TimeToDeliver) }
+                        });
+                    }
+                }
+            }
+
+            carNames.Clear();
+        }
+
+        private void HandleDeliveryTimers()
+        {
+            List<string> carNames = new List<string>(deliveryDictionary.Keys);
+
+            // GO THROUGH ALL CARS WITH DELIVERIES //
+            for(int i = 0; i < carNames.Count; i++)
+            {
+                // GO THROUGH THE PARTS CLASSES //
+                for(int j = 0; j < deliveryDictionary[carNames[i]].Keys.Count; j++)
+                {
+                    AutoPartData partDataIndex = cloudData.inventoryDict[carNames[i]][EXMET.IntToCompClass(j)];
+
+                    DateTime currentTime = DateTime.UtcNow;
+                    DateTime expectedDeliveryDate = deliveryDictionary[carNames[i]][EXMET.IntToCompClass(j)];
+
+                    TimeSpan difference = expectedDeliveryDate - currentTime;
+
+                    // PART DELIVERED, FINALIZE THE PART AS SUCH //
+                    if(difference.TotalSeconds <= 0)
+                    {
+                        print($"{EXMET.IntToCompClass(j)} for {carNames[i]} delivered.");
+
+                        cloudData.inventoryDict[carNames[i]][EXMET.IntToCompClass(j)].FinalizeDelivery();
+
+                        SaveCloudData(false);
+
+                        // REMOVE THE DELIVERED PART FROM THE DELDICT, AND REMOVE CAR ALTOGETHER IF NO PARTS LEFT FOR THAT CAR //
+                        deliveryDictionary[carNames[i]].Remove(EXMET.IntToCompClass(j));
+                        if (deliveryDictionary[carNames[i]].Keys.Count == 0) deliveryDictionary.Remove(carNames[i]);
+                    }
+                }
+            }
+        }
+        #endregion
     }
 
     public class CloudData
@@ -264,28 +311,28 @@ namespace RetroCode
 
     public class AutoPartData
     {
-        public int currentLevel { get; set; }
-        public int orderedLevel { get; set; }
-        public int equippedLevel { get; set; }
+        public byte currentLevel { get; set; }
+        public byte orderedLevel { get; set; }
+        public byte equippedLevel { get; set; }
         public DateTime purchaseDate { get; set; }
         public bool isDelivered { get; set; }
         public bool isLooted { get; set; }           
 
-        public AutoPartData(int currentLevel, DateTime purchaseDate)
+        public AutoPartData(byte currentLevel, DateTime orderDate)
         {
             this.currentLevel = currentLevel;
             this.orderedLevel = currentLevel;
             this.equippedLevel = currentLevel;
-            this.purchaseDate = purchaseDate;
+            this.purchaseDate = orderDate;
             this.isDelivered = true;
-            this.isLooted = false;                   
+            this.isLooted = true;                   
         }
 
-        public void OrderPart(int newLevel, DateTime orderDate)
+        public void OrderPart(byte newLevel, DateTime orderDate)
         {
-            this.orderedLevel = newLevel;
             this.purchaseDate = orderDate;
             this.isDelivered = false;
+            this.isLooted = false;
         }
 
         public int NextLevel()
@@ -298,11 +345,20 @@ namespace RetroCode
 
         public void FinalizeDelivery()
         {
-            if (!isDelivered)
-            {
-                this.currentLevel = this.orderedLevel;
-                this.isDelivered = true;
-            }
+            this.isDelivered = true;
+            this.isLooted = false;
         }
+
+        public void FinalizeLooting()
+        {
+            this.currentLevel = this.orderedLevel;
+            this.isLooted = true;
+        }
+    }
+
+    [Serializable]
+    public class ItemDatalist
+    {
+        public List<ItemData> Comps = new List<ItemData>(0);
     }
 }

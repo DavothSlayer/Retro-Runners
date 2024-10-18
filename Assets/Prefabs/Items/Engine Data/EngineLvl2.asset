@@ -13,6 +13,5 @@ MonoBehaviour:
   m_Name: EngineLvl2
   m_EditorClassIdentifier: 
   ItemName: Python
-  Description: 
-  ItemCode: Engine_LVL2
   DefaultPrice: 3999
+  TimeToDeliver: 1

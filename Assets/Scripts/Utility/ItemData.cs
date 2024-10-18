@@ -1,5 +1,4 @@
 using System;
-using System.Collections.Generic;
 using UnityEngine;
 
 namespace RetroCode
@@ -8,9 +7,8 @@ namespace RetroCode
     public class ItemData : ScriptableObject
     {
         public string ItemName;
-        public string Description;
-        [Space]
-        public string ItemCode;
         public int DefaultPrice;
+        [Tooltip("In Hours")]
+        public int TimeToDeliver;
     }
 }

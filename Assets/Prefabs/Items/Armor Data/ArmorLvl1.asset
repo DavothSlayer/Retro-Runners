@@ -12,7 +12,5 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: fdfd5e50b5b16cc419e40a3e005c5940, type: 3}
   m_Name: ArmorLvl1
   m_EditorClassIdentifier: 
-  ItemName: Brass Armor
-  Description: 
-  ItemCode: Armor_LVL1
+  ItemName: Reinforced Steel Plates
   DefaultPrice: 0

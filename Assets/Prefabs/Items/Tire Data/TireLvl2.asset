@@ -13,6 +13,5 @@ MonoBehaviour:
   m_Name: TireLvl2
   m_EditorClassIdentifier: 
   ItemName: Get-a-Grips
-  Description: 
-  ItemCode: Tires_LVL2
   DefaultPrice: 6999
+  TimeToDeliver: 1

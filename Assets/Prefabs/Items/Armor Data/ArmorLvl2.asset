@@ -12,7 +12,6 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: fdfd5e50b5b16cc419e40a3e005c5940, type: 3}
   m_Name: ArmorLvl2
   m_EditorClassIdentifier: 
-  ItemName: Steel Armor
-  Description: 
-  ItemCode: Armor_LVL2
-  DefaultPrice: 34999
+  ItemName: Kevlar Titanium Alloy
+  DefaultPrice: 35000
+  TimeToDeliver: 1

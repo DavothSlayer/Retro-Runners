@@ -12,7 +12,6 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: fdfd5e50b5b16cc419e40a3e005c5940, type: 3}
   m_Name: ArmorLvl3
   m_EditorClassIdentifier: 
-  ItemName: Gold Armor
-  Description: 
-  ItemCode: Armor_LVL3
-  DefaultPrice: 84999
+  ItemName: Carbon Composite
+  DefaultPrice: 85000
+  TimeToDeliver: 0

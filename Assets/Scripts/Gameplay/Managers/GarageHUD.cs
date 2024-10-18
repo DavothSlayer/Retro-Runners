@@ -10,7 +10,8 @@ namespace RetroCode
         [Header("Universal")]
         public TextMeshProUGUI playerMoneyText;
 
-        [Header("Garage Screen")]        
+        [Header("Garage Screen")]
+        public GameObject upgradeScreen;
         public TextMeshProUGUI currentAutoNameText;
         public TextMeshProUGUI currentCompNameText;
         public TextMeshProUGUI autoPriceText, compPriceText;
@@ -18,8 +19,9 @@ namespace RetroCode
         public GameObject unlockedActionParent_AR;
         public GameObject lockedObjectParent_AR;
         public GameObject nextAutoButton, previousAutoButton;
-        public GameObject orderActionParent_CR;
-        public GameObject deliveryObjectParent_CR;
+        public GameObject orderCompButton;
+        public GameObject deliveryTimeAction;
+        public GameObject nextCompButton, previousCompButton;
         public List<ParticleSystem> maxLvlFX;
 
         [Space]
@@ -43,8 +45,8 @@ namespace RetroCode
     public struct CompStatSliders
     {
         public Slider mainSlider, diffSlider;
-        public TextMeshProUGUI levelText, statCurrentText, statTunedText;
-        public Image icon;
+        public TextMeshProUGUI levelText, statCurrentText, statTunedText;        
+        public Image icon, arrowImage;
         public Outline outline;
     }
 }

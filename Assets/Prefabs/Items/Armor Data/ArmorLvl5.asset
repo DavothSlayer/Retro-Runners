@@ -12,7 +12,6 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: fdfd5e50b5b16cc419e40a3e005c5940, type: 3}
   m_Name: ArmorLvl5
   m_EditorClassIdentifier: 
-  ItemName: Pure Titanium Armor
-  Description: 
-  ItemCode: Armor_LVL5
-  DefaultPrice: 159999
+  ItemName: Diamond Composite with Adaptive Shielding
+  DefaultPrice: 160000
+  TimeToDeliver: 0

@@ -92,6 +92,49 @@ namespace V3CTOR
             NumberGroupSeparator = " ",
             NumberDecimalDigits = 0
         };
+
+        public static string IntToCompClass(int index)
+        {
+            switch (index)
+            {
+                case 0:
+                    return "engine";
+
+                case 1:
+                    return "power";
+
+                case 2:
+                    return "handling";
+
+                case 3:
+                    return "health";
+            }
+
+            return "";
+        }
+
+        public static string LevelAsRoman(int level)
+        {
+            switch (level)
+            {
+                case 0:
+                    return "I";
+
+                case 1:
+                    return "II";
+
+                case 2:
+                    return "III";
+
+                case 3:
+                    return "IV";
+
+                case 4:
+                    return "V";
+            }
+
+            return "";
+        }
     }
 
     public interface Damageable

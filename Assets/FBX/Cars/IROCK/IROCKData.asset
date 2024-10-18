@@ -18,9 +18,9 @@ MonoBehaviour:
   CompPriceMultiplier: 1.5
   autoLevelData:
   - TopSpeed: 77
-    Power: 0
-    Handling: 0
-    MaxHealth: 4
+    Power: 165
+    Handling: 60
+    MaxHealth: 6
   - TopSpeed: 83
     Power: 0
     Handling: 0
