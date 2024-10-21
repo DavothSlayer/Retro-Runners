@@ -33,7 +33,6 @@ namespace RetroCode
         #endregion
 
         #region Unity Methods
-        private bool DeliveriesInProgress = false;
         [HideInInspector]
         public Dictionary<string, Dictionary<string, DateTime>> deliveryDictionary = new Dictionary<string, Dictionary<string, DateTime>>(0);
         private async void Start()
@@ -56,7 +55,7 @@ namespace RetroCode
 
         private void Update()
         {
-            if (DeliveriesInProgress) HandleDeliveryTimers();            
+            if (deliveryDictionary.Count != 0) HandleDeliveryTimers();            
         }
 
         private void OnDestory()
@@ -203,16 +202,6 @@ namespace RetroCode
                 LoadCloudData();
             }
         }
-
-        public void AddCloudCarCode(string AutoCode)
-        {
-
-        }
-
-        public void AddCloudCompCode(string CompCode)
-        {
-
-        }
         #endregion
 
         #region Keeping Track of Player Data
@@ -229,18 +218,20 @@ namespace RetroCode
                     AutoPartData partDataIndex = cloudData.inventoryDict[carNames[i]][EXMET.IntToCompClass(j)];
 
                     // PART IS ORDERED? //
-                    if (partDataIndex.currentLevel == partDataIndex.orderedLevel)
+                    if (!partDataIndex.isDelivered && partDataIndex.currentLevel != partDataIndex.orderedLevel)
                     {
-                        DeliveriesInProgress = false;
-                    }
-                    else if(!partDataIndex.isDelivered)
-                    {
-                        DeliveriesInProgress = true;
-
-                        deliveryDictionary.Add(carNames[i], new Dictionary<string, DateTime>
+                        // ADD IT TO DELIVERY DICTIONARY, WITH EXPECTED DELIVERY DATE. //
+                        if (!deliveryDictionary.ContainsKey(carNames[i]))
                         {
-                            { EXMET.IntToCompClass(j), partDataIndex.purchaseDate.AddHours(compDataLists[j].Comps[partDataIndex.orderedLevel].TimeToDeliver) }
-                        });
+                            deliveryDictionary.Add(carNames[i], new Dictionary<string, DateTime>
+                            {
+                                { EXMET.IntToCompClass(j), partDataIndex.purchaseDate.AddHours(compDataLists[j].Comps[partDataIndex.orderedLevel].TimeToDeliver) }
+                            });
+                        }
+                        else
+                        {
+                            deliveryDictionary[carNames[i]].Add(EXMET.IntToCompClass(j), partDataIndex.purchaseDate.AddHours(compDataLists[j].Comps[partDataIndex.orderedLevel].TimeToDeliver));
+                        }
                     }
                 }
             }
@@ -264,6 +255,8 @@ namespace RetroCode
                     DateTime expectedDeliveryDate = deliveryDictionary[carNames[i]][EXMET.IntToCompClass(j)];
 
                     TimeSpan difference = expectedDeliveryDate - currentTime;
+
+                    //print($"{carNames[i]}: {partDataIndex}: {difference.ToString("HH:mm:ss")}");
 
                     // PART DELIVERED, FINALIZE THE PART AS SUCH //
                     if(difference.TotalSeconds <= 0)
@@ -330,17 +323,18 @@ namespace RetroCode
 
         public void OrderPart(byte newLevel, DateTime orderDate)
         {
+            this.orderedLevel = newLevel;
             this.purchaseDate = orderDate;
             this.isDelivered = false;
             this.isLooted = false;
         }
 
-        public int NextLevel()
+        public byte NextLevel()
         {
             if(orderedLevel == 4)
-                return 4;
+                return (byte)4;
             else
-                return this.currentLevel + 1;
+                return (byte)(this.currentLevel + 1);
         }
 
         public void FinalizeDelivery()

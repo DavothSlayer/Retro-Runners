@@ -66,8 +66,9 @@ namespace RetroCode
 
             camOffset.Rotate(Vector3.up * 25f * Time.deltaTime);
             camOffset.rotation *= Quaternion.Euler(Vector3.up * swipeSelect.inputX * Time.deltaTime);
-
             compRotationParent.Rotate(Vector3.up * 25f * Time.deltaTime);
+
+            hud.deliveryTimeText.text = DeliveryTimeText(autoProps[selectedAutoInt].data, (int)compState);
         }
 
         #region Core Garage Functionality
@@ -302,20 +303,44 @@ namespace RetroCode
             else { return false; }
         }
 
+        private string DeliveryTimeText(AutoData currentAutoData, int compClass)
+        {
+            if (!DeliveryInProgress(currentAutoData, compClass)) return "00:00:00";
+            else
+            {
+                DateTime currentTime = DateTime.UtcNow;
+                DateTime expectedDeliveryDate = gamingServicesManager.deliveryDictionary[currentAutoData.ItemCode][EXMET.IntToCompClass(compClass)];
+
+                TimeSpan difference = expectedDeliveryDate - currentTime;
+
+                string deliveryTime = difference.ToString(@"hh\:mm\:ss");
+
+                return deliveryTime;
+            }
+        }
+
         public void OnCloudDataReceived()
         {
             selectedAutoInt = gamingServicesManager.cloudData.lastSelectedCarInt;
-
-            for (int i = 0; i < autoProps.Length; i++)
-            {
-                autoProps[i].gameObject.SetActive(autoProps[i] == autoProps[selectedAutoInt]);
-            }
 
             CheckInventory();
         }
         #endregion
 
         #region Purchasing & Upgrading & Selecting
+        public void OrderAutoPart()
+        {
+            AutoData autoData = autoProps[selectedAutoInt].data;
+            AutoPartData autoPartData = gamingServicesManager.cloudData.inventoryDict[autoData.ItemCode][EXMET.IntToCompClass((int)compState)];
+
+            autoPartData.OrderPart(autoPartData.NextLevel(), DateTime.UtcNow);
+
+            print($"Auto Part ordered: Current LVL: {autoPartData.currentLevel}, Ordered LVL: {autoPartData.orderedLevel}");
+
+            gamingServicesManager.SaveCloudData(false);
+            gamingServicesManager.CheckDeliveryTimers();
+        }
+
         public void PrepTransaction()
         {
             /*bool component = garageState == GarageState.ComponentReview;
