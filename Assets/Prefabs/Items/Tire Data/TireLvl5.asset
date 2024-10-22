@@ -13,6 +13,6 @@ MonoBehaviour:
   m_Name: TireLvl5
   m_EditorClassIdentifier: 
   ItemName: Hyper Frictions
-  Description: 
-  ItemCode: Tires_LVL5
-  DefaultPrice: 99999
+  DefaultPrice: 230000
+  TimeToDeliver: 0
+  icon: {fileID: 21300000, guid: 48a6fbe1ebc4a454594641dee05f312f, type: 3}

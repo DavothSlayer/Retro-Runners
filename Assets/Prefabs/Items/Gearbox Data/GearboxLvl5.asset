@@ -13,6 +13,6 @@ MonoBehaviour:
   m_Name: GearboxLvl5
   m_EditorClassIdentifier: 
   ItemName: TorqueMax Ultra
-  Description: 
-  ItemCode: Gearbox_LVL4
-  DefaultPrice: 96999
+  DefaultPrice: 125000
+  TimeToDeliver: 0
+  icon: {fileID: 21300000, guid: 81ae53a2189fa484eb17526195e7017e, type: 3}

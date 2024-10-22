@@ -15,3 +15,4 @@ MonoBehaviour:
   ItemName: Diamond Composite with Adaptive Shielding
   DefaultPrice: 160000
   TimeToDeliver: 0
+  icon: {fileID: 21300000, guid: 84b0b29e0e61cda4c90daa736690f839, type: 3}

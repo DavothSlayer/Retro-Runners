@@ -1,4 +1,3 @@
-using System;
 using UnityEngine;
 
 namespace RetroCode
@@ -10,5 +9,6 @@ namespace RetroCode
         public int DefaultPrice;
         [Tooltip("In Hours")]
         public int TimeToDeliver;
+        public Sprite icon;
     }
 }

@@ -14,3 +14,5 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   ItemName: Reinforced Steel Plates
   DefaultPrice: 0
+  TimeToDeliver: 0
+  icon: {fileID: 21300000, guid: 041f9a0f09f20fe44a5dc0f58295bc8e, type: 3}

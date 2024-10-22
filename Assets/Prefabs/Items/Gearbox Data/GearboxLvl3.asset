@@ -13,6 +13,6 @@ MonoBehaviour:
   m_Name: GearboxLvl3
   m_EditorClassIdentifier: 
   ItemName: Powerhouse
-  Description: 
-  ItemCode: Gearbox_LVL3
-  DefaultPrice: 7199
+  DefaultPrice: 12000
+  TimeToDeliver: 0
+  icon: {fileID: 21300000, guid: 52ff6cb901bacf44fbd696f4c42ab30a, type: 3}

@@ -13,6 +13,6 @@ MonoBehaviour:
   m_Name: TireLvl4
   m_EditorClassIdentifier: 
   ItemName: Prototype X
-  Description: 
-  ItemCode: Tires_LVL4
-  DefaultPrice: 65999
+  DefaultPrice: 125000
+  TimeToDeliver: 0
+  icon: {fileID: 21300000, guid: fe2900068360edc408bb54c332b05afb, type: 3}

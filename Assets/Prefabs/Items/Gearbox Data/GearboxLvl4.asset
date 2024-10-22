@@ -12,7 +12,7 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: fdfd5e50b5b16cc419e40a3e005c5940, type: 3}
   m_Name: GearboxLvl4
   m_EditorClassIdentifier: 
-  ItemName: Powerhouse MKII
-  Description: 
-  ItemCode: Gearbox_LVL4
-  DefaultPrice: 38999
+  ItemName: Powerhouse MK. II
+  DefaultPrice: 45000
+  TimeToDeliver: 0
+  icon: {fileID: 21300000, guid: 826f1815c8c938a49a688b1cff40ea5d, type: 3}

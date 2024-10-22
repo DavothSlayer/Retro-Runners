@@ -13,6 +13,6 @@ MonoBehaviour:
   m_Name: TireLvl3
   m_EditorClassIdentifier: 
   ItemName: Asphalt Slicks
-  Description: 
-  ItemCode: Tires_LVL3
-  DefaultPrice: 39999
+  DefaultPrice: 40000
+  TimeToDeliver: 0
+  icon: {fileID: 21300000, guid: 4508014111a22ee498d4967c5820522c, type: 3}

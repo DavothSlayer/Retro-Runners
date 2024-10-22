@@ -13,6 +13,6 @@ MonoBehaviour:
   m_Name: GearboxLvl1
   m_EditorClassIdentifier: 
   ItemName: Rookie Shifter
-  Description: 
-  ItemCode: Gearbox_LVL1
   DefaultPrice: 0
+  TimeToDeliver: 0
+  icon: {fileID: 21300000, guid: 68054170271dc3249860e5938a38082e, type: 3}

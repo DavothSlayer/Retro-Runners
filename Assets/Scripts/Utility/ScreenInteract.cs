@@ -1,3 +1,4 @@
+using JetBrains.Annotations;
 using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
@@ -18,12 +19,15 @@ namespace RetroCode
 
         [HideInInspector]
         public float inputX;
+        [HideInInspector]
+        public float inputY;
 
         private void Update()
         {
             if (Input.touchCount == 0)
             {
                 inputX = Mathf.Lerp(inputX, 0f, Time.deltaTime);
+                inputY = Mathf.Lerp(inputY, 0f, Time.deltaTime);
                 return;
             }
 
@@ -46,6 +50,7 @@ namespace RetroCode
             }
 
             inputX = Mathf.Lerp(inputX, touchInput.x, 6f * Time.deltaTime);
+            inputY = Mathf.Lerp(inputY, touchInput.y, 6f * Time.deltaTime);
         }
 
         public void SetSwipeState(bool state)

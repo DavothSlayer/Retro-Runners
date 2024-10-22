@@ -13,4 +13,6 @@ MonoBehaviour:
   m_Name: EngineLvl4
   m_EditorClassIdentifier: 
   ItemName: Slayer
-  DefaultPrice: 59999
+  DefaultPrice: 100000
+  TimeToDeliver: 0
+  icon: {fileID: 21300000, guid: 91d0d6c4aca9f35409be9a1976406bfa, type: 3}

@@ -15,3 +15,4 @@ MonoBehaviour:
   ItemName: Kevlar Titanium Alloy
   DefaultPrice: 35000
   TimeToDeliver: 1
+  icon: {fileID: 21300000, guid: e4685b0b52bdf61458f692c72978ada6, type: 3}

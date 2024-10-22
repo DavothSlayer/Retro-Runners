@@ -15,7 +15,7 @@ MonoBehaviour:
   AutoName: IROCK
   ItemCode: irock
   Price: 7500
-  CompPriceMultiplier: 1.5
+  CompPriceMultiplier: 1.25
   autoLevelData:
   - TopSpeed: 77
     Power: 165

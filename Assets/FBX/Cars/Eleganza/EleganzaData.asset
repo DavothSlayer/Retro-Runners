@@ -15,7 +15,7 @@ MonoBehaviour:
   AutoName: Eleganza
   ItemCode: eleganza
   Price: 0
-  CompPriceMultiplier: 5
+  CompPriceMultiplier: 4
   autoLevelData:
   - TopSpeed: 87
     Power: 300

@@ -22,6 +22,7 @@ namespace RetroCode
         public GameObject orderCompButton;
         public GameObject deliveryTimeAction;
         public TextMeshProUGUI deliveryTimeText;
+        public GameObject openCratesButton;
         public GameObject nextCompButton, previousCompButton;
         public List<ParticleSystem> maxLvlFX;
 

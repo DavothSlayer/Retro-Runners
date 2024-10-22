@@ -15,3 +15,4 @@ MonoBehaviour:
   ItemName: Python
   DefaultPrice: 4000
   TimeToDeliver: 1
+  icon: {fileID: 21300000, guid: da96cf63d1e47024da3d643bec0a18bc, type: 3}

@@ -15,7 +15,7 @@ MonoBehaviour:
   AutoName: Kronos
   ItemCode: kronos
   Price: 0
-  CompPriceMultiplier: 2.5
+  CompPriceMultiplier: 2
   autoLevelData:
   - TopSpeed: 100
     Power: 0

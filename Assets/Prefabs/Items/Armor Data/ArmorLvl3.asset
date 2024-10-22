@@ -15,3 +15,4 @@ MonoBehaviour:
   ItemName: Carbon Composite
   DefaultPrice: 85000
   TimeToDeliver: 0
+  icon: {fileID: 21300000, guid: d214447bc65ee67468e2325dd002aaad, type: 3}
