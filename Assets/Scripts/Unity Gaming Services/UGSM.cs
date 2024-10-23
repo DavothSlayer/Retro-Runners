@@ -222,7 +222,7 @@ namespace RetroCode
                     AutoPartData partDataIndex = cloudData.inventoryDict[carNames[i]][EXMET.IntToCompClass(j)];
 
                     // PART IS ORDERED? //
-                    if (!partDataIndex.isLooted && !partDataIndex.isDelivered && partDataIndex.currentLevel != partDataIndex.orderedLevel)
+                    if (!partDataIndex.isDelivered && partDataIndex.currentLevel != partDataIndex.orderedLevel)
                     {
                         // IS THE CAR ALREADY IN THE DICTIONARY? //
                         if (!deliveryDictionary.ContainsKey(carNames[i]))
@@ -246,6 +246,9 @@ namespace RetroCode
                             // FINALIZE THE DELIVERY, THEN REMOVE IT FROM THE DELIVERY DICTIONARY //
                             cloudData.inventoryDict[carNames[i]][EXMET.IntToCompClass(j)].FinalizeDelivery();
 
+                            // DELIVERY FINALIZED, IS IT LOOTED? //
+                            CheckAvailableLoot(partDataIndex, carNames[i], j);
+
                             // REMOVE THE DELIVERED PART FROM THE DELDICT, AND REMOVE CAR ALTOGETHER IF NO PARTS LEFT FOR THAT CAR //
                             deliveryDictionary[carNames[i]].Remove(EXMET.IntToCompClass(j));
                             if (deliveryDictionary[carNames[i]].Keys.Count == 0) deliveryDictionary.Remove(carNames[i]);
@@ -268,7 +271,7 @@ namespace RetroCode
             for(int i = 0; i < deliveryDictionary.Keys.Count; i++)
             {
                 // GO THROUGH THE PARTS CLASSES //
-                for(int j = 0; j < deliveryDictionary[carNames[i]].Keys.Count; j++)
+                for(int j = 0; j < 4; j++)
                 {
                     AutoPartData partDataIndex = cloudData.inventoryDict[carNames[i]][EXMET.IntToCompClass(j)];
 
@@ -287,6 +290,9 @@ namespace RetroCode
                         // FINALIZE THE DELIVERY, THEN REMOVE IT FROM THE DELIVERY DICTIONARY //
                         cloudData.inventoryDict[carNames[i]][EXMET.IntToCompClass(j)].FinalizeDelivery();
 
+                        // DELIVERY FINALIZED, IS IT LOOTED? //
+                        CheckAvailableLoot(partDataIndex, carNames[i], j);
+
                         // REMOVE THE DELIVERED PART FROM THE DELDICT, AND REMOVE CAR ALTOGETHER IF NO PARTS LEFT FOR THAT CAR //
                         deliveryDictionary[carNames[i]].Remove(EXMET.IntToCompClass(j));
                         if (deliveryDictionary[carNames[i]].Keys.Count == 0) deliveryDictionary.Remove(carNames[i]);
@@ -298,33 +304,19 @@ namespace RetroCode
             }
         }
 
-        public void CheckAvailableLoot()
+        public void CheckAvailableLoot(AutoPartData partData, string carName, int compStateIndex)
         {
-            List<string> carNames = new List<string>(cloudData.inventoryDict.Keys);
-
-            // GO THROUGH ALL UNLOCKED CARS //
-            for (int i = 0; i < carNames.Count; i++)
+            // PART IS LOOTED? //
+            if (!partData.isLooted)
             {
-                // GO THROUGH THE PARTS CLASSES //
-                for (int j = 0; j < 4; j++)
-                {
-                    AutoPartData partDataIndex = cloudData.inventoryDict[carNames[i]][EXMET.IntToCompClass(j)];
+                // IS THE CAR ALREADY IN THE DICTIONARY? //
+                if (!lootingDictionary.ContainsKey(carName))
+                    lootingDictionary.Add(carName, new Dictionary<string, byte> { });
 
-                    // PART IS LOOTED? //
-                    if (!partDataIndex.isLooted && partDataIndex.isDelivered && partDataIndex.currentLevel != partDataIndex.orderedLevel)
-                    {
-                        // IS THE CAR ALREADY IN THE DICTIONARY? //
-                        if (!lootingDictionary.ContainsKey(carNames[i]))
-                            lootingDictionary.Add(carNames[i], new Dictionary<string, byte> { });
-
-                        // ADD IT TO DELIVERY DICTIONARY, WITH EXPECTED DELIVERY DATE. //
-                        if (!lootingDictionary[carNames[i]].ContainsKey(EXMET.IntToCompClass(j)))
-                            lootingDictionary[carNames[i]].Add(EXMET.IntToCompClass(j), partDataIndex.orderedLevel);
-                    }
-                }
+                // ADD IT TO DELIVERY DICTIONARY, WITH EXPECTED DELIVERY DATE. //
+                if (!lootingDictionary[carName].ContainsKey(EXMET.IntToCompClass(compStateIndex)))
+                    lootingDictionary[carName].Add(EXMET.IntToCompClass(compStateIndex), partData.orderedLevel);
             }
-
-            carNames.Clear();
         }
 
         public void CollectAvailableLoot()
@@ -334,26 +326,27 @@ namespace RetroCode
             // GO THROUGH ALL CARS IN DICTIONARY //
             for (int i = 0; i < lootingDictionary.Keys.Count; i++)
             {
-                if (!lootingDictionary.ContainsKey(carNames[i])) continue;
-
                 // GO THROUGH THE PARTS CLASSES //
                 for (int j = 0; j < 4; j++)
                 {
                     AutoPartData partDataIndex = cloudData.inventoryDict[carNames[i]][EXMET.IntToCompClass(j)];
 
-                    // KEY NOT FOUND ERROR, FIX IT DIPSHIT //
                     if (lootingDictionary[carNames[i]].ContainsKey(EXMET.IntToCompClass(j)))
                     {
                         cloudData.inventoryDict[carNames[i]][EXMET.IntToCompClass(j)].FinalizeLooting();
 
                         // REMOVE THE LOOTED PART FROM THE LOOTDICT, AND REMOVE CAR ALTOGETHER IF NO PARTS LEFT FOR THAT CAR //
-                        lootingDictionary[carNames[i]].Remove(EXMET.IntToCompClass(j));
-                        if (lootingDictionary[carNames[i]].Keys.Count == 0) lootingDictionary.Remove(carNames[i]);
-                    }
+                        lootingDictionary[carNames[i]].Remove(EXMET.IntToCompClass(j)); continue;
+                        //if (lootingDictionary[carNames[i]].Keys.Count == 0) lootingDictionary.Remove(carNames[i]); break;
+                    }                   
                 }
+
+                if (lootingDictionary[carNames[i]].Keys.Count == 0) lootingDictionary.Remove(carNames[i]);
             }
 
             carNames.Clear();
+
+            SaveCloudData(false);
         }
         #endregion
     }

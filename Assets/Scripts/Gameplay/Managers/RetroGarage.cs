@@ -345,7 +345,6 @@ namespace RetroCode
 
             gamingServicesManager.SaveCloudData(false);
             gamingServicesManager.CheckDeliveryTimers();
-            gamingServicesManager.CheckAvailableLoot();
 
             CheckInventory();
         }
