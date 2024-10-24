@@ -20,11 +20,13 @@ namespace RetroCode
         public GameObject lockedObjectParent_AR;
         public GameObject nextAutoButton, previousAutoButton;
         public GameObject orderCompButton;
-        public GameObject deliveryTimeAction;
+        public GameObject deliveryTimeAction, inDeliveryIcon;
         public TextMeshProUGUI deliveryTimeText;
-        public GameObject openCratesButton;
+        public GameObject openLootButtonMain;
         public GameObject nextCompButton, previousCompButton;
+        public GameObject equipCompButton, equippedCompInfo, openLootButtonAux;
         public List<ParticleSystem> maxLvlFX;
+        public Color lockedColor, availableColor;
 
         [Space]
         public List<CompStatSliders> compStatSliders = new List<CompStatSliders>();

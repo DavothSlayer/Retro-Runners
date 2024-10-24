@@ -43,6 +43,11 @@ ModelImporter:
   - first:
       type: UnityEngine:Material
       assembly: UnityEngine.CoreModule
+      name: RetroShield
+    second: {fileID: 2100000, guid: c4e14fc166e47ad429cd92bd22880f1d, type: 2}
+  - first:
+      type: UnityEngine:Material
+      assembly: UnityEngine.CoreModule
       name: RetroUniversal
     second: {fileID: 2100000, guid: c4e14fc166e47ad429cd92bd22880f1d, type: 2}
   materials:

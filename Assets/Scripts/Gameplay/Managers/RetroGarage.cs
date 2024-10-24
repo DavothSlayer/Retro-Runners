@@ -171,7 +171,7 @@ namespace RetroCode
 
             hud.previousAutoButton.SetActive(selectedAutoInt != 0);
             hud.nextAutoButton.SetActive(selectedAutoInt != autoProps.Length - 1);
-            hud.openCratesButton.SetActive(gamingServicesManager.lootingDictionary.Keys.Count != 0);
+            hud.openLootButtonMain.SetActive(gamingServicesManager.lootingDictionary.Keys.Count != 0);
 
             hud.playerMoneyText.text = $"R$ {gamingServicesManager.cloudData.retroDollars.ToString("N", EXMET.NumForThou)}";
             //UpdatePlayerMoneyText();
@@ -241,9 +241,11 @@ namespace RetroCode
 
                 hud.previousCompButton.SetActive(selectedCompInt != 0);
                 hud.nextCompButton.SetActive(selectedCompInt != partData.NextLevel());
-                hud.compPriceText.gameObject.SetActive(selectedCompInt == partData.NextLevel());
-                hud.deliveryTimeAction.SetActive(DeliveryInProgress(currentAutoData, (int)compState) && selectedCompInt == partData.NextLevel());
+                hud.compPriceText.gameObject.SetActive(selectedCompInt == partData.NextLevel() && !partData.isDelivered);
+                hud.deliveryTimeAction.SetActive(DeliveryInProgress(currentAutoData, (int)compState) && selectedCompInt == partData.NextLevel() && !partData.isLooted);
                 hud.orderCompButton.SetActive(!DeliveryInProgress(currentAutoData, (int)compState) && selectedCompInt == partData.NextLevel());
+                hud.equipCompButton.SetActive(selectedCompInt != partData.equippedLevel && selectedCompInt != partData.NextLevel());
+                hud.equippedCompInfo.SetActive(selectedCompInt == partData.equippedLevel && selectedCompInt != partData.NextLevel());
 
                 #region Check Components
                 for (int i = 0; i < compLists.Count; i++)
