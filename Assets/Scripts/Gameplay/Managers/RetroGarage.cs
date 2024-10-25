@@ -218,21 +218,53 @@ namespace RetroCode
                 // AUTO VIEW STATS //
 
                 // COMPONENT VIEW STATS //
+                hud.compStatSliders[0].statTunedText.gameObject.SetActive(
+                    gamingServicesManager.cloudData.inventoryDict[currentAutoData.ItemCode]["engine"].equippedLevel <
+                    gamingServicesManager.cloudData.inventoryDict[currentAutoData.ItemCode]["engine"].NextLevel()
+                    );
+                hud.compStatSliders[0].arrowImage.gameObject.SetActive(
+                    gamingServicesManager.cloudData.inventoryDict[currentAutoData.ItemCode]["engine"].equippedLevel <
+                    gamingServicesManager.cloudData.inventoryDict[currentAutoData.ItemCode]["engine"].NextLevel()
+                    );
                 hud.compStatSliders[0].statCurrentText.text = $"{Mathf.RoundToInt(currentAutoData.autoLevelData[gamingServicesManager.cloudData.inventoryDict[currentAutoData.ItemCode]["engine"].equippedLevel].TopSpeed * 2.2f)} MPH";
                 hud.compStatSliders[0].statTunedText.text = $"{Mathf.RoundToInt(currentAutoData.autoLevelData[gamingServicesManager.cloudData.inventoryDict[currentAutoData.ItemCode]["engine"].NextLevel()].TopSpeed * 2.2f)} MPH";
                 hud.compStatSliders[0].levelText.text = $"MK. {EXMET.LevelAsRoman(gamingServicesManager.cloudData.inventoryDict[currentAutoData.ItemCode]["engine"].equippedLevel)}";
                 hud.compStatSliders[0].icon.sprite = compLists[0].Comps[gamingServicesManager.cloudData.inventoryDict[currentAutoData.ItemCode]["engine"].equippedLevel].itemData.icon;
 
+                hud.compStatSliders[1].statTunedText.gameObject.SetActive(
+                    gamingServicesManager.cloudData.inventoryDict[currentAutoData.ItemCode]["power"].equippedLevel <
+                    gamingServicesManager.cloudData.inventoryDict[currentAutoData.ItemCode]["power"].NextLevel()
+                    );
+                hud.compStatSliders[1].arrowImage.gameObject.SetActive(
+                    gamingServicesManager.cloudData.inventoryDict[currentAutoData.ItemCode]["power"].equippedLevel <
+                    gamingServicesManager.cloudData.inventoryDict[currentAutoData.ItemCode]["power"].NextLevel()
+                    );
                 hud.compStatSliders[1].statCurrentText.text = $"{currentAutoData.autoLevelData[gamingServicesManager.cloudData.inventoryDict[currentAutoData.ItemCode]["power"].equippedLevel].Power} UNITS";
                 hud.compStatSliders[1].statTunedText.text = $"{currentAutoData.autoLevelData[gamingServicesManager.cloudData.inventoryDict[currentAutoData.ItemCode]["power"].NextLevel()].Power} UNITS";
                 hud.compStatSliders[1].levelText.text = $"MK. {EXMET.LevelAsRoman(gamingServicesManager.cloudData.inventoryDict[currentAutoData.ItemCode]["power"].equippedLevel)}";
                 hud.compStatSliders[1].icon.sprite = compLists[1].Comps[gamingServicesManager.cloudData.inventoryDict[currentAutoData.ItemCode]["power"].equippedLevel].itemData.icon;
 
+                hud.compStatSliders[2].statTunedText.gameObject.SetActive(
+                    gamingServicesManager.cloudData.inventoryDict[currentAutoData.ItemCode]["handling"].equippedLevel <
+                    gamingServicesManager.cloudData.inventoryDict[currentAutoData.ItemCode]["handling"].NextLevel()
+                    );
+                hud.compStatSliders[2].arrowImage.gameObject.SetActive(
+                    gamingServicesManager.cloudData.inventoryDict[currentAutoData.ItemCode]["handling"].equippedLevel <
+                    gamingServicesManager.cloudData.inventoryDict[currentAutoData.ItemCode]["handling"].NextLevel()
+                    );
                 hud.compStatSliders[2].statCurrentText.text = $"{currentAutoData.autoLevelData[gamingServicesManager.cloudData.inventoryDict[currentAutoData.ItemCode]["handling"].equippedLevel].Handling} M/S";
                 hud.compStatSliders[2].statTunedText.text = $"{currentAutoData.autoLevelData[gamingServicesManager.cloudData.inventoryDict[currentAutoData.ItemCode]["handling"].NextLevel()].Handling} M/S";
                 hud.compStatSliders[2].levelText.text = $"MK. {EXMET.LevelAsRoman(gamingServicesManager.cloudData.inventoryDict[currentAutoData.ItemCode]["handling"].equippedLevel)}";
                 hud.compStatSliders[2].icon.sprite = compLists[2].Comps[gamingServicesManager.cloudData.inventoryDict[currentAutoData.ItemCode]["handling"].equippedLevel].itemData.icon;
 
+                hud.compStatSliders[3].statTunedText.gameObject.SetActive(
+                    gamingServicesManager.cloudData.inventoryDict[currentAutoData.ItemCode]["health"].equippedLevel <
+                    gamingServicesManager.cloudData.inventoryDict[currentAutoData.ItemCode]["health"].NextLevel()
+                    );
+                hud.compStatSliders[3].arrowImage.gameObject.SetActive(
+                    gamingServicesManager.cloudData.inventoryDict[currentAutoData.ItemCode]["health"].equippedLevel <
+                    gamingServicesManager.cloudData.inventoryDict[currentAutoData.ItemCode]["health"].NextLevel()
+                    );
                 hud.compStatSliders[3].statCurrentText.text = $"{currentAutoData.autoLevelData[gamingServicesManager.cloudData.inventoryDict[currentAutoData.ItemCode]["health"].equippedLevel].MaxHealth} HP";
                 hud.compStatSliders[3].statTunedText.text = $"{currentAutoData.autoLevelData[gamingServicesManager.cloudData.inventoryDict[currentAutoData.ItemCode]["health"].NextLevel()].MaxHealth} HP";
                 hud.compStatSliders[3].levelText.text = $"MK. {EXMET.LevelAsRoman(gamingServicesManager.cloudData.inventoryDict[currentAutoData.ItemCode]["health"].equippedLevel)}";
@@ -241,11 +273,18 @@ namespace RetroCode
 
                 hud.previousCompButton.SetActive(selectedCompInt != 0);
                 hud.nextCompButton.SetActive(selectedCompInt != partData.NextLevel());
-                hud.compPriceText.gameObject.SetActive(selectedCompInt == partData.NextLevel() && !partData.isDelivered);
-                hud.deliveryTimeAction.SetActive(DeliveryInProgress(currentAutoData, (int)compState) && selectedCompInt == partData.NextLevel() && !partData.isLooted);
-                hud.orderCompButton.SetActive(!DeliveryInProgress(currentAutoData, (int)compState) && selectedCompInt == partData.NextLevel());
-                hud.equipCompButton.SetActive(selectedCompInt != partData.equippedLevel && selectedCompInt != partData.NextLevel());
-                hud.equippedCompInfo.SetActive(selectedCompInt == partData.equippedLevel && selectedCompInt != partData.NextLevel());
+
+                hud.deliveryTimeAction.SetActive(DeliveryInProgress(currentAutoData, (int)compState) && selectedCompInt > partData.currentLevel);
+                hud.inDeliveryIcon.SetActive(hud.deliveryTimeAction.activeInHierarchy);
+
+                hud.orderCompButton.SetActive(!DeliveryInProgress(currentAutoData, (int)compState) && selectedCompInt > partData.currentLevel);
+                hud.compPriceText.gameObject.SetActive(hud.orderCompButton.activeInHierarchy);
+
+                hud.equipCompButton.SetActive(selectedCompInt != partData.equippedLevel && selectedCompInt <= partData.currentLevel);
+                hud.equippedCompInfo.SetActive(selectedCompInt == partData.equippedLevel && selectedCompInt <= partData.currentLevel);
+
+                // LOOT BUTTON AUX, SET IT UP //
+                //hud.openLootButtonAux
 
                 #region Check Components
                 for (int i = 0; i < compLists.Count; i++)
@@ -264,6 +303,8 @@ namespace RetroCode
 
                             int CompPrice = Mathf.RoundToInt(currentProp.itemData.DefaultPrice * autoProps[selectedAutoInt].data.CompPriceMultiplier);
                             hud.compPriceText.text = $"R$ {CompPrice.ToString("N", EXMET.NumForThou)}";
+                            
+                            hud.compPriceText.color = gamingServicesManager.cloudData.retroDollars >= CompPrice ? hud.availableColor : hud.lockedColor;
                         }
                     }
                     else
@@ -455,17 +496,13 @@ namespace RetroCode
         
         public void SelectComp()
         {
-            /*
-            AutoData aData = autoProps[selectedAutoInt].data;
+            AutoData autoData = autoProps[selectedAutoInt].data;
 
-            gamingServicesManager.cloudData.unlockedCarsDict[aData.ItemCode].lastSelectedCompList[((int)compState)] = selectedCompInt;
+            gamingServicesManager.cloudData.inventoryDict[autoData.ItemCode][EXMET.IntToCompClass((int)compState)].equippedLevel = (byte)selectedCompInt;
 
             gamingServicesManager.SaveCloudData(false);
 
-            garageScreenAnimator.SetTrigger("Selected");
-
             CheckInventory();
-            */
         }
 
         public void SelectAuto()

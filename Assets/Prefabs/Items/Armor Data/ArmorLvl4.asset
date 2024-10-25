@@ -14,5 +14,5 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   ItemName: Energy Shielded Armor
   DefaultPrice: 120000
-  TimeToDeliver: 1
+  TimeToDeliver: 0
   icon: {fileID: 21300000, guid: f44df2ab577e82f44a6de1ddebc0f44e, type: 3}

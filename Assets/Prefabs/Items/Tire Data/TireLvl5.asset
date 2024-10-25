@@ -14,5 +14,5 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   ItemName: Hyper Frictions
   DefaultPrice: 230000
-  TimeToDeliver: 1
+  TimeToDeliver: 0
   icon: {fileID: 21300000, guid: 48a6fbe1ebc4a454594641dee05f312f, type: 3}
