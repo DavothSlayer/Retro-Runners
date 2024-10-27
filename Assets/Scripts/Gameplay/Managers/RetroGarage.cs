@@ -190,8 +190,8 @@ namespace RetroCode
                 autoProps[selectedAutoInt].lockedModel.SetActive(false);
                 autoProps[selectedAutoInt].unlockedModels[0].SetActive(true);
 
-                hud.unlockedActionParent_AR.SetActive(true);
-                hud.lockedObjectParent_AR.SetActive(false);
+                hud.upgradeCarButton.SetActive(true);
+                hud.lockedCarInfo.SetActive(false);
 
                 autoTopSpeedVar = currentAutoData.autoLevelData[gamingServicesManager.cloudData.inventoryDict[currentAutoData.ItemCode]["engine"].equippedLevel].TopSpeed;
                 autoPowerVar = currentAutoData.autoLevelData[gamingServicesManager.cloudData.inventoryDict[currentAutoData.ItemCode]["power"].equippedLevel].Power;
@@ -274,17 +274,16 @@ namespace RetroCode
                 hud.previousCompButton.SetActive(selectedCompInt != 0);
                 hud.nextCompButton.SetActive(selectedCompInt != partData.NextLevel());
 
-                hud.deliveryTimeAction.SetActive(DeliveryInProgress(currentAutoData, (int)compState) && selectedCompInt > partData.currentLevel);
+                hud.deliveryTimeAction.SetActive(DeliveryInProgress(currentAutoData, (int)compState) && selectedCompInt > partData.currentLevel && !partData.isLooted);
                 hud.inDeliveryIcon.SetActive(hud.deliveryTimeAction.activeInHierarchy);
 
-                hud.orderCompButton.SetActive(!DeliveryInProgress(currentAutoData, (int)compState) && selectedCompInt > partData.currentLevel);
+                hud.orderCompButton.SetActive(!DeliveryInProgress(currentAutoData, (int)compState) && selectedCompInt > partData.currentLevel && partData.isLooted);
                 hud.compPriceText.gameObject.SetActive(hud.orderCompButton.activeInHierarchy);
 
                 hud.equipCompButton.SetActive(selectedCompInt != partData.equippedLevel && selectedCompInt <= partData.currentLevel);
                 hud.equippedCompInfo.SetActive(selectedCompInt == partData.equippedLevel && selectedCompInt <= partData.currentLevel);
 
-                // LOOT BUTTON AUX, SET IT UP //
-                //hud.openLootButtonAux
+                hud.openLootButtonAux.SetActive(!DeliveryInProgress(currentAutoData, (int)compState) && selectedCompInt > partData.currentLevel && !partData.isLooted);
 
                 #region Check Components
                 for (int i = 0; i < compLists.Count; i++)
@@ -323,8 +322,8 @@ namespace RetroCode
                 autoProps[selectedAutoInt].lockedModel.SetActive(true);
                 autoProps[selectedAutoInt].unlockedModels[0].SetActive(false);
 
-                hud.unlockedActionParent_AR.SetActive(false);
-                hud.lockedObjectParent_AR.SetActive(true);
+                hud.upgradeCarButton.SetActive(false);
+                hud.lockedCarInfo.SetActive(true);
 
                 autoTopSpeedVar = currentAutoData.autoLevelData[0].TopSpeed;
                 autoPowerVar = currentAutoData.autoLevelData[0].Power;

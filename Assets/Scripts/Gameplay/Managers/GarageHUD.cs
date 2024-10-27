@@ -16,8 +16,9 @@ namespace RetroCode
         public TextMeshProUGUI currentCompNameText;
         public TextMeshProUGUI autoPriceText, compPriceText;
         [Space]
-        public GameObject unlockedActionParent_AR;
-        public GameObject lockedObjectParent_AR;
+        public GameObject upgradeCarButton;
+        public GameObject purchaseCarButton;
+        public GameObject lockedCarInfo;
         public GameObject nextAutoButton, previousAutoButton;
         public GameObject orderCompButton;
         public GameObject deliveryTimeAction, inDeliveryIcon;
