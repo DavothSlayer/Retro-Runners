@@ -12,10 +12,10 @@ namespace RetroCode
 
         public void AddMoneyMethod()
         {
-            int dollars = gamingServicesManager.cloudData.retroDollars;
+            int dollars = gamingServicesManager.cloudData.RetroDollars;
             dollars += 5000;
 
-            gamingServicesManager.cloudData.retroDollars = dollars;
+            gamingServicesManager.cloudData.RetroDollars = dollars;
 
             gamingServicesManager.SaveCloudData(false);
 
@@ -24,10 +24,10 @@ namespace RetroCode
 
         public void RemoveMoneyMethod()
         {
-            int dollars = gamingServicesManager.cloudData.retroDollars;
+            int dollars = gamingServicesManager.cloudData.RetroDollars;
             dollars -= 500;
 
-            gamingServicesManager.cloudData.retroDollars = dollars;
+            gamingServicesManager.cloudData.RetroDollars = dollars;
 
             gamingServicesManager.SaveCloudData(false);
 

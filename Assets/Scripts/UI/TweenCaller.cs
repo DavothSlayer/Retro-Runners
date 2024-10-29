@@ -1,18 +1,21 @@
 using UnityEngine;
 using UnityEngine.Events;
 
-public class TweenCaller : MonoBehaviour
+namespace RetroCode
 {
-    public UnityEvent Init;
-    public UnityEvent Enable;
-
-    public void Start()
+    public class TweenCaller : MonoBehaviour
     {
-        Init?.Invoke();
-    }
+        public UnityEvent Init;
+        public UnityEvent Enable;
 
-    public void OnEnable()
-    {
-        Enable?.Invoke();
+        public void Start()
+        {
+            Init?.Invoke();
+        }
+
+        public void OnEnable()
+        {
+            Enable?.Invoke();
+        }
     }
 }

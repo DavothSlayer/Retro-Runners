@@ -222,7 +222,7 @@ namespace RetroCode
                     AutoPartData partDataIndex = cloudData.inventoryDict[carNames[i]][EXMET.IntToCompClass(j)];
 
                     // PART IS ORDERED? //
-                    if (partDataIndex.currentLevel < partDataIndex.orderedLevel)
+                    if (partDataIndex.CurrentLevel < partDataIndex.OrderedLevel)
                     {
                         if (!partDataIndex.isDelivered)
                         {
@@ -232,7 +232,7 @@ namespace RetroCode
 
                             // ADD IT TO DELIVERY DICTIONARY, WITH EXPECTED DELIVERY DATE. //
                             if (!deliveryDictionary[carNames[i]].ContainsKey(EXMET.IntToCompClass(j)))
-                                deliveryDictionary[carNames[i]].Add(EXMET.IntToCompClass(j), partDataIndex.purchaseDate.AddHours(compDataLists[j].Comps[partDataIndex.orderedLevel].TimeToDeliver));
+                                deliveryDictionary[carNames[i]].Add(EXMET.IntToCompClass(j), partDataIndex.PurchaseDate.AddHours(compDataLists[j].Comps[partDataIndex.OrderedLevel].TimeToDeliver));
 
                             // PART IS ALREADY DELIVERED? //
                             DateTime currentTime = DateTime.UtcNow;
@@ -318,7 +318,7 @@ namespace RetroCode
 
                 // ADD IT TO DELIVERY DICTIONARY, WITH EXPECTED DELIVERY DATE. //
                 if (!lootingDictionary[carName].ContainsKey(EXMET.IntToCompClass(compStateIndex)))
-                    lootingDictionary[carName].Add(EXMET.IntToCompClass(compStateIndex), partData.orderedLevel);
+                    lootingDictionary[carName].Add(EXMET.IntToCompClass(compStateIndex), partData.OrderedLevel);
             }
         }
 
@@ -356,11 +356,12 @@ namespace RetroCode
 
     public class CloudData
     {
-        public int retroDollars = 500;
-        public int highScore = 0;
-        public int highestNearMissCombo = 0;
-        public int mostCOPsDestroyed = 0;
-        public int lastSelectedCarInt = 0;
+        public int RetroDollars = 500;
+        public int HighScore = 0;
+        public int HighestNearMissCount = 0;
+        public int MostCOPsDestroyed = 0;
+        public byte LastSelectedCarIndex = 0;
+        public byte TierUnlocked = 0;
 
         public Dictionary<string, Dictionary<string, AutoPartData>> inventoryDict = new()
         {
@@ -377,41 +378,52 @@ namespace RetroCode
                 {"health", new AutoPartData(0, DateTime.UtcNow) },
             } }*/
         };
+
+        public void PurchaseCar(string itemCode, byte carIndex)
+        {
+            inventoryDict.Add(itemCode, new()
+            {
+                {"engine", new AutoPartData(0, DateTime.UtcNow) },
+                {"power", new AutoPartData(0, DateTime.UtcNow) },
+                {"handling", new AutoPartData(0, DateTime.UtcNow) },
+                {"health", new AutoPartData(0, DateTime.UtcNow) },
+            });
+        }
     }
 
     public class AutoPartData
     {
-        public byte currentLevel { get; set; }
-        public byte orderedLevel { get; set; }
-        public byte equippedLevel { get; set; }
-        public DateTime purchaseDate { get; set; }
+        public byte CurrentLevel { get; set; }
+        public byte OrderedLevel { get; set; }
+        public byte EquippedLevel { get; set; }
+        public DateTime PurchaseDate { get; set; }
         public bool isDelivered { get; set; }
         public bool isLooted { get; set; }           
 
         public AutoPartData(byte currentLevel, DateTime orderDate)
         {
-            this.currentLevel = currentLevel;
-            this.orderedLevel = currentLevel;
-            this.equippedLevel = currentLevel;
-            this.purchaseDate = orderDate;
+            this.CurrentLevel = currentLevel;
+            this.OrderedLevel = currentLevel;
+            this.EquippedLevel = currentLevel;
+            this.PurchaseDate = orderDate;
             this.isDelivered = true;
             this.isLooted = true;                   
         }
 
         public void OrderPart(byte newLevel, DateTime orderDate)
         {
-            this.orderedLevel = newLevel;
-            this.purchaseDate = orderDate;
+            this.OrderedLevel = newLevel;
+            this.PurchaseDate = orderDate;
             this.isDelivered = false;
             this.isLooted = false;
         }
 
         public byte NextLevel()
         {
-            if(currentLevel == 4)
+            if(CurrentLevel == 4)
                 return 4;
             else
-                return (byte)(this.currentLevel + 1);
+                return (byte)(this.CurrentLevel + 1);
         }
 
         public void FinalizeDelivery()
@@ -422,8 +434,8 @@ namespace RetroCode
 
         public void FinalizeLooting()
         {
-            this.currentLevel = this.orderedLevel;
-            this.equippedLevel = this.currentLevel;
+            this.CurrentLevel = this.OrderedLevel;
+            this.EquippedLevel = this.CurrentLevel;
             this.isLooted = true;
         }
     }

@@ -12,28 +12,18 @@ namespace RetroCode
 
         [Header("Garage Screen")]
         public GameObject upgradeScreen;
+        [Header("Auto Selection")]
         public TextMeshProUGUI currentAutoNameText;
-        public TextMeshProUGUI currentCompNameText;
-        public TextMeshProUGUI autoPriceText, compPriceText;
-        [Space]
+        public TextMeshProUGUI autoPriceText;
+        public TextMeshProUGUI autoTierText;
+        public GameObject autoSelectedIcon;
+        public Image autoLockImage;
         public GameObject upgradeCarButton;
         public GameObject purchaseCarButton;
         public GameObject lockedCarInfo;
         public GameObject nextAutoButton, previousAutoButton;
-        public GameObject orderCompButton;
-        public GameObject deliveryTimeAction, inDeliveryIcon;
-        public TextMeshProUGUI deliveryTimeText;
-        public GameObject openLootButtonMain;
-        public GameObject nextCompButton, previousCompButton;
-        public GameObject equipCompButton, equippedCompInfo, openLootButtonAux;
-        public List<ParticleSystem> maxLvlFX;
-        public Color lockedColor, availableColor;
-
-        [Space]
-        public List<CompStatSliders> compStatSliders = new List<CompStatSliders>();
-
         public Slider
-            autoTopSpeedSlider, 
+            autoTopSpeedSlider,
             autoPowerSlider,
             autoHandlingSlider,
             autoHealthSlider;
@@ -42,8 +32,24 @@ namespace RetroCode
             autoPowerInfo,
             autoHandlingInfo,
             autoHealthInfo;
-        public TextMeshProUGUI autoNameText_C;
-        public TextMeshProUGUI purchaseConfirmText;
+        [Space]
+        [Header("Auto Upgrade")]
+        public TextMeshProUGUI currentCompNameText;
+        public TextMeshProUGUI compPriceText;
+        public GameObject orderCompButton;
+        public GameObject deliveryTimeAction, inDeliveryIcon;
+        public TextMeshProUGUI deliveryTimeText;
+        public GameObject openLootButtonMain;
+        public GameObject nextCompButton, previousCompButton;
+        public GameObject equipCompButton, equippedCompInfo, openLootButtonAux;
+        public List<ParticleSystem> maxLvlFX;
+        [Space]
+        [Header("Misc")]
+        public Color lockedColor;
+        public Color availableColor;
+        public Sprite lockedSprite, unlockedSprite;
+        [Space]
+        public List<CompStatSliders> compStatSliders = new List<CompStatSliders>();
     }
 
     [System.Serializable]

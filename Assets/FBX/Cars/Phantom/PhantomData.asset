@@ -14,6 +14,7 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   AutoName: Phantom
   ItemCode: phantom
+  Tier: 1
   Price: 0
   CompPriceMultiplier: 6
   autoLevelData:

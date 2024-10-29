@@ -14,6 +14,7 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   AutoName: Eleganza
   ItemCode: eleganza
+  Tier: 1
   Price: 0
   CompPriceMultiplier: 4
   autoLevelData:

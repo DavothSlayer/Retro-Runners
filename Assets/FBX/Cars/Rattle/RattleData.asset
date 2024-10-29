@@ -14,6 +14,7 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   AutoName: Rattle
   ItemCode: rattle
+  Tier: 1
   Price: 0
   CompPriceMultiplier: 5
   autoLevelData:

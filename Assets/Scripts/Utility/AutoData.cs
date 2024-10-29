@@ -9,6 +9,7 @@ namespace RetroCode
         [Header("Car Data")]
         public string AutoName;
         public string ItemCode;
+        public int Tier;
         public int Price;
         public float CompPriceMultiplier;
         public AutoLevelData[] autoLevelData;

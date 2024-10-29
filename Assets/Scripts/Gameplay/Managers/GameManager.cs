@@ -2,7 +2,6 @@ using System.Collections.Generic;
 using UnityEngine;
 using System;
 using Random = UnityEngine.Random;
-using V3CTOR;
 using System.Threading.Tasks;
 using Unity.Burst;
 
@@ -285,9 +284,9 @@ namespace RetroCode
         {
             canvasAnimator.SetBool("Game Over Reward Ads", false);
 
-            int cloudDollars = gamingServicesManager.cloudData.retroDollars;
+            int cloudDollars = gamingServicesManager.cloudData.RetroDollars;
             cloudDollars += currentRunReward;
-            gamingServicesManager.cloudData.retroDollars = cloudDollars;
+            gamingServicesManager.cloudData.RetroDollars = cloudDollars;
 
             // DOUBLE THE REWARD, DISPLAY IT //
             currentRunReward *= 2;
@@ -354,7 +353,7 @@ namespace RetroCode
                 currentCar.SetActive(false);
             }
 
-            int cloudAutoInt = gamingServicesManager.cloudData.lastSelectedCarInt;
+            int cloudAutoInt = gamingServicesManager.cloudData.LastSelectedCarIndex;
             GameObject newAuto = allAutos[cloudAutoInt];
 
             // SET PLAYER SPAWN TO ZSPAWN + 600f //
@@ -363,10 +362,10 @@ namespace RetroCode
             playerTransform.SetPositionAndRotation(new Vector3(3f, 0.02f, 600f), Quaternion.identity);
             newAuto.SetActive(true);
 
-            playerCar.engineLevel = gamingServicesManager.cloudData.inventoryDict[playerCar.data.ItemCode]["engine"].currentLevel;
-            playerCar.powerLevel = gamingServicesManager.cloudData.inventoryDict[playerCar.data.ItemCode]["power"].currentLevel;
-            playerCar.tiresLevel = gamingServicesManager.cloudData.inventoryDict[playerCar.data.ItemCode]["handling"].currentLevel;
-            playerCar.armorLevel = gamingServicesManager.cloudData.inventoryDict[playerCar.data.ItemCode]["health"].currentLevel;
+            playerCar.engineLevel = gamingServicesManager.cloudData.inventoryDict[playerCar.data.ItemCode]["engine"].CurrentLevel;
+            playerCar.powerLevel = gamingServicesManager.cloudData.inventoryDict[playerCar.data.ItemCode]["power"].CurrentLevel;
+            playerCar.tiresLevel = gamingServicesManager.cloudData.inventoryDict[playerCar.data.ItemCode]["handling"].CurrentLevel;
+            playerCar.armorLevel = gamingServicesManager.cloudData.inventoryDict[playerCar.data.ItemCode]["health"].CurrentLevel;
             playerCurrentPower = playerMaxPower;
             playerCar.FixAuto();
 
@@ -429,7 +428,7 @@ namespace RetroCode
                 currentRunNMH = nearMissComboCount;
 
             if (currentRunNMH > cloudNMH)
-                gamingServicesManager.cloudData.highestNearMissCombo = currentRunNMH;
+                gamingServicesManager.cloudData.HighestNearMissCount = currentRunNMH;
 
             nearMissComboCount = 0;
             midCombo = false;
@@ -457,7 +456,7 @@ namespace RetroCode
             int score = Mathf.RoundToInt(currentRunScore);
 
             if (score > cloudHighScore)
-                gamingServicesManager.cloudData.highScore = score;
+                gamingServicesManager.cloudData.HighScore = score;
 
             currentRunReward = Mathf.RoundToInt(score * scoreTable.rewardRatio);
         }
@@ -611,7 +610,7 @@ namespace RetroCode
             currentRunCOPsDestroyed++;
 
             if (currentRunCOPsDestroyed > cloudCDR)
-                gamingServicesManager.cloudData.mostCOPsDestroyed = currentRunCOPsDestroyed;
+                gamingServicesManager.cloudData.MostCOPsDestroyed = currentRunCOPsDestroyed;
 
             DestroyedCOPEvent?.Invoke();
         }
@@ -643,9 +642,9 @@ namespace RetroCode
         {
             gameState = GameState.GameOver;
             
-            int cloudDollars = gamingServicesManager.cloudData.retroDollars;
+            int cloudDollars = gamingServicesManager.cloudData.RetroDollars;
             cloudDollars += currentRunReward;
-            gamingServicesManager.cloudData.retroDollars = cloudDollars;
+            gamingServicesManager.cloudData.RetroDollars = cloudDollars;
 
             // DISPLAY EARNINGS AND THE SCORE //
             hud.earnings.text = $"R$ {currentRunReward.ToString("n0")} EARNED";
@@ -782,14 +781,14 @@ namespace RetroCode
 
         public void ApplyLoadedData()
         {
-            cloudNMH = gamingServicesManager.cloudData.highestNearMissCombo;
-            cloudHighScore = gamingServicesManager.cloudData.highScore;
-            cloudCDR = gamingServicesManager.cloudData.mostCOPsDestroyed;
+            cloudNMH = gamingServicesManager.cloudData.HighestNearMissCount;
+            cloudHighScore = gamingServicesManager.cloudData.HighScore;
+            cloudCDR = gamingServicesManager.cloudData.MostCOPsDestroyed;
 
             hud.highScoreText.text = $"HIGH  SCORE  {cloudHighScore.ToString("n0")}";
             hud.highestMissComboText.text = $"NEAR  MISS  COMBO  RECORD  {cloudNMH}X!";
             hud.COPKillCountRecord.text = $"COPS  DESTROYED  RECORD  {cloudCDR}!";
-            hud.playerMoneyText.text = $"${gamingServicesManager.cloudData.retroDollars.ToString("n0")}";
+            hud.playerMoneyText.text = $"${gamingServicesManager.cloudData.RetroDollars.ToString("n0")}";
         }
 
         public void UpdateGameScreen()
