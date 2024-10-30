@@ -75,8 +75,6 @@ namespace RetroCode
         }
 
         #region Core Garage Functionality
-
-        #region Inventory Info & Stats
         private float autoTopSpeedVar, autoPowerVar, autoHandlingVar, autoHealthVar;
         private float bestTopSpeed, bestPower, bestHandling, bestHealth;
         private void InitConstants()
@@ -122,6 +120,7 @@ namespace RetroCode
             // SET THE SLIDER MAX & MIN VALUES //
         }
 
+        #region Inventory Info & Stats
         private float statSliderLerpSpeed = 5f;
         private void HandleAutoSliders()
         {
@@ -131,34 +130,6 @@ namespace RetroCode
             hud.autoHandlingSlider.value = Mathf.Lerp(hud.autoHandlingSlider.value, autoHandlingVar, statSliderLerpSpeed * Time.deltaTime);
             hud.autoHealthSlider.value = Mathf.Lerp(hud.autoHealthSlider.value, autoHealthVar, statSliderLerpSpeed * Time.deltaTime);
             // VALUES //
-        }
-
-        public void NextOption()
-        {
-            if (hud.upgradeScreen.activeInHierarchy)
-            {
-                if (selectedCompInt != gamingServicesManager.cloudData.inventoryDict[autoProps[selectedAutoInt].data.ItemCode][EXMET.IntToCompClass((int)compState)].NextLevel()) selectedCompInt++;
-            }
-            else
-            {
-                if (selectedAutoInt != autoProps.Length - 1) selectedAutoInt++;
-            }
-
-            CheckInventory();
-        }
-
-        public void PreviousOption()
-        {
-            if (hud.upgradeScreen.activeInHierarchy)
-            {
-                if (selectedCompInt != 0) selectedCompInt--;
-            }
-            else
-            {
-                if (selectedAutoInt != 0) selectedAutoInt--;
-            }                
-
-            CheckInventory();
         }
 
         public void CheckInventory()
@@ -343,48 +314,47 @@ namespace RetroCode
             }
             #endregion
         }
-
-        private bool DeliveryInProgress(AutoData currentAutoData, int compClass)
-        {
-            if (!gamingServicesManager.deliveryDictionary.ContainsKey(currentAutoData.ItemCode)) return false;
-
-            if (gamingServicesManager.deliveryDictionary[currentAutoData.ItemCode].ContainsKey(EXMET.IntToCompClass(compClass)))
-            {
-                return true;
-            }
-            else { return false; }
-        }
-
-        private string DeliveryTimeText(AutoData currentAutoData, int compClass)
-        {
-            if (!DeliveryInProgress(currentAutoData, compClass)) return "00:00:00";
-            else
-            {
-                DateTime currentTime = DateTime.UtcNow;
-                DateTime expectedDeliveryDate = gamingServicesManager.deliveryDictionary[currentAutoData.ItemCode][EXMET.IntToCompClass(compClass)];
-
-                TimeSpan difference = expectedDeliveryDate - currentTime;
-
-                string deliveryTime = difference.ToString(@"hh\:mm\:ss");
-
-                return deliveryTime;
-            }
-        }
-
-        public void OnCloudDataReceived()
-        {
-            selectedAutoInt = gamingServicesManager.cloudData.LastSelectedCarIndex;
-
-            CheckInventory();
-        }
         #endregion
 
         #region Purchasing & Upgrading & Selecting
+        public void NextOption()
+        {
+            if (hud.upgradeScreen.activeInHierarchy)
+            {
+                if (selectedCompInt != gamingServicesManager.cloudData.inventoryDict[autoProps[selectedAutoInt].data.ItemCode][EXMET.IntToCompClass((int)compState)].NextLevel()) selectedCompInt++;
+            }
+            else
+            {
+                if (selectedAutoInt != autoProps.Length - 1) selectedAutoInt++;
+            }
+
+            CheckInventory();
+        }
+
+        public void PreviousOption()
+        {
+            if (hud.upgradeScreen.activeInHierarchy)
+            {
+                if (selectedCompInt != 0) selectedCompInt--;
+            }
+            else
+            {
+                if (selectedAutoInt != 0) selectedAutoInt--;
+            }
+
+            CheckInventory();
+        }
+
         public void OrderAutoPart()
+        {
+            // SMTH //
+        }
+
+        public void OrderAutoPartConfirm()
         {
             AutoData autoData = autoProps[selectedAutoInt].data;
             AutoPartData autoPartData = gamingServicesManager.cloudData.inventoryDict[autoData.ItemCode][EXMET.IntToCompClass((int)compState)];
-
+            
             autoPartData.OrderPart(autoPartData.NextLevel(), DateTime.UtcNow);
 
             print($"Auto Part ordered: Current LVL: {autoPartData.CurrentLevel}, Ordered LVL: {autoPartData.OrderedLevel}");
@@ -397,7 +367,12 @@ namespace RetroCode
 
         public void PurchaseCar()
         {
-            AutoData autoData = autoProps[selectedAutoInt].data;            
+            // SMTH //
+        }
+
+        public void PurchaseCarConfirm()
+        {
+            AutoData autoData = autoProps[selectedAutoInt].data;
 
             gamingServicesManager.cloudData.PurchaseCar(autoData.ItemCode, (byte)selectedAutoInt);
 
@@ -406,108 +381,6 @@ namespace RetroCode
             CheckInventory();
         }
 
-        public void PrepTransaction()
-        {
-            /*bool component = garageState == GarageState.ComponentReview;
-
-            ItemData iData = compLists[((int)compState)].Comps[selectedCompInt].itemData;
-            AutoData aData = autoProps[selectedAutoInt].data;
-
-            if (!component)
-                hud.purchaseConfirmText.text = $"Purchase {aData.AutoName} for ${aData.Price.ToString("n0")}?";
-            else
-                hud.purchaseConfirmText.text = $"Purchase {iData.ItemName} for ${Mathf.RoundToInt(iData.DefaultPrice * aData.CompPriceMultiplier).ToString("n0")}?";*/
-        }
-
-        public void ProcessTransaction()
-        {
-            /*
-            bool component = garageState == GarageState.ComponentReview;
-
-            ItemData iData = compLists[((int)compState)].Comps[selectedCompInt].itemData;
-            AutoData aData = autoProps[selectedAutoInt].data;
-
-            if (!component)
-            {
-                if (gamingServicesManager.cloudData.retroDollars >= aData.Price)
-                {
-                    // SUCCESS //
-                    CompleteTransaction(false, aData.ItemCode, iData.ItemCode);
-                }
-                else
-                {
-                    // FAILED //
-                    TransactionFailed();
-                }
-            }
-            else
-            {
-                if (gamingServicesManager.cloudData.retroDollars >= Mathf.RoundToInt(iData.DefaultPrice * aData.CompPriceMultiplier))
-                {
-                    // SUCCESS //
-                    CompleteTransaction(true, aData.ItemCode, iData.ItemCode);
-                }
-                else
-                {
-                    // FAILED //
-                    TransactionFailed();
-                }
-            }
-            */
-        }
-
-        private void CompleteTransaction(bool component, string AutoCode, string CompCode)
-        {
-            /*
-            if (!component)
-            {
-                gamingServicesManager.cloudData.unlockedCarsDict.Add(AutoCode, new AutoPartsData());
-
-                gamingServicesManager.cloudData.unlockedCarsDict[AutoCode].compCodes.Add("Engine_LVL1");
-                gamingServicesManager.cloudData.unlockedCarsDict[AutoCode].compCodes.Add("Gearbox_LVL1");
-                gamingServicesManager.cloudData.unlockedCarsDict[AutoCode].compCodes.Add("Tires_LVL1");
-                gamingServicesManager.cloudData.unlockedCarsDict[AutoCode].compCodes.Add("Armor_LVL1");
-
-                for (int i = 0; i < 4; i++)
-                    gamingServicesManager.cloudData.unlockedCarsDict[AutoCode].lastSelectedCompList.Add(0);
-
-                gamingServicesManager.cloudData.lastSelectedCarInt = selectedAutoInt;
-
-                //gamingServicesManager.cloudData.retroDollars = -autoProps[selectedAutoInt].data.Price;
-
-                hud.autoNameText_C.text = autoProps[selectedAutoInt].data.AutoName;
-                autoProps[selectedAutoInt].PlayUnlockFX();
-                SetGarageState(2);
-            }
-            else
-            {
-                gamingServicesManager.cloudData.unlockedCarsDict[AutoCode].compCodes[((int)compState)] += CompCode;
-
-                gamingServicesManager.cloudData.unlockedCarsDict[AutoCode].lastSelectedCompList[((int)compState)] = selectedCompInt;
-
-                //gamingServicesManager.cloudData.retroDollars =- compLists[((int)compState)].Comps[selectedCompInt].itemData.DefaultPrice;
-
-                compLists[((int)compState)].Comps[selectedCompInt].PlayUnlockFX();
-                garageScreenAnimator.SetTrigger("Purchase Success");
-            }
-
-            swipeSelect.SetSwipeState(true);
-            audioSource.PlayOneShot(transactionSuccessful);
-
-            gamingServicesManager.SaveCloudData(false);
-
-            CheckInventory();
-            */
-        }
-
-        private void TransactionFailed()
-        {
-            garageScreenAnimator.SetTrigger("Purchase Insufficient");
-            audioSource.PlayOneShot(transactionFailed);
-
-            swipeSelect.SetSwipeState(true);
-        }
-        
         public void SelectComp()
         {
             AutoData autoData = autoProps[selectedAutoInt].data;
@@ -609,6 +482,40 @@ namespace RetroCode
             dollars -= price;
 
             gamingServicesManager.cloudData.RetroDollars = dollars;
+        }
+
+        public void OnCloudDataReceived()
+        {
+            selectedAutoInt = gamingServicesManager.cloudData.LastSelectedCarIndex;
+
+            CheckInventory();
+        }
+
+        private bool DeliveryInProgress(AutoData currentAutoData, int compClass)
+        {
+            if (!gamingServicesManager.deliveryDictionary.ContainsKey(currentAutoData.ItemCode)) return false;
+
+            if (gamingServicesManager.deliveryDictionary[currentAutoData.ItemCode].ContainsKey(EXMET.IntToCompClass(compClass)))
+            {
+                return true;
+            }
+            else { return false; }
+        }
+
+        private string DeliveryTimeText(AutoData currentAutoData, int compClass)
+        {
+            if (!DeliveryInProgress(currentAutoData, compClass)) return "00:00:00";
+            else
+            {
+                DateTime currentTime = DateTime.UtcNow;
+                DateTime expectedDeliveryDate = gamingServicesManager.deliveryDictionary[currentAutoData.ItemCode][EXMET.IntToCompClass(compClass)];
+
+                TimeSpan difference = expectedDeliveryDate - currentTime;
+
+                string deliveryTime = difference.ToString(@"hh\:mm\:ss");
+
+                return deliveryTime;
+            }
         }
         #endregion
     }

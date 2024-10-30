@@ -2,6 +2,7 @@ using UnityEngine;
 using TMPro;
 using UnityEngine.UI;
 using System.Collections.Generic;
+using UnityEngine.EventSystems;
 
 namespace RetroCode
 {
@@ -43,6 +44,10 @@ namespace RetroCode
         public GameObject nextCompButton, previousCompButton;
         public GameObject equipCompButton, equippedCompInfo, openLootButtonAux;
         public List<ParticleSystem> maxLvlFX;
+        [Space]
+        [Header("Confirmation Screens")]
+        public GameObject carPurchaseConfirmScreen;
+        public GameObject orderPartConfirmScreen;
         [Space]
         [Header("Misc")]
         public Color lockedColor;

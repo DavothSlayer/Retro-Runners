@@ -4,6 +4,8 @@ using System.Runtime.Serialization.Formatters.Binary;
 using System.IO;
 using System.Collections.Generic;
 using System.Globalization;
+using UnityEngine.EventSystems;
+using System;
 
 namespace V3CTOR
 {
@@ -134,6 +136,14 @@ namespace V3CTOR
             }
 
             return "";
+        }
+
+        public static void SetPointerDownEvent(this EventTrigger eventTrigger, Action action)
+        {
+            EventTrigger.Entry entry = eventTrigger.triggers.Find(e => e.eventID == EventTriggerType.PointerDown);
+
+            entry.callback.RemoveAllListeners();
+            entry.callback.AddListener((_) => action.Invoke());
         }
     }
 
