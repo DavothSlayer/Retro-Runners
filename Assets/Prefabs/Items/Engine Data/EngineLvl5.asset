@@ -14,5 +14,5 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   ItemName: DR MONSTA
   DefaultPrice: 250000
-  TimeToDeliver: 1
+  TimeToDeliver: 0
   icon: {fileID: 21300000, guid: 1af99617c44501d4e9a6b85d37009211, type: 3}

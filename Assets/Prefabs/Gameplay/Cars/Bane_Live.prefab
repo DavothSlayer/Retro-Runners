@@ -44091,7 +44091,7 @@ MonoBehaviour:
   abilityClip: {fileID: 8300000, guid: 95c0d7b09166e144a9b5ebf292d2a9fb, type: 3}
   health: 0
   engineLevel: 0
-  gearboxLevel: 0
+  powerLevel: 0
   tiresLevel: 0
   armorLevel: 0
   targetTorque: 0
