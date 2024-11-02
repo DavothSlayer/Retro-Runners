@@ -16,6 +16,7 @@ MonoBehaviour:
   ItemCode: phantom
   Tier: 1
   Price: 0
+  Icon: {fileID: 21300000, guid: 0348dea172cac784797a59b546187f69, type: 3}
   CompPriceMultiplier: 6
   autoLevelData:
   - TopSpeed: 73

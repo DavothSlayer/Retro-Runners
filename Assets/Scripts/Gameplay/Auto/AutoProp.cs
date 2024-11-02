@@ -8,7 +8,7 @@ namespace RetroCode
         [Header("References")]
         public AutoData data;
         public GameObject lockedModel;
-        public GameObject[] unlockedModels;
+        public GameObject unlockedModel;
         public ParticleSystem unlockFX;
 
         public void PlayUnlockFX()

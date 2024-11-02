@@ -47,6 +47,19 @@ namespace RetroCode
         [Space]
         [Header("Confirmation Screens")]
         public GameObject carPurchaseConfirmScreen;
+        public CanvasGroup curPurchaseConfirmScreenAlpha;
+        public Image autoConfirmationIcon;
+        public TextMeshProUGUI AutoConfirmationNameText;
+        public Slider
+            autoTopSpeedSlider_C,
+            autoPowerSlider_C,
+            autoHandlingSlider_C,
+            autoHealthSlider_C;
+        public TextMeshProUGUI
+            autoTopSpeedInfo_C,
+            autoPowerInfo_C,
+            autoHandlingInfo_C,
+            autoHealthInfo_C;
         public GameObject orderPartConfirmScreen;
         [Space]
         [Header("Misc")]

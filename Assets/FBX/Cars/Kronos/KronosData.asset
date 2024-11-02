@@ -14,7 +14,9 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   AutoName: Kronos
   ItemCode: kronos
+  Tier: 0
   Price: 0
+  Icon: {fileID: 21300000, guid: d1836246b3e997e48ab21af21b9ea9a4, type: 3}
   CompPriceMultiplier: 2
   autoLevelData:
   - TopSpeed: 100

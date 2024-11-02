@@ -11,6 +11,7 @@ namespace RetroCode
         public string ItemCode;
         public int Tier;
         public int Price;
+        public Sprite Icon;
         public float CompPriceMultiplier;
         public AutoLevelData[] autoLevelData;
         public AutoClass Class;

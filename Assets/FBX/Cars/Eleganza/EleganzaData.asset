@@ -16,6 +16,7 @@ MonoBehaviour:
   ItemCode: eleganza
   Tier: 1
   Price: 0
+  Icon: {fileID: 21300000, guid: 58dd684e5ddb9f54b83268dea17472c7, type: 3}
   CompPriceMultiplier: 4
   autoLevelData:
   - TopSpeed: 87

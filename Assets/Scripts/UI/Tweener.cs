@@ -62,4 +62,15 @@ public class Tweener : MonoBehaviour
         float initX = gameObject.transform.localPosition.x - 10f;
         LeanTween.moveLocalX(gameObject, initX, .35f).setOnComplete(() => ArrowToRight(gameObject));
     }
+
+    public void FadeInCanvasGroup(CanvasGroup canvasGroup)
+    {
+        canvasGroup.gameObject.SetActive(true);
+        LeanTween.alphaCanvas(canvasGroup, 1f, .15f);
+    }
+
+    public void FadeOutCanvasGroup(CanvasGroup canvasGroup)
+    {
+        LeanTween.alphaCanvas(canvasGroup, 0f, .25f).setOnComplete(() => canvasGroup.gameObject.SetActive(false));
+    }
 }

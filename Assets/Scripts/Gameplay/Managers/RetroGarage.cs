@@ -156,7 +156,7 @@ namespace RetroCode
                 hud.currentAutoNameText.text = currentAutoData.AutoName;
 
                 autoProps[selectedAutoInt].lockedModel.SetActive(false);
-                autoProps[selectedAutoInt].unlockedModels[0].SetActive(true);
+                autoProps[selectedAutoInt].unlockedModel.SetActive(true);
 
                 hud.upgradeCarButton.SetActive(true);
                 hud.purchaseCarButton.SetActive(false);
@@ -289,12 +289,13 @@ namespace RetroCode
             else
             {
                 hud.currentAutoNameText.text = currentAutoData.AutoName;
-                autoProps[selectedAutoInt].lockedModel.SetActive(true);
-                autoProps[selectedAutoInt].unlockedModels[0].SetActive(false);
+                autoProps[selectedAutoInt].lockedModel.SetActive(gamingServicesManager.cloudData.RetroDollars < autoProps[selectedAutoInt].data.Price);
+                autoProps[selectedAutoInt].unlockedModel.SetActive(gamingServicesManager.cloudData.RetroDollars >= autoProps[selectedAutoInt].data.Price);
 
                 hud.upgradeCarButton.SetActive(false);
                 hud.purchaseCarButton.SetActive(true);
                 hud.lockedCarInfo.SetActive(true);
+                hud.autoSelectedIcon.SetActive(false);
 
                 hud.autoLockImage.sprite = gamingServicesManager.cloudData.RetroDollars >= currentAutoData.Price ? hud.unlockedSprite : hud.lockedSprite;
                 hud.autoLockImage.color = gamingServicesManager.cloudData.RetroDollars >= currentAutoData.Price ? hud.availableColor : hud.lockedColor;
@@ -367,7 +368,20 @@ namespace RetroCode
 
         public void PurchaseCar()
         {
-            // SMTH //
+            AutoData autoData = autoProps[selectedAutoInt].data;
+
+            hud.autoConfirmationIcon.sprite = autoData.Icon;
+            hud.AutoConfirmationNameText.text = autoData.AutoName;
+
+            hud.autoTopSpeedSlider_C.value = autoTopSpeedVar;
+            hud.autoPowerSlider_C.value = autoPowerVar;
+            hud.autoHandlingSlider_C.value = autoHandlingVar;
+            hud.autoHealthSlider_C.value = autoHealthVar;
+
+            hud.autoTopSpeedInfo_C.text = $"{Mathf.RoundToInt(autoData.autoLevelData[0].TopSpeed * 2.2f)} MPH";
+            hud.autoPowerInfo_C.text = $"{autoData.autoLevelData[0].Power} UNITS";
+            hud.autoHandlingInfo_C.text = $"{autoData.autoLevelData[0].Handling} M/S";
+            hud.autoHealthInfo_C.text = $"{autoData.autoLevelData[0].MaxHealth} HP";
         }
 
         public void PurchaseCarConfirm()
