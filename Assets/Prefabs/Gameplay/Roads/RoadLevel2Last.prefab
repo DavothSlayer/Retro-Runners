@@ -45,7 +45,7 @@ ReflectionProbe:
   m_Mode: 2
   m_RefreshMode: 0
   m_TimeSlicingMode: 0
-  m_Resolution: 2048
+  m_Resolution: 1024
   m_UpdateFrequency: 0
   m_BoxSize: {x: 425.6443, y: 56.19374, z: 400}
   m_BoxOffset: {x: 0, y: 24, z: 200}
@@ -57,7 +57,7 @@ ReflectionProbe:
   m_CullingMask:
     serializedVersion: 2
     m_Bits: 4294967295
-  m_IntensityMultiplier: 2
+  m_IntensityMultiplier: 1
   m_BlendDistance: 0
   m_HDR: 1
   m_BoxProjection: 0
