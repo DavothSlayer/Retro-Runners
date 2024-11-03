@@ -8,7 +8,7 @@ Material:
   m_PrefabInstance: {fileID: 0}
   m_PrefabAsset: {fileID: 0}
   m_Name: RetroAtlasMetal
-  m_Shader: {fileID: -6465566751694194690, guid: ddebbd22db8f9fd48810a922c06ca287,
+  m_Shader: {fileID: -6465566751694194690, guid: 3aa372779a48e8b4c9bcca1733170e07,
     type: 3}
   m_Parent: {fileID: 0}
   m_ModifiedSerializedProperties: 0
@@ -54,7 +54,7 @@ Material:
         m_Scale: {x: 1, y: 1}
         m_Offset: {x: 0, y: 0}
     - _Main_Texture:
-        m_Texture: {fileID: 2800000, guid: 3f0f40fb21515eb46ab2310872e105c1, type: 3}
+        m_Texture: {fileID: 2800000, guid: de83bcae7aaf2304a8c54c7a9f56941c, type: 3}
         m_Scale: {x: 1, y: 1}
         m_Offset: {x: 0, y: 0}
     - _MetallicGlossMap:
@@ -105,7 +105,7 @@ Material:
     - _Glossiness: 0.25
     - _GlossinessSource: 0
     - _GlossyReflections: 0
-    - _Metallic: 0.5
+    - _Metallic: 1
     - _Mode: 0
     - _OcclusionStrength: 1
     - _Parallax: 0.02
