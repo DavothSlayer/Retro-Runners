@@ -4,7 +4,7 @@ using UnityEditor;
 [CustomEditor(typeof(LightProbeGroup))]
 public class LightProbeBaker : Editor
 {
-    private const float minProbeSpacing = 0.5f;
+    private const float minProbeSpacing = 2f;
     private const int maxProbes = 10000;
 
     [MenuItem("CONTEXT/LightProbeGroup/Bake to Reflection Probe Bounds")]

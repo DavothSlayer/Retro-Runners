@@ -1,14 +1,26 @@
 #if !VOL_FX
 
+#if UNITY_6000_0_OR_NEWER
+#define UNITY_RENDER_GRAPH
+#else
+#define UNITY_LEGACY
+#endif
+
 using System;
 using System.Collections.Generic;
 using UnityEngine;
+using UnityEngine.Experimental.Rendering;
 using UnityEngine.Rendering;
 using UnityEngine.Rendering.Universal;
 
-//  VhsFx © NullTale - https://twitter.com/NullTale/
+#if UNITY_RENDER_GRAPH
+using UnityEngine.Rendering.RenderGraphModule;
+#endif
+
+//  VolFx © NullTale - https://x.com/NullTale
 namespace VolFx
 {
+    [DisallowMultipleRendererFeature("VhsFx")]
     public class VhsFx : ScriptableRendererFeature
     {
         protected static List<ShaderTagId> k_ShaderTags;
@@ -33,21 +45,106 @@ namespace VolFx
         // =======================================================================
         public class PassExecution : ScriptableRenderPass
         {
-            public  VhsFx   _owner;
+            public  VhsFx        _owner;
             private RenderTarget _output;
             
+#if UNITY_RENDER_GRAPH
+            private VolFx.InitApiRg _initApiRg;
+            private VolFx.CallApiRg _callApiRg;
+#endif
+            
+            private VolFx.InitApiLeg _initApiLeg;
+            private VolFx.CallApiLeg _callApiLeg;
+            private ProfilingSampler _profiler;
+            
+            // =======================================================================
+#if UNITY_RENDER_GRAPH
+            public class PassData
+            {
+                public TextureHandle _camera;
+                public TextureHandle _buffer;
+            }
+#endif
             // =======================================================================
             public void Init()
             {
                 renderPassEvent = _owner._event;
                 
                 _output = new RenderTarget().Allocate(_owner.name);
+                
+#if UNITY_RENDER_GRAPH
+                _initApiRg = new VolFx.InitApiRg();
+                _callApiRg = new VolFx.CallApiRg();
+#endif
+                _initApiLeg = new VolFx.InitApiLeg();
+                _callApiLeg = new VolFx.CallApiLeg();
+                
+                _profiler = new ProfilingSampler(_owner.name);
             }
+            
+#if UNITY_RENDER_GRAPH
+            public override void RecordRenderGraph(RenderGraph renderGraph, ContextContainer frameData)
+            {
+                var camData = frameData.Get<UniversalCameraData>();
+                var resData = frameData.Get<UniversalResourceData>();
+                    
+                ref var camRtDesc = ref camData.cameraTargetDescriptor;
+                var     width     = camRtDesc.width;
+                var     height    = camRtDesc.height;
 
+                var _initApi = _initApiRg;
+                var _callApi = _callApiRg;
+                
+                _initApi.Width  = width;
+                _initApi.Height = height;
+                
+                _owner._pass.Validate();
+                if (_owner._pass.IsActiveCheck == false)
+                    return;
+                
+                using (var builder = renderGraph.AddUnsafePass<PassData>(passName, out var passData, _profiler))
+                {
+                    var camDesc = new TextureDesc(camRtDesc.width, camRtDesc.height, false, false);
+                    camDesc.format = camData.cameraTargetDescriptor.graphicsFormat;
+                    camDesc.depthBufferBits = 0;
+                    
+                    // command buffer
+                    _initApi._builder = builder;
+                    _initApi._frameData = frameData;
+                    _initApi._renderGraph = renderGraph;
+                    
+                    _owner._pass.Init(_initApi);
+                    
+                    _callApi._cam = camData.camera;
+                    _callApi._blit = _owner._blit;
+                    _callApi._cam = camData.camera;
+                    
+                    passData._camera = resData.cameraColor;
+                    passData._buffer = builder.CreateTransientTexture(in camDesc);
+                    builder.UseTexture(passData._buffer, AccessFlags.ReadWrite);
+                    
+                    builder.AllowPassCulling(false);
+                    builder.SetRenderFunc((PassData data, UnsafeGraphContext context) => Execute(data, context));
+                }
+            }
+            
+            private void Execute(PassData data, UnsafeGraphContext context)
+            {
+                var cmd = context.cmd;
+                var _callApi = _callApiRg;
+                
+                _callApi._cmd  = context.cmd;
+                
+                var pass = _owner._pass;
+                pass.Invoke(data._camera, data._buffer, _callApi);
+                _callApi.Blit(data._buffer, data._camera);
+            }
+            
+            [Obsolete("This rendering path is for compatibility mode only (when Render Graph is disabled). Use Render Graph API instead.", false)]
             public override void Execute(ScriptableRenderContext context, ref RenderingData renderingData)
             {
                 _owner._pass.Validate();
-                if (_owner._pass.IsActive == false)
+                if (_owner._pass.IsActiveCheck == false)
                     return;
                 
                 // allocate stuff
@@ -55,11 +152,23 @@ namespace VolFx
                 ref var cameraData = ref renderingData.cameraData;
                 ref var desc = ref cameraData.cameraTargetDescriptor;
                 _output.Get(cmd, in desc);
+                
+                var _initApi = _initApiLeg;
+                var _callApi = _callApiLeg;
+                
+                _initApi.Width  = cameraData.cameraTargetDescriptor.width;
+                _initApi.Height = cameraData.cameraTargetDescriptor.height;
+                
+                _initApi._cmd = cmd;
+                _callApi._cmd = cmd;
 
                 var source = _getCameraTex(ref renderingData);
                 
-                // draw post process chain
-                _owner._pass.Invoke(cmd, source, _output.Handle, context, ref renderingData);
+                // init pass content
+                _owner._pass.Init(_initApi);
+                
+                // draw post process
+                _owner._pass.Invoke(source, _output.Handle, _callApi);
                 _owner.Blit(cmd, _output.Handle, source);
 
                 context.ExecuteCommandBuffer(cmd);
@@ -77,6 +186,55 @@ namespace VolFx
 #endif
                 }
             }
+#endif
+            
+#if UNITY_LEGACY
+            public override void Execute(ScriptableRenderContext context, ref RenderingData renderingData)
+            {
+                _owner._pass.Validate();
+                if (_owner._pass.IsActiveCheck == false)
+                    return;
+                
+                // allocate stuff
+                var cmd = CommandBufferPool.Get(_owner.name);
+                ref var cameraData = ref renderingData.cameraData;
+                ref var desc = ref cameraData.cameraTargetDescriptor;
+                _output.Get(cmd, in desc);
+                
+                var _initApi = _initApiLeg;
+                var _callApi = _callApiLeg;
+                
+                _initApi.Width  = cameraData.cameraTargetDescriptor.width;
+                _initApi.Height = cameraData.cameraTargetDescriptor.height;
+                
+                _initApi._cmd = cmd;
+                _callApi._cmd = cmd;
+
+                var source = _getCameraTex(ref renderingData);
+                
+                // init pass content
+                _owner._pass.Init(_initApi);
+                
+                // draw post process
+                _owner._pass.Invoke(source, _output.Handle, _callApi);
+                _owner.Blit(cmd, _output.Handle, source);
+
+                context.ExecuteCommandBuffer(cmd);
+                cmd.Clear();
+                CommandBufferPool.Release(cmd);
+
+                // -----------------------------------------------------------------------
+                RTHandle _getCameraTex(ref RenderingData renderingData)
+                {
+                    ref var cameraData = ref renderingData.cameraData;
+#if UNITY_2022_1_OR_NEWER                
+                    return cameraData.renderer.cameraColorTargetHandle;
+#else
+                    return RTHandles.Alloc(cameraData.renderer.cameraColorTarget);
+#endif
+                }
+            }
+#endif
             
             public override void FrameCleanup(CommandBuffer cmd)
             {
@@ -103,7 +261,7 @@ namespace VolFx
             UnityEditor.EditorUtility.SetDirty(this);
 #endif
             _blit      = new Material(_blitShader);
-            _execution = new PassExecution() { _owner = this };
+            _execution = new PassExecution(){ _owner = this };
             _execution.Init();
             
             if (_pass != null)
@@ -119,7 +277,6 @@ namespace VolFx
                 });
             }
         }
-        
         private void Reset()
         {
 #if UNITY_EDITOR
@@ -134,9 +291,10 @@ namespace VolFx
 
         public override void AddRenderPasses(ScriptableRenderer renderer, ref RenderingData renderingData)
         {
+#if UNITY_EDITOR
             if (renderingData.cameraData.cameraType != CameraType.Game)
                 return;
-#if UNITY_EDITOR
+            
             if (_blit == null)
                 _blit = new Material(_blitShader);
             

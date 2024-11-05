@@ -20,6 +20,8 @@ namespace VolFx
 		private static readonly int s_Noise      = Shader.PropertyToID("_Noise");
 		private static readonly int s_Flickering = Shader.PropertyToID("_Flickering");
 
+		public override string ShaderName => string.Empty;
+
         [Tooltip("Use single tape type to smaller build size")]
 		[HideInInspector]
         public Optional<Mode> _singleTape = new Optional<Mode>(Mode.Tape, false);
@@ -42,7 +44,7 @@ namespace VolFx
 		private float _yScanline;
 		private float _xScanline;
 
-		protected override bool Invert => true;
+		protected override bool   Invert     => true;
 
 		// =======================================================================
 		public enum Mode

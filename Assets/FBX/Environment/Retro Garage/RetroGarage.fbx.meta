@@ -29,6 +29,41 @@ ModelImporter:
       assembly: UnityEngine.CoreModule
       name: RetroAtlasUniversal
     second: {fileID: 2100000, guid: c4e14fc166e47ad429cd92bd22880f1d, type: 2}
+  - first:
+      type: UnityEngine:Material
+      assembly: UnityEngine.CoreModule
+      name: RetroDiffuse_G
+    second: {fileID: 2100000, guid: 6bdebb2ef47c71b40b7ef6e653772b1d, type: 2}
+  - first:
+      type: UnityEngine:Material
+      assembly: UnityEngine.CoreModule
+      name: RetroDiffuse_MG
+    second: {fileID: 2100000, guid: aa32d987881c015458c2a5adf0fb3de5, type: 2}
+  - first:
+      type: UnityEngine:Material
+      assembly: UnityEngine.CoreModule
+      name: RetroEmit_G
+    second: {fileID: 2100000, guid: fd196b5decffc8041808c1453142c8eb, type: 2}
+  - first:
+      type: UnityEngine:Material
+      assembly: UnityEngine.CoreModule
+      name: RetroEmit_MG
+    second: {fileID: 2100000, guid: a6b5ba59ea0b1dc45a5c7e5fc6f7ba45, type: 2}
+  - first:
+      type: UnityEngine:Material
+      assembly: UnityEngine.CoreModule
+      name: RetroGodRay
+    second: {fileID: 2100000, guid: f1a5974d2a2deff499d0d38397624c4a, type: 2}
+  - first:
+      type: UnityEngine:Material
+      assembly: UnityEngine.CoreModule
+      name: RetroMetal_G
+    second: {fileID: 2100000, guid: dab20f139a1643546b150d2c67960ae6, type: 2}
+  - first:
+      type: UnityEngine:Material
+      assembly: UnityEngine.CoreModule
+      name: RetroMetal_MG
+    second: {fileID: 2100000, guid: 86ca9d19f4a85f74fba0a0874b8f0152, type: 2}
   materials:
     materialImportMode: 2
     materialName: 0
@@ -41,8 +76,6 @@ ModelImporter:
     optimizeGameObjects: 0
     removeConstantScaleCurves: 0
     motionNodeName: 
-    rigImportErrors: 
-    rigImportWarnings: 
     animationImportErrors: 
     animationImportWarnings: 
     animationRetargetingWarnings: 
@@ -61,7 +94,7 @@ ModelImporter:
   meshes:
     lODScreenPercentages: []
     globalScale: 1
-    meshCompression: 2
+    meshCompression: 0
     addColliders: 0
     useSRGBMaterialColor: 1
     sortHierarchyByName: 1

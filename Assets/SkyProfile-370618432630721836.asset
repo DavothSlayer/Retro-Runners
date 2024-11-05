@@ -106,7 +106,7 @@ Material:
     - _HorizonCloudColor: {r: 1, g: 1, b: 1, a: 1}
     - _HorizonColor: {r: 0.6981132, g: 0, b: 0.60243267, a: 1}
     - _MoonColor: {r: 1.811321, g: 0.66721976, b: 0, a: 1}
-    - _MoonDirection: {r: 0, g: 0, b: -1, a: 0}
+    - _MoonDirection: {r: 0, g: 0, b: 1, a: 0}
     - _MoonLightColor: {r: 1, g: 1, b: 1, a: 1}
     - _OverheadCloudColor: {r: 1, g: 1, b: 1, a: 0.09803922}
     - _SkyColor: {r: 0.4528302, g: 0, b: 0.32645893, a: 1}
@@ -117,6 +117,7 @@ Material:
     - _SunDirection: {r: 0, g: 0, b: 1, a: 0}
     - _SunLightColor: {r: 0, g: 0, b: 0, a: 0}
   m_BuildTextureStacks: []
+  m_AllowLocking: 1
 --- !u!114 &11400000
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -250,3 +251,4 @@ Material:
     m_Colors:
     - _OverheadCloudColor: {r: 1, g: 1, b: 1, a: 0.09803922}
   m_BuildTextureStacks: []
+  m_AllowLocking: 1

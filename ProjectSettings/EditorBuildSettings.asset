@@ -14,5 +14,13 @@ EditorBuildSettings:
   - enabled: 1
     path: Assets/Scenes/RetroGarage/RetroGarage.unity
     guid: 4f17a00847581d4468324878df2152f3
-  m_configObjects: {}
+  m_configObjects:
+    com.unity.adaptiveperformance.google.android.provider_settings: {fileID: 11400000,
+      guid: 6e16c037ed38d4046b03910fb663633d, type: 2}
+    com.unity.adaptiveperformance.loader_settings: {fileID: 11400000, guid: 39ecdbf7cc97fad4abda110535b41256,
+      type: 2}
+    com.unity.adaptiveperformance.samsung.android.provider_settings: {fileID: 11400000,
+      guid: 9645356472d9d414d9756afa59c8f884, type: 2}
+    com.unity.adaptiveperformance.simulator.provider_settings: {fileID: 11400000,
+      guid: 01bf561bb5f80eb44952d50ea5e9a716, type: 2}
   m_UseUCBPForAssetBundles: 0

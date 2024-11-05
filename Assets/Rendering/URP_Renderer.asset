@@ -82,7 +82,6 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: f8dc78f503ce4704bc3b01f693783c94, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  _active: 1
   _shader: {fileID: 4800000, guid: 074eb04a5009453ea004483946e7c745, type: 3}
   _singleTape:
     enabled: 0

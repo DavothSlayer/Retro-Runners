@@ -5,53 +5,47 @@ using System.IO;
 using System.Linq;
 using UnityEngine;
 using UnityEngine.Rendering;
-using UnityEngine.Rendering.Universal;
 
-//  VhsFx © NullTale - https://x.com/NullTale
+//  VolFx © NullTale - https://x.com/NullTale
 namespace VolFx
 {
-    public static class VolFx
+    public static partial class VolFx
     {
         [Serializable]
         public abstract class Pass : ScriptableObject
         {
-            [NonSerialized]
-            public VhsFx _owner;
-            [SerializeField]
-            internal bool _active = true;
             [SerializeField] [HideInInspector]
-            private Shader _shader;
-            protected Material _material;
-            private   bool     _isActive;
+            private  Shader            _shader;
+            protected Material         _material;
+            private   bool             _isActive;
             
-            protected VolumeStack Stack => VolumeManager.instance.stack;
+            public            VolumeStack Stack   => VolumeManager.instance.stack;
+            protected virtual bool        Invert  => false;
+            protected virtual int         MatPass => 0;
             
-            protected virtual bool Invert => false;
-
             // =======================================================================
-            internal bool IsActive
+            internal bool IsActiveCheck
             {
-                get => _isActive && _active && _material != null;
+                get => _isActive && _material != null;
                 set => _isActive = value;
             }
             
-            public void SetActive(bool isActive)
-            {
-                _active = isActive;
-            }
+            public abstract string ShaderName { get; }
             
             internal void _init()
             {
 #if UNITY_EDITOR
-#if !UNITY_2022_1_OR_NEWER
-                Debug.LogError($"{System.Reflection.Assembly.GetExecutingAssembly().GetName().Name} require Unity 2022 or higher");
-#endif
                 if (_shader == null || _material == null)
                 {
-                    var shaderName = GetType().GetCustomAttributes(typeof(ShaderNameAttribute), true).FirstOrDefault() as ShaderNameAttribute;
-                    if (shaderName != null)
+                    var sna = (GetType().GetCustomAttributes(typeof(ShaderNameAttribute), true).FirstOrDefault() as ShaderNameAttribute);
+                    var shaderName = sna == null ? ShaderName : sna._name;
+                    if (string.IsNullOrEmpty(shaderName) == false)
                     {
-                        _shader = Shader.Find(shaderName._name);
+                        _shader   = Shader.Find(shaderName);
+                        var assetPath = UnityEditor.AssetDatabase.GetAssetPath(_shader);
+                        if (_editorValidate && string.IsNullOrEmpty(assetPath) == false) 
+                            _editorSetup(Path.GetDirectoryName(assetPath), Path.GetFileNameWithoutExtension(assetPath));
+
                         UnityEditor.EditorUtility.SetDirty(this);
                     }
                 }
@@ -63,11 +57,21 @@ namespace VolFx
                 Init();
             }
 
-            public virtual void Invoke(CommandBuffer cmd, RTHandle source, RTHandle dest, ScriptableRenderContext context, ref RenderingData renderingData)
+            /// <summary>
+            /// called to init resources
+            /// </summary>
+            public virtual void Init(InitApi initApi)
             {
-                Utils.Blit(cmd, source, dest, _material, 0, Invert);
             }
             
+            /// <summary>
+            /// called to perform rendering
+            /// </summary>
+            public virtual void Invoke(RTHandle source, RTHandle dest, CallApi callApi)
+            {
+                callApi.Blit(source, dest, _material, MatPass);
+            }
+
             public void Validate()
             {
 #if UNITY_EDITOR
@@ -92,7 +96,7 @@ namespace VolFx
                 }
 #endif
                 
-                IsActive = Validate(_material);
+                IsActiveCheck = Validate(_material);
             }
 
             /// <summary>

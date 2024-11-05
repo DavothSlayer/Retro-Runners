@@ -1,11 +1,11 @@
-#if !VOL_FX
+#if !VOL_FX || VOL_FX_STANDALONE
 
 using System;
 using UnityEditor;
 using UnityEngine;
 using Object = UnityEngine.Object;
 
-//  VhsFx © NullTale - https://twitter.com/NullTale/
+//  VolFx © NullTale - https://x.com/NullTale
 namespace VolFx.Editor
 {
     [CustomPropertyDrawer(typeof(VolFx.Pass), true)]
@@ -34,7 +34,7 @@ namespace VolFx.Editor
                     EditorUtility.SetDirty(pass);
                     
                     property.serializedObject.ApplyModifiedPropertiesWithoutUndo();
-                    AssetDatabase.SaveAssets();
+                    EditorApplication.delayCall += AssetDatabase.SaveAssets;
                 }
             }
             
