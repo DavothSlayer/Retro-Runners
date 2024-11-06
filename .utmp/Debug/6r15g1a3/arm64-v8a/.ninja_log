@@ -1,0 +1,5 @@
+# ninja log v5
+151	303	7526290812602956	C:/Users/anwar/Exodus/Unity Projects/Retro-Runners/Library/PramData/AndroidApplicationController/Cache/com.AnwarExperience.RetroRunners/gradle-project/unityLibrary/build/intermediates/cxx/Debug/6r15g1a3/obj/arm64-v8a/libswappywrapper.so	e59ec19b317dc90b
+0	149	7526290811010566	FramePacing/CMakeFiles/swappywrapper.dir/UnitySwappyWrapper.cpp.o	a4fa3c853a14b225
+1	89	7526293848099045	FramePacing/CMakeFiles/swappywrapper.dir/UnitySwappyWrapper.cpp.o	a4fa3c853a14b225
+89	157	7526293848778344	C:/Users/anwar/Exodus/Unity Projects/Retro-Runners/Library/PramData/AndroidApplicationController/Cache/com.AnwarExperience.RetroRunners/gradle-project/unityLibrary/build/intermediates/cxx/Debug/6r15g1a3/obj/arm64-v8a/libswappywrapper.so	e59ec19b317dc90b
