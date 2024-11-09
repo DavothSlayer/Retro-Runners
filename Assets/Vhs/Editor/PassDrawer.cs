@@ -5,7 +5,7 @@ using UnityEditor;
 using UnityEngine;
 using Object = UnityEngine.Object;
 
-//  VolFx © NullTale - https://x.com/NullTale
+//  VhsFx © NullTale - https://x.com/NullTale
 namespace VolFx.Editor
 {
     [CustomPropertyDrawer(typeof(VolFx.Pass), true)]

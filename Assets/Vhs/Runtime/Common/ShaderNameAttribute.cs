@@ -2,7 +2,7 @@
 
 using System;
 
-//  VhsFx © NullTale - https://twitter.com/NullTale/
+//  VhsFx © NullTale - https://x.com/NullTale/
 namespace VolFx
 {
     /// <summary>

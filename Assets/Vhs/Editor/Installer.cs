@@ -13,7 +13,7 @@ using UnityEngine;
 using UnityEngine.Rendering;
 using UnityEngine.Rendering.Universal;
 
-//  VolFx © NullTale - https://x.com/NullTale
+//  VhsFx © NullTale - https://x.com/NullTale
 namespace VolFx.Editor
 {
     public static class Installer

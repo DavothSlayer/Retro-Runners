@@ -3,7 +3,7 @@
 using System;
 using UnityEngine;
 
-//  VhsFx © NullTale - https://twitter.com/NullTale/
+//  VhsFx © NullTale - https://x.com/NullTale/
 namespace VolFx
 {
     [Serializable]

@@ -1,9 +1,9 @@
 {
   "name": "www.nulltale.vhsfx",
   "displayName": "VhsFx",
-  "version": "1.5.0",
+  "version": "1.6.0",
   "unity": "2022.1",
-  "description": "Vhs effect for Unity Urp",
+  "description": "Vhs visual effect for Unity Urp",
   "author": {
     "name": "NullTale",
     "email": "nulltale@gmail.com",
