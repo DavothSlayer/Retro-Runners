@@ -32,24 +32,23 @@ ModelImporter:
   - first:
       type: UnityEngine:Material
       assembly: UnityEngine.CoreModule
+      name: RetroDiffuse_MG
+    second: {fileID: 2100000, guid: aa32d987881c015458c2a5adf0fb3de5, type: 2}
+  - first:
+      type: UnityEngine:Material
+      assembly: UnityEngine.CoreModule
+      name: RetroEmit_MG
+    second: {fileID: 2100000, guid: a6b5ba59ea0b1dc45a5c7e5fc6f7ba45, type: 2}
+  - first:
+      type: UnityEngine:Material
+      assembly: UnityEngine.CoreModule
       name: RetroGodRay
-    second: {fileID: -876546973899608171, guid: 36b6cf6a65d45504eaf78e3e81523a0e,
-      type: 3}
+    second: {fileID: 2100000, guid: f1a5974d2a2deff499d0d38397624c4a, type: 2}
   - first:
       type: UnityEngine:Material
       assembly: UnityEngine.CoreModule
-      name: RetroGrid
-    second: {fileID: 2100000, guid: 9acff56264ef3174c84cbcc546b4d0b2, type: 2}
-  - first:
-      type: UnityEngine:Material
-      assembly: UnityEngine.CoreModule
-      name: RetroShield
-    second: {fileID: 2100000, guid: c4e14fc166e47ad429cd92bd22880f1d, type: 2}
-  - first:
-      type: UnityEngine:Material
-      assembly: UnityEngine.CoreModule
-      name: RetroUniversal
-    second: {fileID: 2100000, guid: c4e14fc166e47ad429cd92bd22880f1d, type: 2}
+      name: RetroMetal_MG
+    second: {fileID: 2100000, guid: 86ca9d19f4a85f74fba0a0874b8f0152, type: 2}
   materials:
     materialImportMode: 2
     materialName: 0
@@ -80,7 +79,7 @@ ModelImporter:
   meshes:
     lODScreenPercentages: []
     globalScale: 1
-    meshCompression: 2
+    meshCompression: 1
     addColliders: 0
     useSRGBMaterialColor: 1
     sortHierarchyByName: 1
@@ -103,7 +102,7 @@ ModelImporter:
     minBoneWeight: 0.001
     optimizeBones: 1
     meshOptimizationFlags: -1
-    indexFormat: 0
+    indexFormat: 1
     secondaryUVAngleDistortion: 8
     secondaryUVAreaDistortion: 15.000001
     secondaryUVHardAngle: 88

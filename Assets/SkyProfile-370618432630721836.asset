@@ -12,14 +12,15 @@ Material:
   m_Parent: {fileID: 0}
   m_ModifiedSerializedProperties: 0
   m_ValidKeywords:
-  - MOON
   - MOON_USE_TEXTURE
   - STARS
   - STARS_LAYER_0
   - STARS_LAYER_1
+  - SUN
+  - SUN_USE_TEXTURE
   m_InvalidKeywords: []
   m_LightmapFlags: 4
-  m_EnableInstancingVariants: 0
+  m_EnableInstancingVariants: 1
   m_DoubleSidedGI: 0
   m_CustomRenderQueue: -1
   stringTagMap: {}
@@ -33,7 +34,7 @@ Material:
         m_Scale: {x: 1, y: 1}
         m_Offset: {x: 0, y: 0}
     - _MoonCubemap:
-        m_Texture: {fileID: 8900000, guid: ef0c7a1c7205a274c8ae147b1fc68287, type: 2}
+        m_Texture: {fileID: 0}
         m_Scale: {x: 1, y: 1}
         m_Offset: {x: 0, y: 0}
     - _MoonTex:
@@ -53,7 +54,7 @@ Material:
         m_Scale: {x: 1, y: 1}
         m_Offset: {x: 0, y: 0}
     - _SunTex:
-        m_Texture: {fileID: 0}
+        m_Texture: {fileID: 2800000, guid: 50156051d274d094884deaafa01a811a, type: 3}
         m_Scale: {x: 1, y: 1}
         m_Offset: {x: 0, y: 0}
     m_Ints: []
@@ -95,9 +96,9 @@ Material:
     - _StarsTwinkle0: 12
     - _StarsTwinkle1: 6
     - _StarsTwinkle2: 12
-    - _SunGlow: 0
-    - _SunLightIntensity: 0
-    - _SunSize: 0
+    - _SunGlow: 0.25
+    - _SunLightIntensity: 2
+    - _SunSize: 0.45
     - _SunSoftEdge: 0
     m_Colors:
     - _DetailOverlayTintColor: {r: 0, g: 0, b: 0, a: 0}
@@ -113,9 +114,9 @@ Material:
     - _StarsColor0: {r: 1, g: 1, b: 1, a: 1}
     - _StarsColor1: {r: 1, g: 0.24056602, b: 0.8628801, a: 1}
     - _StarsColor2: {r: 0, g: 0.8351569, b: 1, a: 1}
-    - _SunColor: {r: 0, g: 0, b: 0, a: 0}
-    - _SunDirection: {r: 0, g: 0, b: 1, a: 0}
-    - _SunLightColor: {r: 0, g: 0, b: 0, a: 0}
+    - _SunColor: {r: 1.811321, g: 0.66721976, b: 0, a: 1}
+    - _SunDirection: {r: 0, g: 0, b: -1, a: 0}
+    - _SunLightColor: {r: 1, g: 1, b: 1, a: 0}
   m_BuildTextureStacks: []
   m_AllowLocking: 1
 --- !u!114 &11400000
@@ -161,24 +162,24 @@ MonoBehaviour:
   useBakedStars: 0
   starsCubemap: {fileID: 8900000, guid: 59c7b8a8456c65d4aa28c47a49e4ea49, type: 2}
   starsTwinkleMap: {fileID: 0}
-  enableSun: 0
-  sunTexture: {fileID: 0}
-  sunColor: {r: 0, g: 0, b: 0, a: 0}
-  sunSize: 0
+  enableSun: 1
+  sunTexture: {fileID: 2800000, guid: 50156051d274d094884deaafa01a811a, type: 3}
+  sunColor: {r: 1.811321, g: 0.66721976, b: 0, a: 1}
+  sunSize: 0.45
   sunSoftEdge: 0
-  sunGlow: 0
+  sunGlow: 0.25
   useBakedSun: 0
   sunCubemap: {fileID: 0}
-  sunLightColor: {r: 0, g: 0, b: 0, a: 0}
-  sunLightIntensity: 0
-  enableMoon: 1
+  sunLightColor: {r: 1, g: 1, b: 1, a: 0}
+  sunLightIntensity: 2
+  enableMoon: 0
   moonTexture: {fileID: 2800000, guid: 50156051d274d094884deaafa01a811a, type: 3}
   moonColor: {r: 1.811321, g: 0.66721976, b: 0, a: 1}
   moonSize: 0.45
   moonSoftEdge: 0
   moonGlow: 0.25
   useBakedMoon: 0
-  moonCubemap: {fileID: 8900000, guid: ef0c7a1c7205a274c8ae147b1fc68287, type: 2}
+  moonCubemap: {fileID: 0}
   moonLightColor: {r: 1, g: 1, b: 1, a: 1}
   moonLightIntensity: 1
   customCloudTexture: {fileID: 0}
@@ -222,11 +223,12 @@ Material:
   m_ModifiedSerializedProperties: 0
   m_ValidKeywords: []
   m_InvalidKeywords:
-  - MOON
   - MOON_USE_TEXTURE
   - STARS
   - STARS_LAYER_0
   - STARS_LAYER_1
+  - SUN
+  - SUN_USE_TEXTURE
   m_LightmapFlags: 4
   m_EnableInstancingVariants: 0
   m_DoubleSidedGI: 0
