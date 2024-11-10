@@ -204,24 +204,39 @@ MonoBehaviour:
   _weight:
     m_OverrideState: 1
     m_Value: 0
-  _bleed:
+  _tape:
     m_OverrideState: 1
     m_Value: 0
   _rocking:
     m_OverrideState: 1
     m_Value: 0
-  _tape:
+  _squeeze:
     m_OverrideState: 1
     m_Value: 0
-  _noise:
+  _density:
     m_OverrideState: 1
     m_Value: 0
+  _intensity:
+    m_OverrideState: 1
+    m_Value: 0
+  _scale:
+    m_OverrideState: 1
+    m_Value: 1
   _flickering:
     m_OverrideState: 1
     m_Value: 0
-  _glitch:
+  _color:
     m_OverrideState: 1
     m_Value: {r: 1, g: 0, b: 0, a: 1}
+  _bleed:
+    m_OverrideState: 1
+    m_Value: 0
+  _flow:
+    m_OverrideState: 1
+    m_Value: 1
+  _pulsation:
+    m_OverrideState: 1
+    m_Value: 1
 --- !u!114 &-5002705762023370449
 MonoBehaviour:
   m_ObjectHideFlags: 3

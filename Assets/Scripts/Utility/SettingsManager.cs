@@ -12,110 +12,130 @@ namespace RetroCode
     {
         #region Visible References
         [Header("References")]
+        [Header("Tabs")]
         [SerializeField]
-        private Toggle targetFrameToggle;
-        [Space]
+        private List<GameObject> optionsTabs = new List<GameObject>();
+        [Header("Display Tab")]
         [SerializeField]
-        private Slider renderScaleSlider;
+        private Slider resolutionSlider;
         [SerializeField]
-        private TextMeshProUGUI renderScaleText;
-        [Space]
+        private TextMeshProUGUI resolutionText;
         [SerializeField]
-        private Toggle displayFrameToggle;
+        private BetterToggle camPosition;
         [SerializeField]
-        private GameObject frameRateCounter;
-        [Space]
+        private BetterToggle speedUnit;
         [SerializeField]
-        private Toggle postProcessToggle;
+        private BetterToggle sixtyFPS;
         [SerializeField]
-        private Volume postProcessVolume;
+        private BetterToggle postProcess;
+
+        [Header("Sounds Tab")]
         [SerializeField]
-        private Camera cam;
-        [Space]
+        private Slider sfxSlider;
         [SerializeField]
-        private Slider backMusicSlider;
+        private TextMeshProUGUI sfxText;
         [SerializeField]
-        private TextMeshProUGUI backMusicText;
+        private Slider musicSlider;
         [SerializeField]
-        private Slider gameSoundSlider;
+        private TextMeshProUGUI musicText;
         [SerializeField]
-        private TextMeshProUGUI gameSoundText;
+        private Slider masterSlider;
+        [SerializeField]
+        private TextMeshProUGUI masterText;
 
         [Header("Rendering")]
         [SerializeField]
         private UniversalRenderPipelineAsset renderAsset;
+        [SerializeField]
+        private UniversalRendererData renderData;
+        [SerializeField]
+        private Volume volume;
         [Space]
         [Header("Audio")]
         [SerializeField]
         private AudioSource backMusicSource;
-        [SerializeField]
-        private AudioSource[] gameSoundSource;
         #endregion
 
         #region Invisible References
         [HideInInspector]
         public SettingsClass settings;
-        private int deviceRefreshRate;
-        private List<float> gameSoundVolumes = new List<float>();
         #endregion
 
         private void Awake()
         {
-            for (int i = 0; i < gameSoundSource.Length; i++)
-                gameSoundVolumes.Add(gameSoundSource[i].volume);
-
             LoadSettings();
         }
 
         #region UI Methods
-        public void TargetFrameToggleChange()
+        public void SetOptionsTabInt(int index)
         {
-            if (targetFrameToggle.isOn)
-                Application.targetFrameRate = deviceRefreshRate;
-            else
-                Application.targetFrameRate = deviceRefreshRate / 2;
-
-            settings.MaxFPSToggle = targetFrameToggle.isOn;
+            foreach (GameObject gameObject in optionsTabs)
+                gameObject.SetActive(gameObject == optionsTabs[index]);
         }
 
-        public void RenderScaleSliderChange()
+        // DISPLAY TAB //
+        public void UpdateResolution()
         {
-            renderScaleText.text = $"Resolution {renderScaleSlider.value}%";
-            renderAsset.renderScale = renderScaleSlider.value / 100f;
+            resolutionText.text = $"RESOLUTION {resolutionSlider.value}%";
 
-            settings.RenderScale = renderScaleSlider.value / 100f;
+            settings.Resolution = Mathf.RoundToInt(resolutionSlider.value);
+
+            renderAsset.renderScale = settings.Resolution / 100f;
         }
 
-        public void DisplayFrameToggleChange()
+        public void UpdateLowCam()
         {
-            settings.DisplayFPS = displayFrameToggle.isOn;
-            frameRateCounter.SetActive(settings.DisplayFPS);
+            settings.LowCam = camPosition.isOn;
         }
 
-        public void PostProcessToggleChange()
+        public void UpdateSpeedUnit()
         {
-            settings.PostProcess = postProcessToggle.isOn;
-            postProcessVolume.weight = postProcessToggle.isOn == true ? 1f : 0f;
-            cam.GetUniversalAdditionalCameraData().renderPostProcessing = postProcessToggle.isOn;
+            settings.SpeedUnitIsKMH = speedUnit.isOn;
         }
 
-        public void BackMusicSliderChange()
+        public void UpdateSixtyFPS()
         {
-            backMusicSource.volume = backMusicSlider.value / 100f;
-            backMusicText.text = $"Music {backMusicSlider.value}%";
+            settings.SixtyFPS = sixtyFPS.isOn;
 
-            settings.BackMusicVol = backMusicSlider.value;
+            Application.targetFrameRate = settings.SixtyFPS ? 60 : 30;
         }
 
-        public void GameSoundSliderChange()
+        public void UpdatePostProcess()
         {
-            for(int i = 0; i < gameSoundSource.Length; i++)
-                gameSoundSource[i].volume = gameSoundVolumes[i] * (gameSoundSlider.value / 100f);
+            settings.PostProcess = postProcess.isOn;
 
-            gameSoundText.text = $"Sounds {gameSoundSlider.value}%";
-
-            settings.EffectsVol = gameSoundSlider.value;
+            // FIX PP (LOL) //
+            volume.gameObject.SetActive(settings.PostProcess);
+            volume.weight = settings.PostProcess ? 1f : 0f;
         }
+        // DISPLAY TAB //
+
+        // SOUNDS TAB //
+        public void UpdateSFX()
+        {
+            settings.EffectsVol = (int)sfxSlider.value;
+
+            sfxText.text = $"SFX {sfxSlider.value}%";
+        }
+
+        public void UpdateMusic()
+        {
+            settings.BackMusicVol = (int)musicSlider.value;
+
+            musicText.text = $"MUSIC {musicSlider.value}%";
+        }
+
+        public void UpdateMaster()
+        {
+            settings.MasterVol = (int)masterSlider.value;
+
+            masterText.text = $"MASTER {masterSlider.value}%";
+        }
+        // SOUNDS TAB //
+
+        // NOTIFICATIONS //
+
+        // NOTIFICATIONS //
         #endregion
 
         #region Save & Load Settings
@@ -127,6 +147,7 @@ namespace RetroCode
 
         public void LoadSettings()
         {
+            /*
             string loadedJson = EXMET.LoadJSON("settings.json");
             SettingsClass loadedSettings = JsonUtility.FromJson<SettingsClass>(loadedJson);
 
@@ -142,10 +163,12 @@ namespace RetroCode
                 SetDefaultSettings();
                 print("Settings not found, applying default settings...");
             }
+            */
         }
 
         public void ApplySettings()
         {
+            /*
             deviceRefreshRate = (int)Screen.currentResolution.refreshRateRatio.value;
 
             // MAX FPS //
@@ -187,18 +210,20 @@ namespace RetroCode
             for (int i = 0; i < gameSoundSource.Length; i++)
                 gameSoundSource[i].volume = gameSoundVolumes[i] * (settings.EffectsVol / 100f);
             // AUDIO //
+            */
         }
         
         public void SetDefaultSettings()
         {
             SettingsClass defaultSettings = new SettingsClass
             {
-                MaxFPSToggle = true,
-                RenderScale = 1.00f,
-                DisplayFPS = false,
+                Resolution = 80,
+                LowCam = true,
+                SpeedUnitIsKMH = true,
+                SixtyFPS = true,
                 PostProcess = false,
-                BackMusicVol = 80f,
-                EffectsVol = 100f,
+                BackMusicVol = 80,
+                EffectsVol = 100,
             };
 
             string json = JsonUtility.ToJson(defaultSettings);
@@ -212,12 +237,14 @@ namespace RetroCode
     [System.Serializable]
     public class SettingsClass
     {
-        public bool MaxFPSToggle = true;
-        public float RenderScale = 0.75f;
-        public bool DisplayFPS = false;
+        public int Resolution = 100;
+        public bool LowCam = true;
+        public bool SpeedUnitIsKMH = true;
+        public bool SixtyFPS = true;
         public bool PostProcess = false;
 
-        public float BackMusicVol = 80f;
-        public float EffectsVol = 100f;
+        public int EffectsVol = 100;
+        public int BackMusicVol = 80;
+        public int MasterVol = 100;
     }
 }
