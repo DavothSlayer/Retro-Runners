@@ -66,7 +66,7 @@ Material:
     - _HorizonCloudSize: 22.21
     - _HorizonCloudStartPosition: -0.01
     - _HorizonCloudStep: 100
-    - _HorizonExponent: 2.25
+    - _HorizonExponent: 2
     - _HorizonStep: 1000
     - _HorizonThickness: 0.22
     - _MoonGlow: 0.25
@@ -110,7 +110,7 @@ Material:
     - _MoonDirection: {r: 0, g: 0, b: -1, a: 0}
     - _MoonLightColor: {r: 1, g: 1, b: 1, a: 1}
     - _OverheadCloudColor: {r: 1, g: 1, b: 1, a: 0.09803922}
-    - _SkyColor: {r: 0.4528302, g: 0, b: 0.32645893, a: 1}
+    - _SkyColor: {r: 0.0058809677, g: 0, b: 0.3018868, a: 1}
     - _StarsColor0: {r: 1, g: 1, b: 1, a: 1}
     - _StarsColor1: {r: 1, g: 0.24056602, b: 0.8628801, a: 1}
     - _StarsColor2: {r: 0, g: 0.8351569, b: 1, a: 1}
@@ -131,11 +131,11 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: fa5278d11d9502245b5cc174a196561b, type: 3}
   m_Name: SkyProfile-370618432630721836
   m_EditorClassIdentifier: 
-  skyColor: {r: 0.4528302, g: 0, b: 0.32645893, a: 1}
+  skyColor: {r: 0.0058809677, g: 0, b: 0.3018868, a: 1}
   horizonColor: {r: 0.6981132, g: 0, b: 0.60243267, a: 1}
   groundColor: {r: 0, g: 0, b: 0, a: 1}
   horizonThickness: 0.22
-  horizonExponent: 2.25
+  horizonExponent: 2
   horizonStep: 1000
   fogSyncOption: 0
   fogColor: {r: 0.745283, g: 0.2610457, b: 0, a: 0}
