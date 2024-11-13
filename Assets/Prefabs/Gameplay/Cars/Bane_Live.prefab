@@ -83204,6 +83204,11 @@ PrefabInstance:
       propertyPath: m_IsActive
       value: 0
       objectReference: {fileID: 0}
+    - target: {fileID: -2460468263259021451, guid: 41cf59681909da9499559da41a8150aa,
+        type: 3}
+      propertyPath: m_CastShadows
+      value: 0
+      objectReference: {fileID: 0}
     - target: {fileID: 356137120456546846, guid: 41cf59681909da9499559da41a8150aa,
         type: 3}
       propertyPath: m_IsActive
@@ -83363,7 +83368,7 @@ MeshCollider:
   m_PrefabInstance: {fileID: 0}
   m_PrefabAsset: {fileID: 0}
   m_GameObject: {fileID: 6905957580322905295}
-  m_Material: {fileID: 13400000, guid: 39ffbc6de16cac2409fd3ce2288600c9, type: 2}
+  m_Material: {fileID: 13400000, guid: 3b77ac3506698774e92f8d956d0b9e85, type: 2}
   m_IncludeLayers:
     serializedVersion: 2
     m_Bits: 0

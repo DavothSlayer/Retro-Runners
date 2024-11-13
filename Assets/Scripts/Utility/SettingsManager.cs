@@ -15,6 +15,7 @@ namespace RetroCode
         [Header("Tabs")]
         [SerializeField]
         private List<GameObject> optionsTabs = new List<GameObject>();
+
         [Header("Display Tab")]
         [SerializeField]
         private Slider resolutionSlider;
@@ -50,10 +51,18 @@ namespace RetroCode
         private UniversalRendererData renderData;
         [SerializeField]
         private Volume volume;
-        [Space]
+
         [Header("Audio")]
         [SerializeField]
         private AudioSource backMusicSource;
+        
+        [Header("Notifications")]
+        [SerializeField]
+        private BetterToggle notifications;
+        [SerializeField]
+        private BetterToggle deliveryNotify;
+        [SerializeField]
+        private BetterToggle reminders;
         #endregion
 
         #region Invisible References
@@ -134,7 +143,20 @@ namespace RetroCode
         // SOUNDS TAB //
 
         // NOTIFICATIONS //
+        public void UpdateNotifications()
+        {
+            settings.Notifications = notifications.isOn;
+        }
 
+        public void UpdateDeliveryNotify()
+        {
+            settings.DeliveryNotifiy = deliveryNotify.isOn;
+        }
+
+        public void UpdateReminders()
+        {
+            settings.Reminders = reminders.isOn;
+        }
         // NOTIFICATIONS //
         #endregion
 
@@ -246,5 +268,9 @@ namespace RetroCode
         public int EffectsVol = 100;
         public int BackMusicVol = 80;
         public int MasterVol = 100;
+
+        public bool Notifications = true;
+        public bool DeliveryNotifiy = true;
+        public bool Reminders = true;
     }
 }

@@ -261,6 +261,13 @@
             "dependencyXmlURL": "https://s3.amazonaws.com/ssa.public/Dependencies-xmls/CSJ/${VERSION}/ISCSJAdapterDependencies.xml",
             "dependencyXmlFileName": "ISCSJAdapterDependencies.xml",
             "versions": {
+              "4.3.7.0": {
+                "ironSourceSdkVersion": "[8.4.0, 9.0[",
+                "ios": {
+                  "adapterVersion": "4.3.7.0",
+                  "adNetworkVersion": "6.4.3.2"
+                }
+              },
                 "4.3.6.0": {
                     "ironSourceSdkVersion": "[8.4.0, 9.0[",
                     "ios": {
@@ -282,6 +289,17 @@
             "dependencyXmlURL": "https://s3.amazonaws.com/ssa.public/Dependencies-xmls/Fyber/${VERSION}/ISFyberAdapterDependencies.xml",
             "dependencyXmlFileName": "ISFyberAdapterDependencies.xml",
             "versions": {
+              "4.3.49.0": {
+                "ironSourceSdkVersion": "[8.4.0, 9.0[",
+                "android": {
+                  "adapterVersion": "4.3.35",
+                  "adNetworkVersion": "8.3.3"
+                },
+                "ios": {
+                  "adapterVersion": "4.3.37.0",
+                  "adNetworkVersion": "8.3.2"
+                }
+              },
               "4.3.48.0": {
                 "ironSourceSdkVersion": "[8.4.0, 9.0[",
                 "android": {
@@ -666,6 +684,17 @@
             "dependencyXmlURL": "https://s3.amazonaws.com/ssa.public/Dependencies-xmls/Pangle/${VERSION}/ISPangleAdapterDependencies.xml",
             "dependencyXmlFileName": "ISPangleAdapterDependencies.xml",
             "versions": {
+              "4.3.39.0": {
+                "ironSourceSdkVersion": "[8.4.0, 9.0[",
+                "android": {
+                  "adapterVersion": "4.3.31",
+                  "adNetworkVersion": "6.3.0.4"
+                },
+                "ios": {
+                  "adapterVersion": "4.3.35.0",
+                  "adNetworkVersion": "6.3.0.9"
+                }
+              },
               "4.3.38.0": {
                 "ironSourceSdkVersion": "[8.4.0, 9.0[",
                 "android": {
@@ -786,6 +815,17 @@
             "dependencyXmlFileName": "ISVerveAdapterDependencies.xml",
             "isNew": true,
             "versions": {
+              "4.3.4.0": {
+                "ironSourceSdkVersion": "[8.4.0, 9.0[",
+                "android": {
+                  "adapterVersion": "4.3.3",
+                  "adNetworkVersion": "3.2.0"
+                },
+                "ios": {
+                  "adapterVersion": "4.3.3.0",
+                  "adNetworkVersion": "3.1.3"
+                }
+              },
                 "4.3.3.0": {
                     "ironSourceSdkVersion": "[8.4.0, 9.0[",
                     "android": {

@@ -49,6 +49,11 @@ ModelImporter:
       assembly: UnityEngine.CoreModule
       name: RetroMetal_MG
     second: {fileID: 2100000, guid: 86ca9d19f4a85f74fba0a0874b8f0152, type: 2}
+  - first:
+      type: UnityEngine:Material
+      assembly: UnityEngine.CoreModule
+      name: RetroUniversal
+    second: {fileID: 2100000, guid: deafd6248e70e1b41aaf5c780e4f143b, type: 2}
   materials:
     materialImportMode: 2
     materialName: 0
@@ -79,7 +84,7 @@ ModelImporter:
   meshes:
     lODScreenPercentages: []
     globalScale: 1
-    meshCompression: 2
+    meshCompression: 1
     addColliders: 0
     useSRGBMaterialColor: 1
     sortHierarchyByName: 1

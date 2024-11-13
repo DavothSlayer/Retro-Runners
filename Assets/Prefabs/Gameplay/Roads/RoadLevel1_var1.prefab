@@ -73,6 +73,11 @@ PrefabInstance:
       propertyPath: m_CastShadows
       value: 0
       objectReference: {fileID: 0}
+    - target: {fileID: -1779532594182652460, guid: 29fa87067c7c6e94aad25d43007ca9e7,
+        type: 3}
+      propertyPath: m_StaticEditorFlags
+      value: 126
+      objectReference: {fileID: 0}
     - target: {fileID: -771807176346261, guid: 29fa87067c7c6e94aad25d43007ca9e7, type: 3}
       propertyPath: m_Layer
       value: 8
