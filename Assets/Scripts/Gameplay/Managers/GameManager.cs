@@ -60,8 +60,6 @@ namespace RetroCode
         private Transform camHolder;
         [SerializeField]
         private Canvas canvas;
-        [SerializeField]
-        private Animator canvasAnimator;
 
         [Header("SFX")]
         [SerializeField]
@@ -187,9 +185,9 @@ namespace RetroCode
             int score = Mathf.RoundToInt(currentRunScore);
             hud.scoreText.text = score.ToString("n0");
 
-            canvasAnimator.SetBool("ScoreXd", gameScoreMultiplier != 1f && gameState == GameState.InGame);
-            canvasAnimator.SetBool("ShowHeatLevel", ActiveHeatLevel > 0 && gameState == GameState.InGame);
-            canvasAnimator.SetBool("Near Miss", midCombo && gameState == GameState.InGame);
+            //canvasAnimator.SetBool("ScoreXd", gameScoreMultiplier != 1f && gameState == GameState.InGame);
+            //canvasAnimator.SetBool("ShowHeatLevel", ActiveHeatLevel > 0 && gameState == GameState.InGame);
+            //canvasAnimator.SetBool("Near Miss", midCombo && gameState == GameState.InGame);
             #endregion
 
             #region Health & Power Bars
@@ -258,7 +256,7 @@ namespace RetroCode
             playerCar.abilityCooldownTimer = playerCar.ability.cooldownTime;
             playerCar.abilityState = AbilityState.Ready;
 
-            canvasAnimator.SetBool("Game Over Reward Ads", Random.Range(0f, 1f) >= 0.5f);
+            //canvasAnimator.SetBool("Game Over Reward Ads", Random.Range(0f, 1f) >= 0.5f);
         }
 
         public void PauseButton()
@@ -282,7 +280,7 @@ namespace RetroCode
 
         public void HandleDoubleRewards()
         {
-            canvasAnimator.SetBool("Game Over Reward Ads", false);
+            //canvasAnimator.SetBool("Game Over Reward Ads", false);
 
             int cloudDollars = gamingServicesManager.cloudData.RetroDollars;
             cloudDollars += currentRunReward;
@@ -297,7 +295,7 @@ namespace RetroCode
 
         public void HandleRevive()
         {
-            canvasAnimator.SetBool("Game Over Reward Ads", false);
+            //canvasAnimator.SetBool("Game Over Reward Ads", false);
 
             playerCar.rb.linearVelocity = Vector3.zero;
             playerTransform.SetPositionAndRotation(new Vector3(3f, 0.02f, 600f), Quaternion.identity);
@@ -312,7 +310,7 @@ namespace RetroCode
 
         public void NoThanksButton()
         {
-            canvasAnimator.SetBool("Game Over Reward Ads", false);
+            //canvasAnimator.SetBool("Game Over Reward Ads", false);
         }
         #endregion
 
@@ -390,7 +388,7 @@ namespace RetroCode
         [BurstCompile]
         public void NearMiss()
         {
-            canvasAnimator.SetTrigger("Near Miss Combo");
+            //canvasAnimator.SetTrigger("Near Miss Combo");
 
             nearMissTimer = 0f;
             nearMissComboCount++;
@@ -471,7 +469,7 @@ namespace RetroCode
                     activeScoreMultipliers[source] = newMultiplier;
 
                     hud.scoreMultiplierText.text = $"{gameScoreMultiplier}X";
-                    canvasAnimator.SetTrigger("ScoreXd Event");
+                    //canvasAnimator.SetTrigger("ScoreXd Event");
                 }
             }
             else
@@ -480,7 +478,7 @@ namespace RetroCode
                 activeScoreMultipliers.Add(source, newMultiplier);
 
                 hud.scoreMultiplierText.text = $"{gameScoreMultiplier}X";
-                canvasAnimator.SetTrigger("ScoreXd Event");
+                //canvasAnimator.SetTrigger("ScoreXd Event");
             }
         }
 
@@ -488,14 +486,14 @@ namespace RetroCode
         {
             activeScoreMultipliers.Remove(source);
 
-            canvasAnimator.SetTrigger("ScoreXd Event");
+            //canvasAnimator.SetTrigger("ScoreXd Event");
         }
 
         public void AddExternalScore(float amount)
         {
             currentRunScore += amount;
             hud.scoreEventText.text = $"+ {amount.ToString("n0")}";
-            canvasAnimator.SetTrigger("Score Added Event");
+            //canvasAnimator.SetTrigger("Score Added Event");
         }
         // SCORE //
 
@@ -793,7 +791,7 @@ namespace RetroCode
 
         public void UpdateGameScreen()
         {
-            canvasAnimator.SetInteger("GameState", (int)gameState);
+            //canvasAnimator.SetInteger("GameState", (int)gameState);
         }
 
         public void PlayAudioOneShot(AudioClip clip)

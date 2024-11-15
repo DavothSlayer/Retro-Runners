@@ -21,12 +21,6 @@ public class BetterToggle : MonoBehaviour
         offObject.SetActive(!isOn);
     }
 
-    public void Awake()
-    {
-        onObject.SetActive(isOn);
-        offObject.SetActive(!isOn);
-    }
-
     public void SetValue(bool value)
     {
         isOn = value;

@@ -83181,6 +83181,11 @@ PrefabInstance:
       objectReference: {fileID: 0}
     - target: {fileID: -7186778541726626952, guid: 41cf59681909da9499559da41a8150aa,
         type: 3}
+      propertyPath: m_IsActive
+      value: 1
+      objectReference: {fileID: 0}
+    - target: {fileID: -7186778541726626952, guid: 41cf59681909da9499559da41a8150aa,
+        type: 3}
       propertyPath: m_StaticEditorFlags
       value: 1
       objectReference: {fileID: 0}
@@ -83219,6 +83224,11 @@ PrefabInstance:
       propertyPath: m_LocalRotation.x
       value: 0.000000021855694
       objectReference: {fileID: 0}
+    - target: {fileID: 526806541711123317, guid: 41cf59681909da9499559da41a8150aa,
+        type: 3}
+      propertyPath: m_IsActive
+      value: 1
+      objectReference: {fileID: 0}
     - target: {fileID: 555867005441761609, guid: 41cf59681909da9499559da41a8150aa,
         type: 3}
       propertyPath: m_ReceiveGI
@@ -83248,7 +83258,7 @@ PrefabInstance:
         type: 3}
       propertyPath: 'm_Materials.Array.data[0]'
       value: 
-      objectReference: {fileID: 2100000, guid: aa32d987881c015458c2a5adf0fb3de5, type: 2}
+      objectReference: {fileID: 2100000, guid: deafd6248e70e1b41aaf5c780e4f143b, type: 2}
     - target: {fileID: 5752890981331995628, guid: 41cf59681909da9499559da41a8150aa,
         type: 3}
       propertyPath: m_LocalRotation.x

@@ -14,7 +14,7 @@ Preset:
   m_Properties:
   - target: {fileID: 0}
     propertyPath: m_ExternalObjects.Array.size
-    value: 10
+    value: 11
     objectReference: {fileID: 0}
   - target: {fileID: 0}
     propertyPath: m_ExternalObjects.Array.data[0].first.type
@@ -177,6 +177,22 @@ Preset:
     value: 
     objectReference: {fileID: 2100000, guid: 86ca9d19f4a85f74fba0a0874b8f0152, type: 2}
   - target: {fileID: 0}
+    propertyPath: m_ExternalObjects.Array.data[10].first.type
+    value: UnityEngine:Material
+    objectReference: {fileID: 0}
+  - target: {fileID: 0}
+    propertyPath: m_ExternalObjects.Array.data[10].first.assembly
+    value: UnityEngine.CoreModule
+    objectReference: {fileID: 0}
+  - target: {fileID: 0}
+    propertyPath: m_ExternalObjects.Array.data[10].first.name
+    value: RetroUniversal
+    objectReference: {fileID: 0}
+  - target: {fileID: 0}
+    propertyPath: m_ExternalObjects.Array.data[10].second
+    value: 
+    objectReference: {fileID: 2100000, guid: deafd6248e70e1b41aaf5c780e4f143b, type: 2}
+  - target: {fileID: 0}
     propertyPath: m_MaterialImportMode
     value: 2
     objectReference: {fileID: 0}
@@ -278,7 +294,15 @@ Preset:
     objectReference: {fileID: 0}
   - target: {fileID: 0}
     propertyPath: m_LODScreenPercentages.Array.size
-    value: 0
+    value: 2
+    objectReference: {fileID: 0}
+  - target: {fileID: 0}
+    propertyPath: 'm_LODScreenPercentages.Array.data[0]'
+    value: 0.25
+    objectReference: {fileID: 0}
+  - target: {fileID: 0}
+    propertyPath: 'm_LODScreenPercentages.Array.data[1]'
+    value: 0.01
     objectReference: {fileID: 0}
   - target: {fileID: 0}
     propertyPath: m_GlobalScale

@@ -13,8 +13,6 @@ namespace RetroCode
         private ScreenInteract swipeSelect;
         [SerializeField]
         private GarageHUD hud;
-        [SerializeField]
-        private Animator garageScreenAnimator;
 
         [Header("Garage")]
         [SerializeField]
@@ -423,48 +421,6 @@ namespace RetroCode
         #endregion
 
         #region Loading Screens & UI States
-        public void LoadingDoneMethod(Animator animator)
-        {
-            animator.SetBool("Loading", false);
-        }
-
-        public void SetLoadingScreenState(int i)
-        {
-            garageScreenAnimator.SetInteger("Loading Screen State", i);
-        }
-
-        private void SetCameraState(int i)
-        {
-            cameraAnimator.SetInteger("State", i);
-        }
-
-        private void SetUIState(int i)
-        {
-            garageScreenAnimator.SetInteger("State", i);
-        }
-
-        public void SetGarageState(int stateInt)
-        {
-            garageState = (GarageState)stateInt;          
-
-            switch (garageState)
-            {
-                case GarageState.AutoReview:
-                    SetUIState(0);
-                    SetCameraState(0);
-                    break;
-                case GarageState.ComponentReview:
-                    compState = 0;             
-                    SetUIState(1);
-                    SetCameraState(1);
-                    break;
-                case GarageState.CinematicView:
-                    SetUIState(2);
-                    SetCameraState(2);
-                    break;
-            }
-        }
-
         public void SetComponentState(int stateInt)
         {
             compState = (ComponentState)stateInt;

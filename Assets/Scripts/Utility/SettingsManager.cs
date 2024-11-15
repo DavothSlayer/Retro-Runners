@@ -1,3 +1,4 @@
+using System.Collections;
 using System.Collections.Generic;
 using TMPro;
 using UnityEngine;
@@ -26,9 +27,13 @@ namespace RetroCode
         [SerializeField]
         private BetterToggle speedUnit;
         [SerializeField]
-        private BetterToggle sixtyFPS;
+        private BetterOptions targetFPS;
         [SerializeField]
         private BetterToggle postProcess;
+        [SerializeField]
+        private BetterToggle overlayFPS;
+        [SerializeField]
+        private GameObject fpsOverlay;
 
         [Header("Sounds Tab")]
         [SerializeField]
@@ -48,9 +53,9 @@ namespace RetroCode
         [SerializeField]
         private UniversalRenderPipelineAsset renderAsset;
         [SerializeField]
-        private UniversalRendererData renderData;
-        [SerializeField]
         private Volume volume;
+        [SerializeField]
+        private Camera mainCamera;
 
         [Header("Audio")]
         [SerializeField]
@@ -70,8 +75,12 @@ namespace RetroCode
         public SettingsClass settings;
         #endregion
 
+        public static SettingsManager Instance { get; private set; }
+
         private void Awake()
         {
+            Instance = this;
+
             LoadSettings();
         }
 
@@ -102,11 +111,22 @@ namespace RetroCode
             settings.SpeedUnitIsKMH = speedUnit.isOn;
         }
 
-        public void UpdateSixtyFPS()
+        public void UpdateTargetFPS()
         {
-            settings.SixtyFPS = sixtyFPS.isOn;
+            settings.TargetFPS = targetFPS.optionIndex;
 
-            Application.targetFrameRate = settings.SixtyFPS ? 60 : 30;
+            switch (settings.TargetFPS)
+            {
+                case 0:
+                    Application.targetFrameRate = 30;
+                    break;
+                case 1:
+                    Application.targetFrameRate = 45;
+                    break;
+                case 2:
+                    Application.targetFrameRate = 60;
+                    break;
+            }
         }
 
         public void UpdatePostProcess()
@@ -114,8 +134,15 @@ namespace RetroCode
             settings.PostProcess = postProcess.isOn;
 
             // FIX PP (LOL) //
-            volume.gameObject.SetActive(settings.PostProcess);
+            mainCamera.GetUniversalAdditionalCameraData().renderPostProcessing = settings.PostProcess;
             volume.weight = settings.PostProcess ? 1f : 0f;
+        }
+
+        public void UpdateFPSOverlay()
+        {
+            settings.OverlayFPS = overlayFPS.isOn;
+
+            fpsOverlay.SetActive(settings.OverlayFPS);
         }
         // DISPLAY TAB //
 
@@ -169,83 +196,57 @@ namespace RetroCode
 
         public void LoadSettings()
         {
-            /*
             string loadedJson = EXMET.LoadJSON("settings.json");
             SettingsClass loadedSettings = JsonUtility.FromJson<SettingsClass>(loadedJson);
 
             if (loadedSettings != null)
             {
                 settings = loadedSettings;
-                print("Settings found. Applying...");
 
                 ApplySettings();
             }
             else 
             { 
                 SetDefaultSettings();
-                print("Settings not found, applying default settings...");
             }
-            */
         }
 
         public void ApplySettings()
         {
-            /*
-            deviceRefreshRate = (int)Screen.currentResolution.refreshRateRatio.value;
+            // DISPLAY SETTINGS //
+            resolutionText.text = $"RESOLUTION {settings.Resolution}%";
+            resolutionSlider.value = settings.Resolution;
+            camPosition.SetValue(settings.LowCam);
+            speedUnit.SetValue(settings.SpeedUnitIsKMH);
+            targetFPS.SetValue(settings.TargetFPS);
+            postProcess.SetValue(settings.PostProcess);
+            overlayFPS.SetValue(settings.OverlayFPS);
 
-            // MAX FPS //
-            targetFrameToggle.isOn = settings.MaxFPSToggle;
-
-            if (settings.MaxFPSToggle)
-                Application.targetFrameRate = deviceRefreshRate;
-            else
-                Application.targetFrameRate = deviceRefreshRate / 2;
-            // MAX FPS //
-
-            // RENDER SCALE //
-            renderAsset.renderScale = settings.RenderScale;
-            if(renderScaleSlider != null)
-            {
-                renderScaleSlider.value = settings.RenderScale * 100f;
-                renderScaleText.text = $"Resolution {renderScaleSlider.value}%";
-            }
-            // RENDER SCALE //
-
-            // FPS COUNTER //
-            displayFrameToggle.isOn = settings.DisplayFPS;
-
-            frameRateCounter.SetActive(settings.DisplayFPS);
-            // FPS COUNTER //
-
-            // POST PROCESSING //
-            postProcessToggle.isOn = settings.PostProcess;
-
-            postProcessVolume.weight = settings.PostProcess == true ? 1f : 0f;
-            cam.GetUniversalAdditionalCameraData().renderPostProcessing = postProcessToggle.isOn;
-            // POST PROCESSING //
-
-            // AUDIO //
-            backMusicSlider.value = settings.BackMusicVol;
-            gameSoundSlider.value = settings.EffectsVol;
-
-            backMusicSource.volume = settings.BackMusicVol / 100f;
-            for (int i = 0; i < gameSoundSource.Length; i++)
-                gameSoundSource[i].volume = gameSoundVolumes[i] * (settings.EffectsVol / 100f);
-            // AUDIO //
-            */
+            renderAsset.renderScale = settings.Resolution / 100f;
+            mainCamera.GetUniversalAdditionalCameraData().renderPostProcessing = settings.PostProcess;
+            volume.weight = settings.PostProcess ? 1f : 0f;
+            fpsOverlay.SetActive(settings.OverlayFPS);
+            // DISPLAY SETTINGS //
         }
-        
+
         public void SetDefaultSettings()
         {
             SettingsClass defaultSettings = new SettingsClass
             {
-                Resolution = 80,
+                Resolution = 85,
                 LowCam = true,
                 SpeedUnitIsKMH = true,
-                SixtyFPS = true,
+                TargetFPS = 1,
                 PostProcess = false,
-                BackMusicVol = 80,
+                OverlayFPS = false,
+                
                 EffectsVol = 100,
+                BackMusicVol = 80,
+                MasterVol = 100,
+
+                Notifications = true,
+                DeliveryNotifiy = true,
+                Reminders = true,
             };
 
             string json = JsonUtility.ToJson(defaultSettings);
@@ -259,11 +260,12 @@ namespace RetroCode
     [System.Serializable]
     public class SettingsClass
     {
-        public int Resolution = 100;
+        public int Resolution = 85;
         public bool LowCam = true;
         public bool SpeedUnitIsKMH = true;
-        public bool SixtyFPS = true;
+        public int TargetFPS = 1;
         public bool PostProcess = false;
+        public bool OverlayFPS = false;
 
         public int EffectsVol = 100;
         public int BackMusicVol = 80;

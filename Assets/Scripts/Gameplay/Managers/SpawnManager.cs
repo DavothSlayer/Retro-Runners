@@ -443,9 +443,9 @@ namespace RetroCode
         {
             if (gameManager.playerCar == null) return;
 
-            background.position = new Vector3(0f, 0f, gameManager.playerTransform.position.z + 1300f);
+            background.position = new Vector3(0f, 0f, gameManager.playerTransform.position.z + 2400f);
 
-            if (gameManager.playerTransform.position.z + 800f >= tileZSpawn && spawnRoad)
+            if (gameManager.playerTransform.position.z + tileSafeZone >= tileZSpawn && spawnRoad)
             {
                 SpawnRoadTile();
                 RemoveRoadTile(0);
