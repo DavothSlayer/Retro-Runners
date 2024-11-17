@@ -5,6 +5,7 @@ using Random = UnityEngine.Random;
 using System.Threading.Tasks;
 using Unity.Burst;
 using V3CTOR;
+using UnityEngine.Events;
 
 namespace RetroCode
 {
@@ -75,6 +76,14 @@ namespace RetroCode
         private AudioClip heatLevelSFX;
         [SerializeField]
         private AudioClip abilityReadyClip;
+        #endregion
+
+        #region Inspector Events
+        [Space]
+        public UnityEvent ScoreAdded;
+        public UnityEvent ScoreMultiplierDelta;
+        public UnityEvent NearMissed;
+        public UnityEvent NearMissEnd;
         #endregion
 
         #region Hidden Variables
@@ -388,17 +397,13 @@ namespace RetroCode
         [BurstCompile]
         public void NearMiss()
         {
-            //canvasAnimator.SetTrigger("Near Miss Combo");
-
             nearMissTimer = 0f;
             nearMissComboCount++;
+            NearMissed?.Invoke();
 
             AddExternalScore(scoreTable.scorePerNearMiss * nearMissComboCount * gameScoreMultiplier);
 
-            if(nearMissComboCount > 1)
-                hud.nearMissText.text = $"NEAR  MISS {nearMissComboCount}X";
-            else
-                hud.nearMissText.text = $"NEAR  MISS";
+            hud.nearMissText.text = $"NEAR  MISS {nearMissComboCount}X";
 
             if (!midCombo) { NearMissTimer(); }
 
@@ -427,6 +432,8 @@ namespace RetroCode
 
             if (currentRunNMH > cloudNMH)
                 gamingServicesManager.cloudData.HighestNearMissCount = currentRunNMH;
+
+            NearMissEnd?.Invoke();
 
             nearMissComboCount = 0;
             midCombo = false;
@@ -463,7 +470,7 @@ namespace RetroCode
                     activeScoreMultipliers[source] = newMultiplier;
 
                     hud.scoreMultiplierText.text = $"{gameScoreMultiplier}X";
-                    //canvasAnimator.SetTrigger("ScoreXd Event");
+                    ScoreMultiplierDelta?.Invoke();
                 }
             }
             else
@@ -472,7 +479,7 @@ namespace RetroCode
                 activeScoreMultipliers.Add(source, newMultiplier);
 
                 hud.scoreMultiplierText.text = $"{gameScoreMultiplier}X";
-                //canvasAnimator.SetTrigger("ScoreXd Event");
+                ScoreMultiplierDelta?.Invoke();
             }
         }
 
@@ -480,14 +487,15 @@ namespace RetroCode
         {
             activeScoreMultipliers.Remove(source);
 
-            //canvasAnimator.SetTrigger("ScoreXd Event");
+            ScoreMultiplierDelta?.Invoke();
         }
 
         public void AddExternalScore(float amount)
         {
+            ScoreAdded?.Invoke();
+
             currentRunScore += amount;
-            hud.scoreEventText.text = $"+ {amount.ToString("n0")}";
-            //canvasAnimator.SetTrigger("Score Added Event");
+            hud.scoreEventText.text = $"+ {amount.ToString(EXMET.NumForThou)}";
         }
         // SCORE //
 

@@ -73,4 +73,47 @@ public class Tweener : MonoBehaviour
     {
         LeanTween.alphaCanvas(canvasGroup, 0f, .25f).setIgnoreTimeScale(true).setOnComplete(() => canvasGroup.gameObject.SetActive(false));
     }
+
+    public void AnimateScoreAdded(TextMeshProUGUI text)
+    {
+        Color initialColor = text.color;
+        initialColor.a = 0f;
+        text.color = initialColor;
+
+        // Fade in to alpha 1
+        LeanTween.value(gameObject, 0f, 1f, .25f)
+                 .setOnUpdate((float alpha) =>
+                 {
+                     Color newColor = text.color;
+                     newColor.a = alpha;
+                     text.color = newColor;
+                 })
+                 .setOnComplete(() =>
+                 {
+                     // Fade out to alpha 0
+                     LeanTween.value(gameObject, 1f, 0f, .5f)
+                              .setOnUpdate((float alpha) =>
+                              {
+                                  Color newColor = text.color;
+                                  newColor.a = alpha;
+                                  text.color = newColor;
+                              });
+                 });
+    }
+
+    public void SlowerBounce(GameObject gameObject)
+    {
+        LeanTween.scale(gameObject, new(1.1f, 1.1f, 1f), .25f).setIgnoreTimeScale(true).setEaseInBounce();
+        LeanTween.scale(gameObject, Vector3.one, .45f).setDelay(.25f).setIgnoreTimeScale(true);
+    }
+
+    public void FadeInNearMissTimer(CanvasGroup canvasGroup)
+    {
+        LeanTween.alphaCanvas(canvasGroup, 1f, .15f).setIgnoreTimeScale(true);
+    }
+
+    public void FadeOutNearMissTimer(CanvasGroup canvasGroup)
+    {
+        LeanTween.alphaCanvas(canvasGroup, 0f, .15f).setIgnoreTimeScale(true);
+    }
 }
