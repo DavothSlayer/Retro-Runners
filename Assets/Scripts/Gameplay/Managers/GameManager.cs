@@ -4,6 +4,7 @@ using System;
 using Random = UnityEngine.Random;
 using System.Threading.Tasks;
 using Unity.Burst;
+using V3CTOR;
 
 namespace RetroCode
 {
@@ -140,7 +141,6 @@ namespace RetroCode
         {
             heatLevelChanged += HeatLevelChangeListener;
             InputManager.UpperDoubleTapped += AutoAbility;
-            InputManager.LowerDoubleTapped += RearviewMethod;
         }
 
         private void OnDestroy()
@@ -149,7 +149,6 @@ namespace RetroCode
 
             heatLevelChanged -= HeatLevelChangeListener;
             InputManager.UpperDoubleTapped -= AutoAbility;
-            InputManager.LowerDoubleTapped -= RearviewMethod;
             playerCar.Damaged -= HandleAutoDamage;            
         }
 
@@ -178,12 +177,14 @@ namespace RetroCode
             if (playerCar == null) return;
 
             #region HUD Text and Animator Booleans
-            hud.speedoMeterText.text = $"{Mathf.RoundToInt(playerCar.rb.linearVelocity.magnitude * 2.2f)} MPH";
+            bool isKMH = SettingsManager.Instance.settings.SpeedUnitIsKMH;
+            float speedConvertMultiplier = isKMH ? 3.6f : 2.2f;
+            hud.speedoMeterText.text = $"{Mathf.RoundToInt(playerCar.rb.linearVelocity.magnitude * speedConvertMultiplier)} {(isKMH ? "KMH" : "MPH")}";
             hud.speedoMeterFill.fillAmount = playerCar.rb.linearVelocity.magnitude / playerCar.data.autoLevelData[playerCar.engineLevel].TopSpeed;
 
             hud.nearMissComboTimer.fillAmount = 1f - nearMissTimer / nearMissMaxTime;
             int score = Mathf.RoundToInt(currentRunScore);
-            hud.scoreText.text = score.ToString("n0");
+            hud.scoreText.text = score.ToString(EXMET.NumForThou);
 
             //canvasAnimator.SetBool("ScoreXd", gameScoreMultiplier != 1f && gameState == GameState.InGame);
             //canvasAnimator.SetBool("ShowHeatLevel", ActiveHeatLevel > 0 && gameState == GameState.InGame);
@@ -203,7 +204,7 @@ namespace RetroCode
             #endregion
 
             #region Pickup Markers
-            for (int i = 0; i < spawnManager.PickupList.Count; i++)
+            /*for (int i = 0; i < spawnManager.PickupList.Count; i++)
             {
                 GameObject pickup = spawnManager.PickupList[i];             
                 MarkerPoint marker = hud.markerPoints[i];
@@ -238,7 +239,7 @@ namespace RetroCode
                 // PICK UP SPAWNS 1400M AWAY FROM PLAYER //
                 marker.markerRect.localScale = Vector3.one * hud.markerUIScaleCurve.Evaluate(1f - distance / 400f);
                 canvasG.alpha = hud.markerUIAlphaCurve.Evaluate(1f - distance / 400f) - (-Vector3.Dot(cam.transform.forward, pickup.transform.forward));
-            }
+            }*/
             #endregion
         }
 
@@ -261,12 +262,11 @@ namespace RetroCode
 
         public void PauseButton()
         {
-            Time.timeScale = gamePaused ?
-                Time.timeScale = 1f :
-                Time.timeScale = 0f;           
+            if (gameState != GameState.InGame) return;
 
             gamePaused = !gamePaused;
-            hud.pauseGraphic.sprite = gamePaused ? hud.continueIcon : hud.pauseIcon;
+
+            Time.timeScale = gamePaused ? 0f : 1f;           
         }
 
         public void ReturnToMainMenu()
@@ -317,7 +317,7 @@ namespace RetroCode
         #region Gameplay
         private void HandlePlayerPower()
         {
-            if (GameManager.gameState != GameState.InGame) return;
+            if (gameState != GameState.InGame) return;
 
             if (playerCurrentPower > 0f)
                 playerCurrentPower -= 5f * Time.deltaTime;
@@ -432,12 +432,6 @@ namespace RetroCode
             midCombo = false;
         }
         // NEAR MISS //
-
-        // REARVIEW MIRROR //
-        public void RearviewMethod()
-        {
-            rearview = !rearview;
-        }
 
         // SCORE //
         private void CountScore()
@@ -658,8 +652,6 @@ namespace RetroCode
         #region Cinematics
         private Vector3 playerPos;
         private Quaternion playerRot;
-        private Quaternion rearviewRot;
-        private Vector3 rearviewPos;
         private float speedFOV;
         private Vector3 proSwayPos;
         private Vector3 proSwayRot;
@@ -688,22 +680,15 @@ namespace RetroCode
                     break;
 
                 case GameState.InGame:
-                    camPosTarget = Vector3.Slerp(camPosTarget, gameCamPos, 3.5f * Time.deltaTime);
-                    camRotTarget = Quaternion.Slerp(camRotTarget, gameCamRot, 6f * Time.deltaTime);
+                    camPosTarget = Vector3.Slerp(camPosTarget, playerCar.data.CameraPositionInGame, 3.5f * Time.deltaTime);
+                    camRotTarget = Quaternion.Slerp(camRotTarget, playerCar.data.CameraRotationInGame, 6f * Time.deltaTime);
                     
                     Quaternion carRot = Quaternion.Euler(0f, 5f * input.xTouchLerp, 6f * input.xTouchLerp);
                     Vector3 cameraOffset = new(1.5f * input.xTouchLerp, 0f, 0f);
-                    
-                    rearviewRot = rearview && gameState == GameState.InGame ?
-                        Quaternion.Slerp(rearviewRot, Quaternion.Euler(0f, 180f, 0f), 6f * Time.deltaTime) :
-                        Quaternion.Slerp(rearviewRot, Quaternion.Euler(0f, 0f, 0f), 8f * Time.deltaTime);
+                    Vector3 lowCamOffset = SettingsManager.Instance.settings.LowCam ? Vector3.zero : new(0f, 1f, 0f);
 
-                    rearviewPos = rearview && gameState == GameState.InGame ?
-                        Vector3.Slerp(rearviewPos, playerCar.data.rearviewOffset, 6f * Time.deltaTime) :
-                        Vector3.Slerp(rearviewPos, Vector3.zero, 8f * Time.deltaTime);
-
-                    camHolder.position = playerPos + camPosTarget + cameraOffset + rearviewPos;
-                    camHolder.rotation = playerRot * camRotTarget * carRot * rearviewRot;
+                    camHolder.position = playerPos + camPosTarget + lowCamOffset + cameraOffset;
+                    camHolder.rotation = playerRot * camRotTarget * carRot;
 
                     speedFOV = (playerCar.rb.linearVelocity.magnitude / playerCar.data.autoLevelData[playerCar.engineLevel].TopSpeed) * 30f;
 

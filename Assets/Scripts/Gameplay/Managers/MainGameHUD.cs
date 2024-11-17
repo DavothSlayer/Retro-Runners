@@ -36,9 +36,6 @@ namespace RetroCode
         public AnimationCurve markerUIAlphaCurve;
         [Space]
         public Sprite[] pickUpIcons;
-        [Space]
-        public Image pauseGraphic;
-        public Sprite pauseIcon, continueIcon;
 
         [Header("Game Over Screen")]
         public TextMeshProUGUI earnings;

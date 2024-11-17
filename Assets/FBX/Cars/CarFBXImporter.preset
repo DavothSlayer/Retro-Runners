@@ -14,7 +14,7 @@ Preset:
   m_Properties:
   - target: {fileID: 0}
     propertyPath: m_ExternalObjects.Array.size
-    value: 9
+    value: 10
     objectReference: {fileID: 0}
   - target: {fileID: 0}
     propertyPath: m_ExternalObjects.Array.data[0].first.type
@@ -161,6 +161,22 @@ Preset:
     value: 
     objectReference: {fileID: 2100000, guid: 86ca9d19f4a85f74fba0a0874b8f0152, type: 2}
   - target: {fileID: 0}
+    propertyPath: m_ExternalObjects.Array.data[9].first.type
+    value: UnityEngine:Material
+    objectReference: {fileID: 0}
+  - target: {fileID: 0}
+    propertyPath: m_ExternalObjects.Array.data[9].first.assembly
+    value: UnityEngine.CoreModule
+    objectReference: {fileID: 0}
+  - target: {fileID: 0}
+    propertyPath: m_ExternalObjects.Array.data[9].first.name
+    value: RetroUniversal
+    objectReference: {fileID: 0}
+  - target: {fileID: 0}
+    propertyPath: m_ExternalObjects.Array.data[9].second
+    value: 
+    objectReference: {fileID: 2100000, guid: deafd6248e70e1b41aaf5c780e4f143b, type: 2}
+  - target: {fileID: 0}
     propertyPath: m_MaterialImportMode
     value: 2
     objectReference: {fileID: 0}
@@ -218,7 +234,7 @@ Preset:
     objectReference: {fileID: 0}
   - target: {fileID: 0}
     propertyPath: m_ImportAnimatedCustomProperties
-    value: 0
+    value: 1
     objectReference: {fileID: 0}
   - target: {fileID: 0}
     propertyPath: m_ImportConstraints
@@ -338,11 +354,11 @@ Preset:
     objectReference: {fileID: 0}
   - target: {fileID: 0}
     propertyPath: skinWeightsMode
-    value: 0
+    value: 1
     objectReference: {fileID: 0}
   - target: {fileID: 0}
     propertyPath: maxBonesPerVertex
-    value: 4
+    value: 1
     objectReference: {fileID: 0}
   - target: {fileID: 0}
     propertyPath: minBoneWeight
@@ -350,7 +366,7 @@ Preset:
     objectReference: {fileID: 0}
   - target: {fileID: 0}
     propertyPath: optimizeBones
-    value: 1
+    value: 0
     objectReference: {fileID: 0}
   - target: {fileID: 0}
     propertyPath: meshOptimizationFlags
@@ -498,7 +514,7 @@ Preset:
     objectReference: {fileID: 0}
   - target: {fileID: 0}
     propertyPath: m_AnimationType
-    value: 0
+    value: 1
     objectReference: {fileID: 0}
   - target: {fileID: 0}
     propertyPath: m_HumanoidOversampling

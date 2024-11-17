@@ -58,6 +58,10 @@ namespace RetroCode
         private GameObject[] carModels;
         [SerializeField]
         private GameObject deadCarModel;
+        [SerializeField]
+        private Transform[] wheelSets;
+        [SerializeField]
+        private float wheelDiameter;
 
         [Header("SFX")]
         public AudioSource engineSFX;
@@ -388,6 +392,11 @@ namespace RetroCode
         #region FX
         private void HandleVFX()
         {
+            foreach(Transform wheels in wheelSets)
+            {
+                wheels.Rotate(Vector3.right, (rb.linearVelocity.magnitude * Time.deltaTime / wheelDiameter * 3.14f) * 360f, Space.Self);
+            }
+
             switch (GameManager.gameState)
             {
                 case GameState.GameOver:

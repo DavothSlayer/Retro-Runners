@@ -99,7 +99,7 @@ namespace RetroCode
             SpawnNPCs(roadVar);
             DespawnUnwantedNPCs();
 
-            DriveNPCs();
+            //DriveNPCs();
         }
 
         public void InitializeNPCs()
@@ -247,7 +247,7 @@ namespace RetroCode
             return lastNPC.transform.position.z - playerPos.z;
         }
 
-        [BurstCompile]
+        /*[BurstCompile]
         private void DriveNPCs()
         {
             for(int i = 0; i < activeNPCsLL.Count; i++)
@@ -261,7 +261,7 @@ namespace RetroCode
                 GameObject npc = activeNPCsRL[i];
                 if (npc.activeInHierarchy) npc.transform.position += npc.transform.forward * 15f * Time.deltaTime;
             }
-        }
+        }*/
 
         [BurstCompile]
         public void HandleDeadNPC(NPC npc)

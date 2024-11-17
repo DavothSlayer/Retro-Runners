@@ -4883,7 +4883,7 @@ ParticleSystemRenderer:
   m_Pivot: {x: 0, y: 0, z: 0}
   m_Flip: {x: 0, y: 0, z: 0}
   m_EnableGPUInstancing: 1
-  m_ApplyActiveColorSpace: 1
+  m_ApplyActiveColorSpace: 0
   m_AllowRoll: 1
   m_FreeformStretching: 0
   m_RotateWithStretchDirection: 1
@@ -4913,7 +4913,7 @@ GameObject:
   - component: {fileID: 4046522152956228554}
   - component: {fileID: 3248458405033081941}
   - component: {fileID: 2427594806091568072}
-  m_Layer: 0
+  m_Layer: 11
   m_Name: truck_dead
   m_TagString: Untagged
   m_Icon: {fileID: 0}
@@ -5056,7 +5056,7 @@ GameObject:
   - component: {fileID: 4577388129820768941}
   - component: {fileID: 550939529270208866}
   - component: {fileID: 2938689846795110774}
-  m_Layer: 0
+  m_Layer: 11
   m_Name: truck_pipe3_dead
   m_TagString: Untagged
   m_Icon: {fileID: 0}
@@ -5193,7 +5193,7 @@ GameObject:
   - component: {fileID: 4304843353249556005}
   - component: {fileID: 4615327742929880443}
   - component: {fileID: 1980102124752279748}
-  m_Layer: 0
+  m_Layer: 11
   m_Name: truck_pipe5_dead
   m_TagString: Untagged
   m_Icon: {fileID: 0}
@@ -5330,7 +5330,7 @@ GameObject:
   - component: {fileID: 4434362734828018410}
   - component: {fileID: 6547064694767620332}
   - component: {fileID: 6597304454168346135}
-  m_Layer: 0
+  m_Layer: 11
   m_Name: truck_pipe4_dead
   m_TagString: Untagged
   m_Icon: {fileID: 0}
@@ -10280,7 +10280,7 @@ ParticleSystemRenderer:
   m_Pivot: {x: 0, y: 0, z: 0}
   m_Flip: {x: 0, y: 0, z: 0}
   m_EnableGPUInstancing: 1
-  m_ApplyActiveColorSpace: 1
+  m_ApplyActiveColorSpace: 0
   m_AllowRoll: 1
   m_FreeformStretching: 0
   m_RotateWithStretchDirection: 1
@@ -10307,6 +10307,7 @@ GameObject:
   m_Component:
   - component: {fileID: 78833126791376943}
   - component: {fileID: 3097316564191875650}
+  - component: {fileID: -6193775764531011977}
   m_Layer: 11
   m_Name: TruckFlatbed_Dead
   m_TagString: Untagged
@@ -10358,6 +10359,103 @@ MonoBehaviour:
   - {fileID: 6597304454168346135}
   - {fileID: 1980102124752279748}
   referenceRigidBody: {fileID: 2427594806091568072}
+--- !u!82 &-6193775764531011977
+AudioSource:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 3590030295427821380}
+  m_Enabled: 1
+  serializedVersion: 4
+  OutputAudioMixerGroup: {fileID: 0}
+  m_audioClip: {fileID: 8300000, guid: 0fa8233db2bc3334dbbe7b1003a9406b, type: 3}
+  m_Resource: {fileID: 8300000, guid: 0fa8233db2bc3334dbbe7b1003a9406b, type: 3}
+  m_PlayOnAwake: 1
+  m_Volume: 1
+  m_Pitch: 1
+  Loop: 0
+  Mute: 0
+  Spatialize: 0
+  SpatializePostEffects: 0
+  Priority: 128
+  DopplerLevel: 1
+  MinDistance: 1
+  MaxDistance: 100
+  Pan2D: 0
+  rolloffMode: 1
+  BypassEffects: 0
+  BypassListenerEffects: 0
+  BypassReverbZones: 0
+  rolloffCustomCurve:
+    serializedVersion: 2
+    m_Curve:
+    - serializedVersion: 3
+      time: 0
+      value: 1
+      inSlope: 0
+      outSlope: 0
+      tangentMode: 0
+      weightedMode: 0
+      inWeight: 0.33333334
+      outWeight: 0.33333334
+    - serializedVersion: 3
+      time: 1
+      value: 0
+      inSlope: 0
+      outSlope: 0
+      tangentMode: 0
+      weightedMode: 0
+      inWeight: 0.33333334
+      outWeight: 0.33333334
+    m_PreInfinity: 2
+    m_PostInfinity: 2
+    m_RotationOrder: 4
+  panLevelCustomCurve:
+    serializedVersion: 2
+    m_Curve:
+    - serializedVersion: 3
+      time: 0
+      value: 1
+      inSlope: 0
+      outSlope: 0
+      tangentMode: 0
+      weightedMode: 0
+      inWeight: 0.33333334
+      outWeight: 0.33333334
+    m_PreInfinity: 2
+    m_PostInfinity: 2
+    m_RotationOrder: 4
+  spreadCustomCurve:
+    serializedVersion: 2
+    m_Curve:
+    - serializedVersion: 3
+      time: 0
+      value: 0
+      inSlope: 0
+      outSlope: 0
+      tangentMode: 0
+      weightedMode: 0
+      inWeight: 0.33333334
+      outWeight: 0.33333334
+    m_PreInfinity: 2
+    m_PostInfinity: 2
+    m_RotationOrder: 4
+  reverbZoneMixCustomCurve:
+    serializedVersion: 2
+    m_Curve:
+    - serializedVersion: 3
+      time: 0
+      value: 1
+      inSlope: 0
+      outSlope: 0
+      tangentMode: 0
+      weightedMode: 0
+      inWeight: 0.33333334
+      outWeight: 0.33333334
+    m_PreInfinity: 2
+    m_PostInfinity: 2
+    m_RotationOrder: 4
 --- !u!1 &4054446539015619562
 GameObject:
   m_ObjectHideFlags: 0
@@ -10371,7 +10469,7 @@ GameObject:
   - component: {fileID: 6815858476041862715}
   - component: {fileID: 7786757843078901518}
   - component: {fileID: 3426785455687641806}
-  m_Layer: 0
+  m_Layer: 11
   m_Name: truck_pipe2_dead
   m_TagString: Untagged
   m_Icon: {fileID: 0}
@@ -10508,7 +10606,7 @@ GameObject:
   - component: {fileID: 3924206641359669888}
   - component: {fileID: 8025304202118602293}
   - component: {fileID: 6649418078666896475}
-  m_Layer: 0
+  m_Layer: 11
   m_Name: truck_pipe1_dead
   m_TagString: Untagged
   m_Icon: {fileID: 0}
@@ -10645,7 +10743,7 @@ GameObject:
   - component: {fileID: 5089349289038459281}
   - component: {fileID: 769586389789860098}
   - component: {fileID: 776949010021691808}
-  m_Layer: 0
+  m_Layer: 11
   m_Name: truck_flatbed_dead
   m_TagString: Untagged
   m_Icon: {fileID: 0}
@@ -15661,7 +15759,7 @@ ParticleSystemRenderer:
   m_Pivot: {x: 0, y: 0, z: 0}
   m_Flip: {x: 0, y: 0, z: 0}
   m_EnableGPUInstancing: 1
-  m_ApplyActiveColorSpace: 1
+  m_ApplyActiveColorSpace: 0
   m_AllowRoll: 1
   m_FreeformStretching: 0
   m_RotateWithStretchDirection: 1
@@ -15719,7 +15817,7 @@ ParticleSystem:
   m_PrefabAsset: {fileID: 0}
   m_GameObject: {fileID: 6020224572334879520}
   serializedVersion: 8
-  lengthInSec: 15
+  lengthInSec: 1
   simulationSpeed: 1
   stopAction: 0
   cullingMode: 0
@@ -20516,7 +20614,7 @@ ParticleSystemRenderer:
   m_RenderingLayerMask: 1
   m_RendererPriority: 0
   m_Materials:
-  - {fileID: 2100000, guid: c4e14fc166e47ad429cd92bd22880f1d, type: 2}
+  - {fileID: 2100000, guid: deafd6248e70e1b41aaf5c780e4f143b, type: 2}
   m_StaticBatchInfo:
     firstSubMesh: 0
     subMeshCount: 0
@@ -20552,7 +20650,7 @@ ParticleSystemRenderer:
   m_Pivot: {x: 0, y: 0, z: 0}
   m_Flip: {x: 0, y: 0, z: 0}
   m_EnableGPUInstancing: 1
-  m_ApplyActiveColorSpace: 1
+  m_ApplyActiveColorSpace: 0
   m_AllowRoll: 1
   m_FreeformStretching: 0
   m_RotateWithStretchDirection: 1
@@ -20560,7 +20658,7 @@ ParticleSystemRenderer:
   m_VertexStreams: 00010304
   m_UseCustomTrailVertexStreams: 0
   m_TrailVertexStreams: 00010304
-  m_Mesh: {fileID: 2237914191205988115, guid: 0b9d8c0478bef7345b88af65427a5f68, type: 3}
+  m_Mesh: {fileID: 2237914191205988115, guid: a77098b4b959ae44c9a39fceebe5081e, type: 3}
   m_Mesh1: {fileID: 0}
   m_Mesh2: {fileID: 0}
   m_Mesh3: {fileID: 0}
@@ -25452,7 +25550,7 @@ ParticleSystemRenderer:
   m_Pivot: {x: 0, y: 0, z: 0}
   m_Flip: {x: 0, y: 0, z: 0}
   m_EnableGPUInstancing: 1
-  m_ApplyActiveColorSpace: 1
+  m_ApplyActiveColorSpace: 0
   m_AllowRoll: 1
   m_FreeformStretching: 0
   m_RotateWithStretchDirection: 1
@@ -30361,7 +30459,7 @@ ParticleSystemRenderer:
   m_Pivot: {x: 0, y: 0, z: 0}
   m_Flip: {x: 0, y: 0, z: 0}
   m_EnableGPUInstancing: 1
-  m_ApplyActiveColorSpace: 1
+  m_ApplyActiveColorSpace: 0
   m_AllowRoll: 1
   m_FreeformStretching: 0
   m_RotateWithStretchDirection: 1

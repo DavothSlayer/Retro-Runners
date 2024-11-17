@@ -6,8 +6,8 @@ public class Tweener : MonoBehaviour
 {
     public void ButtonPressBounce(GameObject gameObject)
     {
-        LeanTween.scale(gameObject, new(1.1f, 1.1f, 1f), .1f).setEaseInBounce();
-        LeanTween.scale(gameObject, Vector3.one, .1f).setDelay(.1f);
+        LeanTween.scale(gameObject, new(1.1f, 1.1f, 1f), .1f).setIgnoreTimeScale(true).setEaseInBounce();
+        LeanTween.scale(gameObject, Vector3.one, .1f).setDelay(.1f).setIgnoreTimeScale(true);
     }
 
     public void BounceContinous(GameObject gameObject)
@@ -66,11 +66,11 @@ public class Tweener : MonoBehaviour
     public void FadeInCanvasGroup(CanvasGroup canvasGroup)
     {
         canvasGroup.gameObject.SetActive(true);
-        LeanTween.alphaCanvas(canvasGroup, 1f, .15f);
+        LeanTween.alphaCanvas(canvasGroup, 1f, .15f).setIgnoreTimeScale(true);
     }
 
     public void FadeOutCanvasGroup(CanvasGroup canvasGroup)
     {
-        LeanTween.alphaCanvas(canvasGroup, 0f, .25f).setOnComplete(() => canvasGroup.gameObject.SetActive(false));
+        LeanTween.alphaCanvas(canvasGroup, 0f, .25f).setIgnoreTimeScale(true).setOnComplete(() => canvasGroup.gameObject.SetActive(false));
     }
 }

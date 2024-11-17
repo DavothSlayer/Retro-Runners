@@ -22,6 +22,8 @@ namespace RetroCode
         public Vector3 CameraPositionInMenu;
         public Quaternion CameraRotationInMenu;
         public float InMenuFOV;
+        public Vector3 CameraPositionInGame;
+        public Quaternion CameraRotationInGame;
         [Space]
         public Vector3 rearviewOffset;
         [Space]

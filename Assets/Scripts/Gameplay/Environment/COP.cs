@@ -13,6 +13,10 @@ namespace RetroCode
         public SpawnManager spawnManager;
         public GameManager gameManager;
 
+        [Header("Wheels")]
+        public Transform[] wheelSets;
+        public float wheelDiameter;
+
         [Header("Data")]
         public int health;
         [SerializeField]
@@ -82,6 +86,11 @@ namespace RetroCode
         private void COPMath()
         {
             if (playerT == null) { return; }
+
+            foreach (Transform wheels in wheelSets)
+            {
+                wheels.Rotate(Vector3.right, (rigidBody.linearVelocity.magnitude * Time.deltaTime / wheelDiameter * 3.14f) * 360f, Space.Self);
+            }
 
             AutoMobile auto = gameManager.playerCar;
             AutoData data = auto.data;

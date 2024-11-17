@@ -63,26 +63,20 @@ public class InputManager : MonoBehaviour
                     xTouch = -1f;
 
                 if (touchStartPosition.x > Screen.currentResolution.width * 0.33f && 
-                    touchStartPosition.x < Screen.currentResolution.width * 0.66f && 
-                    touchStartPosition.y > Screen.currentResolution.height * 0.5f)
+                    touchStartPosition.x < Screen.currentResolution.width * 0.66f)
+                {
                     if (theTouch.tapCount >= 2)
                         UpperDoubleTapped?.Invoke();
+                }
 
-                if (touchStartPosition.x > Screen.currentResolution.width * 0.33f &&
-                    touchStartPosition.x < Screen.currentResolution.width * 0.66f &&
-                    touchStartPosition.y < Screen.currentResolution.height * 0.5f)
-                    if (theTouch.tapCount >= 2)
-                        LowerDoubleTapped?.Invoke();
-
-
-                    break;
+            break;
 
             case TouchPhase.Ended:
             case TouchPhase.Canceled:
 
                 xTouch = 0f;
 
-                break;
+            break;
         }
     }
     #endregion Mobile Input

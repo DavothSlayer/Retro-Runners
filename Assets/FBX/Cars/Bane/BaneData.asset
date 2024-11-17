@@ -140,6 +140,8 @@ MonoBehaviour:
   CameraPositionInMenu: {x: 2.61, y: 1.1, z: 6.78}
   CameraRotationInMenu: {x: 0.08641025, y: -0.9876721, z: -0.011376121, w: 0.13002951}
   InMenuFOV: 55
+  CameraPositionInGame: {x: 0, y: 3.5, z: -9}
+  CameraRotationInGame: {x: 0.043619387, y: 0, z: 0, w: 0.99904823}
   rearviewOffset: {x: 0, y: -0.75, z: 7.58}
   scrapeRayRange: 0.8
   LivePrefab: {fileID: 2450077582508049811, guid: 4cb412852a380eb41b8eea3eae897b83,
