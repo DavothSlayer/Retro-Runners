@@ -28,42 +28,16 @@ namespace RetroCode
         public Slider healthBarSlider;
         public Slider powerBarSlider;
         [Space]
-        public List<MarkerPoint> markerPoints = new List<MarkerPoint>();
-        [Space]
-        public List<EffectBarItem> effectBarItems = new List<EffectBarItem>();
-        [Space]
         public AnimationCurve markerUIScaleCurve;
         public AnimationCurve markerUIAlphaCurve;
         [Space]
         public Sprite[] pickUpIcons;
 
         [Header("Game Over Screen")]
-        public TextMeshProUGUI earnings;
-        public TextMeshProUGUI finalScore;
-        public TextMeshProUGUI finalNMH;
-        public TextMeshProUGUI COPKillCount;
-    }
-
-    [Serializable]
-    public struct MarkerPoint
-    {
-        public GameObject markerObject;
-        public RectTransform markerRect;
-        public Image icon;
-        public TextMeshProUGUI distance;
-    }
-
-    [Serializable]
-    public struct EffectBarItem
-    {
-        public EffectBarItemType itemType;
-        public Image timerFill;
-    }
-
-    public enum EffectBarItemType
-    {
-        Boost,
-        Ability,
-        Deez,
+        public TextMeshProUGUI gameOverText;
+        public TextMeshProUGUI earningsText;
+        public TextMeshProUGUI finalScoreText;
+        public TextMeshProUGUI finalNMHText;
+        public TextMeshProUGUI COPKillCountText;
     }
 }

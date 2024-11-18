@@ -80,6 +80,7 @@ namespace RetroCode
 
         #region Inspector Events
         [Space]
+        public UnityEvent GameOverEvent;
         public UnityEvent ScoreAdded;
         public UnityEvent ScoreMultiplierDelta;
         public UnityEvent NearMissed;
@@ -128,6 +129,9 @@ namespace RetroCode
                 }
             }
         }
+
+        public delegate void DestroyedCOPDelegate();
+        public event DestroyedCOPDelegate DestroyedCOPEvent;
 
         public Dictionary<string, float> activeScoreMultipliers = new Dictionary<string, float>();
         private float gameScoreMultiplier
@@ -297,7 +301,7 @@ namespace RetroCode
 
             // DOUBLE THE REWARD, DISPLAY IT //
             currentRunReward *= 2;
-            hud.earnings.text = $"${currentRunReward.ToString("n0")}  EARNED";
+            hud.earningsText.text = $"${currentRunReward.ToString("n0")}  EARNED";
 
             gamingServicesManager.SaveCloudData(false);
         }
@@ -603,8 +607,6 @@ namespace RetroCode
         // HEAT LEVEL LOGIC
 
         // DESTROYED COP EVENT //
-        public delegate void DestroyedCOPDelegate();
-        public event DestroyedCOPDelegate DestroyedCOPEvent;
         public void DestroyedCOP()
         {
             currentRunCOPsDestroyed++;
@@ -646,11 +648,13 @@ namespace RetroCode
             cloudDollars += currentRunReward;
             gamingServicesManager.cloudData.RetroDollars = cloudDollars;
 
+            GameOverEvent?.Invoke();
+
             // DISPLAY EARNINGS AND THE SCORE //
-            hud.earnings.text = $"R$ {currentRunReward.ToString("n0")} EARNED";
-            hud.finalScore.text = $"SCORE {currentRunScore.ToString("n0")}";
-            hud.finalNMH.text = $"HIGHEST NEAR MISS COMBO {currentRunNMH}X";
-            hud.COPKillCount.text = $"{currentRunCOPsDestroyed} COPs Destroyed!";
+            hud.earningsText.text = $"R$ {currentRunReward.ToString(EXMET.NumForThou)} EARNED";
+            hud.finalScoreText.text = $"SCORE {currentRunScore.ToString(EXMET.NumForThou)}";
+            hud.finalNMHText.text = $"HIGHEST NEAR MISS COMBO {currentRunNMH}X";
+            hud.COPKillCountText.text = $"{currentRunCOPsDestroyed} COPs Destroyed!";
 
             UpdateGameScreen();
             gamingServicesManager.SaveCloudData(false);

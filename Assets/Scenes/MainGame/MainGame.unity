@@ -31005,7 +31005,7 @@ GameObject:
   - component: {fileID: 644261331}
   - component: {fileID: 644261330}
   m_Layer: 5
-  m_Name: GameOverText!
+  m_Name: GameOverText
   m_TagString: Untagged
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
@@ -53066,6 +53066,7 @@ GameObject:
   serializedVersion: 6
   m_Component:
   - component: {fileID: 863176063}
+  - component: {fileID: 863176064}
   m_Layer: 5
   m_Name: --GAME OVER SCREEN--
   m_TagString: Untagged
@@ -53088,10 +53089,10 @@ RectTransform:
   - {fileID: 1998642719}
   - {fileID: 273027806}
   - {fileID: 644261329}
+  - {fileID: 313746616}
   - {fileID: 1139530813}
   - {fileID: 1802822670}
   - {fileID: 1673568399}
-  - {fileID: 313746616}
   - {fileID: 1855300342}
   - {fileID: 465309632}
   - {fileID: 203709453}
@@ -53104,6 +53105,18 @@ RectTransform:
   m_AnchoredPosition: {x: 0, y: 0}
   m_SizeDelta: {x: 0, y: 0}
   m_Pivot: {x: 0.5, y: 0.5}
+--- !u!225 &863176064
+CanvasGroup:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 863176062}
+  m_Enabled: 1
+  m_Alpha: 1
+  m_Interactable: 0
+  m_BlocksRaycasts: 1
+  m_IgnoreParentGroups: 0
 --- !u!1001 &864437541
 PrefabInstance:
   m_ObjectHideFlags: 0
@@ -59802,7 +59815,7 @@ RectTransform:
   m_AnchorMin: {x: 0, y: 0}
   m_AnchorMax: {x: 1, y: 1}
   m_AnchoredPosition: {x: 0, y: 0}
-  m_SizeDelta: {x: 0, y: 0}
+  m_SizeDelta: {x: -50, y: -50}
   m_Pivot: {x: 0.5, y: 0.5}
 --- !u!114 &990390789
 MonoBehaviour:
@@ -59863,7 +59876,7 @@ MonoBehaviour:
   m_VerticalAlignment: 512
   m_textAlignment: 65535
   m_characterSpacing: 0
-  m_wordSpacing: 0
+  m_wordSpacing: -30
   m_lineSpacing: 0
   m_lineSpacingMax: 0
   m_paragraphSpacing: 0
@@ -88331,6 +88344,33 @@ MonoBehaviour:
   tokenPickupSFX: {fileID: 8300000, guid: c0a744855ad28bc4cabcec81eb93ea67, type: 3}
   heatLevelSFX: {fileID: 8300000, guid: 9009cbdc47427da419a6160a47f97b54, type: 3}
   abilityReadyClip: {fileID: 8300000, guid: 0fc123c69adbe9a4c9575fd6f101b609, type: 3}
+  GameOverEvent:
+    m_PersistentCalls:
+      m_Calls:
+      - m_Target: {fileID: 1178417935}
+        m_TargetAssemblyTypeName: Tweener, Assembly-CSharp
+        m_MethodName: FadeInCanvasGroup
+        m_Mode: 2
+        m_Arguments:
+          m_ObjectArgument: {fileID: 863176064}
+          m_ObjectArgumentAssemblyTypeName: UnityEngine.CanvasGroup, UnityEngine
+          m_IntArgument: 0
+          m_FloatArgument: 0
+          m_StringArgument: 
+          m_BoolArgument: 0
+        m_CallState: 2
+      - m_Target: {fileID: 1178417935}
+        m_TargetAssemblyTypeName: Tweener, Assembly-CSharp
+        m_MethodName: FadeOutCanvasGroup
+        m_Mode: 2
+        m_Arguments:
+          m_ObjectArgument: {fileID: 1645202650}
+          m_ObjectArgumentAssemblyTypeName: UnityEngine.CanvasGroup, UnityEngine
+          m_IntArgument: 0
+          m_FloatArgument: 0
+          m_StringArgument: 
+          m_BoolArgument: 0
+        m_CallState: 2
   ScoreAdded:
     m_PersistentCalls:
       m_Calls:
@@ -88767,38 +88807,6 @@ MonoBehaviour:
   speedoMeterFill: {fileID: 244541647}
   healthBarSlider: {fileID: 1000351561}
   powerBarSlider: {fileID: 830188529}
-  markerPoints:
-  - markerObject: {fileID: 0}
-    markerRect: {fileID: 0}
-    icon: {fileID: 0}
-    distance: {fileID: 0}
-  - markerObject: {fileID: 0}
-    markerRect: {fileID: 0}
-    icon: {fileID: 0}
-    distance: {fileID: 0}
-  - markerObject: {fileID: 0}
-    markerRect: {fileID: 0}
-    icon: {fileID: 0}
-    distance: {fileID: 0}
-  - markerObject: {fileID: 0}
-    markerRect: {fileID: 0}
-    icon: {fileID: 0}
-    distance: {fileID: 0}
-  - markerObject: {fileID: 0}
-    markerRect: {fileID: 0}
-    icon: {fileID: 0}
-    distance: {fileID: 0}
-  - markerObject: {fileID: 0}
-    markerRect: {fileID: 0}
-    icon: {fileID: 0}
-    distance: {fileID: 0}
-  effectBarItems:
-  - itemType: 0
-    timerFill: {fileID: 0}
-  - itemType: 1
-    timerFill: {fileID: 0}
-  - itemType: 2
-    timerFill: {fileID: 0}
   markerUIScaleCurve:
     serializedVersion: 2
     m_Curve:
@@ -88896,10 +88904,11 @@ MonoBehaviour:
   - {fileID: 21300000, guid: b8049f7a772c30d428fa96cb2743020b, type: 3}
   - {fileID: 21300000, guid: ec400d2e5962eba40af1b9e97f899298, type: 3}
   - {fileID: 21300000, guid: 3f78c21adcade2c438efa440e19d8c8b, type: 3}
-  earnings: {fileID: 313746617}
-  finalScore: {fileID: 1139530814}
-  finalNMH: {fileID: 1802822671}
-  COPKillCount: {fileID: 1673568400}
+  gameOverText: {fileID: 644261330}
+  earningsText: {fileID: 313746617}
+  finalScoreText: {fileID: 1139530814}
+  finalNMHText: {fileID: 1802822671}
+  COPKillCountText: {fileID: 1673568400}
 --- !u!114 &1178417933
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -89678,8 +89687,8 @@ RectTransform:
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
   m_AnchorMin: {x: 0, y: 0}
   m_AnchorMax: {x: 0, y: 0}
-  m_AnchoredPosition: {x: -1000, y: 75}
-  m_SizeDelta: {x: 575, y: 120}
+  m_AnchoredPosition: {x: 54.22, y: 75}
+  m_SizeDelta: {x: 445, y: 120}
   m_Pivot: {x: 0, y: 0}
 --- !u!114 &1246614038
 MonoBehaviour:
@@ -89716,7 +89725,7 @@ MonoBehaviour:
   m_OnCullStateChanged:
     m_PersistentCalls:
       m_Calls: []
-  m_Sprite: {fileID: 21300000, guid: 9a3c0fa265a664949a4a4242865e6a29, type: 3}
+  m_Sprite: {fileID: 21300000, guid: 7b858c74a93152d48ad1271bd9722c1b, type: 3}
   m_Type: 1
   m_PreserveAspect: 0
   m_FillCenter: 1
@@ -89725,7 +89734,7 @@ MonoBehaviour:
   m_FillClockwise: 1
   m_FillOrigin: 0
   m_UseSpriteMesh: 0
-  m_PixelsPerUnitMultiplier: 2
+  m_PixelsPerUnitMultiplier: 1
 --- !u!222 &1246614040
 CanvasRenderer:
   m_ObjectHideFlags: 0
