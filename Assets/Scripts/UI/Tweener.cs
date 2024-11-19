@@ -4,6 +4,9 @@ using UnityEngine;
 
 public class Tweener : MonoBehaviour
 {
+    [SerializeField]
+    private RectTransform canvasRect;
+
     public void ButtonPressBounce(GameObject gameObject)
     {
         LeanTween.scale(gameObject, new(1.1f, 1.1f, 1f), .1f).setIgnoreTimeScale(true).setEaseInBounce();
@@ -115,5 +118,36 @@ public class Tweener : MonoBehaviour
     public void FadeOutNearMissTimer(CanvasGroup canvasGroup)
     {
         LeanTween.alphaCanvas(canvasGroup, 0f, .15f).setIgnoreTimeScale(true);
+    }
+
+    public void GameOverTextAnimation(TextMeshProUGUI text)
+    {
+        LeanTween.value(gameObject, text.alpha, 1f, 1f).setDelay(2f)
+            .setOnUpdate((float value) =>
+            {
+                Color color = text.color;
+
+                color.a = value;
+
+                text.color = color;
+            });
+        
+        MoveToScreenPercentage(text.rectTransform, 0.5f, 0.75f, 1f, 4f);
+    }
+
+    public void PlayAgainButtonAnimation(CanvasGroup canvasGroup)
+    {
+        LeanTween.alphaCanvas(canvasGroup, 1f, 1f).setDelay(5f).setIgnoreTimeScale(true);
+    }
+
+    private void MoveToScreenPercentage(RectTransform element, float xPercent, float yPercent, float duration, float delay)
+    {
+        // Calculate target position in canvas local space
+        float targetX = (xPercent - 0.5f) * canvasRect.rect.width; // Adjust for center origin
+        float targetY = (yPercent - 0.5f) * canvasRect.rect.height; // Adjust for center origin
+        Vector2 targetPosition = new Vector2(targetX, targetY);
+
+        // Use LeanTween to move to the calculated position
+        LeanTween.move(element, targetPosition, duration).setDelay(delay).setEase(LeanTweenType.easeInOutQuad);
     }
 }

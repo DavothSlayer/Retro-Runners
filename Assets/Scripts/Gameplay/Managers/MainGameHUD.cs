@@ -39,5 +39,6 @@ namespace RetroCode
         public TextMeshProUGUI finalScoreText;
         public TextMeshProUGUI finalNMHText;
         public TextMeshProUGUI COPKillCountText;
+        public CanvasGroup playAgainButtonCanvasGroup;
     }
 }

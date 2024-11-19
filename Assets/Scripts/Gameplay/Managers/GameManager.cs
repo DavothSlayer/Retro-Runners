@@ -273,13 +273,19 @@ namespace RetroCode
             //canvasAnimator.SetBool("Game Over Reward Ads", Random.Range(0f, 1f) >= 0.5f);
         }
 
+        private float timeScale = 1f;
         public void PauseButton()
         {
             if (gameState != GameState.InGame) return;
 
             gamePaused = !gamePaused;
 
-            Time.timeScale = gamePaused ? 0f : 1f;           
+            timeScale = gamePaused ? 0f : 1f;
+
+            LeanTween.value(Time.timeScale, timeScale, 0.6f).setIgnoreTimeScale(true).setOnUpdate((float value) =>
+            {
+                Time.timeScale = value;
+            });
         }
 
         public void ReturnToMainMenu()
@@ -780,10 +786,10 @@ namespace RetroCode
             cloudHighScore = gamingServicesManager.cloudData.HighScore;
             cloudCDR = gamingServicesManager.cloudData.MostCOPsDestroyed;
 
-            hud.highScoreText.text = $"HIGH  SCORE  {cloudHighScore.ToString("n0")}";
-            hud.highestMissComboText.text = $"NEAR  MISS  COMBO  RECORD  {cloudNMH}X!";
-            hud.COPKillCountRecord.text = $"COPS  DESTROYED  RECORD  {cloudCDR}!";
-            hud.playerMoneyText.text = $"${gamingServicesManager.cloudData.RetroDollars.ToString("n0")}";
+            hud.highScoreText.text = $"HIGH SCORE {cloudHighScore.ToString(EXMET.NumForThou)}";
+            hud.highestMissComboText.text = $"NEAR MISS COMBO RECORD {cloudNMH}X!";
+            hud.COPKillCountRecord.text = $"COPS DESTROYED RECORD {cloudCDR}!";
+            hud.playerMoneyText.text = $"R${gamingServicesManager.cloudData.RetroDollars.ToString(EXMET.NumForThou)}";
         }
 
         public void UpdateGameScreen()

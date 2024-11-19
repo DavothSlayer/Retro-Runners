@@ -145,6 +145,11 @@ namespace V3CTOR
             entry.callback.RemoveAllListeners();
             entry.callback.AddListener((_) => action.Invoke());
         }
+
+        public static void SmoothNumberText(int startNum, int targetNum)
+        {
+            LeanTween.value(startNum, targetNum, 1f);
+        }
     }
 
     public interface Damageable
