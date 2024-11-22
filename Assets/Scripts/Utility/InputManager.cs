@@ -62,14 +62,23 @@ public class InputManager : MonoBehaviour
                 if (touchStartPosition.x < Screen.currentResolution.width * 0.33f)
                     xTouch = -1f;
 
-                if (touchStartPosition.x > Screen.currentResolution.width * 0.33f && 
-                    touchStartPosition.x < Screen.currentResolution.width * 0.66f)
+                if (touchStartPosition.x > Screen.currentResolution.width * 0.33f 
+                    && touchStartPosition.x < Screen.currentResolution.width * 0.66f
+                    && touchStartPosition.y > Screen.currentResolution.height * 0.5f)
                 {
                     if (theTouch.tapCount >= 2)
                         UpperDoubleTapped?.Invoke();
                 }
 
-            break;
+                if (touchStartPosition.x > Screen.currentResolution.width * 0.33f 
+                    && touchStartPosition.x < Screen.currentResolution.width * 0.66f
+                    && touchStartPosition.y < Screen.currentResolution.height * 0.5f)
+                {
+                    if (theTouch.tapCount >= 2)
+                        LowerDoubleTapped?.Invoke();
+                }
+
+                break;
 
             case TouchPhase.Ended:
             case TouchPhase.Canceled:

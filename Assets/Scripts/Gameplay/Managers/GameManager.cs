@@ -154,6 +154,7 @@ namespace RetroCode
         {
             heatLevelChanged += HeatLevelChangeListener;
             InputManager.UpperDoubleTapped += AutoAbility;
+            InputManager.LowerDoubleTapped += ToggleRearview;
         }
 
         private void OnDestroy()
@@ -162,6 +163,7 @@ namespace RetroCode
 
             heatLevelChanged -= HeatLevelChangeListener;
             InputManager.UpperDoubleTapped -= AutoAbility;
+            InputManager.LowerDoubleTapped -= ToggleRearview;
             playerCar.Damaged -= HandleAutoDamage;            
         }
 
@@ -197,7 +199,7 @@ namespace RetroCode
 
             hud.nearMissComboTimer.fillAmount = 1f - nearMissTimer / nearMissMaxTime;
             int score = Mathf.RoundToInt(currentRunScore);
-            hud.scoreText.text = score.ToString(EXMET.NumForThou);
+            hud.scoreText.text = score.ToString("N", EXMET.NumForThou);
 
             //canvasAnimator.SetBool("ScoreXd", gameScoreMultiplier != 1f && gameState == GameState.InGame);
             //canvasAnimator.SetBool("ShowHeatLevel", ActiveHeatLevel > 0 && gameState == GameState.InGame);
@@ -258,6 +260,12 @@ namespace RetroCode
 
         #region Buttons
         private bool rearview = false;
+        public void ToggleRearview()
+        {
+            if (gameState != GameState.InGame || gamePaused) return;
+
+            rearview = !rearview;
+        }
 
         public void HandlePlay()
         {
@@ -345,6 +353,9 @@ namespace RetroCode
         [BurstCompile]
         private void ResetGame()
         {
+            Shader.SetGlobalFloat("_BendX", 0f);
+            Shader.SetGlobalFloat("_BendY", -0.02f);
+
             // RESET AUTO //
             ReplaceAuto();
             playerAutoStatic = playerCar;
@@ -505,7 +516,7 @@ namespace RetroCode
             ScoreAdded?.Invoke();
 
             currentRunScore += amount;
-            hud.scoreEventText.text = $"+ {amount.ToString(EXMET.NumForThou)}";
+            hud.scoreEventText.text = $"+ {amount.ToString("N", EXMET.NumForThou)}";
         }
         // SCORE //
 
@@ -648,6 +659,13 @@ namespace RetroCode
         #region Game Over
         public void GameOver()
         {
+            rearview = false;
+            
+            LeanTween.value(Time.timeScale, 0f, 1f).setDelay(3f).setIgnoreTimeScale(true).setOnUpdate((float value) =>
+            {
+                Time.timeScale = value;
+            });
+
             gameState = GameState.GameOver;
             
             int cloudDollars = gamingServicesManager.cloudData.RetroDollars;
@@ -657,8 +675,8 @@ namespace RetroCode
             GameOverEvent?.Invoke();
 
             // DISPLAY EARNINGS AND THE SCORE //
-            hud.earningsText.text = $"R$ {currentRunReward.ToString(EXMET.NumForThou)} EARNED";
-            hud.finalScoreText.text = $"SCORE {currentRunScore.ToString(EXMET.NumForThou)}";
+            hud.earningsText.text = $"R$ {currentRunReward.ToString("N", EXMET.NumForThou)} EARNED";
+            hud.finalScoreText.text = $"SCORE {currentRunScore.ToString("N", EXMET.NumForThou)}";
             hud.finalNMHText.text = $"HIGHEST NEAR MISS COMBO {currentRunNMH}X";
             hud.COPKillCountText.text = $"{currentRunCOPsDestroyed} COPs Destroyed!";
 
@@ -698,12 +716,13 @@ namespace RetroCode
                     break;
 
                 case GameState.InGame:
-                    camPosTarget = Vector3.Slerp(camPosTarget, playerCar.data.CameraPositionInGame, 3.5f * Time.deltaTime);
-                    camRotTarget = Quaternion.Slerp(camRotTarget, playerCar.data.CameraRotationInGame, 6f * Time.deltaTime);
+                    camPosTarget = Vector3.Slerp(camPosTarget, playerCar.data.CameraPositionInGame + (rearview ? playerCar.data.rearviewOffset : Vector3.zero), 3.5f * Time.deltaTime);
+                    camRotTarget = Quaternion.Slerp(camRotTarget, playerCar.data.CameraRotationInGame * (rearview ? Quaternion.Euler(0f, 180f, 0f) : Quaternion.identity), 6f * Time.deltaTime);
                     
                     Quaternion carRot = Quaternion.Euler(0f, 5f * input.xTouchLerp, 6f * input.xTouchLerp);
                     Vector3 cameraOffset = new(1.5f * input.xTouchLerp, 0f, 0f);
-                    Vector3 lowCamOffset = SettingsManager.Instance.settings.LowCam ? Vector3.zero : new(0f, 1f, 0f);
+                    Vector3 lowCamOffset = SettingsManager.Instance.settings.LowCam ? 
+                        Vector3.zero : rearview ? Vector3.zero : new(0f, 1f, 0f);
 
                     camHolder.position = playerPos + camPosTarget + lowCamOffset + cameraOffset;
                     camHolder.rotation = playerRot * camRotTarget * carRot;
@@ -786,10 +805,10 @@ namespace RetroCode
             cloudHighScore = gamingServicesManager.cloudData.HighScore;
             cloudCDR = gamingServicesManager.cloudData.MostCOPsDestroyed;
 
-            hud.highScoreText.text = $"HIGH SCORE {cloudHighScore.ToString(EXMET.NumForThou)}";
+            hud.highScoreText.text = $"HIGH SCORE {cloudHighScore.ToString("N", EXMET.NumForThou)}";
             hud.highestMissComboText.text = $"NEAR MISS COMBO RECORD {cloudNMH}X!";
             hud.COPKillCountRecord.text = $"COPS DESTROYED RECORD {cloudCDR}!";
-            hud.playerMoneyText.text = $"R${gamingServicesManager.cloudData.RetroDollars.ToString(EXMET.NumForThou)}";
+            hud.playerMoneyText.text = $"R$ {gamingServicesManager.cloudData.RetroDollars.ToString("N", EXMET.NumForThou)}";
         }
 
         public void UpdateGameScreen()

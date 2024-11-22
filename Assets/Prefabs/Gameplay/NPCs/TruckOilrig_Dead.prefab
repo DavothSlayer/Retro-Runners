@@ -287,8 +287,8 @@ ParticleSystem:
     startSize:
       serializedVersion: 2
       minMaxState: 3
-      scalar: 16
-      minScalar: 10
+      scalar: 25
+      minScalar: 20
       maxCurve:
         serializedVersion: 2
         m_Curve:
@@ -980,7 +980,7 @@ ParticleSystem:
       countCurve:
         serializedVersion: 2
         minMaxState: 0
-        scalar: 100
+        scalar: 15
         minScalar: 30
         maxCurve:
           serializedVersion: 2
@@ -5025,8 +5025,8 @@ ParticleSystem:
     startLifetime:
       serializedVersion: 2
       minMaxState: 3
-      scalar: 1.5
-      minScalar: 1
+      scalar: 7
+      minScalar: 4
       maxCurve:
         serializedVersion: 2
         m_Curve:
@@ -5078,8 +5078,8 @@ ParticleSystem:
     startSpeed:
       serializedVersion: 2
       minMaxState: 3
-      scalar: 3
-      minScalar: 2
+      scalar: 2
+      minScalar: 1
       maxCurve:
         serializedVersion: 2
         m_Curve:
@@ -5195,9 +5195,9 @@ ParticleSystem:
         m_NumAlphaKeys: 2
     startSize:
       serializedVersion: 2
-      minMaxState: 0
-      scalar: 1
-      minScalar: 1
+      minMaxState: 3
+      scalar: 10
+      minScalar: 5
       maxCurve:
         serializedVersion: 2
         m_Curve:
@@ -5248,7 +5248,7 @@ ParticleSystem:
         m_RotationOrder: 4
     startSizeY:
       serializedVersion: 2
-      minMaxState: 0
+      minMaxState: 3
       scalar: 1
       minScalar: 1
       maxCurve:
@@ -5301,7 +5301,7 @@ ParticleSystem:
         m_RotationOrder: 4
     startSizeZ:
       serializedVersion: 2
-      minMaxState: 0
+      minMaxState: 3
       scalar: 1
       minScalar: 1
       maxCurve:
@@ -5780,7 +5780,7 @@ ParticleSystem:
     rateOverTime:
       serializedVersion: 2
       minMaxState: 0
-      scalar: 250
+      scalar: 15
       minScalar: 10
       maxCurve:
         serializedVersion: 2
@@ -6245,7 +6245,7 @@ ParticleSystem:
         ctime7: 0
         atime0: 0
         atime1: 2120
-        atime2: 28913
+        atime2: 34734
         atime3: 65535
         atime4: 0
         atime5: 0
@@ -10182,8 +10182,8 @@ ParticleSystem:
     startSize:
       serializedVersion: 2
       minMaxState: 3
-      scalar: 3
-      minScalar: 2
+      scalar: 7
+      minScalar: 5
       maxCurve:
         serializedVersion: 2
         m_Curve:
@@ -10875,7 +10875,7 @@ ParticleSystem:
       countCurve:
         serializedVersion: 2
         minMaxState: 0
-        scalar: 150
+        scalar: 15
         minScalar: 30
         maxCurve:
           serializedVersion: 2
@@ -13747,7 +13747,7 @@ ParticleSystem:
       serializedVersion: 2
       m_Bits: 385
     maxCollisionShapes: 256
-    quality: 1
+    quality: 0
     voxelSize: 1
     collisionMessages: 0
     collidesWithDynamic: 1
@@ -15040,8 +15040,8 @@ ParticleSystem:
     startLifetime:
       serializedVersion: 2
       minMaxState: 3
-      scalar: 1
-      minScalar: 0.5
+      scalar: 7
+      minScalar: 5
       maxCurve:
         serializedVersion: 2
         m_Curve:
@@ -15210,9 +15210,9 @@ ParticleSystem:
         m_NumAlphaKeys: 2
     startSize:
       serializedVersion: 2
-      minMaxState: 0
-      scalar: 1
-      minScalar: 1
+      minMaxState: 3
+      scalar: 7
+      minScalar: 5
       maxCurve:
         serializedVersion: 2
         m_Curve:
@@ -15263,7 +15263,7 @@ ParticleSystem:
         m_RotationOrder: 4
     startSizeY:
       serializedVersion: 2
-      minMaxState: 0
+      minMaxState: 3
       scalar: 1
       minScalar: 1
       maxCurve:
@@ -15316,7 +15316,7 @@ ParticleSystem:
         m_RotationOrder: 4
     startSizeZ:
       serializedVersion: 2
-      minMaxState: 0
+      minMaxState: 3
       scalar: 1
       minScalar: 1
       maxCurve:
@@ -15795,7 +15795,7 @@ ParticleSystem:
     rateOverTime:
       serializedVersion: 2
       minMaxState: 0
-      scalar: 150
+      scalar: 5
       minScalar: 10
       maxCurve:
         serializedVersion: 2
@@ -20747,7 +20747,7 @@ ParticleSystem:
       countCurve:
         serializedVersion: 2
         minMaxState: 0
-        scalar: 150
+        scalar: 50
         minScalar: 30
         maxCurve:
           serializedVersion: 2
@@ -30003,8 +30003,8 @@ ParticleSystem:
     startSize:
       serializedVersion: 2
       minMaxState: 3
-      scalar: 10
-      minScalar: 7
+      scalar: 15
+      minScalar: 10
       maxCurve:
         serializedVersion: 2
         m_Curve:
@@ -30467,7 +30467,7 @@ ParticleSystem:
     sphericalDirectionAmount: 0
     randomPositionAmount: 0
     radius:
-      value: 10
+      value: 15
       mode: 0
       spread: 0
       speed:
@@ -30696,7 +30696,7 @@ ParticleSystem:
       countCurve:
         serializedVersion: 2
         minMaxState: 0
-        scalar: 100
+        scalar: 30
         minScalar: 30
         maxCurve:
           serializedVersion: 2

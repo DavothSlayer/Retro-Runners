@@ -10,10 +10,6 @@ namespace RetroCode
         [SerializeField]
         private SpawnManager spawnManager;
 
-        [Header("Wheels")]
-        public Transform[] wheelSets;       
-        public float wheelDiameter;
-
         [Header("Core")]
         [SerializeField]
         private int health;
@@ -36,11 +32,6 @@ namespace RetroCode
         public void Update()
         {
             transform.position += transform.forward * 15f * Time.deltaTime;
-
-            foreach (Transform wheels in wheelSets)
-            {
-                wheels.Rotate(Vector3.right, (15f * Time.deltaTime / wheelDiameter * 3.14f) * 360f, Space.Self);
-            }
         }
 
         [BurstCompile]

@@ -122,7 +122,7 @@ public class Tweener : MonoBehaviour
 
     public void GameOverTextAnimation(TextMeshProUGUI text)
     {
-        LeanTween.value(gameObject, text.alpha, 1f, 1f).setDelay(2f)
+        LeanTween.value(gameObject, text.alpha, 1f, 1f).setIgnoreTimeScale(true).setDelay(2f)
             .setOnUpdate((float value) =>
             {
                 Color color = text.color;
@@ -135,9 +135,74 @@ public class Tweener : MonoBehaviour
         MoveToScreenPercentage(text.rectTransform, 0.5f, 0.75f, 1f, 4f);
     }
 
+    public void ScoreFinalTextAnimation(TextMeshProUGUI text)
+    {
+        LeanTween.value(gameObject, text.alpha, 1f, 1f).setIgnoreTimeScale(true).setDelay(4f)
+            .setOnUpdate((float value) =>
+            {
+                Color color = text.color;
+
+                color.a = value;
+
+                text.color = color;
+            });
+
+        MoveToScreenPercentage(text.rectTransform, 0.5f, 0.625f, 1f, 5f);
+    }
+
+    public void NearMissRecordTextAnimation(TextMeshProUGUI text)
+    {
+        LeanTween.value(gameObject, text.alpha, 1f, 1f).setIgnoreTimeScale(true).setDelay(5f)
+            .setOnUpdate((float value) =>
+            {
+                Color color = text.color;
+
+                color.a = value;
+
+                text.color = color;
+            });
+
+        MoveToScreenPercentage(text.rectTransform, 0.5f, 0.495f, 1f, 6f);
+    }
+
+    public void COPsDestroyedTextAnimation(TextMeshProUGUI text)
+    {
+        LeanTween.value(gameObject, text.alpha, 1f, 1f).setIgnoreTimeScale(true).setDelay(6f)
+            .setOnUpdate((float value) =>
+            {
+                Color color = text.color;
+
+                color.a = value;
+
+                text.color = color;
+            });
+
+        MoveToScreenPercentage(text.rectTransform, 0.5f, 0.395f, 1f, 7f);
+    }
+
+    public void EarningsTextAnimation(TextMeshProUGUI text)
+    {
+        LeanTween.value(gameObject, text.alpha, 1f, 1f).setIgnoreTimeScale(true).setDelay(7f)
+            .setOnUpdate((float value) =>
+            {
+                Color color = text.color;
+
+                color.a = value;
+
+                text.color = color;
+            });
+
+        MoveToScreenPercentage(text.rectTransform, 0.5f, 0.227f, 1f, 8f);
+    }
+
     public void PlayAgainButtonAnimation(CanvasGroup canvasGroup)
     {
-        LeanTween.alphaCanvas(canvasGroup, 1f, 1f).setDelay(5f).setIgnoreTimeScale(true);
+        LeanTween.alphaCanvas(canvasGroup, 1f, 1f).setIgnoreTimeScale(true).setDelay(5f);
+    }
+
+    public void ResetGameOverScreen()
+    {
+        // RESET THE TEXTS //
     }
 
     private void MoveToScreenPercentage(RectTransform element, float xPercent, float yPercent, float duration, float delay)
@@ -148,6 +213,6 @@ public class Tweener : MonoBehaviour
         Vector2 targetPosition = new Vector2(targetX, targetY);
 
         // Use LeanTween to move to the calculated position
-        LeanTween.move(element, targetPosition, duration).setDelay(delay).setEase(LeanTweenType.easeInOutQuad);
+        LeanTween.move(element, targetPosition, duration).setIgnoreTimeScale(true).setDelay(delay).setEase(LeanTweenType.easeInOutQuad);
     }
 }
