@@ -118,7 +118,7 @@ namespace RetroCode
         [BurstCompile]
         public void OnCollisionEnter(Collision col)
         {
-            if (health == 0) { return; }
+            //if (health == 0) { return; }
 
             Damageable damageable = col.collider.GetComponentInParent<Damageable>();
             if (damageable == null) { col.collider.GetComponent<Damageable>(); }
@@ -131,23 +131,26 @@ namespace RetroCode
 
                 gameManager.ShakeTheCam(0.4f);
 
-                HandleDamage(damageable.DamageToPlayer());
+                rb.AddForce(Mathf.Abs(-col.relativeVelocity.magnitude) * transform.forward, ForceMode.VelocityChange);
+                
                 damageable.Damage(1);
+                HandleDamage(damageable.DamageToPlayer());
 
                 //evaluation -= rb.linearVelocity.magnitude / data.autoLevelData[engineLevel].TopSpeed * 0.3f;
-                rb.AddForce(-col.relativeVelocity * 1f * massDragMltplr, ForceMode.Impulse);
             }
-            else if (Vector3.Dot(col.GetContact(0).otherCollider.transform.forward, transform.forward) <= -0.75f)
+            
+            if (Vector3.Dot(col.GetContact(0).otherCollider.transform.forward, transform.forward) <= -0.75f)
             {
                 if (Vector3.Dot(col.GetContact(0).normal, transform.forward) >= -0.8f) return;
 
                 gameManager.ShakeTheCam(0.4f);
 
-                HandleDamage(damageable.DamageToPlayer() * 2);
+                rb.AddForce(Mathf.Abs(-col.relativeVelocity.magnitude) * transform.forward, ForceMode.VelocityChange);
+
                 damageable.Damage(damageable.Health());
+                HandleDamage(damageable.DamageToPlayer() * 2);
 
                 //evaluation -= rb.linearVelocity.magnitude / data.autoLevelData[engineLevel].TopSpeed * 0.3f;
-                rb.AddForce(-col.relativeVelocity * 1f * massDragMltplr, ForceMode.Impulse);
             }
         }
 
@@ -349,11 +352,11 @@ namespace RetroCode
             rb.constraints = RigidbodyConstraints.None;
 
             Vector3 explosionTorqueVector =
-                transform.right * Random.Range(-15f, 15f) +
+                transform.right * Random.Range(-5f, 5f) +
                 transform.up * Random.Range(-5f, 5f) +
-                transform.forward * Random.Range(-25f, 25f);
+                transform.forward * Random.Range(-5f, 5f);
 
-            rb.AddForce(Vector3.up * .2f, ForceMode.VelocityChange);
+            rb.AddForce(Vector3.up, ForceMode.VelocityChange);
             rb.AddTorque(explosionTorqueVector, ForceMode.VelocityChange);
 
             deadCarModel.SetActive(true);

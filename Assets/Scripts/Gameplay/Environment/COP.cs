@@ -163,13 +163,13 @@ namespace RetroCode
 
                 damageable.Damage(damageable.Health());
 
-                rigidBody.AddForce(-col.relativeVelocity * 3f * rigidBody.mass * rigidBody.linearDamping, ForceMode.Impulse);
+                rigidBody.AddForce(-col.relativeVelocity.magnitude * transform.forward, ForceMode.VelocityChange);
             }
             else if (Vector3.Dot(col.GetContact(0).otherCollider.transform.forward, transform.forward) <= -0.75f)
             {
                 if (Vector3.Dot(col.GetContact(0).normal, transform.forward) >= -0.8f) return;
 
-                rigidBody.AddForce(-col.relativeVelocity * 3f * rigidBody.mass * rigidBody.linearDamping, ForceMode.Impulse);
+                rigidBody.AddForce(-col.relativeVelocity.magnitude * transform.forward, ForceMode.VelocityChange);
 
                 damageable.Damage(damageable.Health());
 
@@ -194,10 +194,11 @@ namespace RetroCode
                 gameManager.DestroyedCOP();
 
             rigidBody.constraints = RigidbodyConstraints.None;
+            
             Vector3 explosionTorqueVector =
                 transform.right * Random.Range(-5f, 5f) +
                 transform.up * Random.Range(-5f, 5f) +
-                transform.forward * Random.Range(-10f, 10f);
+                transform.forward * Random.Range(-5f, 5f);
 
             rigidBody.AddForce(Vector3.up, ForceMode.VelocityChange);
             rigidBody.AddTorque(explosionTorqueVector, ForceMode.VelocityChange);

@@ -716,8 +716,8 @@ namespace RetroCode
                     break;
 
                 case GameState.InGame:
-                    camPosTarget = Vector3.Slerp(camPosTarget, playerCar.data.CameraPositionInGame + (rearview ? playerCar.data.rearviewOffset : Vector3.zero), 3.5f * Time.deltaTime);
-                    camRotTarget = Quaternion.Slerp(camRotTarget, playerCar.data.CameraRotationInGame * (rearview ? Quaternion.Euler(0f, 180f, 0f) : Quaternion.identity), 6f * Time.deltaTime);
+                    camPosTarget = Vector3.Slerp(camPosTarget, playerCar.data.CameraPositionInGame + (rearview ? playerCar.data.rearviewOffset : Vector3.zero), (rearview ? 7f : 3.5f) * Time.deltaTime);
+                    camRotTarget = Quaternion.Slerp(camRotTarget, playerCar.data.CameraRotationInGame * (rearview ? Quaternion.Euler(0f, 180f, 0f) : Quaternion.identity), (rearview ? 12f : 6f) * Time.deltaTime);
                     
                     Quaternion carRot = Quaternion.Euler(0f, 5f * input.xTouchLerp, 6f * input.xTouchLerp);
                     Vector3 cameraOffset = new(1.5f * input.xTouchLerp, 0f, 0f);
