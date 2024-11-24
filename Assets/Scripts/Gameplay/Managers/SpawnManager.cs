@@ -443,7 +443,7 @@ namespace RetroCode
         {
             if (gameManager.playerCar == null) return;
 
-            background.position = new Vector3(0f, 375f, gameManager.playerTransform.position.z + 2400f);
+            background.position = new(0f, 0f, gameManager.playerTransform.position.z + 800f);
 
             if (gameManager.playerTransform.position.z + tileSafeZone >= tileZSpawn && spawnRoad)
             {
