@@ -28,6 +28,7 @@ namespace RetroCode
         public Vector3 rearviewOffset;
         [Space]
         public float scrapeRayRange;
+        public float nearMissProxy;
         [Space]
         public GameObject LivePrefab;
 

@@ -6,6 +6,8 @@ using System.Threading.Tasks;
 using Unity.Burst;
 using V3CTOR;
 using UnityEngine.Events;
+using System.Runtime.CompilerServices;
+using static UnityEditor.ShaderGraph.Internal.KeywordDependentCollection;
 
 namespace RetroCode
 {
@@ -660,7 +662,7 @@ namespace RetroCode
         public void GameOver()
         {
             rearview = false;
-            
+
             LeanTween.value(Time.timeScale, 0f, 1f).setDelay(3f).setIgnoreTimeScale(true).setOnUpdate((float value) =>
             {
                 Time.timeScale = value;
@@ -736,11 +738,12 @@ namespace RetroCode
                     break;
 
                 case GameState.GameOver:
-                    camPosTarget = Vector3.Slerp(camPosTarget, gameoverCamPos, 0.85f * Time.deltaTime);
-                    camRotTarget = Quaternion.Slerp(camRotTarget, gameoverCamRot, 8f * Time.deltaTime);
+                    camHolder.RotateAround(playerTransform.position, Vector3.up, 6f * Time.unscaledDeltaTime);
 
-                    camHolder.position = playerPos + camPosTarget;
-                    camHolder.rotation = camRotTarget;
+                    Vector3 direction = (camHolder.position - playerTransform.position).normalized;
+                    camHolder.position = playerTransform.position + direction * 10f;
+
+                    camHolder.LookAt(playerPos);
 
                     cam.fieldOfView = Mathf.Lerp(cam.fieldOfView, gameoverCamFOV, Time.deltaTime);
                     break;

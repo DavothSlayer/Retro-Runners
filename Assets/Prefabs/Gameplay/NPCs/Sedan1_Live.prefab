@@ -226,6 +226,7 @@ MonoBehaviour:
   topSpeed: 0
   targetSpeed: 0
   NPCType: 0
+  nearMissProxy: 2.5
 --- !u!64 &4812710336770905372
 MeshCollider:
   m_ObjectHideFlags: 0

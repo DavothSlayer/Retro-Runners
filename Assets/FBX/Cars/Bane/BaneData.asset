@@ -144,6 +144,7 @@ MonoBehaviour:
   CameraRotationInGame: {x: 0.043619387, y: 0, z: 0, w: 0.99904823}
   rearviewOffset: {x: 0, y: -1, z: 7}
   scrapeRayRange: 0.8
+  nearMissProxy: 2.7
   LivePrefab: {fileID: 2450077582508049811, guid: 4cb412852a380eb41b8eea3eae897b83,
     type: 3}
   Ability: {fileID: 11400000, guid: 354e08d6e778e044e98ba81c4e36c9f7, type: 2}

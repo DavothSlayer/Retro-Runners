@@ -18,6 +18,8 @@ namespace RetroCode
         public float topSpeed;
         public float targetSpeed;
         public NPCType NPCType;
+        [SerializeField]
+        private float nearMissProxy;
 
         public void Damage(int dmg)
         {
@@ -48,6 +50,11 @@ namespace RetroCode
         public int DamageToPlayer()
         {
             return damageToPlayer;
+        }
+
+        public float NearMissProxy()
+        {
+            return nearMissProxy;
         }
     }
 }

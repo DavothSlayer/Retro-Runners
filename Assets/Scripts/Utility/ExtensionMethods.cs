@@ -168,6 +168,6 @@ namespace V3CTOR
 
     public interface NearMissable
     {
-        
+        public float NearMissProxy();
     }
 }

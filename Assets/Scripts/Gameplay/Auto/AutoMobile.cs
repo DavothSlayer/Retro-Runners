@@ -1,5 +1,4 @@
 using System;
-using System.Collections;
 using System.Collections.Generic;
 using System.Threading.Tasks;
 using Unity.Burst;
@@ -154,7 +153,7 @@ namespace RetroCode
             }
         }
 
-        [BurstCompile]
+        [BurstCompile]        
         public void OnTriggerEnter(Collider col)
         {
             if (GameManager.gameState != GameState.InGame) return;
@@ -181,14 +180,22 @@ namespace RetroCode
             }
         }
 
+        private Collider lastTrigger;
         private bool ValidNearMiss(Collider col)
         {
-            NearMissable missable = col.GetComponentInParent<NearMissable>();
+            NearMissable missable = col.GetComponent<NearMissable>();
 
-            // FILTER OUT GUARDRAILS AND THE ROAD & WALL COLLIDERS //
-            if (!col.GetComponent<GuardRail>() && col.gameObject.layer != 7 && col.gameObject.layer != 8 && missable != null)
+            if (missable == null) return false;
+
+            // FILTER OUT GUARDRAILS, THE ROAD & WALL COLLIDERS //
+            if (!col.GetComponent<GuardRail>() && col.gameObject.layer != 7 && col.gameObject.layer != 8)
             {
-                return true;
+                if (lastTrigger == col) return false;
+
+                lastTrigger = col;
+
+                if (transform.position.z + data.nearMissProxy > col.transform.position.z - missable.NearMissProxy()) return false;
+                else return true;
             }
 
             return false;
@@ -347,7 +354,7 @@ namespace RetroCode
 
             carModels[0].SetActive(false);
 
-            rb.mass = 2.5f;
+            rb.mass = 5f;
             rb.linearDamping = 0.25f;
             rb.constraints = RigidbodyConstraints.None;
 
