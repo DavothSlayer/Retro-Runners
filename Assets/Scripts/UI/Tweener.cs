@@ -3,7 +3,6 @@ using System.Threading.Tasks;
 using TMPro;
 using UnityEngine;
 using V3CTOR;
-using static UnityEngine.Rendering.DebugUI;
 
 namespace RetroCode
 {
@@ -132,21 +131,26 @@ namespace RetroCode
         #endregion
 
         #region Game Over Screen Animations
-        public void GameOverTextAnimation(TextMeshProUGUI text)
+        public void GameOverNormalAnimations()
         {
-            LeanTween.value(gameObject, text.alpha, 1f, 1f).setIgnoreTimeScale(true).setDelay(2f)
+            hud.gameOverNormalScreen.gameObject.SetActive(true);
+            LeanTween.alphaCanvas(hud.gameOverNormalScreen, 1f, 2f).setDelay(2f).setIgnoreTimeScale(true);
+
+            /*LeanTween.value(gameObject, text.alpha, 1f, 1f).setIgnoreTimeScale(true).setDelay(2f)
                 .setOnUpdate((float value) =>
                 {
                     Color color = text.color;
                     color.a = value;
                     text.color = color;
-                });
+                });*/
 
-            TweenToScreenPosY(text.rectTransform, 0.75f, 1f, 2f, ScoreFinalTextAnimation);
+            TweenToScreenPosY(hud.gameOverText.rectTransform, 0.75f, 1f, 4f, ScoreFinalTextAnimation);
         }
 
         private void ScoreFinalTextAnimation()
         {
+            int currentRunScoreRounded = Mathf.RoundToInt(gameManager.currentRunScore);
+
             LeanTween.value(gameObject, hud.finalScoreText.alpha, 1f, 1f).setIgnoreTimeScale(true)
                 .setOnUpdate((float value) =>
                 {
@@ -154,8 +158,7 @@ namespace RetroCode
                     color.a = value;
                     hud.finalScoreText.color = color;
 
-                    int currentRunScoreRounded = Mathf.RoundToInt(gameManager.currentRunScore);
-                    hud.finalScoreText.text = $"FINAL SCORE {EXMET.LerpTextNumber(0, currentRunScoreRounded, 2f).ToString("N", EXMET.NumForThou)}";
+                    hud.finalScoreText.text = $"FINAL SCORE {Mathf.RoundToInt(EXMET.LerpTextNumber(0f, currentRunScoreRounded, 2f)).ToString("N", EXMET.NumForThou)}";
                 });
 
             TweenToScreenPosY(hud.finalScoreText.rectTransform, 0.635f, 1f, 0.5f, MiscScoreTextAnimations);
@@ -171,7 +174,7 @@ namespace RetroCode
                     color.a = value;
                     hud.bestNearMissChainText.color = color;
 
-                    hud.bestNearMissChainText.text = $"BEST NEAR MISS CHAIN {EXMET.LerpTextNumber(0, gameManager.currentRunNMH, 1f).ToString()}X";
+                    hud.bestNearMissChainText.text = $"BEST NEAR MISS CHAIN {EXMET.LerpTextNumber(0, gameManager.currentRunNMH, 1f)}X";
                 });    
             TweenToScreenPosX(hud.bestNearMissChainText.rectTransform, 0.4f, 1f, 0f, null);
 
@@ -225,9 +228,11 @@ namespace RetroCode
             Color color = Color.white;
             color.a = 0f;
 
+            hud.gameOverNormalScreen.gameObject.SetActive(false);
+            hud.gameOverNormalScreen.alpha = 0f;
+
             // RESET THE TEXTS //
             SetToScreenPosY(hud.gameOverText.rectTransform, 0.5f);
-            hud.gameOverText.color = color;
 
             SetToScreenPosY(hud.finalScoreText.rectTransform, 0.5f);
             hud.finalScoreText.color = color;
@@ -245,6 +250,50 @@ namespace RetroCode
             hud.earningsText.color = color;
 
             hud.playAgainButtonCanvasGroup.alpha = 0f;
+        }
+
+        public void SkipGameOverAnimations()
+        {
+            Color white = Color.white;
+
+            LeanTween.cancel(GameManager.ZaWarudoID);
+            Time.timeScale = 0f;
+
+            hud.gameOverNormalScreen.gameObject.SetActive(true);
+            LeanTween.cancel(hud.gameOverNormalScreen.gameObject);
+            hud.gameOverNormalScreen.alpha = 1f;
+
+            LeanTween.cancel(hud.gameOverText.gameObject);
+            SetToScreenPosY(hud.gameOverText.rectTransform, 0.75f);
+
+            LeanTween.cancel(hud.finalScoreText.gameObject);
+            int currentRunScoreRounded = Mathf.RoundToInt(gameManager.currentRunScore);
+            hud.finalScoreText.text = $"FINAL SCORE {currentRunScoreRounded.ToString("N", EXMET.NumForThou)}";
+            hud.finalScoreText.color = white;
+            SetToScreenPosY(hud.finalScoreText.rectTransform, 0.635f);
+
+            LeanTween.cancel(hud.bestNearMissChainText.gameObject);
+            hud.bestNearMissChainText.text = $"BEST NEAR MISS CHAIN {gameManager.currentRunNMH}X";
+            hud.bestNearMissChainText.color = white;
+            SetToScreenPosX(hud.bestNearMissChainText.rectTransform, 0.4f);
+
+            LeanTween.cancel(hud.COPKillCountText.gameObject);
+            hud.COPKillCountText.text = $"{gameManager.currentRunCOPsDestroyed} COPS DESTROYED";
+            hud.COPKillCountText.color = white;
+            SetToScreenPosX(hud.COPKillCountText.rectTransform, 0.74f);
+
+            LeanTween.cancel(hud.NPCKillCountText.gameObject);
+            hud.NPCKillCountText.text = $"{gameManager.currentRunCOPsDestroyed} NPCS DESTROYED";
+            hud.NPCKillCountText.color = white;
+            SetToScreenPosX(hud.NPCKillCountText.rectTransform, 0.4f);
+
+            LeanTween.cancel(hud.earningsText.gameObject);
+            hud.earningsText.text = $"R$ {gameManager.currentRunReward.ToString("N", EXMET.NumForThou)} EARNED";
+            hud.earningsText.color = white;
+            SetToScreenPosY(hud.earningsText.rectTransform, 0.75f);
+
+            LeanTween.cancel(hud.playAgainButtonCanvasGroup.gameObject);
+            hud.playAgainButtonCanvasGroup.alpha = 1f;            
         }
         #endregion
 

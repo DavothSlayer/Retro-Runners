@@ -115,6 +115,8 @@ namespace RetroCode
         public float heatLevelScoreOffset;
 
         private float playerCurrentPower;
+
+        public static bool ShowGameOverAds;
         #endregion
 
         #region Events
@@ -283,7 +285,8 @@ namespace RetroCode
             playerCar.abilityCooldownTimer = playerCar.ability.cooldownTime;
             playerCar.abilityState = AbilityState.Ready;
 
-            //canvasAnimator.SetBool("Game Over Reward Ads", Random.Range(0f, 1f) >= 0.5f);
+            // FLOAT AT END IS CHANCE AS % //
+            ShowGameOverAds = Random.Range(0f, 1f) <= 0f;
         }
 
         private float timeScale = 1f;
@@ -662,14 +665,15 @@ namespace RetroCode
         #endregion
 
         #region Game Over
+        public static int ZaWarudoID;
         public void GameOver()
         {
             rearview = false;
 
-            LeanTween.value(Time.timeScale, 0f, 1f).setDelay(3f).setIgnoreTimeScale(true).setOnUpdate((float value) =>
+            ZaWarudoID = LeanTween.value(Time.timeScale, 0f, 1f).setDelay(3f).setIgnoreTimeScale(true).setOnUpdate((float value) =>
             {
                 Time.timeScale = value;
-            });
+            }).id;
 
             gameState = GameState.GameOver;
             
@@ -678,12 +682,6 @@ namespace RetroCode
             gamingServicesManager.cloudData.RetroDollars = cloudDollars;
 
             GameOverEvent?.Invoke();
-
-            // DISPLAY EARNINGS AND THE SCORE //
-            //hud.earningsText.text = $"R$ {currentRunReward.ToString("N", EXMET.NumForThou)} EARNED";
-            //hud.finalScoreText.text = $"FINAL SCORE {currentRunScore.ToString("N", EXMET.NumForThou)}";
-            //hud.finalNMHText.text = $"BEST NEAR MISS CHAIN {currentRunNMH}X";
-            //hud.COPKillCountText.text = $"{currentRunCOPsDestroyed} COPs Destroyed!";
 
             UpdateGameScreen();
             gamingServicesManager.SaveCloudData(false);

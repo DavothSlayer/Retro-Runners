@@ -147,9 +147,9 @@ namespace V3CTOR
             entry.callback.AddListener((_) => action.Invoke());
         }
 
-        public static int LerpTextNumber(int startNum, int targetNum, float time)
+        public static float LerpTextNumber(float startNum, float targetNum, float time)
         {
-            return (int)Mathf.Lerp(startNum, targetNum, time * Time.unscaledDeltaTime);
+            return Mathf.Lerp(startNum, targetNum, time * Time.unscaledDeltaTime);
         }
     }
 

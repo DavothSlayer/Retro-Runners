@@ -212,6 +212,17 @@
             "dependencyXmlURL": "https://s3.amazonaws.com/ssa.public/Dependencies-xmls/BidMachine/${VERSION}/ISBidMachineAdapterDependencies.xml",
             "dependencyXmlFileName": "ISBidMachineAdapterDependencies.xml",
             "versions": {
+              "4.3.12.0": {
+                "ironSourceSdkVersion": "[8.4.0, 9.0[",
+                "android": {
+                  "adapterVersion": "4.3.10",
+                  "adNetworkVersion": "3.1.1"
+                },
+                "ios": {
+                  "adapterVersion": "4.3.12.0",
+                  "adNetworkVersion": "3.1.1"
+                }
+              },
                 "4.3.11.3": {
                     "ironSourceSdkVersion": "[8.4.0, 9.0[",
                     "android": {
@@ -349,6 +360,17 @@
             "dependencyXmlURL": "https://s3.amazonaws.com/ssa.public/Dependencies-xmls/AdMob/${VERSION}/ISAdMobAdapterDependencies.xml",
             "dependencyXmlFileName": "ISAdMobAdapterDependencies.xml",
             "versions": {
+              "4.3.68.0": {
+                "ironSourceSdkVersion": "[8.4.0, 9.0[",
+                "android": {
+                  "adapterVersion": "4.3.47.0",
+                  "adNetworkVersion": "23.5.0"
+                },
+                "ios": {
+                  "adapterVersion": "4.3.59.0",
+                  "adNetworkVersion": "11.12.0"
+                }
+              },
               "4.3.67.0": {
                 "ironSourceSdkVersion": "[8.4.0, 9.0[",
                 "android": {
@@ -429,6 +451,17 @@
             "dependencyXmlURL": "https://s3.amazonaws.com/ssa.public/Dependencies-xmls/InMobi/${VERSION}/ISInMobiAdapterDependencies.xml",
             "dependencyXmlFileName": "ISInMobiAdapterDependencies.xml",
             "versions": {
+                "4.3.32.0": {
+                    "ironSourceSdkVersion": "[8.4.0, 9.0[",
+                    "android": {
+                        "adapterVersion": "4.3.28",
+                        "adNetworkVersion": "10.8.0"
+                    },
+                    "ios": {
+                        "adapterVersion": "4.3.26.0",
+                        "adNetworkVersion": "10.8.0"
+                    }
+                },
                 "4.3.31.0": {
                     "ironSourceSdkVersion": "[8.4.0, 9.0[",
                     "android": {
@@ -516,6 +549,17 @@
             "dependencyXmlURL": "https://s3.amazonaws.com/ssa.public/Dependencies-xmls/Facebook/${VERSION}/ISFacebookAdapterDependencies.xml",
             "dependencyXmlFileName": "ISFacebookAdapterDependencies.xml",
             "versions": {
+              "4.3.68.0": {
+                "ironSourceSdkVersion": "[8.5.0, 9.0[",
+                "android": {
+                  "adapterVersion": "4.3.48",
+                  "adNetworkVersion": "6.18.0"
+                },
+                "ios": {
+                  "adapterVersion": "4.3.47.0",
+                  "adNetworkVersion": "6.16.0"
+                }
+              },
                 "4.3.67.1": {
                     "ironSourceSdkVersion": "[8.4.0, 9.0[",
                     "android": {

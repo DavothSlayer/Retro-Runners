@@ -34,6 +34,8 @@ namespace RetroCode
         public Sprite[] pickUpIcons;
 
         [Header("Game Over Screen")]
+        public CanvasGroup gameOverNormalScreen;
+        public CanvasGroup gameOverAdsScreen;
         public TextMeshProUGUI gameOverText;
         public TextMeshProUGUI earningsText;
         public TextMeshProUGUI finalScoreText;
