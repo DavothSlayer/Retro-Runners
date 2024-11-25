@@ -6,6 +6,7 @@ using System.Collections.Generic;
 using System.Globalization;
 using UnityEngine.EventSystems;
 using System;
+using TMPro;
 
 namespace V3CTOR
 {
@@ -146,9 +147,9 @@ namespace V3CTOR
             entry.callback.AddListener((_) => action.Invoke());
         }
 
-        public static void SmoothNumberText(int startNum, int targetNum)
+        public static int LerpTextNumber(int startNum, int targetNum, float time)
         {
-            LeanTween.value(startNum, targetNum, 1f);
+            return (int)Mathf.Lerp(startNum, targetNum, time * Time.unscaledDeltaTime);
         }
     }
 

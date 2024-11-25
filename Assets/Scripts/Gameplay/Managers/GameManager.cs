@@ -96,9 +96,12 @@ namespace RetroCode
 
         [HideInInspector]
         public float currentRunScore;
-        private int currentRunCOPsDestroyed;
-        private int currentRunNMH;
-        private int currentRunReward;
+        [HideInInspector]
+        public int currentRunCOPsDestroyed;
+        [HideInInspector]
+        public int currentRunNMH;
+        [HideInInspector]
+        public int currentRunReward;
 
         private int cloudHighScore;
         private int cloudNMH;
@@ -677,10 +680,10 @@ namespace RetroCode
             GameOverEvent?.Invoke();
 
             // DISPLAY EARNINGS AND THE SCORE //
-            hud.earningsText.text = $"R$ {currentRunReward.ToString("N", EXMET.NumForThou)} EARNED";
-            hud.finalScoreText.text = $"SCORE {currentRunScore.ToString("N", EXMET.NumForThou)}";
-            hud.finalNMHText.text = $"HIGHEST NEAR MISS COMBO {currentRunNMH}X";
-            hud.COPKillCountText.text = $"{currentRunCOPsDestroyed} COPs Destroyed!";
+            //hud.earningsText.text = $"R$ {currentRunReward.ToString("N", EXMET.NumForThou)} EARNED";
+            //hud.finalScoreText.text = $"FINAL SCORE {currentRunScore.ToString("N", EXMET.NumForThou)}";
+            //hud.finalNMHText.text = $"BEST NEAR MISS CHAIN {currentRunNMH}X";
+            //hud.COPKillCountText.text = $"{currentRunCOPsDestroyed} COPs Destroyed!";
 
             UpdateGameScreen();
             gamingServicesManager.SaveCloudData(false);

@@ -37,8 +37,9 @@ namespace RetroCode
         public TextMeshProUGUI gameOverText;
         public TextMeshProUGUI earningsText;
         public TextMeshProUGUI finalScoreText;
-        public TextMeshProUGUI finalNMHText;
+        public TextMeshProUGUI bestNearMissChainText;
         public TextMeshProUGUI COPKillCountText;
+        public TextMeshProUGUI NPCKillCountText;
         public CanvasGroup playAgainButtonCanvasGroup;
     }
 }
