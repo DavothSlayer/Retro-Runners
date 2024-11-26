@@ -360,6 +360,7 @@ namespace RetroCode
         public int HighScore = 0;
         public int HighestNearMissCount = 0;
         public int MostCOPsDestroyed = 0;
+        public int MostNPCsDestroyed = 0;
         public byte LastSelectedCarIndex = 0;
         public byte TierUnlocked = 0;
         public Dictionary<int, float> ActiveQuests = new();

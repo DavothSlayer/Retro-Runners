@@ -36,9 +36,11 @@ namespace RetroCode
             transform.position += transform.forward * 15f * Time.deltaTime;
         }
 
-        [BurstCompile]
+        [BurstCompile]        
         public virtual void HandleDeath()
         {
+            GameManager.TriggerDestroyedNPCEvent();
+
             spawnManager.HandleDeadNPC(this);
         }
 

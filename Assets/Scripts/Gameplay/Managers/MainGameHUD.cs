@@ -12,9 +12,10 @@ namespace RetroCode
         public TextMeshProUGUI playerMoneyText;
 
         [Header("Menu Screen")]
-        public TextMeshProUGUI highScoreText;
-        public TextMeshProUGUI highestMissComboText;
+        public TextMeshProUGUI highScoreRecord;
+        public TextMeshProUGUI nearMissChainRecord;
         public TextMeshProUGUI COPKillCountRecord;
+        public TextMeshProUGUI NPCKillCountRecord;
 
         [Header("Game Screen")]
         public Transform mainGameParent;

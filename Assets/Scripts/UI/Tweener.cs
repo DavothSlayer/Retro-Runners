@@ -3,6 +3,7 @@ using System.Threading.Tasks;
 using TMPro;
 using UnityEngine;
 using V3CTOR;
+using static UnityEngine.Rendering.DebugUI;
 
 namespace RetroCode
 {
@@ -151,14 +152,17 @@ namespace RetroCode
         {
             int currentRunScoreRounded = Mathf.RoundToInt(gameManager.currentRunScore);
 
-            LeanTween.value(gameObject, hud.finalScoreText.alpha, 1f, 1f).setIgnoreTimeScale(true)
+            LeanTween.value(hud.finalScoreText.alpha, 1f, 1f).setIgnoreTimeScale(true)
                 .setOnUpdate((float value) =>
                 {
                     Color color = hud.finalScoreText.color;
                     color.a = value;
                     hud.finalScoreText.color = color;
-
-                    hud.finalScoreText.text = $"FINAL SCORE {Mathf.RoundToInt(EXMET.LerpTextNumber(0f, currentRunScoreRounded, 2f)).ToString("N", EXMET.NumForThou)}";
+                });
+            LeanTween.value(0f, currentRunScoreRounded, 2f).setIgnoreTimeScale(true)
+                .setOnUpdate((float value) => 
+                {
+                    hud.finalScoreText.text = $"FINAL SCORE {Mathf.RoundToInt(value).ToString("N", EXMET.NumForThou)}";
                 });
 
             TweenToScreenPosY(hud.finalScoreText.rectTransform, 0.635f, 1f, 0.5f, MiscScoreTextAnimations);
@@ -167,52 +171,64 @@ namespace RetroCode
         private void MiscScoreTextAnimations()
         {
             // BEST NEARMISS CHAIN //
-            LeanTween.value(gameObject, hud.bestNearMissChainText.alpha, 1f, 1f).setIgnoreTimeScale(true)
+            LeanTween.value(hud.bestNearMissChainText.alpha, 1f, 1f).setIgnoreTimeScale(true)
                 .setOnUpdate((float value) =>
                 {
                     Color color = hud.bestNearMissChainText.color;
                     color.a = value;
                     hud.bestNearMissChainText.color = color;
-
-                    hud.bestNearMissChainText.text = $"BEST NEAR MISS CHAIN {EXMET.LerpTextNumber(0, gameManager.currentRunNMH, 1f)}X";
-                });    
+                });
+            LeanTween.value(0f, gameManager.currentRunNMH, 2f).setIgnoreTimeScale(true)
+                .setOnUpdate((float value) =>
+                {
+                    hud.bestNearMissChainText.text = $"BEST NEAR MISS CHAIN {value.ToString("N", EXMET.NumForThou)}X";
+                });
             TweenToScreenPosX(hud.bestNearMissChainText.rectTransform, 0.4f, 1f, 0f, null);
 
             // COP KILL COUNT //
-            LeanTween.value(gameObject, hud.COPKillCountText.alpha, 1f, 1f).setIgnoreTimeScale(true)
+            LeanTween.value(hud.COPKillCountText.alpha, 1f, 1f).setIgnoreTimeScale(true)
                 .setOnUpdate((float value) =>
                 {
                     Color color = hud.COPKillCountText.color;
                     color.a = value;
                     hud.COPKillCountText.color = color;
-
-                    hud.COPKillCountText.text = $"{EXMET.LerpTextNumber(0, gameManager.currentRunCOPsDestroyed, 1f)} COPS DESTROYED";
                 });
-            TweenToScreenPosX(hud.COPKillCountText.rectTransform, 0.74f, 1f, 0f, null);
+            LeanTween.value(0f, gameManager.currentRunCOPsDestroyed, 2f).setIgnoreTimeScale(true)
+                .setOnUpdate((float value) =>
+                {
+                    hud.COPKillCountText.text = $"{value.ToString("N", EXMET.NumForThou)} COP{(gameManager.currentRunCOPsDestroyed != 1 ? "S" : "")} DESTROYED";
+                });
+            TweenToScreenPosX(hud.COPKillCountText.rectTransform, 0.67f, 1f, 0f, null);
 
             // NPC KILL COUNT //
-            LeanTween.value(gameObject, hud.NPCKillCountText.alpha, 1f, 1f).setIgnoreTimeScale(true)
+            LeanTween.value(hud.NPCKillCountText.alpha, 1f, 1f).setIgnoreTimeScale(true)
                 .setOnUpdate((float value) =>
                 {
                     Color color = hud.NPCKillCountText.color;
                     color.a = value;
                     hud.NPCKillCountText.color = color;
-
-                    hud.NPCKillCountText.text = $"{EXMET.LerpTextNumber(0, gameManager.currentRunCOPsDestroyed, 1f)} NPCS DESTROYED";
+                });
+            LeanTween.value(0f, gameManager.currentRunNPCsDestroyed, 2f).setIgnoreTimeScale(true)
+                .setOnUpdate((float value) =>
+                {
+                    hud.NPCKillCountText.text = $"{value.ToString("N", EXMET.NumForThou)} NPC{(gameManager.currentRunNPCsDestroyed != 1 ? "S" : "")} DESTROYED";
                 });
             TweenToScreenPosX(hud.NPCKillCountText.rectTransform, 0.4f, 1f, 0f, EarningsTextAnimation);
         }
 
         private void EarningsTextAnimation()
         {
-            LeanTween.value(gameObject, hud.earningsText.alpha, 1f, 1f).setIgnoreTimeScale(true)
+            LeanTween.value(hud.earningsText.alpha, 1f, 1f).setIgnoreTimeScale(true)
                 .setOnUpdate((float value) =>
                 {
                     Color color = hud.earningsText.color;
                     color.a = value;
                     hud.earningsText.color = color;
-
-                    hud.earningsText.text = $"R$ {EXMET.LerpTextNumber(0, gameManager.currentRunReward, 2f).ToString("N", EXMET.NumForThou)} EARNED";
+                });
+            LeanTween.value(0f, gameManager.currentRunReward, 3f).setIgnoreTimeScale(true)
+                .setOnUpdate((float value) =>
+                {
+                    hud.earningsText.text = $"R$ {value.ToString("N", EXMET.NumForThou)} EARNED";
                 });
 
             TweenToScreenPosY(hud.earningsText.rectTransform, 0.75f, 1f, 0f, PlayAgainButtonAnimation);
@@ -278,12 +294,12 @@ namespace RetroCode
             SetToScreenPosX(hud.bestNearMissChainText.rectTransform, 0.4f);
 
             LeanTween.cancel(hud.COPKillCountText.gameObject);
-            hud.COPKillCountText.text = $"{gameManager.currentRunCOPsDestroyed} COPS DESTROYED";
+            hud.COPKillCountText.text = $"{gameManager.currentRunCOPsDestroyed} COP{(gameManager.currentRunCOPsDestroyed != 1 ? "S" : "")} DESTROYED";
             hud.COPKillCountText.color = white;
-            SetToScreenPosX(hud.COPKillCountText.rectTransform, 0.74f);
+            SetToScreenPosX(hud.COPKillCountText.rectTransform, 0.67f);
 
             LeanTween.cancel(hud.NPCKillCountText.gameObject);
-            hud.NPCKillCountText.text = $"{gameManager.currentRunCOPsDestroyed} NPCS DESTROYED";
+            hud.NPCKillCountText.text = $"{gameManager.currentRunNPCsDestroyed.ToString("N", EXMET.NumForThou)} NPC{(gameManager.currentRunNPCsDestroyed != 1 ? "S" : "")} DESTROYED";
             hud.NPCKillCountText.color = white;
             SetToScreenPosX(hud.NPCKillCountText.rectTransform, 0.4f);
 

@@ -191,7 +191,7 @@ namespace RetroCode
             deadModel.SetActive(true);
 
             if (transform.position.z < playerAuto.transform.position.z)
-                gameManager.DestroyedCOP();
+                GameManager.TriggerDestroyedCOPEvent();  
 
             rigidBody.constraints = RigidbodyConstraints.None;
             

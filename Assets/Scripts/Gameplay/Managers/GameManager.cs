@@ -6,8 +6,6 @@ using System.Threading.Tasks;
 using Unity.Burst;
 using V3CTOR;
 using UnityEngine.Events;
-using System.Runtime.CompilerServices;
-using static UnityEditor.ShaderGraph.Internal.KeywordDependentCollection;
 
 namespace RetroCode
 {
@@ -99,13 +97,16 @@ namespace RetroCode
         [HideInInspector]
         public int currentRunCOPsDestroyed;
         [HideInInspector]
+        public int currentRunNPCsDestroyed;
+        [HideInInspector]
         public int currentRunNMH;
         [HideInInspector]
         public int currentRunReward;
 
-        private int cloudHighScore;
-        private int cloudNMH;
-        private int cloudCDR;        
+        private int cloudHighScoreRecord;
+        private int cloudNearMissRecord;
+        private int cloudCopsDestroyedRecord;
+        private int cloudNPCsDestroyedRecord;
 
         [HideInInspector]
         public int activeHeatLevel;
@@ -120,8 +121,7 @@ namespace RetroCode
         #endregion
 
         #region Events
-        public delegate void HeatLevelChangeDelegate(int oldValue, int newValue);
-        public event HeatLevelChangeDelegate heatLevelChanged;
+        public static event Action<int, int> HeatLevelChanged;
         public int ActiveHeatLevel
         {
             get { return activeHeatLevel; }
@@ -130,15 +130,24 @@ namespace RetroCode
                 if (value != activeHeatLevel)
                 {
                     // TRIGGER THE EVENT WHEN THE VALUE CHANGES //
-                    heatLevelChanged?.Invoke(activeHeatLevel, value);
+                    HeatLevelChanged?.Invoke(activeHeatLevel, value);
 
                     activeHeatLevel = value;
                 }
             }
         }
 
-        public delegate void DestroyedCOPDelegate();
-        public event DestroyedCOPDelegate DestroyedCOPEvent;
+        public static event Action DestroyedCOPEvent;
+        public static void TriggerDestroyedCOPEvent()
+        {
+            DestroyedCOPEvent?.Invoke();
+        }
+
+        public static event Action DestroyedNPCEvent;
+        public static void TriggerDestroyedNPCEvent()
+        {
+            DestroyedNPCEvent?.Invoke();
+        }
 
         public Dictionary<string, float> activeScoreMultipliers = new Dictionary<string, float>();
         private float gameScoreMultiplier
@@ -158,20 +167,19 @@ namespace RetroCode
         public static AutoMobile playerAutoStatic;
 
         private void OnEnable()
-        {
-            heatLevelChanged += HeatLevelChangeListener;
+        {            
+            DestroyedCOPEvent += DestroyedCOPListener;
+            DestroyedNPCEvent += DestroyedNPCListener;
             InputManager.UpperDoubleTapped += AutoAbility;
             InputManager.LowerDoubleTapped += ToggleRearview;
         }
 
         private void OnDestroy()
         {
-            playerAutoStatic = playerCar;
-
-            heatLevelChanged -= HeatLevelChangeListener;
+            DestroyedCOPEvent -= DestroyedCOPListener;
+            DestroyedNPCEvent -= DestroyedNPCListener;
             InputManager.UpperDoubleTapped -= AutoAbility;
-            InputManager.LowerDoubleTapped -= ToggleRearview;
-            playerCar.Damaged -= HandleAutoDamage;            
+            InputManager.LowerDoubleTapped -= ToggleRearview;           
         }
 
         private void Awake()
@@ -374,6 +382,7 @@ namespace RetroCode
             currentRunScore = 0;
             currentRunNMH = 0;
             currentRunCOPsDestroyed = 0;
+            currentRunNPCsDestroyed = 0;
             heatLevelScoreOffset = 0f;
 
             // APPLY CLOUD DATA //
@@ -459,7 +468,7 @@ namespace RetroCode
             if (nearMissComboCount > currentRunNMH)
                 currentRunNMH = nearMissComboCount;
 
-            if (currentRunNMH > cloudNMH)
+            if (currentRunNMH > cloudNearMissRecord)
                 gamingServicesManager.cloudData.HighestNearMissCount = currentRunNMH;
 
             NearMissEnd?.Invoke();
@@ -483,7 +492,7 @@ namespace RetroCode
 
             int score = Mathf.RoundToInt(currentRunScore);
 
-            if (score > cloudHighScore)
+            if (score > cloudHighScoreRecord)
                 gamingServicesManager.cloudData.HighScore = score;
 
             currentRunReward = Mathf.RoundToInt(score * scoreTable.rewardRatio);
@@ -632,16 +641,22 @@ namespace RetroCode
         // HEAT LEVEL LOGIC
 
         // DESTROYED COP EVENT //
-        public void DestroyedCOP()
+        public void DestroyedCOPListener()
         {
             currentRunCOPsDestroyed++;
 
-            if (currentRunCOPsDestroyed > cloudCDR)
+            if (currentRunCOPsDestroyed > cloudCopsDestroyedRecord)
                 gamingServicesManager.cloudData.MostCOPsDestroyed = currentRunCOPsDestroyed;
-
-            DestroyedCOPEvent?.Invoke();
         }
         // DESTROYED COP EVENT //
+
+        public void DestroyedNPCListener()
+        {
+            currentRunNPCsDestroyed++;
+
+            if (currentRunNPCsDestroyed > cloudNPCsDestroyedRecord)
+                gamingServicesManager.cloudData.MostNPCsDestroyed = currentRunNPCsDestroyed;
+        }
 
         // AUTO ABILITIES //
         public void AutoAbility()
@@ -805,13 +820,15 @@ namespace RetroCode
 
         public void ApplyLoadedData()
         {
-            cloudNMH = gamingServicesManager.cloudData.HighestNearMissCount;
-            cloudHighScore = gamingServicesManager.cloudData.HighScore;
-            cloudCDR = gamingServicesManager.cloudData.MostCOPsDestroyed;
+            cloudNearMissRecord = gamingServicesManager.cloudData.HighestNearMissCount;
+            cloudHighScoreRecord = gamingServicesManager.cloudData.HighScore;
+            cloudCopsDestroyedRecord = gamingServicesManager.cloudData.MostCOPsDestroyed;
+            cloudNPCsDestroyedRecord = gamingServicesManager.cloudData.MostNPCsDestroyed;
 
-            hud.highScoreText.text = $"HIGH SCORE {cloudHighScore.ToString("N", EXMET.NumForThou)}";
-            hud.highestMissComboText.text = $"NEAR MISS COMBO RECORD {cloudNMH}X!";
-            hud.COPKillCountRecord.text = $"COPS DESTROYED RECORD {cloudCDR}!";
+            hud.highScoreRecord.text = $"HIGH SCORE {cloudHighScoreRecord.ToString("N", EXMET.NumForThou)}";
+            hud.nearMissChainRecord.text = $"NEAR MISS CHAIN RECORD {cloudNearMissRecord}X!";
+            hud.COPKillCountRecord.text = $"COPS DESTROYED RECORD {cloudCopsDestroyedRecord}!";
+            hud.NPCKillCountRecord.text = $"NPCS DESTROYED RECORD {cloudNPCsDestroyedRecord}!";
             hud.playerMoneyText.text = $"R$ {gamingServicesManager.cloudData.RetroDollars.ToString("N", EXMET.NumForThou)}";
         }
 

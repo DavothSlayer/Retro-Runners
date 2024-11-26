@@ -88,18 +88,6 @@ namespace RetroCode
         public delegate void AutoDamaged();
         public event AutoDamaged Damaged;
 
-        private void OnEnable()
-        {
-            if(ability.abilityName == "Harvester")
-                gameManager.DestroyedCOPEvent += HarvesterMethod;
-        }
-
-        private void OnDestroy()
-        {
-            if (ability.abilityName == "Harvester")
-                gameManager.DestroyedCOPEvent -= HarvesterMethod;
-        }
-
         [BurstCompile]
         private void Update()
         {

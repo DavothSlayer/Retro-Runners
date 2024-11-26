@@ -281,6 +281,13 @@
             "dependencyXmlURL": "https://s3.amazonaws.com/ssa.public/Dependencies-xmls/CSJ/${VERSION}/ISCSJAdapterDependencies.xml",
             "dependencyXmlFileName": "ISCSJAdapterDependencies.xml",
             "versions": {
+              "4.3.8.0": {
+                "ironSourceSdkVersion": "[8.4.0, 9.0[",
+                "ios": {
+                  "adapterVersion": "4.3.8.0",
+                  "adNetworkVersion": "6.4.4.0"
+                }
+              },
               "4.3.7.0": {
                 "ironSourceSdkVersion": "[8.4.0, 9.0[",
                 "ios": {
@@ -578,6 +585,17 @@
             "dependencyXmlURL": "https://s3.amazonaws.com/ssa.public/Dependencies-xmls/Mintegral/${VERSION}/ISMintegralAdapterDependencies.xml",
             "dependencyXmlFileName": "ISMintegralAdapterDependencies.xml",
             "versions": {
+              "4.3.32.0": {
+                "ironSourceSdkVersion": "[8.4.0, 9.0[",
+                "android": {
+                  "adapterVersion": "4.3.31",
+                  "adNetworkVersion": "16.8.81"
+                },
+                "ios": {
+                  "adapterVersion": "4.3.27.0",
+                  "adNetworkVersion": "7.7.3"
+                }
+              },
                 "4.3.31.0": {
                     "ironSourceSdkVersion": "[8.4.0, 9.0[",
                     "android": {
