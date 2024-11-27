@@ -118,6 +118,10 @@ namespace RetroCode
         private float playerCurrentPower;
 
         public static bool ShowGameOverAds;
+        public void SetAdState(bool state)
+        {
+            ShowGameOverAds = state;
+        }
         #endregion
 
         #region Events
@@ -294,7 +298,7 @@ namespace RetroCode
             playerCar.abilityState = AbilityState.Ready;
 
             // FLOAT AT END IS CHANCE AS % //
-            ShowGameOverAds = Random.Range(0f, 1f) <= 0f;
+            ShowGameOverAds = Random.Range(0f, 1f) <= 1f;
         }
 
         private float timeScale = 1f;
@@ -349,11 +353,6 @@ namespace RetroCode
             UpdateGameScreen();
 
             print("HandleRevive");
-        }
-
-        public void NoThanksButton()
-        {
-            //canvasAnimator.SetBool("Game Over Reward Ads", false);
         }
         #endregion
 

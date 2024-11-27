@@ -132,22 +132,27 @@ namespace RetroCode
         #endregion
 
         #region Game Over Screen Animations
-        public void GameOverNormalAnimations()
+        public void GameOverAnimations()
         {
-            hud.gameOverNormalScreen.gameObject.SetActive(true);
-            LeanTween.alphaCanvas(hud.gameOverNormalScreen, 1f, 2f).setDelay(2f).setIgnoreTimeScale(true);
+            LeanTween.alphaCanvas(hud.backgroundCanvasGroup, 1f, 1f);
 
-            /*LeanTween.value(gameObject, text.alpha, 1f, 1f).setIgnoreTimeScale(true).setDelay(2f)
-                .setOnUpdate((float value) =>
-                {
-                    Color color = text.color;
-                    color.a = value;
-                    text.color = color;
-                });*/
+            if (GameManager.ShowGameOverAds)
+            {
+                hud.gameOverAdsScreen.gameObject.SetActive(true);
+                LeanTween.alphaCanvas(hud.gameOverAdsScreen, 1f, 2f).setIgnoreTimeScale(true);
 
-            TweenToScreenPosY(hud.gameOverText.rectTransform, 0.75f, 1f, 4f, ScoreFinalTextAnimation);
+                TweenToScreenPosY(hud.offerHeadlineText.rectTransform, 0.75f, 1f, 2f, AdButtonAnimations);
+            }
+            else
+            {
+                hud.gameOverNormalScreen.gameObject.SetActive(true);
+                LeanTween.alphaCanvas(hud.gameOverNormalScreen, 1f, 2f).setDelay(2f).setIgnoreTimeScale(true);
+
+                TweenToScreenPosY(hud.gameOverText.rectTransform, 0.75f, 1f, 4f, ScoreFinalTextAnimation);
+            }
         }
 
+        // NORMAL SCREEN ANIMATIONS //
         private void ScoreFinalTextAnimation()
         {
             int currentRunScoreRounded = Mathf.RoundToInt(gameManager.currentRunScore);
@@ -238,16 +243,19 @@ namespace RetroCode
         {
             LeanTween.alphaCanvas(hud.playAgainButtonCanvasGroup, 1f, 1f).setIgnoreTimeScale(true);
         }
+        // NORMAL SCREEN ANIMATIONS //
 
         public void ResetGameOverScreen()
         {
+            hud.backgroundCanvasGroup.alpha = 0f;
+
             Color color = Color.white;
             color.a = 0f;
 
             hud.gameOverNormalScreen.gameObject.SetActive(false);
             hud.gameOverNormalScreen.alpha = 0f;
 
-            // RESET THE TEXTS //
+            // RESET THE NORMAL SCREEN TEXTS //
             SetToScreenPosY(hud.gameOverText.rectTransform, 0.5f);
 
             SetToScreenPosY(hud.finalScoreText.rectTransform, 0.5f);
@@ -266,6 +274,19 @@ namespace RetroCode
             hud.earningsText.color = color;
 
             hud.playAgainButtonCanvasGroup.alpha = 0f;
+            // RESET THE NORMAL SCREEN TEXTS //
+
+            // RESET THE ADS SCREEN TEXTS //
+            hud.gameOverAdsScreen.gameObject.SetActive(false);
+            hud.gameOverAdsScreen.alpha = 0f;
+
+            SetToScreenPosY(hud.offerHeadlineText.rectTransform, 0.5f);
+
+            hud.doubleRewardsGroup.alpha = 0f;
+            hud.reviveGroup.alpha = 0f;
+
+            hud.noAdsThxButton.alpha = 0f;
+            // RESET THE ADS SCREEN TEXTS //
         }
 
         public void SkipGameOverAnimations()
@@ -275,41 +296,79 @@ namespace RetroCode
             LeanTween.cancel(GameManager.ZaWarudoID);
             Time.timeScale = 0f;
 
+            if (GameManager.ShowGameOverAds)
+            {
+                LeanTween.cancel(hud.gameOverAdsScreen.gameObject);
+                hud.gameOverAdsScreen.alpha = 1f;
+
+                LeanTween.cancel(hud.offerHeadlineText.gameObject);
+                SetToScreenPosY(hud.offerHeadlineText.rectTransform, 0.75f);
+
+                LeanTween.cancel(hud.doubleRewardsGroup.gameObject);
+                hud.doubleRewardsGroup.alpha = 1f;
+
+                LeanTween.cancel(hud.reviveGroup.gameObject);
+                hud.reviveGroup.alpha = 1f;
+
+                LeanTween.cancel(hud.noAdsThxButton.gameObject);
+                hud.noAdsThxButton.alpha = 1f;
+            }
+            else
+            {
+                LeanTween.cancel(hud.gameOverNormalScreen.gameObject);
+                hud.gameOverNormalScreen.alpha = 1f;
+
+                LeanTween.cancel(hud.gameOverText.gameObject);
+                SetToScreenPosY(hud.gameOverText.rectTransform, 0.75f);
+
+                LeanTween.cancel(hud.finalScoreText.gameObject);
+                int currentRunScoreRounded = Mathf.RoundToInt(gameManager.currentRunScore);
+                hud.finalScoreText.text = $"FINAL SCORE {currentRunScoreRounded.ToString("N", EXMET.NumForThou)}";
+                hud.finalScoreText.color = white;
+                SetToScreenPosY(hud.finalScoreText.rectTransform, 0.635f);
+
+                LeanTween.cancel(hud.bestNearMissChainText.gameObject);
+                hud.bestNearMissChainText.text = $"BEST NEAR MISS CHAIN {gameManager.currentRunNMH}X";
+                hud.bestNearMissChainText.color = white;
+                SetToScreenPosX(hud.bestNearMissChainText.rectTransform, 0.4f);
+
+                LeanTween.cancel(hud.COPKillCountText.gameObject);
+                hud.COPKillCountText.text = $"{gameManager.currentRunCOPsDestroyed} COP{(gameManager.currentRunCOPsDestroyed != 1 ? "S" : "")} DESTROYED";
+                hud.COPKillCountText.color = white;
+                SetToScreenPosX(hud.COPKillCountText.rectTransform, 0.67f);
+
+                LeanTween.cancel(hud.NPCKillCountText.gameObject);
+                hud.NPCKillCountText.text = $"{gameManager.currentRunNPCsDestroyed.ToString("N", EXMET.NumForThou)} NPC{(gameManager.currentRunNPCsDestroyed != 1 ? "S" : "")} DESTROYED";
+                hud.NPCKillCountText.color = white;
+                SetToScreenPosX(hud.NPCKillCountText.rectTransform, 0.4f);
+
+                LeanTween.cancel(hud.earningsText.gameObject);
+                hud.earningsText.text = $"R$ {gameManager.currentRunReward.ToString("N", EXMET.NumForThou)} EARNED";
+                hud.earningsText.color = white;
+                SetToScreenPosY(hud.earningsText.rectTransform, 0.75f);
+
+                LeanTween.cancel(hud.playAgainButtonCanvasGroup.gameObject);
+                hud.playAgainButtonCanvasGroup.alpha = 1f;
+            }
+        }
+
+        public void AdButtonAnimations()
+        {
+            LeanTween.alphaCanvas(hud.doubleRewardsGroup, 1f, 1f).setIgnoreTimeScale(true);
+            LeanTween.alphaCanvas(hud.reviveGroup, 1f, 1f).setIgnoreTimeScale(true).setOnComplete(() =>
+            {
+                LeanTween.alphaCanvas(hud.noAdsThxButton, 1f, 1f).setIgnoreTimeScale(true);
+            });
+        }
+
+        public void NoThanksAnimations()
+        {
             hud.gameOverNormalScreen.gameObject.SetActive(true);
-            LeanTween.cancel(hud.gameOverNormalScreen.gameObject);
-            hud.gameOverNormalScreen.alpha = 1f;
+            LeanTween.alphaCanvas(hud.gameOverNormalScreen, 1f, 0.5f).setIgnoreTimeScale(true);
 
-            LeanTween.cancel(hud.gameOverText.gameObject);
-            SetToScreenPosY(hud.gameOverText.rectTransform, 0.75f);
+            LeanTween.alphaCanvas(hud.gameOverAdsScreen, 0f, 0.5f).setIgnoreTimeScale(true).setOnComplete(() => { hud.gameOverAdsScreen.gameObject.SetActive(false); });
 
-            LeanTween.cancel(hud.finalScoreText.gameObject);
-            int currentRunScoreRounded = Mathf.RoundToInt(gameManager.currentRunScore);
-            hud.finalScoreText.text = $"FINAL SCORE {currentRunScoreRounded.ToString("N", EXMET.NumForThou)}";
-            hud.finalScoreText.color = white;
-            SetToScreenPosY(hud.finalScoreText.rectTransform, 0.635f);
-
-            LeanTween.cancel(hud.bestNearMissChainText.gameObject);
-            hud.bestNearMissChainText.text = $"BEST NEAR MISS CHAIN {gameManager.currentRunNMH}X";
-            hud.bestNearMissChainText.color = white;
-            SetToScreenPosX(hud.bestNearMissChainText.rectTransform, 0.4f);
-
-            LeanTween.cancel(hud.COPKillCountText.gameObject);
-            hud.COPKillCountText.text = $"{gameManager.currentRunCOPsDestroyed} COP{(gameManager.currentRunCOPsDestroyed != 1 ? "S" : "")} DESTROYED";
-            hud.COPKillCountText.color = white;
-            SetToScreenPosX(hud.COPKillCountText.rectTransform, 0.67f);
-
-            LeanTween.cancel(hud.NPCKillCountText.gameObject);
-            hud.NPCKillCountText.text = $"{gameManager.currentRunNPCsDestroyed.ToString("N", EXMET.NumForThou)} NPC{(gameManager.currentRunNPCsDestroyed != 1 ? "S" : "")} DESTROYED";
-            hud.NPCKillCountText.color = white;
-            SetToScreenPosX(hud.NPCKillCountText.rectTransform, 0.4f);
-
-            LeanTween.cancel(hud.earningsText.gameObject);
-            hud.earningsText.text = $"R$ {gameManager.currentRunReward.ToString("N", EXMET.NumForThou)} EARNED";
-            hud.earningsText.color = white;
-            SetToScreenPosY(hud.earningsText.rectTransform, 0.75f);
-
-            LeanTween.cancel(hud.playAgainButtonCanvasGroup.gameObject);
-            hud.playAgainButtonCanvasGroup.alpha = 1f;            
+            TweenToScreenPosY(hud.gameOverText.rectTransform, 0.75f, 1f, 2f, ScoreFinalTextAnimation);
         }
         #endregion
 

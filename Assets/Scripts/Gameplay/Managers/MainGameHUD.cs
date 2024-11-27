@@ -35,8 +35,9 @@ namespace RetroCode
         public Sprite[] pickUpIcons;
 
         [Header("Game Over Screen")]
+        public CanvasGroup backgroundCanvasGroup;
+        [Space]
         public CanvasGroup gameOverNormalScreen;
-        public CanvasGroup gameOverAdsScreen;
         public TextMeshProUGUI gameOverText;
         public TextMeshProUGUI earningsText;
         public TextMeshProUGUI finalScoreText;
@@ -44,5 +45,11 @@ namespace RetroCode
         public TextMeshProUGUI COPKillCountText;
         public TextMeshProUGUI NPCKillCountText;
         public CanvasGroup playAgainButtonCanvasGroup;
+        [Space]
+        public CanvasGroup gameOverAdsScreen;
+        public TextMeshProUGUI offerHeadlineText;
+        public CanvasGroup doubleRewardsGroup;
+        public CanvasGroup reviveGroup;
+        public CanvasGroup noAdsThxButton;
     }
 }
