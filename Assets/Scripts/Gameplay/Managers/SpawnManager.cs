@@ -102,6 +102,8 @@ namespace RetroCode
 
         public void InitializeNPCs()
         {
+            while (gameManager.playerTransform == null) return;
+
             if (!spawnNPC) return;
 
             RoadVariation roadVar = roadVariations[nextRoadVar];

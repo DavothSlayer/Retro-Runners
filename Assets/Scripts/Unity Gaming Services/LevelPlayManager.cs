@@ -7,6 +7,8 @@ namespace RetroCode
     {
         private void Start()
         {
+            // ANDROID APPKEY - 1d1c92815 //
+
             // ANDROID //
             string appKey = "85460dcd";
             // IOS //
@@ -61,7 +63,7 @@ namespace RetroCode
             }
             else
             {
-                Debug.Log("No rewarded ads available at the moment.");
+                print("No rewarded ads available at the moment.");
             }
         }
 
@@ -98,8 +100,7 @@ namespace RetroCode
         private void RewardedVideoOnAdClickedEvent(IronSourcePlacement placement, IronSourceAdInfo adInfo)
         {
 
-        }
-        
+        }        
     }
     
     public enum RewardedAdType

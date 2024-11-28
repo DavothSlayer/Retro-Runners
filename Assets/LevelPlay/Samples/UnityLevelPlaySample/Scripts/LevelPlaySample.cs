@@ -193,6 +193,7 @@ public class LevelPlaySample : MonoBehaviour
     }
 
     #endregion
+
     #region AdInfo Interstitial
 
     void InterstitialOnAdLoadedEvent(LevelPlayAdInfo adInfo)
