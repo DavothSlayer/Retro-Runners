@@ -1,10 +1,17 @@
 using UnityEngine;
 using com.unity3d.mediation;
+using UnityEngine.Events;
 
 namespace RetroCode
 {
     public class LevelPlayManager : MonoBehaviour
     {
+        public UnityEvent DoubleRewarded;
+        [Space]
+        public UnityEvent ReviveRewarded;
+        [Space]
+        public UnityEvent VideoRewarded;
+
         private void Start()
         {
             // ANDROID APPKEY - 1d1c92815 //
@@ -19,17 +26,6 @@ namespace RetroCode
 
             LevelPlay.OnInitSuccess += SDKInitComplete;
             LevelPlay.OnInitFailed += SDKInitFailed;
-        }
-
-        private void EnableAds()
-        {
-            IronSourceRewardedVideoEvents.onAdOpenedEvent += RewardedVideoOnAdOpenedEvent;
-            IronSourceRewardedVideoEvents.onAdClosedEvent += RewardedVideoOnAdClosedEvent;
-            IronSourceRewardedVideoEvents.onAdAvailableEvent += RewardedVideoOnAdAvailable;
-            IronSourceRewardedVideoEvents.onAdUnavailableEvent += RewardedVideoOnAdUnavailable;
-            IronSourceRewardedVideoEvents.onAdShowFailedEvent += RewardedVideoOnAdShowFailedEvent;
-            IronSourceRewardedVideoEvents.onAdRewardedEvent += RewardedVideoOnAdRewardedEvent;
-            IronSourceRewardedVideoEvents.onAdClickedEvent += RewardedVideoOnAdClickedEvent;
         }
 
         private void OnApplicationPause(bool pause)
@@ -48,63 +44,74 @@ namespace RetroCode
             print($"Ads SDK Failed: {error}");
         }
 
+        private void EnableAds()
+        {
+            IronSourceRewardedVideoEvents.onAdOpenedEvent += RewardedVideoOnAdOpenedEvent;
+            IronSourceRewardedVideoEvents.onAdClosedEvent += RewardedVideoOnAdClosedEvent;
+            IronSourceRewardedVideoEvents.onAdAvailableEvent += RewardedVideoOnAdAvailable;
+            IronSourceRewardedVideoEvents.onAdUnavailableEvent += RewardedVideoOnAdUnavailable;
+            IronSourceRewardedVideoEvents.onAdShowFailedEvent += RewardedVideoOnAdShowFailedEvent;
+            IronSourceRewardedVideoEvents.onAdRewardedEvent += RewardedVideoOnAdRewardedEvent;
+            IronSourceRewardedVideoEvents.onAdClickedEvent += RewardedVideoOnAdClickedEvent;
+        }
+
         public void LoadRewardedAd(int adTypeIndex)
         {
             //IronSource.Agent.loadRewardedVideo();
 
-            ShowRewardedAd();
+            // ADTYPEINDEXES EXPLAINED: //
+            // 0 = DOUBLE REWARDS AD //
+            // 1 = REVIVE AD //
+            // 2 = AD FOR EXTRA LOOT //
+
+            if (IronSource.Agent.isRewardedVideoAvailable()) IronSource.Agent.showRewardedVideo();
         }
 
-        public void ShowRewardedAd()
-        {
-            if (IronSource.Agent.isRewardedVideoAvailable())
-            {
-                IronSource.Agent.showRewardedVideo();
-            }
-            else
-            {
-                print("No rewarded ads available at the moment.");
-            }
-        }
-
+        // CALLED AS SOON AS THERE IS AN AD AVAILABLE //
         private void RewardedVideoOnAdAvailable(IronSourceAdInfo adInfo)
         {
-
+            print("Ad available, loading...");
         }
 
+        // CALLED WHEN THERE IS NO AD AVAILABLE //
         private void RewardedVideoOnAdUnavailable()
         {
-
+            print("No rewarded ads available at the moment.");
         }
 
         private void RewardedVideoOnAdOpenedEvent(IronSourceAdInfo adInfo)
         {
-
+            print("Ad opened.");
         }
 
         private void RewardedVideoOnAdClosedEvent(IronSourceAdInfo adInfo)
         {
-
+            print("Ad closed.");
         }
 
         private void RewardedVideoOnAdRewardedEvent(IronSourcePlacement placement, IronSourceAdInfo adInfo)
         {
-
+            print("Ad rewards given.");
         }
 
         private void RewardedVideoOnAdShowFailedEvent(IronSourceError error, IronSourceAdInfo adInfo)
         {
-
+            print("Ad failed.");
         }
 
         private void RewardedVideoOnAdClickedEvent(IronSourcePlacement placement, IronSourceAdInfo adInfo)
         {
-
+            print("Ad clicked.");
         }        
     }
     
     public enum RewardedAdType
     {
+        // ADTYPEINDEXES EXPLAINED: //
+        // 0 = DOUBLE REWARDS AD //
+        // 1 = REVIVE AD //
+        // 2 = AD FOR EXTRA LOOT //
+
         DoubleRewards,
         Revive,
         RewardedVideo,

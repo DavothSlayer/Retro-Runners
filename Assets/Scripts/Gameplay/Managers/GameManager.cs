@@ -325,21 +325,6 @@ namespace RetroCode
             UpdateGameScreen();
         }
 
-        public void HandleDoubleRewards()
-        {
-            //canvasAnimator.SetBool("Game Over Reward Ads", false);
-
-            int cloudDollars = gamingServicesManager.cloudData.RetroDollars;
-            cloudDollars += currentRunReward;
-            gamingServicesManager.cloudData.RetroDollars = cloudDollars;
-
-            // DOUBLE THE REWARD, DISPLAY IT //
-            currentRunReward *= 2;
-            hud.earningsText.text = $"${currentRunReward.ToString("n0")}  EARNED";
-
-            gamingServicesManager.SaveCloudData(false);
-        }
-
         public void HandleRevive()
         {
             //canvasAnimator.SetBool("Game Over Reward Ads", false);
@@ -698,6 +683,23 @@ namespace RetroCode
             GameOverEvent?.Invoke();
 
             UpdateGameScreen();
+            gamingServicesManager.SaveCloudData(false);
+        }
+        #endregion
+
+        #region Ad Rewards
+        public void HandleDoubleRewards()
+        {
+            //canvasAnimator.SetBool("Game Over Reward Ads", false);
+
+            int cloudDollars = gamingServicesManager.cloudData.RetroDollars;
+            cloudDollars += currentRunReward;
+            gamingServicesManager.cloudData.RetroDollars = cloudDollars;
+
+            // DOUBLE THE REWARD, DISPLAY IT //
+            currentRunReward *= 2;
+            hud.earningsText.text = $"${currentRunReward.ToString("n0")}  EARNED";
+
             gamingServicesManager.SaveCloudData(false);
         }
         #endregion
