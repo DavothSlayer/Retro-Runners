@@ -3,7 +3,6 @@ using System.Threading.Tasks;
 using TMPro;
 using UnityEngine;
 using V3CTOR;
-using static UnityEngine.Rendering.DebugUI;
 
 namespace RetroCode
 {
@@ -25,15 +24,25 @@ namespace RetroCode
 
         public void BounceContinous(GameObject gameObject)
         {
-            LeanTween.scale(gameObject, new(1.1f, 1.1f, 1f), .1f).setEaseInBounce();
-            LeanTween.scale(gameObject, Vector3.one, .1f).setDelay(.1f).setOnComplete(() => BounceContinousComplete(gameObject));
-        }
+            LTSeq sequence = LeanTween.sequence();
 
-        private async void BounceContinousComplete(GameObject gameObject)
-        {
-            await Task.Delay(750);
+            // SCALE UP TO 1.1 //
+            sequence.append(
+                LeanTween.scale(gameObject, new Vector3(1.1f, 1.1f, 1f), 0.1f)
+                .setEaseInOutSine()
+            );
 
-            BounceContinous(gameObject);
+            // SCALE BACK TO 1.0 //
+            sequence.append(
+                LeanTween.scale(gameObject, Vector3.one, 0.1f)
+                .setEaseInOutSine().setDelay(0.1f)
+            );
+
+            // ADD DELAY BEFORE RESTARTING //
+            sequence.append(0.5f);
+
+            // LOOP THE SEQUENCE //
+            sequence.append(() => BounceContinous(gameObject));
         }
 
         public void BlinkFadeOut(TextMeshProUGUI text)

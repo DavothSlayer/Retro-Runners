@@ -9,6 +9,8 @@ namespace RetroCode
     public class LoadingScreenManager : MonoBehaviour
     {
         [SerializeField]
+        private CanvasGroup loadingScreenAlpha;
+        [SerializeField]
         private Image loadingScreen;
         //[SerializeField]
         //private TextMeshProUGUI loadingText;
@@ -17,10 +19,8 @@ namespace RetroCode
 
         public void EnterSceneMethod(int i)
         {
-            //loadingText.color = new Color(1f, 1f, 1f, 0f);
-
-            LeanTween.color(loadingScreen.rectTransform, Color.white, 0.3f);
-            //LeanTween.value(gameObject, UpdateTextColor, loadingText.color, new Color(1f, 1f, 1f, 1f), 0.3f);
+            //LeanTween.alphaCanvas(loadingScreenAlpha, 1f, 0.3f);
+            //LeanTween.color(loadingScreen.rectTransform, Color.white, 0.3f);
 
             EnterSceneRoutine(i);
         }
@@ -45,17 +45,11 @@ namespace RetroCode
 
         private async void LoadReadyScene()
         {
-            LeanTween.color(loadingScreen.rectTransform, Color.black, 0.3f);
-            //LeanTween.value(gameObject, UpdateTextColor, loadingText.color, new Color(1f, 1f, 1f, 0f), 0.3f);
+            //LeanTween.color(loadingScreen.rectTransform, Color.black, 0.3f);
 
             await Task.Delay(500);
 
             asyncOP.allowSceneActivation = true;
-        }
-
-        private void UpdateTextColor(Color color)
-        {
-            //loadingText.color = color;
         }
     }
 }
