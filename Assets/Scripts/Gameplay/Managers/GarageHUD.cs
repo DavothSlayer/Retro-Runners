@@ -25,14 +25,16 @@ namespace RetroCode
         public GameObject nextAutoButton, previousAutoButton;
         public Slider
             autoTopSpeedSlider,
-            autoPowerSlider,
+            autoGearboxSlider,
             autoHandlingSlider,
-            autoHealthSlider;
+            autoHealthSlider,
+            autoPowerSlider;
         public TextMeshProUGUI
             autoTopSpeedInfo,
-            autoPowerInfo,
+            autoGearboxInfo,
             autoHandlingInfo,
-            autoHealthInfo;
+            autoHealthInfo,
+            autoPowerInfo;
         [Space]
         [Header("Auto Upgrade")]
         public TextMeshProUGUI currentCompNameText;
@@ -52,14 +54,16 @@ namespace RetroCode
         public TextMeshProUGUI AutoConfirmationNameText;
         public Slider
             autoTopSpeedSlider_C,
-            autoPowerSlider_C,
+            autoGearboxSlider_C,
             autoHandlingSlider_C,
-            autoHealthSlider_C;
+            autoHealthSlider_C,
+            autoPowerSlider_C;
         public TextMeshProUGUI
             autoTopSpeedInfo_C,
-            autoPowerInfo_C,
+            autoGearboxInfo_C,
             autoHandlingInfo_C,
-            autoHealthInfo_C;
+            autoHealthInfo_C,
+            autoPowerInfo_C;
         public GameObject orderPartConfirmScreen;
         [Space]
         [Header("Misc")]

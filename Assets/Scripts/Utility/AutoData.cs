@@ -39,10 +39,12 @@ namespace RetroCode
     public class AutoLevelData
     {
         public float TopSpeed;
-        public float Power;
-        public int Gears;
+        public float Torque;
+        public float MaxRPM;
         public float Handling;
         public int MaxHealth;
+        public int Power;
+
     }
 
     public enum AutoClass

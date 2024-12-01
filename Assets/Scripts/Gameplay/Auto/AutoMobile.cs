@@ -365,6 +365,7 @@ namespace RetroCode
             boost = false;
             health = data.autoLevelData[armorLevel].MaxHealth;
             menuTorque = data.autoLevelData[engineLevel].TopSpeed / 2f;
+            engineSFX.maxRPMLimit = data.autoLevelData[powerLevel].MaxRPM;
 
             rb.linearVelocity = Vector3.zero;
             rb.AddForce(transform.forward * menuTorque, ForceMode.VelocityChange);
@@ -490,6 +491,8 @@ namespace RetroCode
         private void HandleSFX()
         {
             if (GameManager.gameState == GameState.GameOver) { return; }
+
+            engineSFX.maxRPMLimit = data.autoLevelData[powerLevel].MaxRPM;
 
             NearMissPitch = Mathf.Lerp(NearMissPitch, 0f, Time.deltaTime * 1.25f);            
 
