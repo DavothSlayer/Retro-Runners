@@ -5,6 +5,7 @@ using Unity.Burst;
 using UnityEngine;
 using V3CTOR;
 using Random = UnityEngine.Random;
+using SkrilStudio;
 
 namespace RetroCode
 {
@@ -63,7 +64,7 @@ namespace RetroCode
         private float wheelDiameter;
 
         [Header("SFX")]
-        public AudioSource engineSFX;
+        public RealisticEngineSound engineSFX;
         [SerializeField]
         private AudioClip abilityClip;
         #endregion
@@ -223,7 +224,7 @@ namespace RetroCode
             if (boost) { boostMltplr = Mathf.Lerp(boostMltplr, 2f, 6f * Time.deltaTime); }
             else { boostMltplr = Mathf.Lerp(boostMltplr, 1f, 12f * Time.deltaTime); }
 
-            engineTorque = data.enginePitchCurve.Evaluate(evaluation) * boostMltplr;
+            //engineTorque = data.enginePitchCurve.Evaluate(evaluation) * boostMltplr;
 
             targetTorque = engineTorque * data.autoLevelData[engineLevel].TopSpeed * massDragMltplr;
         }
@@ -269,7 +270,7 @@ namespace RetroCode
             foreach (ParticleSystem ps in abilityFX)
                 ps.PlaySystem();
 
-            engineSFX.PlayOneShot(abilityClip);
+            //engineSFX.PlayOneShot(abilityClip);
 
             gameManager.ShakeTheCam(1f);
         }
@@ -490,11 +491,11 @@ namespace RetroCode
         {
             if (GameManager.gameState == GameState.GameOver) { return; }
 
-            NearMissPitch = Mathf.Lerp(NearMissPitch, 0f, Time.deltaTime * 1.25f);
+            NearMissPitch = Mathf.Lerp(NearMissPitch, 0f, Time.deltaTime * 1.25f);            
 
             if (GameManager.gameState == GameState.InMenu)
             {
-                engineSFX.pitch = data.IdlePitch;
+                //engineSFX.pitch = data.IdlePitch;
             }
             else
             {
@@ -507,8 +508,8 @@ namespace RetroCode
                     BoostPitch = Mathf.Lerp(BoostPitch, 0f, 4f * Time.deltaTime);
                 }
 
-                engineSFX.pitch = Mathf.Lerp(engineSFX.pitch,
-                    data.IdlePitch + data.enginePitchCurve.Evaluate(rb.linearVelocity.z / data.autoLevelData[engineLevel].TopSpeed) / 2f + BoostPitch + NearMissPitch, 8f * Time.deltaTime);
+                //engineSFX.pitch = Mathf.Lerp(engineSFX.pitch,
+                    //data.IdlePitch + data.enginePitchCurve.Evaluate(rb.linearVelocity.z / data.autoLevelData[engineLevel].TopSpeed) / 2f + BoostPitch + NearMissPitch, 8f * Time.deltaTime);
             }
         }
 

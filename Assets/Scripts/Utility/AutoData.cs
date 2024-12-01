@@ -16,9 +16,6 @@ namespace RetroCode
         public AutoLevelData[] autoLevelData;
         public AutoClass Class;
         [Space]
-        public float IdlePitch;
-        public AnimationCurve enginePitchCurve;
-        [Space]
         public Vector3 CameraPositionInMenu;
         public Quaternion CameraRotationInMenu;
         public float InMenuFOV;
@@ -43,6 +40,7 @@ namespace RetroCode
     {
         public float TopSpeed;
         public float Power;
+        public int Gears;
         public float Handling;
         public int MaxHealth;
     }
