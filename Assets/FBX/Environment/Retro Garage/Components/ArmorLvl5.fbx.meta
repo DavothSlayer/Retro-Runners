@@ -32,8 +32,18 @@ ModelImporter:
   - first:
       type: UnityEngine:Material
       assembly: UnityEngine.CoreModule
+      name: RetroDiffuse_G
+    second: {fileID: 2100000, guid: 6bdebb2ef47c71b40b7ef6e653772b1d, type: 2}
+  - first:
+      type: UnityEngine:Material
+      assembly: UnityEngine.CoreModule
       name: RetroDiffuse_MG
     second: {fileID: 2100000, guid: aa32d987881c015458c2a5adf0fb3de5, type: 2}
+  - first:
+      type: UnityEngine:Material
+      assembly: UnityEngine.CoreModule
+      name: RetroEmit_G
+    second: {fileID: 2100000, guid: fd196b5decffc8041808c1453142c8eb, type: 2}
   - first:
       type: UnityEngine:Material
       assembly: UnityEngine.CoreModule
@@ -47,8 +57,18 @@ ModelImporter:
   - first:
       type: UnityEngine:Material
       assembly: UnityEngine.CoreModule
+      name: RetroMetal_G
+    second: {fileID: 2100000, guid: dab20f139a1643546b150d2c67960ae6, type: 2}
+  - first:
+      type: UnityEngine:Material
+      assembly: UnityEngine.CoreModule
       name: RetroMetal_MG
     second: {fileID: 2100000, guid: 86ca9d19f4a85f74fba0a0874b8f0152, type: 2}
+  - first:
+      type: UnityEngine:Material
+      assembly: UnityEngine.CoreModule
+      name: RetroUniversal
+    second: {fileID: 2100000, guid: bba5389207340ac40a301dc534f6fc2c, type: 2}
   materials:
     materialImportMode: 2
     materialName: 0
@@ -102,7 +122,7 @@ ModelImporter:
     minBoneWeight: 0.001
     optimizeBones: 1
     meshOptimizationFlags: -1
-    indexFormat: 1
+    indexFormat: 0
     secondaryUVAngleDistortion: 8
     secondaryUVAreaDistortion: 15.000001
     secondaryUVHardAngle: 88

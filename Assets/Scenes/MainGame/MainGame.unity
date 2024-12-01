@@ -31303,7 +31303,7 @@ GameObject:
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
   m_StaticEditorFlags: 0
-  m_IsActive: 1
+  m_IsActive: 0
 --- !u!4 &535426004
 Transform:
   m_ObjectHideFlags: 0
@@ -125369,6 +125369,36 @@ PrefabInstance:
         type: 3}
       propertyPath: m_Enabled
       value: 1
+      objectReference: {fileID: 0}
+    - target: {fileID: 4417787292190810751, guid: 4cb412852a380eb41b8eea3eae897b83,
+        type: 3}
+      propertyPath: engineLoad
+      value: 1
+      objectReference: {fileID: 0}
+    - target: {fileID: 4417787292190810751, guid: 4cb412852a380eb41b8eea3eae897b83,
+        type: 3}
+      propertyPath: prefabType
+      value: 0
+      objectReference: {fileID: 0}
+    - target: {fileID: 4417787292190810751, guid: 4cb412852a380eb41b8eea3eae897b83,
+        type: 3}
+      propertyPath: gasPedalSimSpeed
+      value: 10
+      objectReference: {fileID: 0}
+    - target: {fileID: 4417787292190810751, guid: 4cb412852a380eb41b8eea3eae897b83,
+        type: 3}
+      propertyPath: dynamicAudioMixer
+      value: 0
+      objectReference: {fileID: 0}
+    - target: {fileID: 4417787292190810751, guid: 4cb412852a380eb41b8eea3eae897b83,
+        type: 3}
+      propertyPath: idlePitchMultiplier
+      value: 1
+      objectReference: {fileID: 0}
+    - target: {fileID: 4417787292190810751, guid: 4cb412852a380eb41b8eea3eae897b83,
+        type: 3}
+      propertyPath: gasPedalValueSetting
+      value: 0
       objectReference: {fileID: 0}
     - target: {fileID: 5532787178974573375, guid: 4cb412852a380eb41b8eea3eae897b83,
         type: 3}

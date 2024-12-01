@@ -20,30 +20,40 @@ MonoBehaviour:
   CompPriceMultiplier: 1
   autoLevelData:
   - TopSpeed: 73
-    Power: 150
-    Gears: 4
+    Torque: 200
+    MaxRPM: 5000
+    MaxGear: 5
     Handling: 50
-    MaxHealth: 7
+    MaxHealth: 5
+    Power: 6
   - TopSpeed: 79
-    Power: 200
-    Gears: 0
-    Handling: 55
-    MaxHealth: 9
+    Torque: 250
+    MaxRPM: 5700
+    MaxGear: 0
+    Handling: 65
+    MaxHealth: 7
+    Power: 8
   - TopSpeed: 86
-    Power: 250
-    Gears: 0
+    Torque: 0
+    MaxRPM: 0
+    MaxGear: 0
     Handling: 60
     MaxHealth: 12
+    Power: 0
   - TopSpeed: 91
-    Power: 300
-    Gears: 0
+    Torque: 0
+    MaxRPM: 0
+    MaxGear: 0
     Handling: 65
     MaxHealth: 15
+    Power: 0
   - TopSpeed: 97
-    Power: 350
-    Gears: 0
+    Torque: 0
+    MaxRPM: 0
+    MaxGear: 0
     Handling: 70
     MaxHealth: 19
+    Power: 12
   Class: 0
   CameraPositionInMenu: {x: 2.61, y: 1.1, z: 6.78}
   CameraRotationInMenu: {x: 0.08641025, y: -0.9876721, z: -0.011376121, w: 0.13002951}

@@ -6,6 +6,7 @@ using UnityEngine;
 using V3CTOR;
 using Random = UnityEngine.Random;
 using SkrilStudio;
+using Unity.Profiling;
 
 namespace RetroCode
 {
@@ -72,17 +73,17 @@ namespace RetroCode
         #region Hidden References
         // HIDDEN //
         [HideInInspector]
-        public int health;
+        public int currentHealth;
         [HideInInspector]
         public int engineLevel;
         [HideInInspector]
-        public int powerLevel;
+        public int gearboxLevel;
         [HideInInspector]
         public int tiresLevel;
         [HideInInspector]
         public int armorLevel;
-
-        private float menuTorque;
+        [HideInInspector]
+        public int powerLevel;
         // HIDDEN //
         #endregion
 
@@ -191,10 +192,15 @@ namespace RetroCode
         }
 
         #region Driving
-        private float engineTorque;
-        private float evaluation;
-        [HideInInspector]
-        public float targetTorque;
+        private float currentRPM;
+        private int currentGear = 1;
+        private float gearChangeThreshold = 0.85f;
+        private float gearDownThreshold = 0.25f;
+        private float targetTorque;
+        private float menuTorque;
+
+        private bool pressingGas = true;
+
         [HideInInspector]
         public bool boost;
         private float boostMltplr;
@@ -203,42 +209,76 @@ namespace RetroCode
         [BurstCompile]
         private void AutoMath()
         {
-            if (GameManager.gameState == GameState.InGame)
-            {
-                evaluation += Time.deltaTime / data.autoLevelData[powerLevel].Power;
-                evaluation = Mathf.Clamp01(evaluation);
-            }
+            if (GameManager.gameState != GameState.InGame) return;
 
-            if (GameManager.gameState == GameState.InMenu)
-            {
-                evaluation = menuTorque / data.autoLevelData[engineLevel].TopSpeed;
-            }
-
-            if (GameManager.gameState == GameState.GameOver)
-            {
-                evaluation = 0f;
-            }
+            engineSFX.gasPedalPressing = true;
 
             massDragMltplr = rb.linearDamping * rb.mass;
 
-            if (boost) { boostMltplr = Mathf.Lerp(boostMltplr, 2f, 6f * Time.deltaTime); }
-            else { boostMltplr = Mathf.Lerp(boostMltplr, 1f, 12f * Time.deltaTime); }
+            // Calculate the car's current speed as a percentage of top speed
+            float speedPercent = rb.linearVelocity.magnitude / data.autoLevelData[engineLevel].TopSpeed;
 
-            //engineTorque = data.enginePitchCurve.Evaluate(evaluation) * boostMltplr;
+            // Determine the RPM based on the current gear and speed
+            float maxGear = data.autoLevelData[engineLevel].MaxGear;
+            float maxRPM = data.autoLevelData[engineLevel].MaxRPM;
+            float torque = data.autoLevelData[engineLevel].Torque;
 
-            targetTorque = engineTorque * data.autoLevelData[engineLevel].TopSpeed * massDragMltplr;
+            // Adjust current gear based on speed and thresholds
+            if (currentGear < maxGear && speedPercent > gearChangeThreshold && pressingGas)
+            {
+                ShiftGear(1);
+            }
+
+            /*if (currentGear > 1 && speedPercent < gearDownThreshold)
+            {
+                ShiftGear(-1);
+            }*/
+
+            // Calculate RPM for the current gear
+            float gearRatio = (float)currentGear / maxGear; // Simple gear ratio model
+            if (pressingGas)
+            {
+                currentRPM = Mathf.Lerp(currentRPM, maxRPM, (speedPercent / gearRatio) * Time.deltaTime); // Min RPM is idle RPM
+            }
+            else
+            {
+                currentRPM = Mathf.Lerp(currentRPM, data.IdleRPM(gearboxLevel), (speedPercent / gearRatio) * Time.deltaTime); // Min RPM is idle RPM
+            }
+
+            // Clamp RPM to within valid range
+            currentRPM = Mathf.Clamp(currentRPM, data.IdleRPM(gearboxLevel), maxRPM);
+
+            // Update the target torque based on RPM and gear
+            targetTorque = torque * (currentRPM / maxRPM) * massDragMltplr;
+
+            // Apply target torque to the Rigidbody
+            //rb.AddForce(Vector3.forward * targetTorque, ForceMode.Force);
+
+            print($"Speed: {speedPercent * 100}% | Gear: {currentGear} | RPM: {currentRPM}");
+        }
+
+        private async void ShiftGear(int shift)
+        {
+            pressingGas = false;
+
+            currentGear += shift;
+
+            await Task.Delay(400);
+
+            pressingGas = true;
         }
 
         [BurstCompile]
         private void AutoMovement()
         {
-            rb.linearVelocity = Vector3.ClampMagnitude(rb.linearVelocity, data.autoLevelData[engineLevel].TopSpeed * 2f);
+            rb.linearVelocity = Vector3.ClampMagnitude(rb.linearVelocity, data.autoLevelData[engineLevel].TopSpeed);
 
             if (GameManager.gameState == GameState.GameOver) { return; }
 
             if (GameManager.gameState != GameState.InGame)
             {
-                rb.AddForce(Vector3.forward * menuTorque * massDragMltplr, ForceMode.Force);
+                engineSFX.gasPedalPressing = true;
+                rb.AddForce(Vector3.forward * targetTorque * 0.3f, ForceMode.Force);
                 rb.rotation = Quaternion.Euler(0f, 0f, 0f);
                 return;
             }
@@ -249,14 +289,14 @@ namespace RetroCode
 
             if (input.xTouch != 0f)
             {
-                rb.AddForce(Vector3.right * input.xTouch * data.autoLevelData[tiresLevel].Handling * massDragMltplr, ForceMode.Force);
+                rb.AddForce(Vector3.right * input.xTouch * data.SteerSpeed(tiresLevel) * massDragMltplr, ForceMode.Force);
             }
             if (input.xTouch == 0f)
             {
-                rb.AddForce(-Vector3.right * rb.linearVelocity.x * 3f * massDragMltplr, ForceMode.Force);
+                rb.AddForce(-Vector3.right * rb.linearVelocity.x * 1f * massDragMltplr, ForceMode.Force);
             }
 
-            rb.rotation = Quaternion.Euler(0f, 6f * input.xTouchLerp, 0f);
+            rb.rotation = Quaternion.Euler(0f, data.RotateAmount(tiresLevel) * input.xTouchLerp, 0f);
         }
 
         [BurstCompile]
@@ -311,14 +351,14 @@ namespace RetroCode
         [BurstCompile]
         public void HandleDamage(int dmg)
         {
-            if (health <= 0) return;
+            if (currentHealth <= 0) return;
 
             Damaged?.Invoke();
 
-            health -= dmg;
+            currentHealth -= dmg;
 
             // PLAY THE DAMAGE FX //
-            if (health >= data.autoLevelData[armorLevel].MaxHealth)
+            if (currentHealth >= data.autoLevelData[armorLevel].MaxHealth)
             {
                 foreach (VariableDmgFX variableDmgFX in damageFX)
                     foreach (ParticleSystem fx in variableDmgFX.dmgFX)
@@ -327,11 +367,11 @@ namespace RetroCode
             else
             {
                 foreach (VariableDmgFX variableDmgFX in damageFX)
-                    if (health <= variableDmgFX.healthThreshold)
+                    if (currentHealth <= variableDmgFX.healthThreshold)
                         PlayDMGFX(variableDmgFX.dmgFX);
             }
 
-            if (health <= 0 && GameManager.gameState != GameState.GameOver) { HandleGameOver(); }
+            if (currentHealth <= 0 && GameManager.gameState != GameState.GameOver) { HandleGameOver(); }
         }
 
         [BurstCompile]
@@ -363,7 +403,8 @@ namespace RetroCode
         public void FixAuto()
         {
             boost = false;
-            health = data.autoLevelData[armorLevel].MaxHealth;
+            
+            currentHealth = data.autoLevelData[armorLevel].MaxHealth;
             menuTorque = data.autoLevelData[engineLevel].TopSpeed / 2f;
             engineSFX.maxRPMLimit = data.autoLevelData[powerLevel].MaxRPM;
 
@@ -492,7 +533,10 @@ namespace RetroCode
         {
             if (GameManager.gameState == GameState.GameOver) { return; }
 
-            engineSFX.maxRPMLimit = data.autoLevelData[powerLevel].MaxRPM;
+            engineSFX.engineCurrentRPM = currentRPM;
+            engineSFX.maxRPMLimit = data.autoLevelData[gearboxLevel].MaxRPM;
+            engineSFX.carCurrentSpeed = rb.linearVelocity.magnitude * 2.2f;
+            engineSFX.carMaxSpeed = data.autoLevelData[engineLevel].TopSpeed * 2.2f;
 
             NearMissPitch = Mathf.Lerp(NearMissPitch, 0f, Time.deltaTime * 1.25f);            
 
@@ -530,7 +574,7 @@ namespace RetroCode
         #region Pickups
         public void HandleFixer()
         {
-            health = data.autoLevelData[armorLevel].MaxHealth;
+            currentHealth = data.autoLevelData[armorLevel].MaxHealth;
 
             foreach (VariableDmgFX variableDmgFX in damageFX)
                 foreach (ParticleSystem fx in variableDmgFX.dmgFX)
@@ -553,9 +597,9 @@ namespace RetroCode
 
             gameManager.AddExternalScore(500f);
 
-            if (health >= data.autoLevelData[armorLevel].MaxHealth) return;
+            if (currentHealth >= data.autoLevelData[armorLevel].MaxHealth) return;
 
-            health++;
+            currentHealth++;
             fixFX.PlaySystem();
 
             HandleDamage(0);
@@ -616,9 +660,9 @@ namespace RetroCode
         // RATTLE //
         public void MechanicMethod()
         {
-            if (health >= data.autoLevelData[armorLevel].MaxHealth) return;
+            if (currentHealth >= data.autoLevelData[armorLevel].MaxHealth) return;
 
-            health = data.autoLevelData[armorLevel].MaxHealth;
+            currentHealth = data.autoLevelData[armorLevel].MaxHealth;
             fixFX.PlaySystem();
             HandleDamage(0);
         }

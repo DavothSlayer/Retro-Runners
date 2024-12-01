@@ -104,13 +104,15 @@ namespace V3CTOR
                     return "engine";
 
                 case 1:
-                    return "power";
+                    return "gearbox";
 
                 case 2:
                     return "handling";
 
                 case 3:
                     return "health";
+                case 4:
+                    return "power";
             }
 
             return "";

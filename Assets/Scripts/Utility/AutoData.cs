@@ -33,6 +33,26 @@ namespace RetroCode
         [Header("Ability")]
         public AutoAbility Ability;
         public string AbilityInfo;
+
+        public float AccelerationMS(int GearboxLevel)
+        {
+            return 2000f / autoLevelData[GearboxLevel].Torque;
+        }
+
+        public float SteerSpeed(int HandlingLevel)
+        {
+            return autoLevelData[HandlingLevel].Handling;
+        }
+
+        public float RotateAmount(int HandlingLevel)
+        {
+            return 1000f / autoLevelData[HandlingLevel].Handling;
+        }
+
+        public float IdleRPM(int GearboxLevel)
+        {
+            return autoLevelData[GearboxLevel].MaxRPM / 10f;
+        }
     }
 
     [Serializable]
@@ -41,6 +61,7 @@ namespace RetroCode
         public float TopSpeed;
         public float Torque;
         public float MaxRPM;
+        public int MaxGear;
         public float Handling;
         public int MaxHealth;
         public int Power;

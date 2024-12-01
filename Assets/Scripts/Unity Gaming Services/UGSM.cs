@@ -362,6 +362,7 @@ namespace RetroCode
         public int MostCOPsDestroyed = 0;
         public int MostNPCsDestroyed = 0;
         public byte LastSelectedCarIndex = 0;
+        public byte TierBossDefeated = 0;
         public byte TierUnlocked = 0;
         public Dictionary<int, float> ActiveQuests = new();
 
@@ -369,9 +370,10 @@ namespace RetroCode
         {
             {"bane", new Dictionary<string, AutoPartData>{
                 {"engine", new AutoPartData(0, DateTime.UtcNow) },
-                {"power", new AutoPartData(0, DateTime.UtcNow) },
+                {"gearbox", new AutoPartData(0, DateTime.UtcNow) },
                 {"handling", new AutoPartData(0, DateTime.UtcNow) },
                 {"health", new AutoPartData(0, DateTime.UtcNow) },
+                {"power", new AutoPartData(0, DateTime.UtcNow) },
             } },
             /*{"Next Car...", new Dictionary<string, AutoPartData>{
                 {"engine", new AutoPartData(0, DateTime.UtcNow) },
@@ -386,9 +388,9 @@ namespace RetroCode
             inventoryDict.Add(itemCode, new()
             {
                 {"engine", new AutoPartData(0, DateTime.UtcNow) },
-                {"power", new AutoPartData(0, DateTime.UtcNow) },
-                {"handling", new AutoPartData(0, DateTime.UtcNow) },
+                {"gearbox", new AutoPartData(0, DateTime.UtcNow) },
                 {"health", new AutoPartData(0, DateTime.UtcNow) },
+                {"power", new AutoPartData(0, DateTime.UtcNow) },
             });
         }
     }

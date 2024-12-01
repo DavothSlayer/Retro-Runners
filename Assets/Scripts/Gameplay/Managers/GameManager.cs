@@ -227,7 +227,7 @@ namespace RetroCode
 
             #region Health & Power Bars
             hud.healthBarSlider.value = Mathf.Lerp(
-                hud.healthBarSlider.value, ((float)playerCar.health / (float)playerCar.data.autoLevelData[playerCar.armorLevel].MaxHealth),
+                hud.healthBarSlider.value, ((float)playerCar.currentHealth / (float)playerCar.data.autoLevelData[playerCar.armorLevel].MaxHealth),
                 Time.deltaTime * 5f
                 );
 
