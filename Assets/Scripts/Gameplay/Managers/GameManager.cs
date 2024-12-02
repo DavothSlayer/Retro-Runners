@@ -746,7 +746,7 @@ namespace RetroCode
                     camHolder.position = playerPos + camPosTarget + lowCamOffset + cameraOffset;
                     camHolder.rotation = playerRot * camRotTarget * carRot;
 
-                    speedFOV = (playerCar.rb.linearVelocity.magnitude / playerCar.data.autoLevelData[playerCar.engineLevel].TopSpeed) * 30f;
+                    speedFOV = (playerCar.rb.linearVelocity.z / playerCar.data.autoLevelData[playerCar.engineLevel].TopSpeed) * 45f;
 
                     cam.fieldOfView = Mathf.Lerp(cam.fieldOfView, gameCamFOV + speedFOV, 5f * Time.deltaTime);
 

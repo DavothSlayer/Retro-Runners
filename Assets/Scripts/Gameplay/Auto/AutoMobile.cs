@@ -195,7 +195,7 @@ namespace RetroCode
         private float currentRPM;
         private int currentGear = 1;
         private float shiftUpThreshold;
-        private float shiftDownThreshold = 0.4f;
+        private float shiftDownThreshold;
         private float targetTorque;
 
         private bool pressingGas = true;
@@ -223,6 +223,7 @@ namespace RetroCode
             maxTorque = data.autoLevelData[gearboxLevel].Torque;
             gearRatio = (float)currentGear / highestGear;
             
+            shiftDownThreshold = 0.2f + 0.2f * gearRatio;
             shiftUpThreshold = 0.5f + 0.3f * gearRatio;
 
             shiftPercent = rb.linearVelocity.z / (data.autoLevelData[engineLevel].TopSpeed * gearRatio);
@@ -248,7 +249,8 @@ namespace RetroCode
             } 
             else currentRPM = Mathf.Lerp(currentRPM, data.IdleRPM(gearboxLevel), 2f * Time.deltaTime);
 
-            print($"GearRatio: {gearRatio} | ShiftPercent: {shiftPercent}% | Gear: {currentGear} | RPM: {currentRPM} | VelZ: {rb.linearVelocity.z}" );
+            // DEBUGGING //
+            //print($"GearRatio: {gearRatio} | ShiftPercent: {shiftPercent}% | Gear: {currentGear} | RPM: {currentRPM} | VelZ: {rb.linearVelocity.z}" );
         }
 
         private async void ShiftGear(int shift)
@@ -259,7 +261,7 @@ namespace RetroCode
 
             currentGear += shift;
 
-            await Task.Delay(250);
+            await Task.Delay(350 - 50 * gearboxLevel);
 
             engineSFX.isShifting = false;
 
@@ -402,7 +404,7 @@ namespace RetroCode
             engineSFX.maxRPMLimit = data.autoLevelData[powerLevel].MaxRPM;
 
             rb.linearVelocity = Vector3.zero;
-            rb.AddForce(transform.forward * targetTorque, ForceMode.VelocityChange);
+            rb.linearVelocity = Vector3.forward * targetTorque;
 
             exhaustFX.StopSystem();
             boostFX.StopSystem();

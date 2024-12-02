@@ -73,6 +73,9 @@ namespace RetroCode
         #region Invisible References
         [HideInInspector]
         public SettingsClass settings;
+
+        private AudioSource[] allSFX;
+        private float[] allSFXVol;
         #endregion
 
         public static SettingsManager Instance { get; private set; }
@@ -82,6 +85,18 @@ namespace RetroCode
             Instance = this;
 
             LoadSettings();
+        }
+
+        private void OnValidate()
+        {
+            allSFX = FindObjectsByType<AudioSource>(FindObjectsSortMode.None);
+            allSFXVol = new float[allSFX.Length + 1];
+            
+            for(int i = 0; i < allSFXVol.Length; i++)
+            {
+                float vol = allSFXVol[i];
+                float ratio = (vol * 100f) / settings.EffectsVol;
+            }
         }
 
         #region UI Methods
