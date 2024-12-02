@@ -34,7 +34,7 @@ namespace RetroCode
         public AutoAbility Ability;
         public string AbilityInfo;
 
-        public float AccelerationMS(int GearboxLevel)
+        public float Acceleration(int GearboxLevel)
         {
             return 2000f / autoLevelData[GearboxLevel].Torque;
         }

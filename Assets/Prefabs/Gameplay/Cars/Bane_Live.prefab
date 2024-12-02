@@ -4855,7 +4855,7 @@ GameObject:
   - component: {fileID: 4309882112062394384}
   - component: {fileID: 1411618333204126444}
   - component: {fileID: 6772050765625574681}
-  m_Layer: 0
+  m_Layer: 10
   m_Name: bane1
   m_TagString: Untagged
   m_Icon: {fileID: 0}
@@ -34319,7 +34319,7 @@ GameObject:
   - component: {fileID: 4570085139877457845}
   - component: {fileID: 2337958845297941408}
   - component: {fileID: 7764418024696706554}
-  m_Layer: 0
+  m_Layer: 10
   m_Name: bane1_frontwheels
   m_TagString: Untagged
   m_Icon: {fileID: 0}
@@ -39248,7 +39248,7 @@ GameObject:
   - component: {fileID: 758975014714590281}
   - component: {fileID: 6687446557879358177}
   - component: {fileID: 2184003981456361666}
-  m_Layer: 0
+  m_Layer: 10
   m_Name: bane1_gr
   m_TagString: Untagged
   m_Icon: {fileID: 0}
@@ -44424,12 +44424,12 @@ MonoBehaviour:
   wheelDiameter: 1.15
   engineSFX: {fileID: 4417787292190810751}
   abilityClip: {fileID: 8300000, guid: 95c0d7b09166e144a9b5ebf292d2a9fb, type: 3}
-  health: 0
+  currentHealth: 0
   engineLevel: 0
-  powerLevel: 0
+  gearboxLevel: 0
   tiresLevel: 0
   armorLevel: 0
-  targetTorque: 0
+  powerLevel: 0
   boost: 0
 --- !u!1 &5605688491108936225
 GameObject:
@@ -49285,7 +49285,7 @@ GameObject:
   - component: {fileID: 8562331766348967628}
   - component: {fileID: 8452192062372968866}
   - component: {fileID: 5728086132936165761}
-  m_Layer: 0
+  m_Layer: 10
   m_Name: bane1_rearwheels
   m_TagString: Untagged
   m_Icon: {fileID: 0}
@@ -78693,6 +78693,11 @@ PrefabInstance:
         type: 3}
       propertyPath: m_Name
       value: V8_American_Modern_1_LQ
+      objectReference: {fileID: 0}
+    - target: {fileID: 6351466200178221138, guid: 14829505d86160444a7ffe341567c6b2,
+        type: 3}
+      propertyPath: m_Layer
+      value: 10
       objectReference: {fileID: 0}
     - target: {fileID: 6354722116505803198, guid: 14829505d86160444a7ffe341567c6b2,
         type: 3}
