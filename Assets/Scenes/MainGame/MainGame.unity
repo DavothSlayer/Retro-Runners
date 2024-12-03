@@ -125594,6 +125594,11 @@ PrefabInstance:
       propertyPath: m_IsActive
       value: 1
       objectReference: {fileID: 0}
+    - target: {fileID: 6772050765625574681, guid: 4cb412852a380eb41b8eea3eae897b83,
+        type: 3}
+      propertyPath: m_Convex
+      value: 1
+      objectReference: {fileID: 0}
     - target: {fileID: 6905957580322905295, guid: 4cb412852a380eb41b8eea3eae897b83,
         type: 3}
       propertyPath: m_IsActive

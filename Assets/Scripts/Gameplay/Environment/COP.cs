@@ -40,7 +40,11 @@ namespace RetroCode
         public Transform playerT;
         [HideInInspector]
         public AutoMobile playerAuto;
-        
+        [SerializeField]
+        private Transform[] wheelSets;
+        [SerializeField]
+        private float wheelDiameter;
+
         private float targetSpeed;
         private float cruiseSpeed;
         private float chaseSpeed;
@@ -81,6 +85,11 @@ namespace RetroCode
         [BurstCompile]
         private void COPMath()
         {
+            foreach (Transform wheels in wheelSets)
+            {
+                wheels.Rotate(Vector3.right, (15f * Time.deltaTime / wheelDiameter * 3.14f) * 360f, Space.Self);
+            }
+
             if (playerT == null) { return; }
 
             AutoMobile auto = gameManager.playerCar;

@@ -20,32 +20,37 @@ MonoBehaviour:
   CompPriceMultiplier: 1.25
   autoLevelData:
   - TopSpeed: 77
-    Torque: 0
-    MaxRPM: 0
+    Torque: 200
+    MaxRPM: 6800
+    MaxGear: 4
     Handling: 60
     MaxHealth: 6
-    Power: 0
+    Power: 7
   - TopSpeed: 83
     Torque: 0
     MaxRPM: 0
+    MaxGear: 0
     Handling: 0
     MaxHealth: 5
     Power: 0
   - TopSpeed: 90
     Torque: 0
     MaxRPM: 0
+    MaxGear: 0
     Handling: 0
     MaxHealth: 6
     Power: 0
   - TopSpeed: 96
     Torque: 0
     MaxRPM: 0
+    MaxGear: 0
     Handling: 0
     MaxHealth: 7
     Power: 0
   - TopSpeed: 104
     Torque: 0
     MaxRPM: 0
+    MaxGear: 0
     Handling: 0
     MaxHealth: 9
     Power: 0

@@ -389,6 +389,7 @@ namespace RetroCode
             {
                 {"engine", new AutoPartData(0, DateTime.UtcNow) },
                 {"gearbox", new AutoPartData(0, DateTime.UtcNow) },
+                {"handling", new AutoPartData(0, DateTime.UtcNow) },
                 {"health", new AutoPartData(0, DateTime.UtcNow) },
                 {"power", new AutoPartData(0, DateTime.UtcNow) },
             });

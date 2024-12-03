@@ -398,14 +398,16 @@ namespace RetroCode
             hud.AutoConfirmationNameText.text = autoData.AutoName;
 
             hud.autoTopSpeedSlider_C.value = autoTopSpeedVar;
-            hud.autoPowerSlider_C.value = autoPowerVar;
+            hud.autoGearboxSlider_C.value = autoTorqueVar;
             hud.autoHandlingSlider_C.value = autoHandlingVar;
             hud.autoHealthSlider_C.value = autoHealthVar;
+            hud.autoPowerSlider_C.value = autoPowerVar;
 
-            hud.autoTopSpeedInfo_C.text = $"{Mathf.RoundToInt(autoData.autoLevelData[0].TopSpeed * 2.2f)} MPH";
-            hud.autoPowerInfo_C.text = $"{autoData.autoLevelData[0].Power} UNITS";
-            hud.autoHandlingInfo_C.text = $"{autoData.autoLevelData[0].Handling} M/S";
+            hud.autoTopSpeedInfo_C.text = $"{Mathf.RoundToInt(autoData.autoLevelData[0].TopSpeed) * (SettingsManager.Instance.settings.SpeedUnitIsKMH ? 3.6f : 2.2f)} {(SettingsManager.Instance.settings.SpeedUnitIsKMH ? "KMH" : "MPH")}";
+            hud.autoGearboxInfo_C.text = $"{autoData.autoLevelData[0].Torque} TQ";
+            hud.autoHandlingInfo_C.text = $"{autoData.autoLevelData[0].Handling} DR";
             hud.autoHealthInfo_C.text = $"{autoData.autoLevelData[0].MaxHealth} HP";
+            hud.autoPowerInfo_C.text = $"{autoData.autoLevelData[0].Power} CORES";
         }
 
         public void PurchaseCarConfirm()

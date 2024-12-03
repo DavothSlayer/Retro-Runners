@@ -21,6 +21,12 @@ namespace RetroCode
         [SerializeField]
         private float nearMissProxy;
 
+        [Header("Visual")]
+        [SerializeField]
+        private Transform[] wheelSets;
+        [SerializeField]
+        private float wheelDiameter;
+
         public void Damage(int dmg)
         {
             if (health <= 0) return;
@@ -34,6 +40,11 @@ namespace RetroCode
         public void Update()
         {
             transform.position += transform.forward * 15f * Time.deltaTime;
+
+            foreach (Transform wheels in wheelSets)
+            {
+                wheels.Rotate(Vector3.right, (15f * Time.deltaTime / wheelDiameter * 3.14f) * 360f, Space.Self);
+            }
         }
 
         [BurstCompile]        
