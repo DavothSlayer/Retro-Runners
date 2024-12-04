@@ -3,6 +3,7 @@ using TMPro;
 using UnityEngine.UI;
 using System.Collections.Generic;
 using UnityEngine.EventSystems;
+using Unity.Services.CloudSave.Models.Data.Player;
 
 namespace RetroCode
 {
@@ -64,7 +65,13 @@ namespace RetroCode
             autoHandlingInfo_C,
             autoHealthInfo_C,
             autoPowerInfo_C;
-        public GameObject orderPartConfirmScreen;
+        [Space]
+        public TextMeshProUGUI upgradeConfAutoNameText;
+        public TextMeshProUGUI upgradeConfCompTitleText;
+        public Slider upgradeConfMainSlider, upgradeConfDiffSlider;
+        public Image upgradeConfCurrentIcon, upgradeConfNextIcon;
+        public TextMeshProUGUI upgradeConfCurrentLvlText, upgradeConfNextLvlText;
+        public TextMeshProUGUI upgradeConfCurrentStatText, upgradeConfNextStatText;
         [Space]
         [Header("Misc")]
         public Color lockedColor;

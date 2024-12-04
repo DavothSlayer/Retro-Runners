@@ -3,11 +3,11 @@ using Unity.Services.Core;
 using UnityEngine;
 using Unity.Services.CloudSave;
 using System.Collections.Generic;
-using Newtonsoft.Json;
 using UnityEngine.Events;
 using System.Threading.Tasks;
 using System;
 using V3CTOR;
+using Unity.Services.CloudSave.Models;
 
 namespace RetroCode
 {
@@ -145,7 +145,7 @@ namespace RetroCode
         public async void SaveCloudData(bool firstSave)
         {
             var data = new Dictionary<string, object> { { cloudDataKey, cloudData } };
-            await CloudSaveService.Instance.Data.ForceSaveAsync(data);
+            await CloudSaveService.Instance.Data.Player.SaveAsync(data);
 
             print("CloudData saved.");
 
@@ -157,15 +157,20 @@ namespace RetroCode
         {
             try 
             { 
-                var request = await CloudSaveService.Instance.Data.LoadAsync(new HashSet<string> { cloudDataKey });
+                Dictionary<string, Item> request = await CloudSaveService.Instance.Data.Player.LoadAsync(new HashSet<string> { cloudDataKey });
 
-                string loadedDataString = request[cloudDataKey];
-                CloudData deserializedData = JsonConvert.DeserializeObject<CloudData>(loadedDataString);
-                cloudData = deserializedData;
+                if (request.TryGetValue(cloudDataKey, out var item))
+                {
+                    cloudData = item.Value.GetAs<CloudData>();
 
-                print("CloudData loaded.");
+                    CloudDataSuccess?.Invoke();
 
-                CloudDataSuccess?.Invoke();
+                    print("CloudData loaded.");
+                }
+                else
+                {
+                    print($"CloudData failed.");
+                }
             }
             catch(CloudSaveException ex) 
             {
@@ -177,7 +182,7 @@ namespace RetroCode
 
         public async void CheckCloudData()
         {
-            List<string> keyList = await CloudSaveService.Instance.Data.RetrieveAllKeysAsync();
+            var keyList = await CloudSaveService.Instance.Data.Player.LoadAllAsync();
 
             if(keyList.Count == 0)
             {
@@ -185,10 +190,11 @@ namespace RetroCode
 
                 CloudData cd = new CloudData();
 
-                cd.inventoryDict["bane"]["engine"].isLooted = true;
-                cd.inventoryDict["bane"]["power"].isLooted = true;
+                cd.inventoryDict["bane"]["topspeed"].isLooted = true;
+                cd.inventoryDict["bane"]["torque"].isLooted = true;
                 cd.inventoryDict["bane"]["handling"].isLooted = true;
                 cd.inventoryDict["bane"]["health"].isLooted = true;
+                cd.inventoryDict["bane"]["power"].isLooted = true;
 
                 cloudData = cd;
 
@@ -217,7 +223,7 @@ namespace RetroCode
             for (int i = 0; i < cloudData.inventoryDict.Keys.Count; i++)
             {
                 // GO THROUGH THE PARTS CLASSES //
-                for (int j = 0; j < 4; j++)
+                for (int j = 0; j < 5; j++)
                 {
                     AutoPartData partDataIndex = cloudData.inventoryDict[carNames[i]][EXMET.IntToCompClass(j)];
 
@@ -274,7 +280,7 @@ namespace RetroCode
             for(int i = 0; i < deliveryDictionary.Keys.Count; i++)
             {
                 // GO THROUGH THE PARTS CLASSES //
-                for(int j = 0; j < 4; j++)
+                for(int j = 0; j < 5; j++)
                 {
                     AutoPartData partDataIndex = cloudData.inventoryDict[carNames[i]][EXMET.IntToCompClass(j)];
 
@@ -330,7 +336,7 @@ namespace RetroCode
             for (int i = 0; i < lootingDictionary.Keys.Count; i++)
             {
                 // GO THROUGH THE PARTS CLASSES //
-                for (int j = 0; j < 4; j++)
+                for (int j = 0; j < 5; j++)
                 {
                     AutoPartData partDataIndex = cloudData.inventoryDict[carNames[i]][EXMET.IntToCompClass(j)];
 
@@ -369,8 +375,8 @@ namespace RetroCode
         public Dictionary<string, Dictionary<string, AutoPartData>> inventoryDict = new()
         {
             {"bane", new Dictionary<string, AutoPartData>{
-                {"engine", new AutoPartData(0, DateTime.UtcNow) },
-                {"gearbox", new AutoPartData(0, DateTime.UtcNow) },
+                {"topspeed", new AutoPartData(0, DateTime.UtcNow) },
+                {"torque", new AutoPartData(0, DateTime.UtcNow) },
                 {"handling", new AutoPartData(0, DateTime.UtcNow) },
                 {"health", new AutoPartData(0, DateTime.UtcNow) },
                 {"power", new AutoPartData(0, DateTime.UtcNow) },
@@ -387,8 +393,8 @@ namespace RetroCode
         {
             inventoryDict.Add(itemCode, new()
             {
-                {"engine", new AutoPartData(0, DateTime.UtcNow) },
-                {"gearbox", new AutoPartData(0, DateTime.UtcNow) },
+                {"topspeed", new AutoPartData(0, DateTime.UtcNow) },
+                {"torque", new AutoPartData(0, DateTime.UtcNow) },
                 {"handling", new AutoPartData(0, DateTime.UtcNow) },
                 {"health", new AutoPartData(0, DateTime.UtcNow) },
                 {"power", new AutoPartData(0, DateTime.UtcNow) },

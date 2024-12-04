@@ -1,5 +1,7 @@
+using JetBrains.Annotations;
 using System;
 using System.Collections.Generic;
+using UnityEditor.Sequences;
 using UnityEngine;
 using UnityEngine.UI;
 using V3CTOR;
@@ -77,7 +79,7 @@ namespace RetroCode
         {
             AutoData currentAutoData = autoProps[selectedAutoInt].data;
 
-            // FIND THE BEST & WORST VALUES AMONG THE CARS //
+            // FIND THE BESTVALUES AMONG(US) THE CARS //
             for (int i = 0; i < autoProps.Length; i++)
                 foreach (AutoLevelData ald in autoProps[i].data.autoLevelData)
                 {
@@ -87,7 +89,7 @@ namespace RetroCode
                     bestHealth = Mathf.Max(bestHealth, ald.MaxHealth);
                     bestPower = Mathf.Max(bestPower, ald.Power);
                 }
-            // FIND THE BEST & WORST VALUES AMONG THE CARS //
+            // FIND THE BEST VALUES AMONG(US) THE CARS //
 
             // SET THE SLIDER MAX & MIN VALUES //
             hud.autoTopSpeedSlider.maxValue = bestTopSpeed;
@@ -96,30 +98,26 @@ namespace RetroCode
             hud.autoHealthSlider.maxValue = bestHealth;
             hud.autoPowerSlider.maxValue = bestPower;
 
-            hud.compStatSliders[0].mainSlider.minValue = 0f;
             hud.compStatSliders[0].mainSlider.maxValue = bestTopSpeed;
-            hud.compStatSliders[0].diffSlider.minValue = 0f;
             hud.compStatSliders[0].diffSlider.maxValue = bestTopSpeed;
 
-            hud.compStatSliders[1].mainSlider.minValue = 0f;
             hud.compStatSliders[1].mainSlider.maxValue = bestTorque;
-            hud.compStatSliders[1].diffSlider.minValue = 0f;
             hud.compStatSliders[1].diffSlider.maxValue = bestTorque;
 
-            hud.compStatSliders[2].mainSlider.minValue = 0f;
             hud.compStatSliders[2].mainSlider.maxValue = bestHandling;
-            hud.compStatSliders[2].diffSlider.minValue = 0f;
             hud.compStatSliders[2].diffSlider.maxValue = bestHandling;
 
-            hud.compStatSliders[3].mainSlider.minValue = 0f;
             hud.compStatSliders[3].mainSlider.maxValue = bestHealth;
-            hud.compStatSliders[3].diffSlider.minValue = 0f;
             hud.compStatSliders[3].diffSlider.maxValue = bestHealth;
 
-            hud.compStatSliders[4].mainSlider.minValue = 0f;
             hud.compStatSliders[4].mainSlider.maxValue = bestPower;
-            hud.compStatSliders[4].diffSlider.minValue = 0f;
             hud.compStatSliders[4].diffSlider.maxValue = bestPower;
+
+            hud.autoTopSpeedSlider_C.maxValue = bestTopSpeed;
+            hud.autoGearboxSlider_C.maxValue = bestTorque;
+            hud.autoHandlingSlider_C.maxValue = bestHandling;
+            hud.autoHealthSlider_C.maxValue = bestHealth;
+            hud.autoPowerSlider_C.maxValue = bestPower;
             // SET THE SLIDER MAX & MIN VALUES //
         }
 
@@ -167,18 +165,18 @@ namespace RetroCode
                 hud.lockedCarInfo.SetActive(false);
                 hud.autoSelectedIcon.SetActive(gamingServicesManager.cloudData.LastSelectedCarIndex == selectedAutoInt);
 
-                autoTopSpeedVar = currentAutoData.autoLevelData[gamingServicesManager.cloudData.inventoryDict[currentAutoData.ItemCode]["engine"].EquippedLevel].TopSpeed;
-                autoTorqueVar = currentAutoData.autoLevelData[gamingServicesManager.cloudData.inventoryDict[currentAutoData.ItemCode]["gearbox"].EquippedLevel].Torque;
+                autoTopSpeedVar = currentAutoData.autoLevelData[gamingServicesManager.cloudData.inventoryDict[currentAutoData.ItemCode]["topspeed"].EquippedLevel].TopSpeed;
+                autoTorqueVar = currentAutoData.autoLevelData[gamingServicesManager.cloudData.inventoryDict[currentAutoData.ItemCode]["torque"].EquippedLevel].Torque;
                 autoHandlingVar = currentAutoData.autoLevelData[gamingServicesManager.cloudData.inventoryDict[currentAutoData.ItemCode]["handling"].EquippedLevel].Handling;
                 autoHealthVar = currentAutoData.autoLevelData[gamingServicesManager.cloudData.inventoryDict[currentAutoData.ItemCode]["health"].EquippedLevel].MaxHealth;
                 autoPowerVar = currentAutoData.autoLevelData[gamingServicesManager.cloudData.inventoryDict[currentAutoData.ItemCode]["power"].EquippedLevel].Power;
 
                 // AUTO VIEW STATS //
                 hud.compStatSliders[0].mainSlider.value = autoTopSpeedVar;
-                hud.compStatSliders[0].diffSlider.value = currentAutoData.autoLevelData[gamingServicesManager.cloudData.inventoryDict[currentAutoData.ItemCode]["engine"].NextLevel()].TopSpeed;
+                hud.compStatSliders[0].diffSlider.value = currentAutoData.autoLevelData[gamingServicesManager.cloudData.inventoryDict[currentAutoData.ItemCode]["topspeed"].NextLevel()].TopSpeed;
 
                 hud.compStatSliders[1].mainSlider.value = autoTorqueVar;
-                hud.compStatSliders[1].diffSlider.value = currentAutoData.autoLevelData[gamingServicesManager.cloudData.inventoryDict[currentAutoData.ItemCode]["gearbox"].NextLevel()].Torque;
+                hud.compStatSliders[1].diffSlider.value = currentAutoData.autoLevelData[gamingServicesManager.cloudData.inventoryDict[currentAutoData.ItemCode]["torque"].NextLevel()].Torque;
 
                 hud.compStatSliders[2].mainSlider.value = autoHandlingVar;
                 hud.compStatSliders[2].diffSlider.value = currentAutoData.autoLevelData[gamingServicesManager.cloudData.inventoryDict[currentAutoData.ItemCode]["handling"].NextLevel()].Handling;
@@ -191,37 +189,37 @@ namespace RetroCode
 
                 hud.autoTopSpeedInfo.text = $"{Mathf.RoundToInt(autoTopSpeedVar * (SettingsManager.Instance.settings.SpeedUnitIsKMH ? 3.6f : 2.2f))} {(SettingsManager.Instance.settings.SpeedUnitIsKMH ? "KMH" : "MPH")}";
                 hud.autoGearboxInfo.text = $"{autoTorqueVar} TQ";
-                hud.autoHandlingInfo.text = $"{autoHandlingVar} DR";
+                hud.autoHandlingInfo.text = $"{autoHandlingVar} GR";
                 hud.autoHealthInfo.text = $"{autoHealthVar} HP";
                 hud.autoPowerInfo.text = $"{autoPowerVar} CORES";
                 // AUTO VIEW STATS //
 
                 // COMPONENT VIEW STATS //
                 hud.compStatSliders[0].statTunedText.gameObject.SetActive(
-                    gamingServicesManager.cloudData.inventoryDict[currentAutoData.ItemCode]["engine"].EquippedLevel <
-                    gamingServicesManager.cloudData.inventoryDict[currentAutoData.ItemCode]["engine"].NextLevel()
+                    gamingServicesManager.cloudData.inventoryDict[currentAutoData.ItemCode]["topspeed"].EquippedLevel <
+                    gamingServicesManager.cloudData.inventoryDict[currentAutoData.ItemCode]["topspeed"].NextLevel()
                     );
                 hud.compStatSliders[0].arrowImage.gameObject.SetActive(
-                    gamingServicesManager.cloudData.inventoryDict[currentAutoData.ItemCode]["engine"].EquippedLevel <
-                    gamingServicesManager.cloudData.inventoryDict[currentAutoData.ItemCode]["engine"].NextLevel()
+                    gamingServicesManager.cloudData.inventoryDict[currentAutoData.ItemCode]["topspeed"].EquippedLevel <
+                    gamingServicesManager.cloudData.inventoryDict[currentAutoData.ItemCode]["topspeed"].NextLevel()
                     );
-                hud.compStatSliders[0].statCurrentText.text = $"{Mathf.RoundToInt(currentAutoData.autoLevelData[gamingServicesManager.cloudData.inventoryDict[currentAutoData.ItemCode]["engine"].EquippedLevel].TopSpeed * (SettingsManager.Instance.settings.SpeedUnitIsKMH ? 3.6f : 2.2f))} {(SettingsManager.Instance.settings.SpeedUnitIsKMH ? "KMH" : "MPH")}";
-                hud.compStatSliders[0].statTunedText.text = $"{Mathf.RoundToInt(currentAutoData.autoLevelData[gamingServicesManager.cloudData.inventoryDict[currentAutoData.ItemCode]["engine"].NextLevel()].TopSpeed * (SettingsManager.Instance.settings.SpeedUnitIsKMH ? 3.6f : 2.2f))} {(SettingsManager.Instance.settings.SpeedUnitIsKMH ? "KMH" : "MPH")}";
-                hud.compStatSliders[0].levelText.text = $"MK. {EXMET.LevelAsRoman(gamingServicesManager.cloudData.inventoryDict[currentAutoData.ItemCode]["engine"].EquippedLevel)}";
-                hud.compStatSliders[0].icon.sprite = compLists[0].Comps[gamingServicesManager.cloudData.inventoryDict[currentAutoData.ItemCode]["engine"].EquippedLevel].itemData.icon;
+                hud.compStatSliders[0].statCurrentText.text = $"{Mathf.RoundToInt(currentAutoData.autoLevelData[gamingServicesManager.cloudData.inventoryDict[currentAutoData.ItemCode]["topspeed"].EquippedLevel].TopSpeed * (SettingsManager.Instance.settings.SpeedUnitIsKMH ? 3.6f : 2.2f))} {(SettingsManager.Instance.settings.SpeedUnitIsKMH ? "KMH" : "MPH")}";
+                hud.compStatSliders[0].statTunedText.text = $"{Mathf.RoundToInt(currentAutoData.autoLevelData[gamingServicesManager.cloudData.inventoryDict[currentAutoData.ItemCode]["topspeed"].NextLevel()].TopSpeed * (SettingsManager.Instance.settings.SpeedUnitIsKMH ? 3.6f : 2.2f))} {(SettingsManager.Instance.settings.SpeedUnitIsKMH ? "KMH" : "MPH")}";
+                hud.compStatSliders[0].levelText.text = $"MK. {EXMET.LevelAsRoman(gamingServicesManager.cloudData.inventoryDict[currentAutoData.ItemCode]["topspeed"].EquippedLevel)}";
+                hud.compStatSliders[0].icon.sprite = compLists[0].Comps[gamingServicesManager.cloudData.inventoryDict[currentAutoData.ItemCode]["topspeed"].EquippedLevel].itemData.icon;
 
                 hud.compStatSliders[1].statTunedText.gameObject.SetActive(
-                    gamingServicesManager.cloudData.inventoryDict[currentAutoData.ItemCode]["gearbox"].EquippedLevel <
-                    gamingServicesManager.cloudData.inventoryDict[currentAutoData.ItemCode]["gearbox"].NextLevel()
+                    gamingServicesManager.cloudData.inventoryDict[currentAutoData.ItemCode]["torque"].EquippedLevel <
+                    gamingServicesManager.cloudData.inventoryDict[currentAutoData.ItemCode]["torque"].NextLevel()
                     );
                 hud.compStatSliders[1].arrowImage.gameObject.SetActive(
-                    gamingServicesManager.cloudData.inventoryDict[currentAutoData.ItemCode]["gearbox"].EquippedLevel <
-                    gamingServicesManager.cloudData.inventoryDict[currentAutoData.ItemCode]["gearbox"].NextLevel()
+                    gamingServicesManager.cloudData.inventoryDict[currentAutoData.ItemCode]["torque"].EquippedLevel <
+                    gamingServicesManager.cloudData.inventoryDict[currentAutoData.ItemCode]["torque"].NextLevel()
                     );
-                hud.compStatSliders[1].statCurrentText.text = $"{currentAutoData.autoLevelData[gamingServicesManager.cloudData.inventoryDict[currentAutoData.ItemCode]["gearbox"].EquippedLevel].Torque} TQ";
-                hud.compStatSliders[1].statTunedText.text = $"{currentAutoData.autoLevelData[gamingServicesManager.cloudData.inventoryDict[currentAutoData.ItemCode]["gearbox"].NextLevel()].Torque} TQ";
-                hud.compStatSliders[1].levelText.text = $"MK. {EXMET.LevelAsRoman(gamingServicesManager.cloudData.inventoryDict[currentAutoData.ItemCode]["gearbox"].EquippedLevel)}";
-                hud.compStatSliders[1].icon.sprite = compLists[1].Comps[gamingServicesManager.cloudData.inventoryDict[currentAutoData.ItemCode]["gearbox"].EquippedLevel].itemData.icon;
+                hud.compStatSliders[1].statCurrentText.text = $"{currentAutoData.autoLevelData[gamingServicesManager.cloudData.inventoryDict[currentAutoData.ItemCode]["torque"].EquippedLevel].Torque} TQ";
+                hud.compStatSliders[1].statTunedText.text = $"{currentAutoData.autoLevelData[gamingServicesManager.cloudData.inventoryDict[currentAutoData.ItemCode]["torque"].NextLevel()].Torque} TQ";
+                hud.compStatSliders[1].levelText.text = $"MK. {EXMET.LevelAsRoman(gamingServicesManager.cloudData.inventoryDict[currentAutoData.ItemCode]["torque"].EquippedLevel)}";
+                hud.compStatSliders[1].icon.sprite = compLists[1].Comps[gamingServicesManager.cloudData.inventoryDict[currentAutoData.ItemCode]["torque"].EquippedLevel].itemData.icon;
 
                 hud.compStatSliders[2].statTunedText.gameObject.SetActive(
                     gamingServicesManager.cloudData.inventoryDict[currentAutoData.ItemCode]["handling"].EquippedLevel <
@@ -231,8 +229,8 @@ namespace RetroCode
                     gamingServicesManager.cloudData.inventoryDict[currentAutoData.ItemCode]["handling"].EquippedLevel <
                     gamingServicesManager.cloudData.inventoryDict[currentAutoData.ItemCode]["handling"].NextLevel()
                     );
-                hud.compStatSliders[2].statCurrentText.text = $"{currentAutoData.autoLevelData[gamingServicesManager.cloudData.inventoryDict[currentAutoData.ItemCode]["handling"].EquippedLevel].Handling} DR";
-                hud.compStatSliders[2].statTunedText.text = $"{currentAutoData.autoLevelData[gamingServicesManager.cloudData.inventoryDict[currentAutoData.ItemCode]["handling"].NextLevel()].Handling} DR";
+                hud.compStatSliders[2].statCurrentText.text = $"{currentAutoData.autoLevelData[gamingServicesManager.cloudData.inventoryDict[currentAutoData.ItemCode]["handling"].EquippedLevel].Handling} GR";
+                hud.compStatSliders[2].statTunedText.text = $"{currentAutoData.autoLevelData[gamingServicesManager.cloudData.inventoryDict[currentAutoData.ItemCode]["handling"].NextLevel()].Handling} GR";
                 hud.compStatSliders[2].levelText.text = $"MK. {EXMET.LevelAsRoman(gamingServicesManager.cloudData.inventoryDict[currentAutoData.ItemCode]["handling"].EquippedLevel)}";
                 hud.compStatSliders[2].icon.sprite = compLists[2].Comps[gamingServicesManager.cloudData.inventoryDict[currentAutoData.ItemCode]["handling"].EquippedLevel].itemData.icon;
 
@@ -331,7 +329,7 @@ namespace RetroCode
 
                 hud.autoTopSpeedInfo.text = $"{Mathf.RoundToInt(currentAutoData.autoLevelData[0].TopSpeed * (SettingsManager.Instance.settings.SpeedUnitIsKMH ? 3.6f : 2.2f))} {(SettingsManager.Instance.settings.SpeedUnitIsKMH ? "KMH" : "MPH")}";
                 hud.autoGearboxInfo.text = $"{currentAutoData.autoLevelData[0].Torque} TQ";
-                hud.autoHandlingInfo.text = $"{currentAutoData.autoLevelData[0].Handling} DR";
+                hud.autoHandlingInfo.text = $"{currentAutoData.autoLevelData[0].Handling} GR";
                 hud.autoHealthInfo.text = $"{currentAutoData.autoLevelData[0].MaxHealth} HP";
                 hud.autoPowerInfo.text = $"{currentAutoData.autoLevelData[0].Power} CORES";
 
@@ -370,9 +368,84 @@ namespace RetroCode
             CheckInventory();
         }
 
+        private float bestVar;
         public void OrderAutoPart()
         {
-            // SMTH //
+            AutoData autoData = autoProps[selectedAutoInt].data;
+            AutoPartData autoPartData = gamingServicesManager.cloudData.inventoryDict[autoData.ItemCode][EXMET.IntToCompClass((int)compState)];
+
+            hud.upgradeConfAutoNameText.text = autoData.AutoName;
+            hud.upgradeConfCompTitleText.text = EXMET.IntToCompClass((int)compState);
+
+            hud.upgradeConfCurrentIcon.sprite = compLists[(int)compState].Comps[autoPartData.CurrentLevel].itemData.icon;
+            hud.upgradeConfCurrentLvlText.text = $"MK. {EXMET.LevelAsRoman(autoPartData.CurrentLevel)}";
+
+            hud.upgradeConfNextIcon.sprite = compLists[(int)compState].Comps[autoPartData.NextLevel()].itemData.icon;
+            hud.upgradeConfNextLvlText.text = $"MK. {EXMET.LevelAsRoman(autoPartData.NextLevel())}";
+
+            switch ((int)compState)
+            {
+                case 0:
+                    bestVar = bestTopSpeed;
+
+                    hud.upgradeConfMainSlider.maxValue = bestVar;
+                    hud.upgradeConfDiffSlider.maxValue = bestVar;
+
+                    hud.upgradeConfCurrentStatText.text = $"{Mathf.RoundToInt(autoData.autoLevelData[autoPartData.EquippedLevel].TopSpeed * (SettingsManager.Instance.settings.SpeedUnitIsKMH ? 3.6f : 2.2f))} {(SettingsManager.Instance.settings.SpeedUnitIsKMH ? "KMH" : "MPH")}";
+                    hud.upgradeConfNextStatText.text = $"{Mathf.RoundToInt(autoData.autoLevelData[autoPartData.NextLevel()].TopSpeed * (SettingsManager.Instance.settings.SpeedUnitIsKMH ? 3.6f : 2.2f))} {(SettingsManager.Instance.settings.SpeedUnitIsKMH ? "KMH" : "MPH")}";
+
+                    hud.upgradeConfMainSlider.value = autoData.autoLevelData[autoPartData.EquippedLevel].TopSpeed;
+                    hud.upgradeConfDiffSlider.value = autoData.autoLevelData[autoPartData.NextLevel()].TopSpeed;
+                    break;
+                case 1:
+                    bestVar = bestTorque;
+
+                    hud.upgradeConfMainSlider.maxValue = bestVar;
+                    hud.upgradeConfDiffSlider.maxValue = bestVar;
+
+                    hud.upgradeConfCurrentStatText.text = $"{Mathf.RoundToInt(autoData.autoLevelData[autoPartData.EquippedLevel].Torque)} TQ";
+                    hud.upgradeConfNextStatText.text = $"{Mathf.RoundToInt(autoData.autoLevelData[autoPartData.NextLevel()].Torque)} TQ";
+
+                    hud.upgradeConfMainSlider.value = autoData.autoLevelData[autoPartData.EquippedLevel].Torque;
+                    hud.upgradeConfDiffSlider.value = autoData.autoLevelData[autoPartData.NextLevel()].Torque;
+                    break;
+                case 2:
+                    bestVar = bestHandling;
+
+                    hud.upgradeConfMainSlider.maxValue = bestVar;
+                    hud.upgradeConfDiffSlider.maxValue = bestVar;
+
+                    hud.upgradeConfCurrentStatText.text = $"{Mathf.RoundToInt(autoData.autoLevelData[autoPartData.EquippedLevel].Handling)} GR";
+                    hud.upgradeConfNextStatText.text = $"{Mathf.RoundToInt(autoData.autoLevelData[autoPartData.NextLevel()].Handling)} GR";
+
+                    hud.upgradeConfMainSlider.value = autoData.autoLevelData[autoPartData.EquippedLevel].Handling;
+                    hud.upgradeConfDiffSlider.value = autoData.autoLevelData[autoPartData.NextLevel()].Handling;
+                    break;
+                case 3:
+                    bestVar = bestHealth;
+
+                    hud.upgradeConfMainSlider.maxValue = bestVar;
+                    hud.upgradeConfDiffSlider.maxValue = bestVar;
+
+                    hud.upgradeConfCurrentStatText.text = $"{Mathf.RoundToInt(autoData.autoLevelData[autoPartData.EquippedLevel].MaxHealth)} HP";
+                    hud.upgradeConfNextStatText.text = $"{Mathf.RoundToInt(autoData.autoLevelData[autoPartData.NextLevel()].MaxHealth)} HP";
+
+                    hud.upgradeConfMainSlider.value = autoData.autoLevelData[autoPartData.EquippedLevel].MaxHealth;
+                    hud.upgradeConfDiffSlider.value = autoData.autoLevelData[autoPartData.NextLevel()].MaxHealth;
+                    break;
+                case 4:
+                    bestVar = bestPower;
+
+                    hud.upgradeConfMainSlider.maxValue = bestVar;
+                    hud.upgradeConfDiffSlider.maxValue = bestVar;
+
+                    hud.upgradeConfCurrentStatText.text = $"{Mathf.RoundToInt(autoData.autoLevelData[autoPartData.EquippedLevel].Power)} CORES";
+                    hud.upgradeConfNextStatText.text = $"{Mathf.RoundToInt(autoData.autoLevelData[autoPartData.NextLevel()].Power)} CORES";
+
+                    hud.upgradeConfMainSlider.value = autoData.autoLevelData[autoPartData.EquippedLevel].Power;
+                    hud.upgradeConfDiffSlider.value = autoData.autoLevelData[autoPartData.NextLevel()].Power;
+                    break;
+            }
         }
 
         public void OrderAutoPartConfirm()
@@ -403,7 +476,7 @@ namespace RetroCode
             hud.autoHealthSlider_C.value = autoHealthVar;
             hud.autoPowerSlider_C.value = autoPowerVar;
 
-            hud.autoTopSpeedInfo_C.text = $"{Mathf.RoundToInt(autoData.autoLevelData[0].TopSpeed) * (SettingsManager.Instance.settings.SpeedUnitIsKMH ? 3.6f : 2.2f)} {(SettingsManager.Instance.settings.SpeedUnitIsKMH ? "KMH" : "MPH")}";
+            hud.autoTopSpeedInfo_C.text = $"{Mathf.RoundToInt(autoData.autoLevelData[0].TopSpeed * (SettingsManager.Instance.settings.SpeedUnitIsKMH ? 3.6f : 2.2f))} {(SettingsManager.Instance.settings.SpeedUnitIsKMH ? "KMH" : "MPH")}";
             hud.autoGearboxInfo_C.text = $"{autoData.autoLevelData[0].Torque} TQ";
             hud.autoHandlingInfo_C.text = $"{autoData.autoLevelData[0].Handling} DR";
             hud.autoHealthInfo_C.text = $"{autoData.autoLevelData[0].MaxHealth} HP";

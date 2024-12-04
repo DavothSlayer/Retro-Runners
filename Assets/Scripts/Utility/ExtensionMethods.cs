@@ -6,7 +6,6 @@ using System.Collections.Generic;
 using System.Globalization;
 using UnityEngine.EventSystems;
 using System;
-using TMPro;
 
 namespace V3CTOR
 {
@@ -101,14 +100,11 @@ namespace V3CTOR
             switch (index)
             {
                 case 0:
-                    return "engine";
-
+                    return "topspeed";
                 case 1:
-                    return "gearbox";
-
+                    return "torque";
                 case 2:
                     return "handling";
-
                 case 3:
                     return "health";
                 case 4:
