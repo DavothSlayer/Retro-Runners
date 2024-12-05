@@ -11,10 +11,14 @@ namespace RetroCode
     {
         [Header("Universal")]
         public TextMeshProUGUI playerMoneyText;
+        public Camera mainCamera;
+        public Camera cinemaCamera;
 
         [Header("Garage Screen")]
         public GameObject upgradeScreen;
+
         [Header("Auto Selection")]
+        public CanvasGroup autoScreenCanvas;
         public TextMeshProUGUI currentAutoNameText;
         public TextMeshProUGUI autoPriceText;
         public TextMeshProUGUI autoTierText;
@@ -36,6 +40,7 @@ namespace RetroCode
             autoHandlingInfo,
             autoHealthInfo,
             autoPowerInfo;
+
         [Space]
         [Header("Auto Upgrade")]
         public TextMeshProUGUI currentCompNameText;
@@ -47,6 +52,7 @@ namespace RetroCode
         public GameObject nextCompButton, previousCompButton;
         public GameObject equipCompButton, equippedCompInfo, openLootButtonAux;
         public List<ParticleSystem> maxLvlFX;
+
         [Space]
         [Header("Confirmation Screens")]
         public GameObject carPurchaseConfirmScreen;
@@ -72,6 +78,14 @@ namespace RetroCode
         public Image upgradeConfCurrentIcon, upgradeConfNextIcon;
         public TextMeshProUGUI upgradeConfCurrentLvlText, upgradeConfNextLvlText;
         public TextMeshProUGUI upgradeConfCurrentStatText, upgradeConfNextStatText;
+
+        [Space]
+        [Header("Cinematics")]
+        public CanvasGroup cinematicCanvas;
+        public TextMeshProUGUI carCinematicNameText;
+        public CanvasGroup cinematicExitButtonCanvas;
+        public CanvasGroup fadingScreenCanvas;
+
         [Space]
         [Header("Misc")]
         public Color lockedColor;

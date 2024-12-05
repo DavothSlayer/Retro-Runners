@@ -44,7 +44,7 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: c6dcd2266c92fd740bdfac8b91d46014, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  masterVolume: 0.9
+  masterVolume: 0.6
   audioMixer: {fileID: 24300002, guid: ed7b40a08ecba4843a1c14b789f18c48, type: 2}
   opponentAudioMixer: {fileID: 24300002, guid: 7842d0cf0d45ff54396621cf5461ac52, type: 2}
   customAudioMixer: {fileID: 0}

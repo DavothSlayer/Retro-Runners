@@ -143,7 +143,14 @@ namespace RetroCode
             hud.openLootButtonMain.SetActive(gamingServicesManager.lootingDictionary.Keys.Count != 0);
             hud.autoTierText.text = $"TIER {EXMET.LevelAsRoman(currentAutoData.Tier)}";
 
-            hud.playerMoneyText.text = $"R$ {gamingServicesManager.cloudData.RetroDollars.ToString("N", EXMET.NumForThou)}";
+            int playerMoney = gamingServicesManager.cloudData.RetroDollars;
+
+            LeanTween.value(0f, playerMoney, 2f)
+                .setOnUpdate((float value) =>
+                {
+                    hud.playerMoneyText.text = $"R$ {Mathf.RoundToInt(value).ToString("N", EXMET.NumForThou)}";
+                });
+
             //UpdatePlayerMoneyText();
 
             #region Check Cars

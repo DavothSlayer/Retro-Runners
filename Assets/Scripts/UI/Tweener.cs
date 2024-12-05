@@ -8,12 +8,23 @@ namespace RetroCode
 {
     public class Tweener : MonoBehaviour
     {
+        [Header("Retro Garage")]
+        [SerializeField]
+        private GarageHUD hudG;
+        [SerializeField]
+        private Animator cinematicsAnim;
+        [SerializeField]
+        private RetroGarage retroGarage;
+
+        [Space]
+        [Header("Main Game")]
         [SerializeField]
         private GameManager gameManager;
         [SerializeField]
         private MainGameHUD hud;
         [SerializeField]
         private RectTransform canvasRect;
+        
 
         #region Universal Animations
         public void ButtonPressBounce(GameObject gameObject)
@@ -102,7 +113,6 @@ namespace RetroCode
             initialColor.a = 0f;
             text.color = initialColor;
 
-            // Fade in to alpha 1
             LeanTween.value(gameObject, 0f, 1f, .25f)
                      .setOnUpdate((float alpha) =>
                      {
@@ -112,7 +122,6 @@ namespace RetroCode
                      })
                      .setOnComplete(() =>
                      {
-                         // Fade out to alpha 0
                          LeanTween.value(gameObject, 1f, 0f, .5f)
                                   .setOnUpdate((float alpha) =>
                                   {
@@ -378,6 +387,83 @@ namespace RetroCode
             LeanTween.alphaCanvas(hud.gameOverAdsScreen, 0f, 0.5f).setIgnoreTimeScale(true).setOnComplete(() => { hud.gameOverAdsScreen.gameObject.SetActive(false); });
 
             TweenToScreenPosY(hud.gameOverText.rectTransform, 0.75f, 1f, 2f, ScoreFinalTextAnimation);
+        }
+        #endregion
+
+        #region Cinematic Animations
+        public void CarPurchaseAnimations()
+        {
+            // RESET //
+            cinematicsAnim.SetBool("AutoCinematic", false);
+
+            hudG.cinematicCanvas.alpha = 1f;
+            hudG.carCinematicNameText.alpha = 0f;
+            hudG.cinematicExitButtonCanvas.alpha = 0f;
+            hudG.fadingScreenCanvas.alpha = 1f;
+            hudG.carCinematicNameText.text = retroGarage.autoProps[retroGarage.selectedAutoInt].data.AutoName;
+            hudG.cinematicCanvas.gameObject.SetActive(true);
+            hudG.fadingScreenCanvas.gameObject.SetActive(true);
+            // RESET //
+
+            LeanTween.alphaCanvas(hudG.cinematicCanvas, 1f, 1f).setOnComplete(() =>
+            {
+                hudG.cinemaCamera.gameObject.SetActive(true);
+                hudG.mainCamera.gameObject.SetActive(false);
+
+                cinematicsAnim.SetBool("AutoCinematic", true);
+
+                LeanTween.alphaCanvas(hudG.fadingScreenCanvas, 0f, 0.3f).setDelay(1f).setOnComplete(() =>
+                {
+                    hudG.fadingScreenCanvas.gameObject.SetActive(false);
+                });
+
+                LeanTween.value(hudG.carCinematicNameText.alpha, 1f, 1f).setDelay(13f)
+                    .setOnUpdate((float value) =>
+                    {
+                        Color color = hudG.carCinematicNameText.color;
+                        color.a = value;
+                        hudG.carCinematicNameText.color = color;
+                    }).setOnComplete(() =>
+                    {
+                        LeanTween.alphaCanvas(hudG.cinematicExitButtonCanvas, 1f, 1f);
+                    });
+            });
+        }
+
+        public void SkipCarPurchaseAnimations()
+        {
+            print("SKIP!");
+
+            cinematicsAnim.SetBool("AutoCinematic", false);
+
+            LeanTween.cancel(hudG.cinematicCanvas.gameObject);
+            LeanTween.cancel(hudG.carCinematicNameText.gameObject);
+            LeanTween.cancel(hudG.cinematicExitButtonCanvas.gameObject);
+            LeanTween.cancel(hudG.fadingScreenCanvas.gameObject);
+
+            hudG.carCinematicNameText.alpha = 1f;
+            hudG.cinematicExitButtonCanvas.alpha = 1f;
+            hudG.fadingScreenCanvas.alpha = 0f;
+        }
+
+        public void ExitCarPurchaseAnimations()
+        {
+            cinematicsAnim.SetBool("AutoCinematic", false);
+
+            hudG.fadingScreenCanvas.gameObject.SetActive(true);
+
+            LeanTween.alphaCanvas(hudG.fadingScreenCanvas, 1f, 0.5f).setOnComplete(() =>
+            {
+                FadeInCanvasGroup(hudG.autoScreenCanvas);
+
+                hudG.cinemaCamera.gameObject.SetActive(false);
+                hudG.mainCamera.gameObject.SetActive(true);
+
+                LeanTween.alphaCanvas(hudG.cinematicCanvas, 0f, 0.5f).setDelay(0.75f).setOnComplete(() =>
+                {
+                    hudG.cinematicCanvas.gameObject.SetActive(false);
+                });
+            });
         }
         #endregion
 
