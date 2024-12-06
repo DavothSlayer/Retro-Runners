@@ -143,15 +143,7 @@ namespace RetroCode
             hud.openLootButtonMain.SetActive(gamingServicesManager.lootingDictionary.Keys.Count != 0);
             hud.autoTierText.text = $"TIER {EXMET.LevelAsRoman(currentAutoData.Tier)}";
 
-            int playerMoney = gamingServicesManager.cloudData.RetroDollars;
-
-            LeanTween.value(0f, playerMoney, 2f)
-                .setOnUpdate((float value) =>
-                {
-                    hud.playerMoneyText.text = $"R$ {Mathf.RoundToInt(value).ToString("N", EXMET.NumForThou)}";
-                });
-
-            //UpdatePlayerMoneyText();
+            UpdatePlayerMoney(gamingServicesManager.cloudData.RetroDollars);
 
             #region Check Cars
             // SET ACTIVE ONLY SELECTED CAR, HIDE REST //
@@ -343,6 +335,18 @@ namespace RetroCode
                 hud.autoPriceText.text = $"R$ {autoProps[selectedAutoInt].data.Price.ToString("N", EXMET.NumForThou)}";
             }
             #endregion
+        }
+
+        private int lastAmount = 0;
+        public void UpdatePlayerMoney(int newAmount)
+        {
+            LeanTween.value(lastAmount, newAmount, 1f)
+                .setOnUpdate((float value) =>
+                {
+                    hud.playerMoneyText.text = $"R$ {Mathf.RoundToInt(value).ToString("N", EXMET.NumForThou)}";
+                });
+
+            lastAmount = newAmount;
         }
         #endregion
 
