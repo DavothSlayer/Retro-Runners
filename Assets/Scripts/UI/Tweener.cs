@@ -396,7 +396,7 @@ namespace RetroCode
             // RESET //
             cinematicsAnim.SetBool("AutoCinematic", false);
 
-            hudG.cinematicCanvas.alpha = 1f;
+            hudG.cinematicCanvas.alpha = 0f;
             hudG.carCinematicNameText.alpha = 0f;
             hudG.cinematicExitButtonCanvas.alpha = 0f;
             hudG.fadingScreenCanvas.alpha = 1f;
@@ -405,14 +405,14 @@ namespace RetroCode
             hudG.fadingScreenCanvas.gameObject.SetActive(true);
             // RESET //
 
-            LeanTween.alphaCanvas(hudG.cinematicCanvas, 1f, 1f).setOnComplete(() =>
+            LeanTween.alphaCanvas(hudG.cinematicCanvas, 1f, 0.5f).setOnComplete(() =>
             {
                 hudG.cinemaCamera.gameObject.SetActive(true);
                 hudG.mainCamera.gameObject.SetActive(false);
 
                 cinematicsAnim.SetBool("AutoCinematic", true);
 
-                LeanTween.alphaCanvas(hudG.fadingScreenCanvas, 0f, 0.3f).setDelay(1f).setOnComplete(() =>
+                LeanTween.alphaCanvas(hudG.fadingScreenCanvas, 0f, 0.3f).setDelay(0.5f).setOnComplete(() =>
                 {
                     hudG.fadingScreenCanvas.gameObject.SetActive(false);
                 });
@@ -459,7 +459,7 @@ namespace RetroCode
                 hudG.cinemaCamera.gameObject.SetActive(false);
                 hudG.mainCamera.gameObject.SetActive(true);
 
-                LeanTween.alphaCanvas(hudG.cinematicCanvas, 0f, 0.5f).setDelay(0.75f).setOnComplete(() =>
+                LeanTween.alphaCanvas(hudG.cinematicCanvas, 0f, 0.5f).setDelay(0.5f).setOnComplete(() =>
                 {
                     hudG.cinematicCanvas.gameObject.SetActive(false);
                 });
