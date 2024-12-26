@@ -414,7 +414,7 @@ RectTransform:
   m_AnchorMin: {x: 0.5, y: 0.5}
   m_AnchorMax: {x: 0.5, y: 0.5}
   m_AnchoredPosition: {x: -495.58496, y: -65}
-  m_SizeDelta: {x: 0, y: 0}
+  m_SizeDelta: {x: 748.83, y: 65.63}
   m_Pivot: {x: 0.5, y: 0.5}
 --- !u!114 &36815090
 MonoBehaviour:
@@ -6492,7 +6492,7 @@ RectTransform:
   m_AnchorMin: {x: 0.5, y: 0.5}
   m_AnchorMax: {x: 0.5, y: 0.5}
   m_AnchoredPosition: {x: -457, y: 55}
-  m_SizeDelta: {x: 0, y: 0}
+  m_SizeDelta: {x: 439.22, y: 65.63}
   m_Pivot: {x: 0.5, y: 0.5}
 --- !u!114 &98142304
 MonoBehaviour:
@@ -48669,7 +48669,7 @@ RectTransform:
   m_AnchorMin: {x: 0.5, y: 0.5}
   m_AnchorMax: {x: 0.5, y: 0.5}
   m_AnchoredPosition: {x: -510.885, y: 0}
-  m_SizeDelta: {x: 0, y: 0}
+  m_SizeDelta: {x: 718.23, y: 65.63}
   m_Pivot: {x: 0.5, y: 0.5}
 --- !u!114 &768842917
 MonoBehaviour:
@@ -55822,7 +55822,7 @@ RectTransform:
   m_AnchorMin: {x: 0.5, y: 0.5}
   m_AnchorMax: {x: 0.5, y: 0.5}
   m_AnchoredPosition: {x: -495.58496, y: -65}
-  m_SizeDelta: {x: 0, y: 0}
+  m_SizeDelta: {x: 748.83, y: 65.63}
   m_Pivot: {x: 0.5, y: 0.5}
 --- !u!114 &921400075
 MonoBehaviour:
@@ -56490,7 +56490,7 @@ PrefabInstance:
     - target: {fileID: 4592006524999585628, guid: bfb539341e77dc04c926af1238348f13,
         type: 3}
       propertyPath: m_SizeDelta.y
-      value: 0
+      value: 156.93433
       objectReference: {fileID: 0}
     m_RemovedComponents: []
     m_RemovedGameObjects: []
@@ -97800,7 +97800,7 @@ GameObject:
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
   m_StaticEditorFlags: 0
-  m_IsActive: 1
+  m_IsActive: 0
 --- !u!114 &1329447038
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -112648,18 +112648,6 @@ CanvasRenderer:
   m_PrefabAsset: {fileID: 0}
   m_GameObject: {fileID: 1855300341}
   m_CullTransparentMesh: 1
---- !u!114 &1860166556 stripped
-MonoBehaviour:
-  m_CorrespondingSourceObject: {fileID: 4797706059821967839, guid: 4cb412852a380eb41b8eea3eae897b83,
-    type: 3}
-  m_PrefabInstance: {fileID: 167370860818482918}
-  m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 0}
-  m_Enabled: 1
-  m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: c6dcd2266c92fd740bdfac8b91d46014, type: 3}
-  m_Name: 
-  m_EditorClassIdentifier: 
 --- !u!1 &1864875228
 GameObject:
   m_ObjectHideFlags: 0
@@ -125474,7 +125462,7 @@ PrefabInstance:
         type: 3}
       propertyPath: engineSFX
       value: 
-      objectReference: {fileID: 1860166556}
+      objectReference: {fileID: 0}
     - target: {fileID: 7694543476697699259, guid: 4cb412852a380eb41b8eea3eae897b83,
         type: 3}
       propertyPath: gameManager
