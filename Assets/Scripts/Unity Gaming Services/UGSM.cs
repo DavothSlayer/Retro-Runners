@@ -190,11 +190,11 @@ namespace RetroCode
 
                 CloudData cd = new CloudData();
 
-                cd.inventoryDict["bane"]["topspeed"].isLooted = true;
-                cd.inventoryDict["bane"]["torque"].isLooted = true;
-                cd.inventoryDict["bane"]["handling"].isLooted = true;
-                cd.inventoryDict["bane"]["health"].isLooted = true;
-                cd.inventoryDict["bane"]["power"].isLooted = true;
+                cd.inventoryDict["torque"]["topspeed"].isLooted = true;
+                cd.inventoryDict["torque"]["torque"].isLooted = true;
+                cd.inventoryDict["torque"]["handling"].isLooted = true;
+                cd.inventoryDict["torque"]["health"].isLooted = true;
+                cd.inventoryDict["torque"]["power"].isLooted = true;
 
                 cloudData = cd;
 
@@ -374,7 +374,7 @@ namespace RetroCode
 
         public Dictionary<string, Dictionary<string, AutoPartData>> inventoryDict = new()
         {
-            {"bane", new Dictionary<string, AutoPartData>{
+            {"torque", new Dictionary<string, AutoPartData>{
                 {"topspeed", new AutoPartData(0, DateTime.UtcNow) },
                 {"torque", new AutoPartData(0, DateTime.UtcNow) },
                 {"handling", new AutoPartData(0, DateTime.UtcNow) },

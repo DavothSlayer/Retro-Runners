@@ -14,7 +14,7 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   AutoName: Eleganza
   ItemCode: eleganza
-  Tier: 1
+  Tier: 2
   Price: 0
   Icon: {fileID: 21300000, guid: 58dd684e5ddb9f54b83268dea17472c7, type: 3}
   CompPriceMultiplier: 4
@@ -22,30 +22,35 @@ MonoBehaviour:
   - TopSpeed: 87
     Torque: 0
     MaxRPM: 0
+    MaxGear: 0
     Handling: 75
     MaxHealth: 2
     Power: 0
   - TopSpeed: 95
     Torque: 0
     MaxRPM: 0
+    MaxGear: 0
     Handling: 0
     MaxHealth: 3
     Power: 0
   - TopSpeed: 100
     Torque: 0
     MaxRPM: 0
+    MaxGear: 0
     Handling: 0
     MaxHealth: 4
     Power: 0
   - TopSpeed: 108
     Torque: 0
     MaxRPM: 0
+    MaxGear: 0
     Handling: 0
     MaxHealth: 5
     Power: 0
   - TopSpeed: 115
     Torque: 0
     MaxRPM: 0
+    MaxGear: 0
     Handling: 150
     MaxHealth: 6
     Power: 0

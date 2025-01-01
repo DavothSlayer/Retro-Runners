@@ -10,60 +10,59 @@ MonoBehaviour:
   m_Enabled: 1
   m_EditorHideFlags: 0
   m_Script: {fileID: 11500000, guid: c456eddc5592a404eb946752c3e85c0a, type: 3}
-  m_Name: MontanaData
+  m_Name: RogueData
   m_EditorClassIdentifier: 
-  AutoName: Montana
-  ItemCode: montana
-  Tier: 3
+  AutoName: Rogue
+  ItemCode: rogue
+  Tier: 1
   Price: 0
-  Icon: {fileID: 21300000, guid: d129bfc1716c8f340b9ffa0287d32f58, type: 3}
-  CompPriceMultiplier: 3
+  Icon: {fileID: 0}
+  CompPriceMultiplier: 0
   autoLevelData:
-  - TopSpeed: 109
+  - TopSpeed: 0
     Torque: 0
     MaxRPM: 0
     MaxGear: 0
     Handling: 0
-    MaxHealth: 3
+    MaxHealth: 0
     Power: 0
-  - TopSpeed: 115
+  - TopSpeed: 0
     Torque: 0
     MaxRPM: 0
     MaxGear: 0
     Handling: 0
-    MaxHealth: 3
+    MaxHealth: 0
     Power: 0
-  - TopSpeed: 120
+  - TopSpeed: 0
     Torque: 0
     MaxRPM: 0
     MaxGear: 0
     Handling: 0
-    MaxHealth: 3
+    MaxHealth: 0
     Power: 0
-  - TopSpeed: 128
+  - TopSpeed: 0
     Torque: 0
     MaxRPM: 0
     MaxGear: 0
     Handling: 0
-    MaxHealth: 3
+    MaxHealth: 0
     Power: 0
-  - TopSpeed: 135
+  - TopSpeed: 0
     Torque: 0
     MaxRPM: 0
     MaxGear: 0
     Handling: 0
-    MaxHealth: 3
+    MaxHealth: 0
     Power: 0
-  Class: 2
-  CameraPositionInMenu: {x: 2, y: 2, z: 6.5}
-  CameraRotationInMenu: {x: -0.022624105, y: 0.9709478, z: -0.10205074, w: -0.21525395}
-  InMenuFOV: 60
+  Class: 0
+  CameraPositionInMenu: {x: 0, y: 0, z: 0}
+  CameraRotationInMenu: {x: 0, y: 0, z: 0, w: 0}
+  InMenuFOV: 0
   CameraPositionInGame: {x: 0, y: 0, z: 0}
   CameraRotationInGame: {x: 0, y: 0, z: 0, w: 0}
-  rearviewOffset: {x: 0, y: -1.15, z: 10}
-  scrapeRayRange: 2.2
+  rearviewOffset: {x: 0, y: 0, z: 0}
+  scrapeRayRange: 0
   nearMissProxy: 0
-  LivePrefab: {fileID: 2793149616896781070, guid: dcc86c712ddceb744bd2c1492f0e2fa3,
-    type: 3}
-  Ability: {fileID: 11400000, guid: f3fb970147a3382478b67f307f6da42b, type: 2}
-  AbilityInfo: Overpower COPs for 20 seconds. 90 second cooldown.
+  LivePrefab: {fileID: 0}
+  Ability: {fileID: 0}
+  AbilityInfo: 

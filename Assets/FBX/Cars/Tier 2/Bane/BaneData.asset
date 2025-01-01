@@ -14,7 +14,7 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   AutoName: Bane
   ItemCode: bane
-  Tier: 0
+  Tier: 1
   Price: 0
   Icon: {fileID: 21300000, guid: 9869fdbc8b829ee40877080caa11093c, type: 3}
   CompPriceMultiplier: 1
