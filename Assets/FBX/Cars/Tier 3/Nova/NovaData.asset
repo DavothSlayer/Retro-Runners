@@ -1,0 +1,69 @@
+%YAML 1.1
+%TAG !u! tag:unity3d.com,2011:
+--- !u!114 &11400000
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 0}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: c456eddc5592a404eb946752c3e85c0a, type: 3}
+  m_Name: NovaData
+  m_EditorClassIdentifier: 
+  AutoName: IROCK
+  ItemCode: irock
+  Tier: 0
+  Price: 7500
+  Icon: {fileID: 21300000, guid: 89856a30c639a95499bbcce1fa21a3b0, type: 3}
+  CompPriceMultiplier: 1.25
+  autoLevelData:
+  - TopSpeed: 77
+    Torque: 200
+    MaxRPM: 6800
+    MaxGear: 4
+    Handling: 60
+    MaxHealth: 6
+    Power: 7
+  - TopSpeed: 83
+    Torque: 0
+    MaxRPM: 0
+    MaxGear: 0
+    Handling: 0
+    MaxHealth: 5
+    Power: 0
+  - TopSpeed: 90
+    Torque: 0
+    MaxRPM: 0
+    MaxGear: 0
+    Handling: 0
+    MaxHealth: 6
+    Power: 0
+  - TopSpeed: 96
+    Torque: 0
+    MaxRPM: 0
+    MaxGear: 0
+    Handling: 0
+    MaxHealth: 7
+    Power: 0
+  - TopSpeed: 104
+    Torque: 0
+    MaxRPM: 0
+    MaxGear: 0
+    Handling: 0
+    MaxHealth: 9
+    Power: 0
+  Class: 0
+  CameraPositionInMenu: {x: 5.5, y: 1.5, z: 0}
+  CameraRotationInMenu: {x: 0, y: -0.70710677, z: 0, w: 0.70710677}
+  InMenuFOV: 60
+  CameraPositionInGame: {x: 0, y: 0, z: 0}
+  CameraRotationInGame: {x: 0, y: 0, z: 0, w: 0}
+  rearviewOffset: {x: 0, y: -1.25, z: 9.15}
+  scrapeRayRange: 2
+  nearMissProxy: 0
+  LivePrefab: {fileID: 6088372522586061811, guid: 27a7e3d040bf8bc45972b31a3cf56469,
+    type: 3}
+  Ability: {fileID: 11400000, guid: c5b98cd6516eeec4e904cc297679db8c, type: 2}
+  AbilityInfo: Near Miss score is 5x for 15 seconds. 30 second cooldown.

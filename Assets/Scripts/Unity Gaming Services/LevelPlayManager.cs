@@ -31,6 +31,11 @@ namespace RetroCode
         private string interstitialAdUnitId = "wmgt0712uuux8ju4";
 #endif
 
+#if UNITY_EDITOR
+        private string appKey = "85460dcd";
+        private string interstitialAdUnitId = "aeyqi3vqlv6o8sh9";
+#endif
+
         private LevelPlayInterstitialAd interstitialAd;
 
         private void Start()
