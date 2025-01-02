@@ -19,14 +19,14 @@ MonoBehaviour:
   Icon: {fileID: 0}
   CompPriceMultiplier: 0
   autoLevelData:
-  - TopSpeed: 0
-    Torque: 0
-    MaxRPM: 0
-    MaxGear: 0
-    Handling: 0
-    MaxHealth: 0
-    Power: 0
-  - TopSpeed: 0
+  - TopSpeed: 33.5
+    Torque: 75
+    MaxRPM: 5000
+    MaxGear: 3
+    Handling: 30
+    MaxHealth: 5
+    Power: 5
+  - TopSpeed: 34.4
     Torque: 0
     MaxRPM: 0
     MaxGear: 0
