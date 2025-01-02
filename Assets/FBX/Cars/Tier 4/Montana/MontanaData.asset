@@ -12,7 +12,7 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: c456eddc5592a404eb946752c3e85c0a, type: 3}
   m_Name: MontanaData
   m_EditorClassIdentifier: 
-  AutoName: Montana
+  AutoName: MONTANA
   ItemCode: montana
   Tier: 3
   Price: 0

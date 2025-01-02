@@ -12,7 +12,7 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: c456eddc5592a404eb946752c3e85c0a, type: 3}
   m_Name: GojiraData
   m_EditorClassIdentifier: 
-  AutoName: Gojira
+  AutoName: GOJIRA
   ItemCode: gojira
   Tier: 0
   Price: 0

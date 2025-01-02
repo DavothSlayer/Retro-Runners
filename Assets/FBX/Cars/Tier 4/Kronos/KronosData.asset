@@ -12,7 +12,7 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: c456eddc5592a404eb946752c3e85c0a, type: 3}
   m_Name: KronosData
   m_EditorClassIdentifier: 
-  AutoName: Kronos
+  AutoName: KRONOS
   ItemCode: kronos
   Tier: 3
   Price: 0

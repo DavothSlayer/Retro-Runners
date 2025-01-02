@@ -12,7 +12,7 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: c456eddc5592a404eb946752c3e85c0a, type: 3}
   m_Name: MachineData
   m_EditorClassIdentifier: 
-  AutoName: Machine
+  AutoName: MACHINE
   ItemCode: machine
   Tier: 1
   Price: 0
