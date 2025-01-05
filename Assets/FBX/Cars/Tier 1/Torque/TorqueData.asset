@@ -17,7 +17,7 @@ MonoBehaviour:
   Tier: 0
   Price: 0
   Icon: {fileID: 0}
-  CompPriceMultiplier: 0
+  CompPriceMultiplier: 1
   autoLevelData:
   - TopSpeed: 33.5
     Torque: 75

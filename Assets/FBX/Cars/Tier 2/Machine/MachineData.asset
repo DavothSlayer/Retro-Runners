@@ -15,17 +15,17 @@ MonoBehaviour:
   AutoName: MACHINE
   ItemCode: machine
   Tier: 1
-  Price: 0
+  Price: 1500000
   Icon: {fileID: 0}
-  CompPriceMultiplier: 0
+  CompPriceMultiplier: 20
   autoLevelData:
-  - TopSpeed: 0
-    Torque: 0
-    MaxRPM: 0
-    MaxGear: 0
-    Handling: 0
-    MaxHealth: 0
-    Power: 0
+  - TopSpeed: 67
+    Torque: 115
+    MaxRPM: 3500
+    MaxGear: 9
+    Handling: 50
+    MaxHealth: 200
+    Power: 40
   - TopSpeed: 0
     Torque: 0
     MaxRPM: 0

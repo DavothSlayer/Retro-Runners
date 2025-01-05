@@ -15,17 +15,17 @@ MonoBehaviour:
   AutoName: MONTANA
   ItemCode: montana
   Tier: 3
-  Price: 0
+  Price: 19500000
   Icon: {fileID: 21300000, guid: d129bfc1716c8f340b9ffa0287d32f58, type: 3}
-  CompPriceMultiplier: 3
+  CompPriceMultiplier: 55
   autoLevelData:
-  - TopSpeed: 109
-    Torque: 0
-    MaxRPM: 0
-    MaxGear: 0
-    Handling: 0
-    MaxHealth: 3
-    Power: 0
+  - TopSpeed: 109.5
+    Torque: 350
+    MaxRPM: 10000
+    MaxGear: 6
+    Handling: 195
+    MaxHealth: 70
+    Power: 90
   - TopSpeed: 115
     Torque: 0
     MaxRPM: 0

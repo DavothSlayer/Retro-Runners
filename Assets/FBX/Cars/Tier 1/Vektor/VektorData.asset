@@ -15,17 +15,17 @@ MonoBehaviour:
   AutoName: VEKTOR
   ItemCode: vektor
   Tier: 0
-  Price: 0
+  Price: 90000
   Icon: {fileID: 0}
-  CompPriceMultiplier: 0
+  CompPriceMultiplier: 1.8
   autoLevelData:
-  - TopSpeed: 0
-    Torque: 0
-    MaxRPM: 0
-    MaxGear: 0
-    Handling: 0
-    MaxHealth: 0
-    Power: 0
+  - TopSpeed: 50
+    Torque: 120
+    MaxRPM: 8000
+    MaxGear: 6
+    Handling: 75
+    MaxHealth: 10
+    Power: 8
   - TopSpeed: 0
     Torque: 0
     MaxRPM: 0

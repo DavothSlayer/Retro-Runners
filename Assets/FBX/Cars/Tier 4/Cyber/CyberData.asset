@@ -15,17 +15,17 @@ MonoBehaviour:
   AutoName: CYBER
   ItemCode: cyber
   Tier: 3
-  Price: 0
+  Price: 8000000
   Icon: {fileID: 0}
-  CompPriceMultiplier: 0
+  CompPriceMultiplier: 43
   autoLevelData:
-  - TopSpeed: 0
-    Torque: 0
-    MaxRPM: 0
-    MaxGear: 0
-    Handling: 0
-    MaxHealth: 0
-    Power: 0
+  - TopSpeed: 98.3
+    Torque: 250
+    MaxRPM: 8500
+    MaxGear: 5
+    Handling: 165
+    MaxHealth: 45
+    Power: 60
   - TopSpeed: 0
     Torque: 0
     MaxRPM: 0

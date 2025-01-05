@@ -15,17 +15,17 @@ MonoBehaviour:
   AutoName: R.I.O.T.
   ItemCode: riot
   Tier: 3
-  Price: 0
+  Price: 50000000
   Icon: {fileID: 0}
-  CompPriceMultiplier: 0
+  CompPriceMultiplier: 75
   autoLevelData:
-  - TopSpeed: 0
-    Torque: 0
-    MaxRPM: 0
-    MaxGear: 0
-    Handling: 0
-    MaxHealth: 0
-    Power: 0
+  - TopSpeed: 96
+    Torque: 175
+    MaxRPM: 4500
+    MaxGear: 4
+    Handling: 75
+    MaxHealth: 150
+    Power: 120
   - TopSpeed: 0
     Torque: 0
     MaxRPM: 0

@@ -15,17 +15,17 @@ MonoBehaviour:
   AutoName: KRONOS
   ItemCode: kronos
   Tier: 3
-  Price: 0
+  Price: 12750000
   Icon: {fileID: 21300000, guid: d1836246b3e997e48ab21af21b9ea9a4, type: 3}
-  CompPriceMultiplier: 2
+  CompPriceMultiplier: 47
   autoLevelData:
-  - TopSpeed: 100
-    Torque: 0
-    MaxRPM: 0
-    MaxGear: 0
-    Handling: 0
-    MaxHealth: 4
-    Power: 0
+  - TopSpeed: 105
+    Torque: 285
+    MaxRPM: 7000
+    MaxGear: 5
+    Handling: 180
+    MaxHealth: 55
+    Power: 75
   - TopSpeed: 106
     Torque: 0
     MaxRPM: 0
