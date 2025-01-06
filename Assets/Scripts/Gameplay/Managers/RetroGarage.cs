@@ -162,7 +162,7 @@ namespace RetroCode
                 hud.upgradeCarButton.SetActive(true);
                 hud.purchaseCarButton.SetActive(false);
                 hud.lockedCarInfo.SetActive(false);
-                hud.autoSelectedIcon.SetActive(gamingServicesManager.cloudData.LastSelectedCarIndex == selectedAutoInt);
+                //hud.autoSelectedIcon.SetActive(gamingServicesManager.cloudData.LastSelectedCarIndex == selectedAutoInt);
 
                 autoTopSpeedVar = currentAutoData.autoLevelData[gamingServicesManager.cloudData.inventoryDict[currentAutoData.ItemCode]["topspeed"].EquippedLevel].TopSpeed;
                 autoTorqueVar = currentAutoData.autoLevelData[gamingServicesManager.cloudData.inventoryDict[currentAutoData.ItemCode]["torque"].EquippedLevel].Torque;
@@ -314,7 +314,7 @@ namespace RetroCode
                 hud.upgradeCarButton.SetActive(false);
                 hud.purchaseCarButton.SetActive(true);
                 hud.lockedCarInfo.SetActive(true);
-                hud.autoSelectedIcon.SetActive(false);
+                //hud.autoSelectedIcon.SetActive(false);
 
                 hud.autoLockImage.sprite = gamingServicesManager.cloudData.RetroDollars >= currentAutoData.Price ? hud.unlockedSprite : hud.lockedSprite;
                 hud.autoLockImage.color = gamingServicesManager.cloudData.RetroDollars >= currentAutoData.Price ? hud.availableColor : hud.lockedColor;
@@ -489,7 +489,7 @@ namespace RetroCode
 
             hud.autoTopSpeedInfo_C.text = $"{Mathf.RoundToInt(autoData.autoLevelData[0].TopSpeed * (SettingsManager.Instance.settings.SpeedUnitIsKMH ? 3.6f : 2.2f))} {(SettingsManager.Instance.settings.SpeedUnitIsKMH ? "KMH" : "MPH")}";
             hud.autoGearboxInfo_C.text = $"{autoData.autoLevelData[0].Torque} TQ";
-            hud.autoHandlingInfo_C.text = $"{autoData.autoLevelData[0].Handling} DR";
+            hud.autoHandlingInfo_C.text = $"{autoData.autoLevelData[0].Handling} GR";
             hud.autoHealthInfo_C.text = $"{autoData.autoLevelData[0].MaxHealth} HP";
             hud.autoPowerInfo_C.text = $"{autoData.autoLevelData[0].Power} CORES";
         }
