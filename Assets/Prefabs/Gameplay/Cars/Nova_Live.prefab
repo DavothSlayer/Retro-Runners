@@ -14599,7 +14599,7 @@ GameObject:
   - component: {fileID: 6202136694457422080}
   - component: {fileID: 1577617338586247067}
   m_Layer: 0
-  m_Name: irock_rearwheels
+  m_Name: nova_rearwheels
   m_TagString: Untagged
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
@@ -14627,7 +14627,7 @@ MeshFilter:
   m_PrefabInstance: {fileID: 0}
   m_PrefabAsset: {fileID: 0}
   m_GameObject: {fileID: 1169746509286613669}
-  m_Mesh: {fileID: -6320621402068077511, guid: c8b012c5e3522fd49adcafa8246a5e78, type: 3}
+  m_Mesh: {fileID: 2717834310850988566, guid: 5837addba69d30348918bc9e21ce1b96, type: 3}
 --- !u!23 &1577617338586247067
 MeshRenderer:
   m_ObjectHideFlags: 0
@@ -14685,7 +14685,7 @@ GameObject:
   - component: {fileID: 4625103088776911005}
   - component: {fileID: 4104147313573336290}
   m_Layer: 0
-  m_Name: irock_frontwheels
+  m_Name: nova_frontwheels
   m_TagString: Untagged
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
@@ -14713,7 +14713,7 @@ MeshFilter:
   m_PrefabInstance: {fileID: 0}
   m_PrefabAsset: {fileID: 0}
   m_GameObject: {fileID: 1706875910932511354}
-  m_Mesh: {fileID: -187424837961201427, guid: c8b012c5e3522fd49adcafa8246a5e78, type: 3}
+  m_Mesh: {fileID: 2653919799082856100, guid: 5837addba69d30348918bc9e21ce1b96, type: 3}
 --- !u!23 &4104147313573336290
 MeshRenderer:
   m_ObjectHideFlags: 0
@@ -29430,7 +29430,7 @@ GameObject:
   - component: {fileID: 2775139481056861445}
   - component: {fileID: 7509543361969110400}
   m_Layer: 0
-  m_Name: irock_gr
+  m_Name: nova_gr
   m_TagString: Untagged
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
@@ -29458,7 +29458,7 @@ MeshFilter:
   m_PrefabInstance: {fileID: 0}
   m_PrefabAsset: {fileID: 0}
   m_GameObject: {fileID: 3519597986676215025}
-  m_Mesh: {fileID: -4122389075074113022, guid: c8b012c5e3522fd49adcafa8246a5e78, type: 3}
+  m_Mesh: {fileID: 8697276228986291058, guid: 5837addba69d30348918bc9e21ce1b96, type: 3}
 --- !u!23 &7509543361969110400
 MeshRenderer:
   m_ObjectHideFlags: 0
@@ -39269,7 +39269,7 @@ GameObject:
   - component: {fileID: 3561697292727500076}
   - component: {fileID: 3498433107301604212}
   m_Layer: 11
-  m_Name: irock_dead
+  m_Name: nova_dead
   m_TagString: Untagged
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
@@ -54020,7 +54020,7 @@ GameObject:
   - component: {fileID: 1173332204377953297}
   - component: {fileID: 1607667579659206417}
   m_Layer: 10
-  m_Name: IROCKDeathFX
+  m_Name: NovaDeathFX
   m_TagString: Untagged
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
@@ -54056,7 +54056,7 @@ AudioSource:
   m_Enabled: 1
   serializedVersion: 4
   OutputAudioMixerGroup: {fileID: 0}
-  m_audioClip: {fileID: 8300000, guid: 07bfa999dd99d2e409b766ecfc992665, type: 3}
+  m_audioClip: {fileID: 0}
   m_Resource: {fileID: 8300000, guid: 07bfa999dd99d2e409b766ecfc992665, type: 3}
   m_PlayOnAwake: 1
   m_Volume: 1
@@ -64041,7 +64041,7 @@ GameObject:
   m_Component:
   - component: {fileID: 6049609665284710816}
   m_Layer: 10
-  m_Name: IROCK
+  m_Name: Nova
   m_TagString: Untagged
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
@@ -78665,7 +78665,7 @@ GameObject:
   - component: {fileID: 5243034574227497499}
   - component: {fileID: 9103081750585539363}
   m_Layer: 0
-  m_Name: irock
+  m_Name: nova
   m_TagString: Untagged
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
@@ -78706,7 +78706,7 @@ MeshFilter:
   m_PrefabInstance: {fileID: 0}
   m_PrefabAsset: {fileID: 0}
   m_GameObject: {fileID: 7822881481814406194}
-  m_Mesh: {fileID: -5453261746411281276, guid: c8b012c5e3522fd49adcafa8246a5e78, type: 3}
+  m_Mesh: {fileID: 5713213102139151139, guid: 5837addba69d30348918bc9e21ce1b96, type: 3}
 --- !u!23 &9103081750585539363
 MeshRenderer:
   m_ObjectHideFlags: 0
