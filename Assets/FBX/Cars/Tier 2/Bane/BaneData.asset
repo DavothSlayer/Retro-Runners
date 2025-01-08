@@ -20,7 +20,7 @@ MonoBehaviour:
   CompPriceMultiplier: 7.5
   autoLevelData:
   - TopSpeed: 60
-    Torque: 135
+    Torque: 270
     MaxRPM: 7000
     MaxGear: 5
     Handling: 85

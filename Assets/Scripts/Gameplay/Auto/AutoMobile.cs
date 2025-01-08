@@ -120,7 +120,7 @@ namespace RetroCode
 
                 gameManager.ShakeTheCam(0.4f);
 
-                rb.AddForce(Mathf.Abs(-col.relativeVelocity.magnitude) * transform.forward, ForceMode.VelocityChange);
+                rb.AddForce(Mathf.Abs(col.relativeVelocity.magnitude) * transform.forward, ForceMode.VelocityChange);
                 
                 damageable.Damage(1);
                 HandleDamage(damageable.DamageToPlayer());
@@ -134,7 +134,7 @@ namespace RetroCode
 
                 gameManager.ShakeTheCam(0.4f);
 
-                rb.AddForce(Mathf.Abs(-col.relativeVelocity.magnitude) * transform.forward, ForceMode.VelocityChange);
+                rb.AddForce(Mathf.Abs(col.relativeVelocity.magnitude) * transform.forward, ForceMode.VelocityChange);
 
                 damageable.Damage(damageable.Health());
                 HandleDamage(damageable.DamageToPlayer() * 2);
@@ -472,7 +472,7 @@ namespace RetroCode
                     }
 
                     // SPECTER SHOULD IGNORE SPARKS //
-                    if(ability.abilityName == "Specter")
+                    /*if(ability.abilityName == "Specter")
                     {
                         if (abilityState != AbilityState.Active)
                         {
@@ -507,7 +507,7 @@ namespace RetroCode
                             sparkFX[1].PlaySystem();
                         }
                         else { sparkFX[1].StopSystem(); }
-                    }
+                    }*/
 
                     break;
             }

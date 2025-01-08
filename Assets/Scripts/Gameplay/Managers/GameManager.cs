@@ -294,7 +294,7 @@ namespace RetroCode
 
             rearview = false;
             playerCar.abilityTimer = 0f;
-            playerCar.abilityCooldownTimer = playerCar.ability.cooldownTime;
+            //playerCar.abilityCooldownTimer = playerCar.ability.cooldownTime;
             playerCar.abilityState = AbilityState.Ready;
 
             // FLOAT AT END IS CHANCE AS % //

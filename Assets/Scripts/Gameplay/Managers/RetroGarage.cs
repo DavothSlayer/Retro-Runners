@@ -516,17 +516,18 @@ namespace RetroCode
             CheckInventory();
         }
 
+        [ContextMenu("Select Auto")]
         public void SelectAuto()
         {
-            /*
-            gamingServicesManager.cloudData.lastSelectedCarInt = selectedAutoInt;
+            
+            gamingServicesManager.cloudData.LastSelectedCarIndex = (byte)selectedAutoInt;
 
             gamingServicesManager.SaveCloudData(false);
 
-            garageScreenAnimator.SetTrigger("Selected");
+            //garageScreenAnimator.SetTrigger("Selected");
 
             CheckInventory();
-            */
+            
         }
         #endregion
 
