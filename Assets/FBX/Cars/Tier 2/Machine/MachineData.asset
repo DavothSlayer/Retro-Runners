@@ -20,7 +20,7 @@ MonoBehaviour:
   CompPriceMultiplier: 20
   autoLevelData:
   - TopSpeed: 67
-    Torque: 115
+    Torque: 900
     MaxRPM: 3500
     MaxGear: 9
     Handling: 50
@@ -55,12 +55,12 @@ MonoBehaviour:
     MaxHealth: 0
     Power: 0
   Class: 0
-  CameraPositionInMenu: {x: 0, y: 0, z: 0}
-  CameraRotationInMenu: {x: 0, y: 0, z: 0, w: 0}
-  InMenuFOV: 0
-  CameraPositionInGame: {x: 0, y: 0, z: 0}
-  CameraRotationInGame: {x: 0, y: 0, z: 0, w: 0}
-  rearviewOffset: {x: 0, y: 0, z: 0}
+  CameraPositionInMenu: {x: 0, y: 1.1, z: 14}
+  CameraRotationInMenu: {x: -0.0000000038097028, y: -0.99619466, z: -0.08715588, w: 0.00000004354505}
+  InMenuFOV: 55
+  CameraPositionInGame: {x: 0, y: 7.49, z: -12.9}
+  CameraRotationInGame: {x: 0.043619387, y: 0, z: 0, w: 0.99904823}
+  rearviewOffset: {x: 0, y: -1, z: 7}
   scrapeRayRange: 0
   nearMissProxy: 0
   LivePrefab: {fileID: 0}

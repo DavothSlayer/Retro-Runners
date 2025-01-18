@@ -53,6 +53,17 @@ namespace RetroCode
         {
             return autoLevelData[GearboxLevel].MaxRPM / 10f;
         }
+
+        [ContextMenu("Set Default Camera Data")]
+        public void SetDefaultCamData()
+        {
+            CameraPositionInMenu = new(2.6f, 1.1f, 6.8f);
+            CameraRotationInMenu = Quaternion.Euler(6.4f, 195f, 350f);
+            InMenuFOV = 55f;
+            CameraPositionInGame = new(0f, 3.5f, -9f);
+            CameraRotationInGame = Quaternion.Euler(5f, 0f, 0f);
+            rearviewOffset = new(0f, -1f, 7f);
+        }
     }
 
     [Serializable]
@@ -65,7 +76,6 @@ namespace RetroCode
         public float Handling;
         public int MaxHealth;
         public int Power;
-
     }
 
     public enum AutoClass

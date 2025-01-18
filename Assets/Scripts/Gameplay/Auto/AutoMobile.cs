@@ -6,7 +6,6 @@ using UnityEngine;
 using V3CTOR;
 using Random = UnityEngine.Random;
 using SkrilStudio;
-using Unity.Profiling;
 
 namespace RetroCode
 {
@@ -113,6 +112,8 @@ namespace RetroCode
             if (damageable == null) { col.collider.GetComponent<Damageable>(); }
             if (damageable == null) { return; }
 
+            print($"Dot Product: {Vector3.Dot(col.GetContact(0).otherCollider.transform.forward, transform.forward)}");
+
             // .75f FOR SAME DIRECTION CRASH, -.75f FOR HEAD-ON COLLISION //
             if (Vector3.Dot(col.GetContact(0).otherCollider.transform.forward, transform.forward) >= 0.75f)
             {
@@ -120,21 +121,22 @@ namespace RetroCode
 
                 gameManager.ShakeTheCam(0.4f);
 
-                rb.AddForce(Mathf.Abs(col.relativeVelocity.magnitude) * transform.forward, ForceMode.VelocityChange);
+                // RELATIVEVELOCITY IS FOR 2 RIGIDBODIES... DUMBASS //
+                rb.AddForce(Mathf.Abs(col.relativeVelocity.magnitude) * transform.forward * massDragMltplr, ForceMode.VelocityChange);
                 
                 damageable.Damage(1);
                 HandleDamage(damageable.DamageToPlayer());
 
                 //evaluation -= rb.linearVelocity.magnitude / data.autoLevelData[engineLevel].TopSpeed * 0.3f;
             }
-            
-            if (Vector3.Dot(col.GetContact(0).otherCollider.transform.forward, transform.forward) <= -0.75f)
+            else if (Vector3.Dot(col.GetContact(0).otherCollider.transform.forward, transform.forward) <= -0.75f)
             {
                 if (Vector3.Dot(col.GetContact(0).normal, transform.forward) >= -0.8f) return;
 
                 gameManager.ShakeTheCam(0.4f);
 
-                rb.AddForce(Mathf.Abs(col.relativeVelocity.magnitude) * transform.forward, ForceMode.VelocityChange);
+                // RELATIVEVELOCITY IS FOR 2 RIGIDBODIES... DUMBASS //
+                rb.AddForce(Mathf.Abs(col.relativeVelocity.magnitude) * transform.forward * massDragMltplr, ForceMode.VelocityChange);
 
                 damageable.Damage(damageable.Health());
                 HandleDamage(damageable.DamageToPlayer() * 2);

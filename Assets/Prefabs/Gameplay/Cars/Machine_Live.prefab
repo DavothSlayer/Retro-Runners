@@ -43,7 +43,7 @@ GameObject:
   - component: {fileID: 4863147538238454480}
   - component: {fileID: 4455358967082699169}
   - component: {fileID: 3058864672494561426}
-  m_Layer: 0
+  m_Layer: 10
   m_Name: wheelset1
   m_TagString: Untagged
   m_Icon: {fileID: 0}
@@ -129,7 +129,7 @@ GameObject:
   - component: {fileID: 4460796582474062941}
   - component: {fileID: 225095286817028655}
   - component: {fileID: 127312074029625273}
-  m_Layer: 0
+  m_Layer: 10
   m_Name: wheelset5
   m_TagString: Untagged
   m_Icon: {fileID: 0}
@@ -216,7 +216,7 @@ GameObject:
   - component: {fileID: 309124283262468532}
   - component: {fileID: 4473479357645797622}
   - component: {fileID: 7191599692263575357}
-  m_Layer: 0
+  m_Layer: 10
   m_Name: machine
   m_TagString: Untagged
   m_Icon: {fileID: 0}
@@ -338,7 +338,7 @@ GameObject:
   - component: {fileID: 2365507934967928671}
   - component: {fileID: 883278335311381593}
   - component: {fileID: 7575928648283579363}
-  m_Layer: 0
+  m_Layer: 10
   m_Name: wheelset2
   m_TagString: Untagged
   m_Icon: {fileID: 0}
@@ -424,7 +424,7 @@ GameObject:
   - component: {fileID: 8123240451233836462}
   - component: {fileID: 486841157527338355}
   - component: {fileID: 4324187811513900756}
-  m_Layer: 10
+  m_Layer: 11
   m_Name: Spark
   m_TagString: Untagged
   m_Icon: {fileID: 0}
@@ -15008,7 +15008,7 @@ GameObject:
   serializedVersion: 6
   m_Component:
   - component: {fileID: 5284291878522166231}
-  m_Layer: 0
+  m_Layer: 10
   m_Name: Machine
   m_TagString: Untagged
   m_Icon: {fileID: 0}
@@ -15043,7 +15043,7 @@ GameObject:
   - component: {fileID: 3673831592847532169}
   - component: {fileID: 1436248467078740090}
   - component: {fileID: 6616339721220655792}
-  m_Layer: 0
+  m_Layer: 10
   m_Name: wheelset4
   m_TagString: Untagged
   m_Icon: {fileID: 0}
@@ -34500,7 +34500,7 @@ GameObject:
   - component: {fileID: 7139448087907618939}
   - component: {fileID: 7101503646895523928}
   - component: {fileID: 4926039848024989532}
-  m_Layer: 10
+  m_Layer: 11
   m_Name: Explosion
   m_TagString: Untagged
   m_Icon: {fileID: 0}
@@ -44251,7 +44251,7 @@ GameObject:
   m_Component:
   - component: {fileID: 4149322178269115843}
   - component: {fileID: 989627294000756298}
-  m_Layer: 10
+  m_Layer: 11
   m_Name: MachineDeathFX
   m_TagString: Untagged
   m_Icon: {fileID: 0}
@@ -49293,7 +49293,7 @@ GameObject:
   - component: {fileID: 5214679424689252703}
   - component: {fileID: 5207589160361296429}
   - component: {fileID: 3313795696336129425}
-  m_Layer: 0
+  m_Layer: 10
   m_Name: machine_gr
   m_TagString: Untagged
   m_Icon: {fileID: 0}
@@ -54222,7 +54222,7 @@ GameObject:
   - component: {fileID: 5065683832997008993}
   - component: {fileID: 1025027979974021290}
   - component: {fileID: 8554876540714699915}
-  m_Layer: 10
+  m_Layer: 11
   m_Name: Smoke
   m_TagString: Untagged
   m_Icon: {fileID: 0}
@@ -68857,7 +68857,7 @@ GameObject:
   - component: {fileID: 7791856015137459889}
   - component: {fileID: 5946856744596255444}
   - component: {fileID: 8271560886127985635}
-  m_Layer: 0
+  m_Layer: 11
   m_Name: machine_dead
   m_TagString: Untagged
   m_Icon: {fileID: 0}
@@ -68966,7 +68966,7 @@ GameObject:
   - component: {fileID: 829060594364594783}
   - component: {fileID: 6527692485635944696}
   - component: {fileID: 72394282167849610}
-  m_Layer: 0
+  m_Layer: 10
   m_Name: wheelset3
   m_TagString: Untagged
   m_Icon: {fileID: 0}
@@ -69053,7 +69053,7 @@ GameObject:
   - component: {fileID: 974908351198786603}
   - component: {fileID: 5856964407652406147}
   - component: {fileID: 6125747336159679128}
-  m_Layer: 0
+  m_Layer: 10
   m_Name: Machine_Live
   m_TagString: Untagged
   m_Icon: {fileID: 0}
@@ -69184,7 +69184,7 @@ MonoBehaviour:
   - {fileID: 3673831592847532169}
   - {fileID: 4460796582474062941}
   wheelDiameter: 1.25
-  engineSFX: {fileID: 0}
+  engineSFX: {fileID: 1201693705037637334}
   abilityClip: {fileID: 8300000, guid: 95c0d7b09166e144a9b5ebf292d2a9fb, type: 3}
   currentHealth: 0
   engineLevel: 0
@@ -69204,7 +69204,7 @@ GameObject:
   - component: {fileID: 1764515095642699085}
   - component: {fileID: 8410977731944480569}
   - component: {fileID: 7552062727922906048}
-  m_Layer: 10
+  m_Layer: 11
   m_Name: ShockWave
   m_TagString: Untagged
   m_Icon: {fileID: 0}
@@ -78958,6 +78958,11 @@ PrefabInstance:
       propertyPath: m_Name
       value: Diesel_2.5_German_HQ
       objectReference: {fileID: 0}
+    - target: {fileID: 8998268521910853877, guid: 118888add00256846b3fabbd970a6948,
+        type: 3}
+      propertyPath: m_Layer
+      value: 10
+      objectReference: {fileID: 0}
     - target: {fileID: 9004064218671858253, guid: 118888add00256846b3fabbd970a6948,
         type: 3}
       propertyPath: m_LocalPosition.x
@@ -79058,6 +79063,18 @@ PrefabInstance:
     m_AddedGameObjects: []
     m_AddedComponents: []
   m_SourcePrefab: {fileID: 100100000, guid: 118888add00256846b3fabbd970a6948, type: 3}
+--- !u!114 &1201693705037637334 stripped
+MonoBehaviour:
+  m_CorrespondingSourceObject: {fileID: 9039508398685305443, guid: 118888add00256846b3fabbd970a6948,
+    type: 3}
+  m_PrefabInstance: {fileID: 7917203831759002805}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 0}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: c6dcd2266c92fd740bdfac8b91d46014, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
 --- !u!4 &1237172973025533688 stripped
 Transform:
   m_CorrespondingSourceObject: {fileID: 9004064218671858253, guid: 118888add00256846b3fabbd970a6948,

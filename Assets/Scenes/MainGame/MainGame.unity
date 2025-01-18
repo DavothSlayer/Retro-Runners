@@ -25343,18 +25343,6 @@ GameObject:
     type: 3}
   m_PrefabInstance: {fileID: 423540151}
   m_PrefabAsset: {fileID: 0}
---- !u!114 &426976104 stripped
-MonoBehaviour:
-  m_CorrespondingSourceObject: {fileID: 8410788548824590877, guid: 0ea0213d232d0294bbe9d32ad2895c2e,
-    type: 3}
-  m_PrefabInstance: {fileID: 6185916130306883972}
-  m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 0}
-  m_Enabled: 1
-  m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: c6dcd2266c92fd740bdfac8b91d46014, type: 3}
-  m_Name: 
-  m_EditorClassIdentifier: 
 --- !u!198 &431686334 stripped
 ParticleSystem:
   m_CorrespondingSourceObject: {fileID: 1658826077715838821, guid: f263e881d77629144b1f276170d270cd,
@@ -101339,6 +101327,18 @@ CanvasGroup:
   m_Interactable: 1
   m_BlocksRaycasts: 1
   m_IgnoreParentGroups: 0
+--- !u!114 &1648181275 stripped
+MonoBehaviour:
+  m_CorrespondingSourceObject: {fileID: 1201693705037637334, guid: fb233b2ba21b425408915a47998c542e,
+    type: 3}
+  m_PrefabInstance: {fileID: 5742704796006940138}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 0}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: c6dcd2266c92fd740bdfac8b91d46014, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
 --- !u!1 &1653326046
 GameObject:
   m_ObjectHideFlags: 0
@@ -126407,6 +126407,11 @@ PrefabInstance:
     serializedVersion: 3
     m_TransformParent: {fileID: 1798999337}
     m_Modifications:
+    - target: {fileID: 1201693705037637334, guid: fb233b2ba21b425408915a47998c542e,
+        type: 3}
+      propertyPath: pitchMultiplier
+      value: 0.6
+      objectReference: {fileID: 0}
     - target: {fileID: 1573371244316069938, guid: fb233b2ba21b425408915a47998c542e,
         type: 3}
       propertyPath: m_LocalPosition.x
@@ -126471,7 +126476,7 @@ PrefabInstance:
         type: 3}
       propertyPath: engineSFX
       value: 
-      objectReference: {fileID: 426976104}
+      objectReference: {fileID: 1648181275}
     - target: {fileID: 6125747336159679128, guid: fb233b2ba21b425408915a47998c542e,
         type: 3}
       propertyPath: gameManager
@@ -126488,7 +126493,8 @@ PrefabInstance:
       value: 0
       objectReference: {fileID: 0}
     m_RemovedComponents: []
-    m_RemovedGameObjects: []
+    m_RemovedGameObjects:
+    - {fileID: 2412915770685695303, guid: fb233b2ba21b425408915a47998c542e, type: 3}
     m_AddedGameObjects: []
     m_AddedComponents: []
   m_SourcePrefab: {fileID: 100100000, guid: fb233b2ba21b425408915a47998c542e, type: 3}
