@@ -36,7 +36,7 @@ namespace RetroCode
 
         public float Acceleration(int GearboxLevel)
         {
-            return 2000f / autoLevelData[GearboxLevel].Torque;
+            return autoLevelData[GearboxLevel].Torque;
         }
 
         public float SteerSpeed(int HandlingLevel)
@@ -51,7 +51,7 @@ namespace RetroCode
 
         public float IdleRPM(int GearboxLevel)
         {
-            return autoLevelData[GearboxLevel].MaxRPM / 10f;
+            return autoLevelData[GearboxLevel].MaxRPM / 6f;
         }
 
         [ContextMenu("Set Default Camera Data")]

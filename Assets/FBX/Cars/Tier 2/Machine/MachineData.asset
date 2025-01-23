@@ -20,7 +20,7 @@ MonoBehaviour:
   CompPriceMultiplier: 20
   autoLevelData:
   - TopSpeed: 67
-    Torque: 900
+    Torque: 264.3
     MaxRPM: 3500
     MaxGear: 9
     Handling: 50

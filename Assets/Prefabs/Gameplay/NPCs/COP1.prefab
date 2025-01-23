@@ -10200,9 +10200,9 @@ GameObject:
   serializedVersion: 6
   m_Component:
   - component: {fileID: 4012719141591861500}
-  - component: {fileID: 4012719141591861503}
   - component: {fileID: 4012719141591861502}
   - component: {fileID: 5080894172700544526}
+  - component: {fileID: 4012719141591861503}
   m_Layer: 12
   m_Name: COP1
   m_TagString: Untagged
@@ -10227,40 +10227,6 @@ Transform:
   - {fileID: 6940832073093453096}
   m_Father: {fileID: 0}
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
---- !u!114 &4012719141591861503
-MonoBehaviour:
-  m_ObjectHideFlags: 0
-  m_CorrespondingSourceObject: {fileID: 0}
-  m_PrefabInstance: {fileID: 0}
-  m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 4012719141591861501}
-  m_Enabled: 1
-  m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: add208cc6d7e20142a7a5b471854d58e, type: 3}
-  m_Name: 
-  m_EditorClassIdentifier: 
-  rigidBody: {fileID: 4012719141591861502}
-  mainCollider: {fileID: 5080894172700544526}
-  spawnManager: {fileID: 0}
-  gameManager: {fileID: 0}
-  health: 1
-  raycastPos: {x: 0, y: 0.25, z: 0}
-  forwardRayDistance: 50
-  sideRayDistance: 8
-  laneChangeForce: 35
-  playerMask:
-    serializedVersion: 2
-    m_Bits: 567
-  mainModel: {fileID: 6462752660687558447}
-  deadModel: {fileID: 2810016690229700889}
-  sirenVar1: {fileID: 417633477845387949}
-  sirenVar2: {fileID: 3345783780151327422}
-  playerT: {fileID: 0}
-  playerAuto: {fileID: 0}
-  wheelSets:
-  - {fileID: 2056244639998675597}
-  - {fileID: 2180320087180078476}
-  wheelDiameter: 1.41
 --- !u!54 &4012719141591861502
 Rigidbody:
   m_ObjectHideFlags: 0
@@ -10310,6 +10276,40 @@ MeshCollider:
   m_Convex: 1
   m_CookingOptions: 30
   m_Mesh: {fileID: -4659394709610592991, guid: f50932abb7c65c9469d30a61a50a9510, type: 3}
+--- !u!114 &4012719141591861503
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 4012719141591861501}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: add208cc6d7e20142a7a5b471854d58e, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  rigidBody: {fileID: 4012719141591861502}
+  mainCollider: {fileID: 5080894172700544526}
+  spawnManager: {fileID: 0}
+  gameManager: {fileID: 0}
+  health: 1
+  raycastPos: {x: 0, y: 0.25, z: 0}
+  forwardRayDistance: 50
+  sideRayDistance: 8
+  laneChangeForce: 35
+  playerMask:
+    serializedVersion: 2
+    m_Bits: 567
+  mainModel: {fileID: 6462752660687558447}
+  deadModel: {fileID: 2810016690229700889}
+  sirenVar1: {fileID: 417633477845387949}
+  sirenVar2: {fileID: 3345783780151327422}
+  playerT: {fileID: 0}
+  playerAuto: {fileID: 0}
+  wheelSets:
+  - {fileID: 2056244639998675597}
+  - {fileID: 2180320087180078476}
+  wheelDiameter: 1.41
 --- !u!1 &4559345608969287978
 GameObject:
   m_ObjectHideFlags: 0

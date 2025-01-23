@@ -20,7 +20,7 @@ MonoBehaviour:
   CompPriceMultiplier: 1
   autoLevelData:
   - TopSpeed: 33.5
-    Torque: 75
+    Torque: 750
     MaxRPM: 5000
     MaxGear: 3
     Handling: 30
@@ -55,10 +55,10 @@ MonoBehaviour:
     MaxHealth: 0
     Power: 0
   Class: 0
-  CameraPositionInMenu: {x: 2.61, y: 1.1, z: 6.78}
-  CameraRotationInMenu: {x: 0.086410485, y: -0.9876721, z: -0.011376153, w: 0.13002951}
+  CameraPositionInMenu: {x: 2.6, y: 1.1, z: 6.8}
+  CameraRotationInMenu: {x: 0.09353396, y: -0.98549706, z: 0.043774955, w: 0.13465032}
   InMenuFOV: 55
-  CameraPositionInGame: {x: 0, y: 3.5, z: -9}
+  CameraPositionInGame: {x: 0, y: 3.5, z: -9.2}
   CameraRotationInGame: {x: 0.043619387, y: 0, z: 0, w: 0.99904823}
   rearviewOffset: {x: 0, y: -1, z: 7}
   scrapeRayRange: 0.8

@@ -12,6 +12,8 @@ namespace RetroCode
 
         [Header("Core")]
         [SerializeField]
+        private Rigidbody rb;
+        [SerializeField]
         private int health;
         [SerializeField]
         private int damageToPlayer;        

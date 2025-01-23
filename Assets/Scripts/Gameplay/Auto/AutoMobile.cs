@@ -121,22 +121,20 @@ namespace RetroCode
 
                 gameManager.ShakeTheCam(0.4f);
 
-                // RELATIVEVELOCITY IS FOR 2 RIGIDBODIES... DUMBASS //
-                rb.AddForce(Mathf.Abs(col.relativeVelocity.magnitude) * transform.forward * massDragMltplr, ForceMode.VelocityChange);
+                //rb.AddForce(rb.linearVelocity, ForceMode.VelocityChange);
                 
                 damageable.Damage(1);
                 HandleDamage(damageable.DamageToPlayer());
 
                 //evaluation -= rb.linearVelocity.magnitude / data.autoLevelData[engineLevel].TopSpeed * 0.3f;
             }
-            else if (Vector3.Dot(col.GetContact(0).otherCollider.transform.forward, transform.forward) <= -0.75f)
+            else if (Vector3.Dot(col.GetContact(0).otherCollider.transform.forward, transform.forward) < -0.75f)
             {
                 if (Vector3.Dot(col.GetContact(0).normal, transform.forward) >= -0.8f) return;
 
                 gameManager.ShakeTheCam(0.4f);
 
-                // RELATIVEVELOCITY IS FOR 2 RIGIDBODIES... DUMBASS //
-                rb.AddForce(Mathf.Abs(col.relativeVelocity.magnitude) * transform.forward * massDragMltplr, ForceMode.VelocityChange);
+                //rb.AddForce(rb.linearVelocity, ForceMode.VelocityChange);
 
                 damageable.Damage(damageable.Health());
                 HandleDamage(damageable.DamageToPlayer() * 2);
@@ -221,12 +219,12 @@ namespace RetroCode
             massDragMltplr = rb.linearDamping * rb.mass;
 
             highestGear = data.autoLevelData[gearboxLevel].MaxGear;
-            maxRPM = data.autoLevelData[engineLevel].MaxRPM * 0.9f;
+            maxRPM = data.autoLevelData[engineLevel].MaxRPM;
             maxTorque = data.autoLevelData[gearboxLevel].Torque;
             gearRatio = (float)currentGear / highestGear;
             
-            shiftDownThreshold = 0.2f + 0.2f * gearRatio;
-            shiftUpThreshold = 0.5f + 0.3f * gearRatio;
+            shiftDownThreshold = 0.3f + 0.2f * gearRatio;
+            shiftUpThreshold = 0.6f + 0.2f * gearRatio;
 
             shiftPercent = rb.linearVelocity.z / (data.autoLevelData[engineLevel].TopSpeed * gearRatio);
 
@@ -240,8 +238,9 @@ namespace RetroCode
             {
                 if (GameManager.gameState == GameState.InGame)
                 {
-                    currentRPM = Mathf.Lerp(currentRPM, maxRPM, Time.deltaTime / (data.Acceleration(gearboxLevel) * Mathf.Pow(gearRatio, 2f)));
-                    targetTorque = data.autoLevelData[engineLevel].TopSpeed * (currentRPM / maxRPM) * gearRatio * massDragMltplr;
+                    //currentRPM = Mathf.Lerp(currentRPM, maxRPM, Time.deltaTime / (data.Acceleration(gearboxLevel) * Mathf.Pow(gearRatio, 2f)));
+                    currentRPM = Mathf.Lerp(currentRPM, maxRPM, Time.deltaTime / data.Acceleration(gearboxLevel));
+                    targetTorque = data.Acceleration(gearboxLevel) * (currentRPM / maxRPM) * massDragMltplr;
                 }
                 else
                 {
@@ -249,10 +248,10 @@ namespace RetroCode
                     targetTorque = data.autoLevelData[engineLevel].TopSpeed * 0.3f * massDragMltplr;
                 }
             } 
-            else currentRPM = Mathf.Lerp(currentRPM, data.IdleRPM(gearboxLevel), 2f * Time.deltaTime);
+            else currentRPM = Mathf.Lerp(currentRPM, data.IdleRPM(gearboxLevel), Time.deltaTime);
 
             // DEBUGGING //
-            //print($"GearRatio: {gearRatio} | ShiftPercent: {shiftPercent}% | Gear: {currentGear} | RPM: {currentRPM} | VelZ: {rb.linearVelocity.z}" );
+            print($"Pressing Gas: {pressingGas} | GearRatio: {gearRatio} | ShiftPercent: {shiftPercent}% | Gear: {currentGear} | RPM: {currentRPM} | VelZ: {rb.linearVelocity.z}" );
         }
 
         private async void ShiftGear(int shift)
@@ -263,7 +262,7 @@ namespace RetroCode
 
             currentGear += shift;
 
-            await Task.Delay(350 - 50 * gearboxLevel);
+            await Task.Delay(450 - 50 * gearboxLevel);
 
             engineSFX.isShifting = false;
 
