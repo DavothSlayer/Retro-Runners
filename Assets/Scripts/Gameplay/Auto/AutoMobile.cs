@@ -121,7 +121,7 @@ namespace RetroCode
 
                 gameManager.ShakeTheCam(0.4f);
 
-                //rb.AddForce(rb.linearVelocity, ForceMode.VelocityChange);
+                rb.AddForce(Mathf.Abs(col.relativeVelocity.magnitude) * transform.forward, ForceMode.VelocityChange);
                 
                 damageable.Damage(1);
                 HandleDamage(damageable.DamageToPlayer());
@@ -134,7 +134,7 @@ namespace RetroCode
 
                 gameManager.ShakeTheCam(0.4f);
 
-                //rb.AddForce(rb.linearVelocity, ForceMode.VelocityChange);
+                rb.AddForce(Mathf.Abs(col.relativeVelocity.magnitude) * transform.forward, ForceMode.VelocityChange);
 
                 damageable.Damage(damageable.Health());
                 HandleDamage(damageable.DamageToPlayer() * 2);

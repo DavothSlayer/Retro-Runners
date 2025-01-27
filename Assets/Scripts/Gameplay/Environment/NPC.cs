@@ -39,10 +39,14 @@ namespace RetroCode
         }
 
         [BurstCompile]
+        private void FixedUpdate()
+        {
+            rb.AddForce(25f * rb.linearDamping * rb.mass * transform.forward, ForceMode.Force);
+        }
+
+        [BurstCompile]
         public void Update()
         {
-            transform.position += transform.forward * 15f * Time.deltaTime;
-
             foreach (Transform wheels in wheelSets)
             {
                 wheels.Rotate(Vector3.right, (15f * Time.deltaTime / wheelDiameter * 3.14f) * 360f, Space.Self);
