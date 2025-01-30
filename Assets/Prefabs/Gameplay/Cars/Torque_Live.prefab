@@ -12,7 +12,7 @@ GameObject:
   - component: {fileID: 2159668828993250047}
   - component: {fileID: 5032742494178436924}
   - component: {fileID: 15073843816157400}
-  m_Layer: 0
+  m_Layer: 11
   m_Name: torque_dead
   m_TagString: Untagged
   m_Icon: {fileID: 0}
@@ -122,7 +122,7 @@ GameObject:
   - component: {fileID: 4787663483428608571}
   - component: {fileID: 3254448643130966000}
   - component: {fileID: 1926681862126382428}
-  m_Layer: 10
+  m_Layer: 11
   m_Name: Smoke
   m_TagString: Untagged
   m_Icon: {fileID: 0}
@@ -9929,7 +9929,7 @@ GameObject:
   - component: {fileID: 5638591504463911939}
   - component: {fileID: 2867624345290859991}
   - component: {fileID: 6788694859908578944}
-  m_Layer: 0
+  m_Layer: 10
   m_Name: torque_frontwheels
   m_TagString: Untagged
   m_Icon: {fileID: 0}
@@ -10014,7 +10014,7 @@ GameObject:
   m_Component:
   - component: {fileID: 7667976723508729666}
   - component: {fileID: 7337914028751427838}
-  m_Layer: 10
+  m_Layer: 11
   m_Name: TorqueDeathFX
   m_TagString: Untagged
   m_Icon: {fileID: 0}
@@ -15025,7 +15025,7 @@ GameObject:
   - component: {fileID: 5371386146824967400}
   - component: {fileID: 9170088823401054355}
   - component: {fileID: 69778350572445800}
-  m_Layer: 0
+  m_Layer: 10
   m_Name: Torque_Live
   m_TagString: Untagged
   m_Icon: {fileID: 0}
@@ -15171,7 +15171,7 @@ GameObject:
   - component: {fileID: 602158291844986698}
   - component: {fileID: 8829411539186939030}
   - component: {fileID: 7955759005642820162}
-  m_Layer: 0
+  m_Layer: 10
   m_Name: torque
   m_TagString: Untagged
   m_Icon: {fileID: 0}
@@ -15291,7 +15291,7 @@ GameObject:
   - component: {fileID: 8938852308520862599}
   - component: {fileID: 5429081960330667930}
   - component: {fileID: 5806118877441246965}
-  m_Layer: 0
+  m_Layer: 10
   m_Name: torque_rearwheels
   m_TagString: Untagged
   m_Icon: {fileID: 0}
@@ -25061,7 +25061,7 @@ GameObject:
   serializedVersion: 6
   m_Component:
   - component: {fileID: 4787114967316412150}
-  m_Layer: 0
+  m_Layer: 10
   m_Name: Torque
   m_TagString: Untagged
   m_Icon: {fileID: 0}
@@ -34834,7 +34834,7 @@ GameObject:
   - component: {fileID: 6725591212268869190}
   - component: {fileID: 8869879558213157780}
   - component: {fileID: 5060997004450942737}
-  m_Layer: 0
+  m_Layer: 10
   m_Name: torque_gr
   m_TagString: Untagged
   m_Icon: {fileID: 0}
@@ -54290,7 +54290,7 @@ GameObject:
   - component: {fileID: 346152931312497230}
   - component: {fileID: 4042243601351779095}
   - component: {fileID: 7552110873510946438}
-  m_Layer: 10
+  m_Layer: 11
   m_Name: Explosion
   m_TagString: Untagged
   m_Icon: {fileID: 0}
@@ -59199,7 +59199,7 @@ GameObject:
   - component: {fileID: 2358158235750307564}
   - component: {fileID: 3099946913888039145}
   - component: {fileID: 3380415641100447066}
-  m_Layer: 10
+  m_Layer: 11
   m_Name: ShockWave
   m_TagString: Untagged
   m_Icon: {fileID: 0}
@@ -64108,7 +64108,7 @@ GameObject:
   - component: {fileID: 6299840171801444670}
   - component: {fileID: 7474410555519400157}
   - component: {fileID: 2937800981810192826}
-  m_Layer: 10
+  m_Layer: 11
   m_Name: Spark
   m_TagString: Untagged
   m_Icon: {fileID: 0}
@@ -78735,6 +78735,11 @@ PrefabInstance:
         type: 3}
       propertyPath: m_Name
       value: V8_American_Classic_1_HQ
+      objectReference: {fileID: 0}
+    - target: {fileID: 4739353574277502802, guid: 9c36106f53aa0d34ebb6fae339d39677,
+        type: 3}
+      propertyPath: m_Layer
+      value: 10
       objectReference: {fileID: 0}
     - target: {fileID: 4740518867143947978, guid: 9c36106f53aa0d34ebb6fae339d39677,
         type: 3}
