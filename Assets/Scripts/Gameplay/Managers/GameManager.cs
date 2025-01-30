@@ -388,11 +388,11 @@ namespace RetroCode
             // SET PLAYER SPAWN TO ZSPAWN + 600f //
             playerCar = newAuto.GetComponent<AutoMobile>();
             playerTransform = newAuto.transform;
-            playerTransform.SetPositionAndRotation(new Vector3(3f, 0.02f, 600f), Quaternion.identity);
+            playerTransform.SetPositionAndRotation(new(3f, 0f, 600f), Quaternion.identity);
             newAuto.SetActive(true);
 
             playerCar.engineLevel = gamingServicesManager.cloudData.inventoryDict[playerCar.data.ItemCode]["topspeed"].EquippedLevel;
-            playerCar.powerLevel = gamingServicesManager.cloudData.inventoryDict[playerCar.data.ItemCode]["torque"].EquippedLevel;
+            playerCar.powerLevel = gamingServicesManager.cloudData.inventoryDict[playerCar.data.ItemCode]["acceleration"].EquippedLevel;
             playerCar.tiresLevel = gamingServicesManager.cloudData.inventoryDict[playerCar.data.ItemCode]["handling"].EquippedLevel;
             playerCar.armorLevel = gamingServicesManager.cloudData.inventoryDict[playerCar.data.ItemCode]["health"].EquippedLevel;
             playerCar.powerLevel = gamingServicesManager.cloudData.inventoryDict[playerCar.data.ItemCode]["power"].EquippedLevel;

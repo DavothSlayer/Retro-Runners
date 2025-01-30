@@ -11,7 +11,7 @@ GameObject:
   - component: {fileID: 2413484708478490360}
   - component: {fileID: 8201366251125217852}
   - component: {fileID: 9066383594896529122}
-  m_Layer: 0
+  m_Layer: 14
   m_Name: truck_oilrig_gr
   m_TagString: Untagged
   m_Icon: {fileID: 0}
@@ -97,7 +97,7 @@ GameObject:
   - component: {fileID: 766677805635039191}
   - component: {fileID: 1231611446887041437}
   - component: {fileID: 9078629175280238237}
-  m_Layer: 0
+  m_Layer: 14
   m_Name: truck_wheelset4
   m_TagString: Untagged
   m_Icon: {fileID: 0}
@@ -183,7 +183,7 @@ GameObject:
   - component: {fileID: 6152167642034332945}
   - component: {fileID: 671722794111926494}
   - component: {fileID: 5818498199872418083}
-  m_Layer: 0
+  m_Layer: 14
   m_Name: truck_oilrig_LOD1
   m_TagString: Untagged
   m_Icon: {fileID: 0}
@@ -269,7 +269,7 @@ GameObject:
   - component: {fileID: 6236668106005415802}
   - component: {fileID: 4225419218093367594}
   - component: {fileID: 9180570596906005776}
-  m_Layer: 0
+  m_Layer: 14
   m_Name: truck_wheelset3
   m_TagString: Untagged
   m_Icon: {fileID: 0}
@@ -355,7 +355,7 @@ GameObject:
   - component: {fileID: 765436510938050709}
   - component: {fileID: 2053726492181252157}
   - component: {fileID: 7017560145186358803}
-  m_Layer: 0
+  m_Layer: 14
   m_Name: truck_oilrig_LOD0
   m_TagString: Untagged
   m_Icon: {fileID: 0}
@@ -444,7 +444,7 @@ GameObject:
   - component: {fileID: 1901433584589967246}
   - component: {fileID: 8953728816720134950}
   - component: {fileID: 7757556022602622936}
-  m_Layer: 0
+  m_Layer: 14
   m_Name: TruckOilrig_Live
   m_TagString: Untagged
   m_Icon: {fileID: 0}
@@ -528,7 +528,7 @@ Rigidbody:
   m_UseGravity: 1
   m_IsKinematic: 0
   m_Interpolate: 1
-  m_Constraints: 0
+  m_Constraints: 84
   m_CollisionDetection: 0
 --- !u!64 &1901433584589967246
 MeshCollider:
@@ -683,7 +683,7 @@ GameObject:
   - component: {fileID: 4126612329378404911}
   - component: {fileID: 4692552467830699491}
   - component: {fileID: 7698503334018921769}
-  m_Layer: 0
+  m_Layer: 14
   m_Name: truck_wheelset5
   m_TagString: Untagged
   m_Icon: {fileID: 0}
@@ -769,7 +769,7 @@ GameObject:
   - component: {fileID: 1040452811268120651}
   - component: {fileID: 8294411428385811026}
   - component: {fileID: 1472569159084315687}
-  m_Layer: 0
+  m_Layer: 14
   m_Name: truck_wheelset6
   m_TagString: Untagged
   m_Icon: {fileID: 0}
@@ -855,7 +855,7 @@ GameObject:
   - component: {fileID: 8357777712194472872}
   - component: {fileID: 5991838999062038856}
   - component: {fileID: 5175147398343596154}
-  m_Layer: 0
+  m_Layer: 14
   m_Name: truck_wheelset2
   m_TagString: Untagged
   m_Icon: {fileID: 0}
@@ -941,7 +941,7 @@ GameObject:
   - component: {fileID: 6691561167662897634}
   - component: {fileID: 9065135939283707344}
   - component: {fileID: 4058562753914220787}
-  m_Layer: 0
+  m_Layer: 14
   m_Name: truck_wheelset1
   m_TagString: Untagged
   m_Icon: {fileID: 0}

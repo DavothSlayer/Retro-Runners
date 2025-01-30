@@ -219,12 +219,12 @@ namespace RetroCode
             massDragMltplr = rb.linearDamping * rb.mass;
 
             highestGear = data.autoLevelData[gearboxLevel].MaxGear;
-            maxRPM = data.autoLevelData[engineLevel].MaxRPM;
-            maxTorque = data.autoLevelData[gearboxLevel].Torque;
-            gearRatio = (float)currentGear / highestGear;
+            maxRPM = data.autoLevelData[engineLevel].MaxRPM * 0.92f;
+            maxTorque = data.autoLevelData[gearboxLevel].AccelerationTime;
+            gearRatio = currentGear / highestGear;
             
-            shiftDownThreshold = 0.3f + 0.2f * gearRatio;
-            shiftUpThreshold = 0.6f + 0.2f * gearRatio;
+            shiftDownThreshold = 0.3f - 0.1f * gearRatio;
+            shiftUpThreshold = 0.7f + 0.1f * gearRatio;
 
             shiftPercent = rb.linearVelocity.z / (data.autoLevelData[engineLevel].TopSpeed * gearRatio);
 
@@ -238,9 +238,8 @@ namespace RetroCode
             {
                 if (GameManager.gameState == GameState.InGame)
                 {
-                    //currentRPM = Mathf.Lerp(currentRPM, maxRPM, Time.deltaTime / (data.Acceleration(gearboxLevel) * Mathf.Pow(gearRatio, 2f)));
                     currentRPM = Mathf.Lerp(currentRPM, maxRPM, Time.deltaTime / data.Acceleration(gearboxLevel));
-                    targetTorque = data.Acceleration(gearboxLevel) * (currentRPM / maxRPM) * massDragMltplr;
+                    targetTorque = data.TopSpeed(engineLevel) * (currentRPM / maxRPM) * massDragMltplr;
                 }
                 else
                 {

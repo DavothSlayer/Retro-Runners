@@ -11,7 +11,7 @@ GameObject:
   - component: {fileID: 5685560679357664365}
   - component: {fileID: 5372319902157316648}
   - component: {fileID: 6774407487376900730}
-  m_Layer: 0
+  m_Layer: 14
   m_Name: sedan1
   m_TagString: Untagged
   m_Icon: {fileID: 0}
@@ -97,7 +97,7 @@ GameObject:
   - component: {fileID: 7779995450410237889}
   - component: {fileID: 7728887349341407546}
   - component: {fileID: 5590730536816700131}
-  m_Layer: 0
+  m_Layer: 14
   m_Name: sedan1_gr
   m_TagString: Untagged
   m_Icon: {fileID: 0}
@@ -183,7 +183,7 @@ GameObject:
   - component: {fileID: 4000752754321791101}
   - component: {fileID: 5133109212287390322}
   - component: {fileID: 2112317773547856162}
-  m_Layer: 0
+  m_Layer: 14
   m_Name: sedan1_frontwheels
   m_TagString: Untagged
   m_Icon: {fileID: 0}
@@ -271,7 +271,7 @@ GameObject:
   - component: {fileID: 7755903691399918090}
   - component: {fileID: 4812710336770905372}
   - component: {fileID: 3823149722522886964}
-  m_Layer: 0
+  m_Layer: 14
   m_Name: Sedan1_Live
   m_TagString: Untagged
   m_Icon: {fileID: 0}
@@ -346,7 +346,7 @@ Rigidbody:
   m_UseGravity: 1
   m_IsKinematic: 0
   m_Interpolate: 1
-  m_Constraints: 0
+  m_Constraints: 84
   m_CollisionDetection: 0
 --- !u!64 &4812710336770905372
 MeshCollider:
@@ -478,7 +478,7 @@ GameObject:
   - component: {fileID: 5735198199469584701}
   - component: {fileID: 4412036017990824466}
   - component: {fileID: 5988790749889456828}
-  m_Layer: 0
+  m_Layer: 14
   m_Name: sedan1_rearwheels
   m_TagString: Untagged
   m_Icon: {fileID: 0}

@@ -34,9 +34,14 @@ namespace RetroCode
         public AutoAbility Ability;
         public string AbilityInfo;
 
+        public float TopSpeed(int EngineLevel)
+        {
+            return autoLevelData[EngineLevel].TopSpeed;
+        }
+
         public float Acceleration(int GearboxLevel)
         {
-            return autoLevelData[GearboxLevel].Torque;
+            return autoLevelData[GearboxLevel].AccelerationTime;
         }
 
         public float SteerSpeed(int HandlingLevel)
@@ -70,7 +75,7 @@ namespace RetroCode
     public class AutoLevelData
     {
         public float TopSpeed;
-        public float Torque;
+        public float AccelerationTime;
         public float MaxRPM;
         public int MaxGear;
         public float Handling;

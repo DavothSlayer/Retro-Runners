@@ -102,7 +102,7 @@ namespace V3CTOR
                 case 0:
                     return "topspeed";
                 case 1:
-                    return "torque";
+                    return "acceleration";
                 case 2:
                     return "handling";
                 case 3:
