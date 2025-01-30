@@ -14572,7 +14572,7 @@ GameObject:
   - component: {fileID: 8453094740973302712}
   - component: {fileID: 7114347254723641350}
   - component: {fileID: 8084598300110871708}
-  m_Layer: 0
+  m_Layer: 11
   m_Name: phantom_dead
   m_TagString: Untagged
   m_Icon: {fileID: 0}
@@ -34134,7 +34134,7 @@ GameObject:
   - component: {fileID: 7912986356177287653}
   - component: {fileID: 8495901263020599552}
   - component: {fileID: 1477792339926521257}
-  m_Layer: 10
+  m_Layer: 11
   m_Name: Explosion
   m_TagString: Untagged
   m_Icon: {fileID: 0}
@@ -39043,7 +39043,7 @@ GameObject:
   - component: {fileID: 4935052848994501172}
   - component: {fileID: 5782346935309542246}
   - component: {fileID: 7299464629163364248}
-  m_Layer: 0
+  m_Layer: 10
   m_Name: phantom_frontwheels
   m_TagString: Untagged
   m_Icon: {fileID: 0}
@@ -39130,7 +39130,7 @@ GameObject:
   - component: {fileID: 2522291407919286125}
   - component: {fileID: 1451677985635883886}
   - component: {fileID: 7090271813351727211}
-  m_Layer: 0
+  m_Layer: 10
   m_Name: Phantom_Live
   m_TagString: Untagged
   m_Icon: {fileID: 0}
@@ -48962,7 +48962,7 @@ GameObject:
   serializedVersion: 6
   m_Component:
   - component: {fileID: 7771621453684979105}
-  m_Layer: 0
+  m_Layer: 10
   m_Name: Phantom
   m_TagString: Untagged
   m_Icon: {fileID: 0}
@@ -48997,7 +48997,7 @@ GameObject:
   - component: {fileID: 1088420564549903752}
   - component: {fileID: 7352930799657532348}
   - component: {fileID: 764281850909701365}
-  m_Layer: 0
+  m_Layer: 10
   m_Name: phantom_gr
   m_TagString: Untagged
   m_Icon: {fileID: 0}
@@ -49084,7 +49084,7 @@ GameObject:
   - component: {fileID: 706511732745256532}
   - component: {fileID: 633927005234399131}
   - component: {fileID: 5869590296693138082}
-  m_Layer: 0
+  m_Layer: 10
   m_Name: phantom
   m_TagString: Untagged
   m_Icon: {fileID: 0}
@@ -49203,7 +49203,7 @@ GameObject:
   - component: {fileID: 5456250187759629149}
   - component: {fileID: 5294467677565309959}
   - component: {fileID: 2617851701162028364}
-  m_Layer: 10
+  m_Layer: 11
   m_Name: Spark
   m_TagString: Untagged
   m_Icon: {fileID: 0}
@@ -54102,7 +54102,7 @@ GameObject:
   m_Component:
   - component: {fileID: 7078782632716595883}
   - component: {fileID: 1313033887373915922}
-  m_Layer: 10
+  m_Layer: 11
   m_Name: PhantomDeathFX
   m_TagString: Untagged
   m_Icon: {fileID: 0}
@@ -59111,7 +59111,7 @@ GameObject:
   - component: {fileID: 4094115784807045838}
   - component: {fileID: 5083455449977740038}
   - component: {fileID: 6257349971693193883}
-  m_Layer: 10
+  m_Layer: 11
   m_Name: Smoke
   m_TagString: Untagged
   m_Icon: {fileID: 0}
@@ -73697,7 +73697,7 @@ GameObject:
   - component: {fileID: 1810810859149107884}
   - component: {fileID: 2263783189339730351}
   - component: {fileID: 215406625852391454}
-  m_Layer: 0
+  m_Layer: 10
   m_Name: phantom_rearwheels
   m_TagString: Untagged
   m_Icon: {fileID: 0}
@@ -73783,7 +73783,7 @@ GameObject:
   - component: {fileID: 1575555066724913587}
   - component: {fileID: 7207013522208546599}
   - component: {fileID: 5510696272646390821}
-  m_Layer: 10
+  m_Layer: 11
   m_Name: ShockWave
   m_TagString: Untagged
   m_Icon: {fileID: 0}
@@ -78693,6 +78693,11 @@ PrefabInstance:
         type: 3}
       propertyPath: m_Name
       value: V8_German_HQ
+      objectReference: {fileID: 0}
+    - target: {fileID: 8827979553730469758, guid: 80641ff816557e544a6ce71db20045e9,
+        type: 3}
+      propertyPath: m_Layer
+      value: 10
       objectReference: {fileID: 0}
     - target: {fileID: 8831649659334649186, guid: 80641ff816557e544a6ce71db20045e9,
         type: 3}
